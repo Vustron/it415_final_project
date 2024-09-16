@@ -1,4 +1,4 @@
-import 'package:babysitterapp/screens/home.dart';
+import 'package:babysitterapp/screens/navbar.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: false,
       ),
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: const NavbarPages(),
     );
   }
 }

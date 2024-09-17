@@ -1,24 +1,41 @@
-import 'package:babysitterapp/screens/navbar.dart';
+// utils
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+// configs
+import 'configs/root_theme.dart';
+
+// screens
+import 'package:babysitterapp/screens/splash.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Enter full-screen for initializing splashscreen
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+  // for setting orientations to portrait only
+  SystemChrome.setPreferredOrientations(<DeviceOrientation>[
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    // run app
+    runApp(const App());
+  });
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// TODO(Vustron): Replace placeholder title with the real title of the app.
+class App extends StatelessWidget {
+  const App({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Baby Sitter',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: false,
-      ),
       debugShowCheckedModeBanner: false,
-      home: const NavbarPages(),
+      title: 'BabysitterApp',
+      themeMode: ThemeMode.light,
+      theme: rootThemeData(),
+      home: const SplashScreen(),
     );
   }
 }

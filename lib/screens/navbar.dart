@@ -1,15 +1,18 @@
+// utils
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:babysitterapp/screens/home.dart';
 import 'package:flutter/material.dart';
 
-class NavbarPages extends StatefulWidget {
-  const NavbarPages({super.key});
+// screens
+import 'home.dart';
+
+class NavbarScreen extends StatefulWidget {
+  const NavbarScreen({super.key});
 
   @override
-  State<NavbarPages> createState() => _NavbarPagesState();
+  State<NavbarScreen> createState() => _NavbarScreenState();
 }
 
-class _NavbarPagesState extends State<NavbarPages> {
+class _NavbarScreenState extends State<NavbarScreen> {
   int indxpage = 0;
 
   //set pagenav
@@ -37,7 +40,7 @@ class _NavbarPagesState extends State<NavbarPages> {
   }
 
   //do not exceed 5 icons
-  final icnNav = <IconData>[
+  final List<IconData> icnNav = <IconData>[
     Icons.home,
     Icons.explore,
     Icons.notifications,
@@ -52,8 +55,8 @@ class _NavbarPagesState extends State<NavbarPages> {
         controller: pageCon,
         onPageChanged: onPageChanged,
         //use as scaffold
-        children: const [
-          HomePage(),
+        children: const <Widget>[
+          HomeScreen(),
           Text('2'),
           Text('3'),
           Text('4'),

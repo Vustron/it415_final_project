@@ -1,24 +1,29 @@
+// utils
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AppTest'),
+        backgroundColor: Colors.white,
+        title: const Text(
+          'HomeScreen',
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Testing App'),
+          children: <Widget>[
+            Text('HomeScreen'),
           ],
         ),
       ),

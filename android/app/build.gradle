@@ -1,9 +1,15 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
 }
+
+// TODO(Vustron): Uncomment if the app is signed and has keystore
+// def keystoreProperties = new Properties()
+// def keystorePropertiesFile = rootProject.file("key.properties")
+// if (keystorePropertiesFile.exists()) {
+//     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+// }
 
 android {
     namespace = "com.it415bsit4c.babysitterapp"
@@ -20,21 +26,33 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.it415bsit4c.babysitterapp"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
 
+    // TODO(Vustron): Add signing config for the release build.
     buildTypes {
+        // release {
+        //     keyAlias keystoreProperties['keyAlias']
+        //     keyPassword keystoreProperties['keyPassword']
+        //     storeFile file(keystoreProperties['storeFile'])
+        //     storePassword keystoreProperties['storePassword']
+        // }
+        
+        // debug {
+        //     keyAlias keystoreProperties['keyAliasDebug']
+        //     keyPassword keystoreProperties['keyPasswordDebug']
+        //     storeFile file(keystoreProperties['storeFileDebug'])
+        //     storePassword keystoreProperties['storePasswordDebug']
+        // }
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.debug
+        }
+        debug {
+             signingConfig = signingConfigs.debug
         }
     }
 }

@@ -1,16 +1,33 @@
-# babysitterapp
+# **BabysitterApp**
 
-A new Flutter project.
+A collaborative babysitter mobile app project for it415.
 
-## Getting Started
+## <a name="quick-start">🤸 Quick Start</a>
 
-This project is a starting point for a Flutter application.
+Follow these steps to set up the project locally on your machine.
 
-A few resources to get you started if this is your first Flutter project:
+**Prerequisites**
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Make sure you have the following installed on your machine then fork the repository.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [Git](https://git-scm.com/)
+- [Flutter](https://docs.flutter.dev/get-started/install)
+  
+**Installation**
+
+Install the project dependencies using flutter pub get:
+
+> [!NOTE]
+> Flutter version should be 3.24 and dart 3.5 in order for the application to run and build.
+
+```bash
+flutter pub get
+```
+
+**Running the application**
+
+To run the application use flutter run:
+
+```bash
+flutter run
+```

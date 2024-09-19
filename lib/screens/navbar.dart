@@ -1,5 +1,6 @@
 // utils
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 
@@ -66,7 +67,7 @@ class _NavbarScreenState extends State<NavbarScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(
-        splashRadius: 45,
+        splashRadius: 30,
         leftCornerRadius: 10,
         rightCornerRadius: 10,
         notchSmoothness: NotchSmoothness.softEdge,
@@ -75,12 +76,24 @@ class _NavbarScreenState extends State<NavbarScreen> {
         activeColor: Colors.deepPurple,
         height: 65,
         gapLocation: GapLocation.center,
-        //icons nav
-        icons: const <IconData>[
-          HugeIcons.strokeRoundedHome11,
-          HugeIcons.strokeRoundedMapsLocation01,
-          HugeIcons.strokeRoundedNotification02,
-          HugeIcons.strokeRoundedUserCircle,
+        //icons nav filled and regular icons are required (this icon from microsoft)
+        icons: <IconData>[
+          if (indxpage == 0)
+            FluentIcons.home_12_filled
+          else
+            FluentIcons.home_12_regular,
+          if (indxpage == 1)
+            FluentIcons.map_16_filled
+          else
+            FluentIcons.map_16_regular,
+          if (indxpage == 2)
+            FluentIcons.alert_12_filled
+          else
+            FluentIcons.alert_12_regular,
+          if (indxpage == 3)
+            FluentIcons.person_12_filled
+          else
+            FluentIcons.person_12_regular,
         ],
         activeIndex: indxpage,
         onTap: navigationTapped,

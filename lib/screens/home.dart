@@ -16,28 +16,27 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         toolbarHeight: 80,
         backgroundColor: Colors.white,
-        leading: const HugeIcon(
-          icon: HugeIcons.strokeRoundedUserCircle,
-          color: Colors.black,
-          size: 35,
+        leading: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          child: CircleAvatar(
+            backgroundImage: AssetImage('assets/images/placeholder_logo.png'),
+          ),
         ),
         centerTitle: false,
         title: const Text(
-          'Hello User',
-          style: TextStyle(color: Colors.black),
+          'Hello Arvin Sison!',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 21,
+          ),
         ),
-        actions: const <Widget>[
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                HugeIcon(
-                  icon: HugeIcons.strokeRoundedMessageMultiple02,
-                  color: Colors.black,
-                  size: 35,
-                ),
-              ],
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {},
+            icon: const HugeIcon(
+              icon: HugeIcons.strokeRoundedMessageMultiple02,
+              color: Colors.black,
+              size: 31,
             ),
           )
         ],
@@ -48,6 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text('HomeScreen'),
+            SizedBox(
+              height: 10,
+            ),
           ],
         ),
       ),

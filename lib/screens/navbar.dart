@@ -1,6 +1,7 @@
 // utils
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 // screens
 import 'home.dart';
@@ -39,14 +40,6 @@ class _NavbarScreenState extends State<NavbarScreen> {
     });
   }
 
-  //do not exceed 5 icons
-  final List<IconData> icnNav = <IconData>[
-    Icons.home,
-    Icons.explore,
-    Icons.notifications,
-    Icons.account_circle
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,18 +47,22 @@ class _NavbarScreenState extends State<NavbarScreen> {
       body: PageView(
         controller: pageCon,
         onPageChanged: onPageChanged,
-        //use as scaffold
+        //use as widget scaffold✅
         children: const <Widget>[
           HomeScreen(),
-          Text('2'),
-          Text('3'),
-          Text('4'),
-          Text('5'),
+          Center(child: Text('1')),
+          Center(child: Text('2')),
+          Center(child: Text('3')),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: const Icon(Icons.search),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+        backgroundColor: Colors.white,
+        child: const HugeIcon(
+          icon: HugeIcons.strokeRoundedSearch01,
+          color: Colors.black,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(
@@ -78,9 +75,21 @@ class _NavbarScreenState extends State<NavbarScreen> {
         activeColor: Colors.deepPurple,
         height: 65,
         gapLocation: GapLocation.center,
-        icons: icnNav,
+        //icons nav
+        icons: const <IconData>[
+          HugeIcons.strokeRoundedHome11,
+          HugeIcons.strokeRoundedMapsLocation01,
+          HugeIcons.strokeRoundedNotification02,
+          HugeIcons.strokeRoundedUserCircle,
+        ],
         activeIndex: indxpage,
         onTap: navigationTapped,
+        shadow: const BoxShadow(
+          offset: Offset(0, 1),
+          blurRadius: 6,
+          spreadRadius: 0.5,
+          color: Colors.grey,
+        ),
       ),
     );
   }

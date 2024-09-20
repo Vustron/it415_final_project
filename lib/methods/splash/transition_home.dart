@@ -7,12 +7,10 @@ import 'package:flutter/services.dart';
 import 'package:babysitterapp/screens/navbar.dart';
 
 Future<void> transitionHome(BuildContext context) async {
-  // Delay for 3 seconds
   await Future<void>.delayed(
     const Duration(milliseconds: 3000),
   );
 
-  // Check if the widget is still mounted before proceeding
   if (!context.mounted) {
     return;
   }

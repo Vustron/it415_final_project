@@ -1,18 +1,21 @@
+// utils
 import 'package:flutter/material.dart';
 
 class CustomInputWidget extends StatelessWidget {
-  const CustomInputWidget(
-      {super.key,
-      required this.textEditingController,
-      required this.hintText,
-      this.isPass = false,
-      required this.txtType,
-      required this.labelTxt});
+  const CustomInputWidget({
+    required this.textEditingController,
+    required this.hintText,
+    required this.txtType,
+    required this.labelTxt,
+    this.isPass = false,
+    super.key,
+  });
+
   final TextEditingController textEditingController;
-  final String hintText;
-  final bool isPass;
   final TextInputType txtType;
+  final String hintText;
   final String labelTxt;
+  final bool isPass;
 
   @override
   Widget build(BuildContext context) {
@@ -21,19 +24,20 @@ class CustomInputWidget extends StatelessWidget {
     );
     return TextField(
       onSubmitted: (String value) {
-        FocusManager.instance.primaryFocus?.unfocus(); // dismiss the keyboard
+        FocusManager.instance.primaryFocus?.unfocus();
       },
       obscureText: isPass,
       controller: textEditingController,
       keyboardType: txtType,
       decoration: InputDecoration(
-          labelText: labelTxt,
-          border: inpBd,
-          focusedBorder: inpBd,
-          enabledBorder: inpBd,
-          hintText: hintText,
-          filled: true,
-          contentPadding: const EdgeInsets.all(8)),
+        labelText: labelTxt,
+        border: inpBd,
+        focusedBorder: inpBd,
+        enabledBorder: inpBd,
+        hintText: hintText,
+        filled: true,
+        contentPadding: const EdgeInsets.all(8),
+      ),
     );
   }
 }

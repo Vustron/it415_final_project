@@ -1,8 +1,8 @@
 // utils
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/material.dart';
+import 'package:babysitterapp/utils/get_icons.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:flutter/material.dart';
 
 // screens
 import 'home.dart';
@@ -15,29 +15,25 @@ class NavbarScreen extends StatefulWidget {
 }
 
 class _NavbarScreenState extends State<NavbarScreen> {
-  int indxpage = 0;
+  int _currentIndex = 0;
+  late PageController _pageController;
 
-  //set pagenav
-  late PageController pageCon;
   @override
   void initState() {
     super.initState();
-    pageCon = PageController();
+    _pageController = PageController();
   }
 
   @override
   void dispose() {
+    _pageController.dispose();
     super.dispose();
-    pageCon.dispose();
   }
 
-  void navigationTapped(int page) {
-    pageCon.jumpToPage(page);
-  }
-
-  void onPageChanged(int page) {
+  void _onItemTapped(int index) {
     setState(() {
-      indxpage = page;
+      _currentIndex = index;
+      _pageController.jumpToPage(index);
     });
   }
 
@@ -46,9 +42,10 @@ class _NavbarScreenState extends State<NavbarScreen> {
     return Scaffold(
       extendBody: true,
       body: PageView(
-        controller: pageCon,
-        onPageChanged: onPageChanged,
-        //use as widget scaffold✅
+        controller: _pageController,
+        onPageChanged: (int index) {
+          setState(() => _currentIndex = index);
+        },
         children: const <Widget>[
           HomeScreen(),
           Center(child: Text('1')),
@@ -58,7 +55,7 @@ class _NavbarScreenState extends State<NavbarScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+        shape: const CircleBorder(),
         backgroundColor: Colors.white,
         child: const HugeIcon(
           icon: HugeIcons.strokeRoundedSearch01,
@@ -67,36 +64,21 @@ class _NavbarScreenState extends State<NavbarScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(
-        splashRadius: 30,
+        icons: List<IconData>.generate(
+          4,
+          (int index) => getIcon(index, index == _currentIndex),
+        ),
+        activeIndex: _currentIndex,
+        gapLocation: GapLocation.center,
+        notchSmoothness: NotchSmoothness.softEdge,
         leftCornerRadius: 10,
         rightCornerRadius: 10,
-        notchSmoothness: NotchSmoothness.softEdge,
-        splashColor: Colors.deepPurple,
+        onTap: _onItemTapped,
         iconSize: 30,
         activeColor: Colors.deepPurple,
+        splashColor: Colors.deepPurple.withOpacity(0.2),
+        splashRadius: 30,
         height: 65,
-        gapLocation: GapLocation.center,
-        //icons nav filled and regular icons are required (this icon from microsoft)
-        icons: <IconData>[
-          if (indxpage == 0)
-            FluentIcons.home_12_filled
-          else
-            FluentIcons.home_12_regular,
-          if (indxpage == 1)
-            FluentIcons.map_16_filled
-          else
-            FluentIcons.map_16_regular,
-          if (indxpage == 2)
-            FluentIcons.alert_12_filled
-          else
-            FluentIcons.alert_12_regular,
-          if (indxpage == 3)
-            FluentIcons.person_12_filled
-          else
-            FluentIcons.person_12_regular,
-        ],
-        activeIndex: indxpage,
-        onTap: navigationTapped,
         shadow: const BoxShadow(
           offset: Offset(0, 1),
           blurRadius: 6,

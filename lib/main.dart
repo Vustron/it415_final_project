@@ -41,7 +41,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'BabysitterApp',
+      title: 'BabyCare',
       themeMode: ThemeMode.light,
       theme: rootThemeData(),
       home: const SplashScreen(),

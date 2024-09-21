@@ -1,4 +1,7 @@
 // utils
+import 'package:babysitterapp/configs/firebase_options.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -8,7 +11,10 @@ import 'configs/root_theme.dart';
 // screens
 import 'package:babysitterapp/screens/splash.dart';
 
-void main() {
+void main() async {
+  // consume dotenv
+  await dotenv.load();
+
   WidgetsFlutterBinding.ensureInitialized();
 
   // Enter full-screen for initializing splashscreen
@@ -18,10 +24,13 @@ void main() {
   SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]).then((_) {
-    // run app
-    runApp(const App());
-  });
+  ]);
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  runApp(const App());
 }
 
 // TODO(Vustron): Replace placeholder title with the real title of the app.

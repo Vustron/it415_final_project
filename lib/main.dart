@@ -12,9 +12,6 @@ import 'configs/root_theme.dart';
 import 'package:babysitterapp/screens/splash.dart';
 
 void main() async {
-  // consume dotenv
-  await dotenv.load();
-
   WidgetsFlutterBinding.ensureInitialized();
 
   // Enter full-screen for initializing splashscreen
@@ -24,13 +21,16 @@ void main() async {
   SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]);
+  ]).then((_) async {
+    // consume dotenv
+    await dotenv.load();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
-  runApp(const App());
+    runApp(const App());
+  });
 }
 
 // TODO(Vustron): Replace placeholder title with the real title of the app.

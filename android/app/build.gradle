@@ -1,8 +1,6 @@
 plugins {
     id "com.android.application"
-    // START: FlutterFire Configuration
     id 'com.google.gms.google-services'
-    // END: FlutterFire Configuration
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
@@ -16,7 +14,7 @@ plugins {
 
 android {
     namespace = "com.it415bsit4c.babysitterapp"
-    compileSdk = flutter.compileSdkVersion
+    compileSdkVersion 34
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -31,6 +29,7 @@ android {
     defaultConfig {
         applicationId = "com.it415bsit4c.babysitterapp"
         minSdk = flutter.minSdkVersion
+        minSdkVersion 24
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

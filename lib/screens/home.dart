@@ -27,7 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
           'Hello Arvin Sison!',
           style: TextStyle(
             color: Colors.black,
-            fontSize: 21,
+            fontSize: 20,
+            fontFamily: 'Quicksand_Bold'
           ),
         ),
         actions: <Widget>[

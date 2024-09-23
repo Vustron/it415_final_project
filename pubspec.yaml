@@ -20,6 +20,12 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   hugeicons: ^0.0.7
   fluentui_system_icons: ^1.1.257
+  flutter_dotenv: ^5.1.0
+  firebase_auth: ^5.3.0
+  firebase_core: ^3.5.0
+  firebase_storage: ^12.3.1
+  cloud_firestore: ^5.4.2
+  getwidget: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -28,12 +34,7 @@ dev_dependencies:
   flutter_native_splash: ^2.3.8
   build_runner: ^2.4.6
 
-flutter:
-  uses-material-design: true
-  assets:
-    - assets/images/
-    - assets/icons/ 
-    
+
 # dart run flutter_launcher_icons
 flutter_launcher_icons:
   android: true
@@ -46,3 +47,28 @@ flutter_launcher_icons:
 flutter_native_splash:
   color: "#FFFFFF"
   image: "assets/images/placeholder_logo.png"
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - .env 
+    
+  fonts:
+    - family: Quicksand_Bold
+      fonts:
+        - asset: fonts/Quicksand_Bold_Oblique.otf
+        - asset: fonts/Quicksand_Bold.otf
+        - weight: 700
+    - family: Quicksan_Book
+      fonts:
+        - asset: fonts/Quicksand_Book_Oblique.otf
+        - asset: fonts/Quicksand_Book.otf
+    - family: Quicksand_Dash
+      fonts:
+        - asset: fonts/Quicksand_Dash.otf
+    - family: Quicksan_Light
+      fonts:
+        - asset: fonts/Quicksand_Light_Oblique.otf
+        - asset: fonts/Quicksand_Light.otf
+             

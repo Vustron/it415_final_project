@@ -59,6 +59,7 @@ flutter:
       fonts:
         - asset: fonts/Quicksand_Bold_Oblique.otf
         - asset: fonts/Quicksand_Bold.otf
+        - weight: 700
     - family: Quicksan_Book
       fonts:
         - asset: fonts/Quicksand_Book_Oblique.otf

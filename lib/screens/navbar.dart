@@ -75,8 +75,8 @@ class _NavbarScreenState extends State<NavbarScreen> {
         rightCornerRadius: 10,
         onTap: _onItemTapped,
         iconSize: 30,
-        activeColor: Colors.deepPurple,
-        splashColor: Colors.deepPurple.withOpacity(0.2),
+        activeColor: Colors.lightBlue,
+        splashColor: Colors.lightBlue.withOpacity(0.2),
         splashRadius: 30,
         height: 65,
         shadow: const BoxShadow(

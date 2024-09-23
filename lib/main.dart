@@ -45,7 +45,7 @@ class App extends StatelessWidget {
       title: 'BabyCare',
       themeMode: ThemeMode.light,
       theme: rootThemeData(),
-      home: Widgetstyles(),
+      home: const SplashScreen(),
     );
   }
 }

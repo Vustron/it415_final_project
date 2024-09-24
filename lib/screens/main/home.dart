@@ -26,10 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text(
           'Hello Arvin Sison!',
           style: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-            fontFamily: 'Quicksand_Bold'
-          ),
+              color: Colors.black, fontSize: 20, fontFamily: 'Quicksand_Bold'),
         ),
         actions: <Widget>[
           IconButton(

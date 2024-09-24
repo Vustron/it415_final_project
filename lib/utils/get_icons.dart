@@ -10,12 +10,12 @@ IconData getIcon(int index, bool isSelected) {
           : FluentIcons.home_12_regular;
     case 1:
       return isSelected
-          ? FluentIcons.map_16_filled
-          : FluentIcons.map_16_regular;
+          ? FluentIcons.chat_12_filled
+          : FluentIcons.chat_12_regular;
     case 2:
       return isSelected
-          ? FluentIcons.alert_12_filled
-          : FluentIcons.alert_12_regular;
+          ? FluentIcons.map_16_filled
+          : FluentIcons.map_16_regular;
     case 3:
       return isSelected
           ? FluentIcons.person_12_filled

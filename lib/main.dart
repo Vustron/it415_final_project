@@ -9,7 +9,8 @@ import 'package:flutter/services.dart';
 import 'configs/root_theme.dart';
 
 // screens
-import 'package:babysitterapp/screens/main/splash.dart';
+import 'screens/main/splash.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +34,7 @@ void main() async {
   });
 }
 
+// TODO(Vustron): Replace placeholder title with the real title of the app.
 class App extends StatelessWidget {
   const App({super.key});
 

@@ -279,11 +279,13 @@ class _SearchScreenState extends State<SearchScreen>
       children: <Widget>[
         Icon(icon, color: _colorScheme.primary, size: 24),
         const SizedBox(width: 8),
-        Text(title,
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: _colorScheme.onBackground)),
+        Text(
+          title,
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: _colorScheme.onBackground),
+        ),
       ],
     );
   }

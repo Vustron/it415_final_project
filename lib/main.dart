@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'configs/root_theme.dart';
 
 // screens
-import 'package:babysitterapp/screens/main/splash.dart';
+import 'screens/main/splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -26,6 +26,7 @@ dependencies:
   firebase_storage: ^12.3.1
   cloud_firestore: ^5.4.2
   getwidget: ^4.0.0
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -57,18 +58,20 @@ flutter:
   fonts:
     - family: Quicksand_Bold
       fonts:
-        - asset: fonts/Quicksand_Bold_Oblique.otf
-        - asset: fonts/Quicksand_Bold.otf
+        - asset: assets/fonts/Quicksand_Bold_Oblique.otf
+        - asset: assets/fonts/Quicksand_Bold.otf
         - weight: 700
     - family: Quicksan_Book
       fonts:
-        - asset: fonts/Quicksand_Book_Oblique.otf
-        - asset: fonts/Quicksand_Book.otf
-    - family: Quicksand_Dash
+        - asset: assets/fonts/Quicksand_Book_Oblique.otf
+        - asset: assets/fonts/Quicksand_Book.otf
+    - family: Nexa-ExtraLight
       fonts:
-        - asset: fonts/Quicksand_Dash.otf
-    - family: Quicksan_Light
+        - asset: assets/fonts/Nexa-ExtraLight.ttf
+        - weight: 700
+    - family: Nexa-Heavy
       fonts:
-        - asset: fonts/Quicksand_Light_Oblique.otf
-        - asset: fonts/Quicksand_Light.otf
+        - asset: assets/fonts/Nexa-Heavy.ttf
+        
+             
              

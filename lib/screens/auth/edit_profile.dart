@@ -4,10 +4,10 @@ class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
 
   @override
-  _EditProfileState createState() => _EditProfileState();
+  EditProfileState createState() => EditProfileState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class EditProfileState extends State<EditProfile> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -23,10 +23,9 @@ class _EditProfileState extends State<EditProfile> {
           },
           icon: const Icon(Icons.edit),
         ),
-        actions: [
+        actions: <Widget>[
           IconButton(
             onPressed: () {},
-            //add
             icon: const Icon(Icons.arrow_forward_ios_outlined),
           ),
         ],
@@ -36,7 +35,7 @@ class _EditProfileState extends State<EditProfile> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          children: [
+          children: <Widget>[
             const CircleAvatar(
               radius: 50,
               backgroundColor: Colors.blueAccent,
@@ -83,9 +82,7 @@ class _EditProfileState extends State<EditProfile> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                // Handle profile update logic here
-              },
+              onPressed: () {},
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size.fromHeight(50),
                 backgroundColor: Colors.blueAccent,

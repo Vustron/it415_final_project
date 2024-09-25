@@ -1,5 +1,6 @@
 // utils
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:babysitterapp/screens/main/search.dart';
 import 'package:babysitterapp/utils/get_icons.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,11 @@ class _NavbarScreenState extends State<NavbarScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          // Code Here
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => const SearchApp()));
+        },
         shape: const CircleBorder(),
         backgroundColor: Colors.white,
         child: const HugeIcon(

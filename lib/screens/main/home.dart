@@ -23,30 +23,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         centerTitle: false,
-        //put here in location of the user (it was require to enable location permission)
-        title: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Hello Arvin Sison!',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontFamily: 'Quicksand_Bold'),
-            ),
-            Row(
-              children: <Widget>[
-                Icon(
-                  FluentIcons.location_12_filled,
-                  size: 12,
-                ),
-                Text(
-                  'Panabo City',
-                  style: TextStyle(fontSize: 12),
-                )
-              ],
-            )
-          ],
+        title: const Text(
+          'Hello Arvin Sison!',
+          style: TextStyle(
+              color: Colors.black, fontSize: 20, fontFamily: 'Quicksand_Bold'),
         ),
         actions: <Widget>[
           IconButton(
@@ -229,7 +209,7 @@ Widget babySitterCardNearby() => SizedBox(
       ),
     );
 
-Widget scrollHorizontal() => Container(
+Widget scrollHorizontal() => SizedBox(
       height: 200, // Set height for the horizontal ListView
       child: ListView.builder(
         scrollDirection: Axis.horizontal, // Set to horizontal scrolling

@@ -1,6 +1,12 @@
 // utils
-import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/material.dart';
+
+// widgets
+import 'package:babysitterapp/widgets/home/toprate_sitter_card.dart';
+import 'package:babysitterapp/widgets/home/toprated_babysitter.dart';
+import 'package:babysitterapp/widgets/home/babysitter_nearby.dart';
+import 'package:babysitterapp/widgets/home/horizontal_scroll.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,16 +32,13 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text(
           'Hello Arvin Sison!',
           style: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-            fontFamily: 'Quicksand_Bold'
-          ),
+              color: Colors.black, fontSize: 20, fontFamily: 'Nexa-Heavy'),
         ),
         actions: <Widget>[
           IconButton(
             onPressed: () {},
-            icon: const HugeIcon(
-              icon: HugeIcons.strokeRoundedMessageMultiple02,
+            icon: const Icon(
+              FluentIcons.alert_12_regular,
               color: Colors.black,
               size: 31,
             ),
@@ -43,16 +46,22 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       backgroundColor: Colors.white,
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('HomeScreen'),
-            SizedBox(
-              height: 10,
+      body: ListView(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  titleBabySitterNearby(),
+                  scrollHorizontal(),
+                  titleTopRatedBabySitter(),
+                  topRatedBabySitterCard(),
+                ],
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

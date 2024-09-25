@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // screens
-import 'package:babysitterapp/screens/navbar.dart';
+import 'package:babysitterapp/screens/main/navbar.dart';
 
 Future<void> transitionHome(BuildContext context) async {
   await Future<void>.delayed(

@@ -4,7 +4,11 @@ import 'package:babysitterapp/utils/get_icons.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/material.dart';
 
+// actions
+import 'package:babysitterapp/actions/navbar/goto_page.dart';
+
 // screens
+import 'search.dart';
 import 'home.dart';
 
 class NavbarScreen extends StatefulWidget {
@@ -54,7 +58,9 @@ class _NavbarScreenState extends State<NavbarScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          gotoPage(context, const SearchScreen());
+        },
         shape: const CircleBorder(),
         backgroundColor: Colors.white,
         child: const HugeIcon(

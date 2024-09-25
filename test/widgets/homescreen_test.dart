@@ -1,5 +1,5 @@
 // utils
-import 'package:babysitterapp/screens/home.dart';
+import 'package:babysitterapp/screens/main/home.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/material.dart';

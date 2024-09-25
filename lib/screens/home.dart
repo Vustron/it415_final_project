@@ -1,4 +1,5 @@
 // utils
+import 'package:babysitterapp/screens/chat.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/material.dart';
 
@@ -26,14 +27,15 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text(
           'Hello Arvin Sison!',
           style: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-            fontFamily: 'Quicksand_Bold'
-          ),
+              color: Colors.black, fontSize: 20, fontFamily: 'Quicksand_Bold'),
         ),
         actions: <Widget>[
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const ChatScreen()),
+              );
+            },
             icon: const HugeIcon(
               icon: HugeIcons.strokeRoundedMessageMultiple02,
               color: Colors.black,

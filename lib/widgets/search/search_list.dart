@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+// utils
 import 'package:getwidget/getwidget.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:flutter/material.dart';
 
 class SearchList extends StatefulWidget {
   const SearchList({super.key});
@@ -31,7 +32,7 @@ class _SearchListState extends State<SearchList> {
                 fontFamily: 'Quicksand_Bold'),
           ),
           Row(
-            children: [
+            children: <Widget>[
               for (int i = 0; i < 5; i++)
                 const Icon(
                   Icons.star,
@@ -44,7 +45,7 @@ class _SearchListState extends State<SearchList> {
             height: 5.0,
           ),
           const Row(
-            children: [
+            children: <Widget>[
               Icon(
                 Icons.location_on,
                 color: Color.fromARGB(127, 158, 158, 158),

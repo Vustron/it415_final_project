@@ -1,7 +1,16 @@
-import 'package:babysitterapp/views/SearchList.dart';
-import 'package:babysitterapp/widgets/shared/text_input.dart';
-import 'package:flutter/material.dart';
+// utils
 import 'package:hugeicons/hugeicons.dart';
+import 'package:flutter/material.dart';
+
+// screens
+import 'filter.dart';
+
+// actions
+import 'package:babysitterapp/actions/navbar/goto_page.dart';
+
+// widgets
+import 'package:babysitterapp/widgets/shared/text_input.dart';
+import 'package:babysitterapp/widgets/search/search_list.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -38,7 +47,9 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
           TextButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              gotoPage(context, const FilterScreen());
+            },
             label: const Text(
               'Filter',
               style: TextStyle(
@@ -80,7 +91,7 @@ class _SearchScreenState extends State<SearchScreen> {
       body: Container(
         margin: const EdgeInsets.all(10.0),
         child: ListView(
-          children: [
+          children: <Widget>[
             searchButtons(),
             const SizedBox(
               height: 5.0,

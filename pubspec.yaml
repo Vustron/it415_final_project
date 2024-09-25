@@ -65,11 +65,13 @@ flutter:
       fonts:
         - asset: fonts/Quicksand_Book_Oblique.otf
         - asset: fonts/Quicksand_Book.otf
-    - family: Quicksand_Dash
+    - family: Nexa-ExtraLight
       fonts:
-        - asset: fonts/Quicksand_Dash.otf
-    - family: Quicksan_Light
+        - asset: fonts/Nexa-ExtraLight.ttf
+        - weight: 700
+    - family: Nexa-Heavy
       fonts:
-        - asset: fonts/Quicksand_Light_Oblique.otf
-        - asset: fonts/Quicksand_Light.otf
+        - asset: fonts/Nexa-Heavy.ttf
+        
+             
              

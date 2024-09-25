@@ -9,6 +9,6 @@ ThemeData rootThemeData() {
     appBarTheme: rootAppBarTheme(),
     colorScheme: ColorScheme.fromSeed(seedColor: Colors.transparent),
     useMaterial3: true, 
-    fontFamily: 'Quicksan_Book',
+    fontFamily: 'Nexa-ExtraLight',
   );
 }

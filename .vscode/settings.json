@@ -12,9 +12,11 @@
 		"ints",
 		"proto",
 		"protoc",
+		"RGBO",
 		"Sison",
 		"todos",
-		"unfocus"
+		"unfocus",
+		"vsync"
 	],
 	"cmake.sourceDirectory": "D:/flutterprojects/it415_final_project/linux"
 }

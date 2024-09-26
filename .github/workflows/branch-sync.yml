@@ -1,0 +1,26 @@
+name: Synchronize to main
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  branch-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up git
+        run: |
+          git config --global user.name 'Vustron'
+          git config --global user.email 'vustronvustronus@gmail.com'
+
+      - name: Sync changes to main
+        run: |
+          git fetch origin
+          git checkout main
+          git merge ${{ github.ref }} -X theirs
+          git push origin main

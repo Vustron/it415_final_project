@@ -9,6 +9,6 @@ mixin GlobalStyles {
     letterSpacing: 1,
   );
   final TextStyle labelStyle = const TextStyle(
-    fontSize: 20,
+    fontSize: 18,
   );
 }

@@ -1,4 +1,4 @@
-name: Synchronize All Branches
+name: Update All Branches
 on:
   workflow_run:
     workflows: ["Synchronize to main"]

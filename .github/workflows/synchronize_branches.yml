@@ -1,35 +1,51 @@
-name: Synchronize All Branches
+name: Synchronize to main
 on:
-  workflow_run:
-    workflows: ["Synchronize to main"]
-    types:
-      - completed
+  push:
+    branches-ignore:
+      - main
 
 jobs:
-  update-branches:
+  create-pull-request:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up git
-        run: |
-          git config --global user.name 'Vustron'
-          git config --global user.email 'vustronvustronus@gmail.com'
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: auto-pr-${{ github.ref_name }}
+          base: main
+          title: "Automatic PR: Sync ${{ github.ref_name }} to main"
+          body: "This is an automated pull request to sync changes from ${{ github.ref_name }} to main."
 
-      - name: Fetch all branches
-        run: git fetch --all
+  auto-merge:
+    needs: create-pull-request
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.ref == 'auto-pr-${{ github.ref_name }}'
+    steps:
+      - name: Wait for 24 hours
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '24h'
 
-      - name: Update all branches
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Merge Pull Request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git branch -r | grep -v '\->' | while read remote; do
-            branch="${remote#origin/}"
-            if [ "$branch" != "main" ] && [ "$branch" != "HEAD" ]; then
-              git checkout "$branch"
-              git merge origin/main --no-edit || true
-              git push origin "$branch"
-            fi
-          done
+          pr_number=$(gh pr list --head auto-pr-${{ github.ref_name }} --state open --json number --jq '.[0].number')
+          if [ ! -z "$pr_number" ]; then
+            gh pr merge $pr_number --auto --merge
+          fi
+
+      - name: Delete branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr list --head auto-pr-${{ github.ref_name }} --state closed --json headRefName --jq '.[0].headRefName' | xargs -I {} gh branch delete {} --force

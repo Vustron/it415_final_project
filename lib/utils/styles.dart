@@ -8,4 +8,7 @@ mixin GlobalStyles {
     fontWeight: FontWeight.bold,
     letterSpacing: 1,
   );
+  final TextStyle labelText = const TextStyle(
+    fontSize: 20,
+  );
 }

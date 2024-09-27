@@ -5,50 +5,22 @@ on:
       - main
 
 jobs:
-  create-pull-request:
+  branch-sync:
     runs-on: ubuntu-latest
-    outputs:
-      pull-request-number: ${{ steps.create-pr.outputs.pull-request-number }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Create Pull Request
-        id: create-pr
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: Sync changes from ${{ github.ref_name }} to main
-          branch: auto-pr-${{ github.ref_name }}
-          delete-branch: true
-          base: main
-          title: "Automatic PR: Sync ${{ github.ref_name }} to main"
-          body: "This is an automated pull request to sync changes from ${{ github.ref_name }} to main."
-
-      - name: Check outputs
-        if: ${{ steps.create-pr.outputs.pull-request-number }}
+      - name: Set up git
         run: |
-          echo "Pull Request Number - ${{ steps.create-pr.outputs.pull-request-number }}"
-          echo "Pull Request URL - ${{ steps.create-pr.outputs.pull-request-url }}"
+          git config --global user.name 'Vustron'
+          git config --global user.email 'vustronvustronus@gmail.com'
 
-  auto-merge:
-    needs: create-pull-request
-    runs-on: ubuntu-latest
-    if: ${{ needs.create-pull-request.outputs.pull-request-number }}
-    steps:
-      - name: Wait for 24 hours
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '24h'
-
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Merge Pull Request
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ needs.create-pull-request.outputs.pull-request-number }}
+      - name: Sync changes to main
         run: |
-          gh pr merge $PR_NUMBER --auto --merge
+          git fetch origin
+          git checkout main
+          git merge ${{ github.ref }} -X theirs
+          git push origin main

@@ -11,7 +11,7 @@ class SignUpScreenTopImage extends StatelessWidget with GlobalStyles {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
+      children: <Widget>[
         Text(
           'Sign Up'.toUpperCase(),
           style: const TextStyle(fontWeight: FontWeight.bold),

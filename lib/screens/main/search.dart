@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'filter.dart';
 
 // actions
-import 'package:babysitterapp/actions/navbar/goto_page.dart';
+import 'package:babysitterapp/actions/shared/goto_page.dart';
 
 // widgets
 import 'package:babysitterapp/widgets/shared/text_input.dart';
@@ -48,7 +48,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           TextButton.icon(
             onPressed: () {
-              gotoPage(context, const FilterScreen());
+              goToPage(context, const FilterScreen());
             },
             label: const Text(
               'Filter',

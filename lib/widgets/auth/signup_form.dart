@@ -3,6 +3,9 @@ import 'package:babysitterapp/widgets/auth/account_check.dart';
 import 'package:babysitterapp/utils/styles.dart';
 import 'package:flutter/material.dart';
 
+// actions
+import 'package:babysitterapp/actions/shared/goto_page.dart';
+
 // screens
 import 'package:babysitterapp/screens/auth/login.dart';
 
@@ -54,14 +57,7 @@ class SignUpForm extends StatelessWidget with GlobalStyles {
           AlreadyHaveAnAccountCheck(
             login: false,
             press: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<dynamic>(
-                  builder: (BuildContext context) {
-                    return const LoginScreen();
-                  },
-                ),
-              );
+              goToPage(context, const LoginScreen());
             },
           ),
         ],

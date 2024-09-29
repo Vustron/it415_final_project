@@ -1,38 +1,41 @@
 // utils
+import 'package:babysitterapp/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 // widgets
-import 'package:babysitterapp/widgets/auth/login_topimage.dart';
+import 'package:babysitterapp/widgets/auth/signup_topimage.dart';
 import 'package:babysitterapp/widgets/auth/social_signup.dart';
-import 'package:babysitterapp/widgets/auth/login_form.dart';
+import 'package:babysitterapp/widgets/auth/signup_form.dart';
 import 'package:babysitterapp/widgets/auth/background.dart';
 import 'package:babysitterapp/utils/responsive.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatelessWidget with GlobalStyles {
+  SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Background(
       child: SingleChildScrollView(
         child: Responsive(
-          mobile: const MobileLoginScreen(),
+          mobile: const MobileSignupScreen(),
           desktop: Row(
             children: <Widget>[
               Expanded(
-                child: LoginScreenTopImage(),
+                child: SignUpScreenTopImage(),
               ),
               Expanded(
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(
                       width: 450,
-                      child: LoginForm(),
+                      child: SignUpForm(),
                     ),
+                    const SizedBox(height: GlobalStyles.defaultPadding / 2),
+                    const SocialSignUp()
                   ],
                 ),
-              ),
+              )
             ],
           ),
         ),
@@ -41,8 +44,8 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class MobileLoginScreen extends StatelessWidget {
-  const MobileLoginScreen({
+class MobileSignupScreen extends StatelessWidget {
+  const MobileSignupScreen({
     super.key,
   });
 
@@ -51,18 +54,17 @@ class MobileLoginScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        LoginScreenTopImage(),
+        SignUpScreenTopImage(),
         Row(
           children: <Widget>[
             const Spacer(),
             Expanded(
               flex: 8,
-              child: LoginForm(),
+              child: SignUpForm(),
             ),
             const Spacer(),
           ],
         ),
-        const SocialSignUp()
       ],
     );
   }

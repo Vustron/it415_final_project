@@ -40,5 +40,3 @@ class Transhistory extends StatelessWidget {
     );
   }
 }
-
-

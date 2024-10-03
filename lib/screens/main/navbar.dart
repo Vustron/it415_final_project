@@ -1,11 +1,14 @@
 // utils
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:babysitterapp/screens/main/search.dart';
 import 'package:babysitterapp/utils/get_icons.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/material.dart';
 
+// actions
+import 'package:babysitterapp/actions/shared/goto_page.dart';
+
 // screens
+import 'search.dart';
 import 'home.dart';
 
 class NavbarScreen extends StatefulWidget {
@@ -56,9 +59,7 @@ class _NavbarScreenState extends State<NavbarScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Code Here
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => const SearchApp()));
+          goToPage(context, const SearchScreen());
         },
         shape: const CircleBorder(),
         backgroundColor: Colors.white,

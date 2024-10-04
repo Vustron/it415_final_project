@@ -3,13 +3,14 @@ import 'package:babysitterapp/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 // actions
-import 'package:babysitterapp/actions/shared/goto_page.dart';
+import 'package:babysitterapp/utils/goto_page.dart';
 
 // widgets
 import 'package:babysitterapp/widgets/auth/account_check.dart';
 
 // screens
 import 'package:babysitterapp/screens/auth/signup.dart';
+import 'package:babysitterapp/screens/main/navbar.dart';
 
 class LoginForm extends StatelessWidget with GlobalStyles {
   LoginForm({
@@ -52,7 +53,9 @@ class LoginForm extends StatelessWidget with GlobalStyles {
           ),
           const SizedBox(height: GlobalStyles.defaultPadding),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              goToPage(context, const NavbarScreen(), 'rightToLeftWithFade');
+            },
             child: Text(
               'Login'.toUpperCase(),
             ),
@@ -60,7 +63,7 @@ class LoginForm extends StatelessWidget with GlobalStyles {
           const SizedBox(height: GlobalStyles.defaultPadding),
           AlreadyHaveAnAccountCheck(
             press: () {
-              goToPage(context, SignUpScreen());
+              goToPage(context, SignUpScreen(), 'rightToLeftWithFade');
             },
           ),
         ],

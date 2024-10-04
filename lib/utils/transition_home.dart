@@ -1,10 +1,12 @@
 // utils
+
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // screens
-import 'package:babysitterapp/screens/main/navbar.dart';
+import 'package:babysitterapp/screens/auth/login.dart';
+// import 'package:babysitterapp/screens/main/navbar.dart';
 
 Future<void> transitionHome(BuildContext context) async {
   await Future<void>.delayed(
@@ -29,7 +31,7 @@ Future<void> transitionHome(BuildContext context) async {
       PageTransition<void>(
         type: PageTransitionType.size,
         alignment: Alignment.bottomCenter,
-        child: const NavbarScreen(),
+        child: const LoginScreen(),
       ),
     );
   }

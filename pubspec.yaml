@@ -54,25 +54,26 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/icons/
     - .env 
     
-  fonts:
-    - family: Quicksand_Bold
+fonts:
+    - family: Quicksand
       fonts:
         - asset: assets/fonts/Quicksand_Bold_Oblique.otf
+          style: italic
+          weight: 700
         - asset: assets/fonts/Quicksand_Bold.otf
-        - weight: 700
-    - family: Quicksan_Book
-      fonts:
+          weight: 700
         - asset: assets/fonts/Quicksand_Book_Oblique.otf
+          style: italic
+          weight: 400
         - asset: assets/fonts/Quicksand_Book.otf
-    - family: Nexa-ExtraLight
+          weight: 400
+    - family: Nexa
       fonts:
         - asset: assets/fonts/Nexa-ExtraLight.ttf
-        - weight: 700
-    - family: Nexa-Heavy
-      fonts:
+          weight: 200
         - asset: assets/fonts/Nexa-Heavy.ttf
-        
-             
+          weight: 800
              

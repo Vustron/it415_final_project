@@ -5,7 +5,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/material.dart';
 
 // actions
-import 'package:babysitterapp/actions/shared/goto_page.dart';
+import 'package:babysitterapp/utils/goto_page.dart';
 
 // screens
 import 'search.dart';
@@ -59,7 +59,7 @@ class _NavbarScreenState extends State<NavbarScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          goToPage(context, const SearchScreen());
+          goToPage(context, const SearchScreen(), 'rightToLeftWithFade');
         },
         shape: const CircleBorder(),
         backgroundColor: Colors.white,

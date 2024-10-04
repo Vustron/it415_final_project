@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'filter.dart';
 
 // actions
-import 'package:babysitterapp/actions/shared/goto_page.dart';
+import 'package:babysitterapp/utils/goto_page.dart';
 
 // widgets
-import 'package:babysitterapp/widgets/shared/text_input.dart';
 import 'package:babysitterapp/widgets/search/search_list.dart';
+import 'package:babysitterapp/widgets/ui/input.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -48,7 +48,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           TextButton.icon(
             onPressed: () {
-              goToPage(context, const FilterScreen());
+              goToPage(context, const FilterScreen(), 'rightToLeftWithFade');
             },
             label: const Text(
               'Filter',

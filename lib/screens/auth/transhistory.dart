@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // widgets
-import 'package:babysitterapp/widgets/transhistory/card.dart';
+import 'package:babysitterapp/widgets/transhistory/transaction_card.dart';
 
 class Transhistory extends StatelessWidget {
   const Transhistory({super.key});

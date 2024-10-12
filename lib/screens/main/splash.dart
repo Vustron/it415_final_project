@@ -8,7 +8,7 @@ import 'package:babysitterapp/widgets/splash/title.dart';
 import 'package:babysitterapp/widgets/splash/logo.dart';
 
 // methods
-import 'package:babysitterapp/actions/splash/transition_home.dart';
+import 'package:babysitterapp/utils/transition_home.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

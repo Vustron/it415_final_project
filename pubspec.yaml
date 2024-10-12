@@ -3,7 +3,7 @@ description: "A collaborative babysitter mobile app for the final project in it4
 
 publish_to: 'none' 
 
-version: 1.0.3+
+version: 1.0.3+1
 
 environment:
  sdk: '>=3.4.3 <4.0.0'
@@ -59,24 +59,26 @@ flutter:
     - assets/images/
     - assets/icons/
     - .env 
+    - fonts/
     
 fonts:
     - family: Quicksand
       fonts:
-        - asset: assets/fonts/Quicksand_Bold_Oblique.otf
-          style: italic
-          weight: 700
-        - asset: assets/fonts/Quicksand_Bold.otf
-          weight: 700
-        - asset: assets/fonts/Quicksand_Book_Oblique.otf
-          style: italic
-          weight: 400
-        - asset: assets/fonts/Quicksand_Book.otf
-          weight: 400
-    - family: Nexa
+        - asset: fonts/Quicksand_Bold_Oblique.otf
+        - asset: fonts/Quicksand_Bold.otf
+        - weight: 700
+    - family: Quicksan_Book
       fonts:
-        - asset: assets/fonts/Nexa-ExtraLight.ttf
-          weight: 200
-        - asset: assets/fonts/Nexa-Heavy.ttf
-          weight: 800
+        - asset: fonts/Quicksand_Book_Oblique.otf
+        - asset: fonts/Quicksand_Book.otf
+    - family: Nexa-ExtraLight
+      fonts:
+        - asset: fonts/Nexa-ExtraLight.ttf
+        - weight: 700
+    - family: Nexa-Heavy
+      fonts:
+        - asset: fonts/Nexa-Heavy.ttf
+        - weight: 900
+        
+             
              

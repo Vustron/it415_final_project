@@ -7,9 +7,11 @@ mixin GlobalStyles {
     fontSize: 36,
     fontWeight: FontWeight.bold,
     letterSpacing: 1,
+    fontFamily: 'Nexa-Heavy',
   );
   final TextStyle labelStyle = const TextStyle(
     fontSize: 18,
+    fontFamily: 'Nexa-ExtraLight',
   );
 
   /*-------------- Color Styles --------------*/

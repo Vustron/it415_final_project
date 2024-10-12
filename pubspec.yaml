@@ -78,6 +78,7 @@ fonts:
     - family: Nexa-Heavy
       fonts:
         - asset: fonts/Nexa-Heavy.ttf
+        - weight: 900
         
              
              

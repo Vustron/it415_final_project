@@ -1,5 +1,6 @@
 // utils
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:babysitterapp/screens/main/message.dart';
 import 'package:babysitterapp/utils/get_icons.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,7 @@ class _NavbarScreenState extends State<NavbarScreen> {
         },
         children: const <Widget>[
           HomeScreen(),
-          Center(child: Text('1')),
+          MessageScreen(),
           Center(child: Text('2')),
           Center(child: Text('3')),
         ],

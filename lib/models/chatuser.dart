@@ -5,6 +5,7 @@ class ChatUsers {
   String messageText;
   String imageURL;
   String time;
+
   ChatUsers(
       {required this.name,
       required this.messageText,

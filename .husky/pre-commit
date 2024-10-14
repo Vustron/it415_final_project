@@ -3,3 +3,26 @@
 
 # dart test
 dart analyze
+
+# Get the current version from pubspec.yaml
+current_version=$(grep '^version:' pubspec.yaml | awk '{print $2}')
+
+# Split the version into major, minor, and patch
+IFS='+' read -r version build <<< "$current_version"
+IFS='.' read -r major minor patch <<< "$version"
+
+# Increment the patch version
+new_patch=$((patch + 1))
+new_version="$major.$minor.$new_patch+$build"
+
+# Update pubspec.yaml with the new version
+if [ "$(uname)" = "Darwin" ]; then
+    # macOS
+    sed -i '' "s/^version: $current_version/version: $new_version/" pubspec.yaml
+else
+    # Linux
+    sed -i "s/^version: $current_version/version: $new_version/" pubspec.yaml
+fi
+
+# Stage the updated pubspec.yaml
+git add pubspec.yaml

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class MessageDetailScreen extends StatefulWidget {
+  const MessageDetailScreen({super.key});
+
   @override
-  _MessageDetailScreenState createState() => _MessageDetailScreenState();
+  MessageDetailScreenState createState() => MessageDetailScreenState();
 }
 
-class _MessageDetailScreenState extends State<MessageDetailScreen> {
+class MessageDetailScreenState extends State<MessageDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

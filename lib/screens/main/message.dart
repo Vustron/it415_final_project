@@ -1,7 +1,11 @@
-import 'package:babysitterapp/models/chatuser.dart';
-import 'package:babysitterapp/widgets/message/conversationList.dart';
+// utils
 import 'package:flutter/material.dart';
 
+// models
+import 'package:babysitterapp/models/chatuser.dart';
+
+// widgets
+import 'package:babysitterapp/widgets/message/list.dart';
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen({super.key});

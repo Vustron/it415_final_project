@@ -1,30 +1,34 @@
-
-import 'package:babysitterapp/screens/message/messageDetail.dart';
+import 'package:babysitterapp/screens/message/detail.dart';
 import 'package:flutter/material.dart';
 
 class ConversationList extends StatefulWidget {
-  String name;
-  String messageText;
-  String imageUrl;
-  String time;
-  bool isMessageRead;
-  ConversationList(
-      {required this.name,
-      required this.messageText,
-      required this.imageUrl,
-      required this.time,
-      required this.isMessageRead});
+  const ConversationList({
+    super.key,
+    required this.name,
+    required this.messageText,
+    required this.imageUrl,
+    required this.time,
+    required this.isMessageRead,
+  });
+
+  final String name;
+  final String messageText;
+  final String imageUrl;
+  final String time;
+  final bool isMessageRead;
+
   @override
-  _ConversationListState createState() => _ConversationListState();
+  ConversationListState createState() => ConversationListState();
 }
 
-class _ConversationListState extends State<ConversationList> {
+class ConversationListState extends State<ConversationList> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return MessageDetailScreen();
+        Navigator.push(context,
+            MaterialPageRoute<dynamic>(builder: (BuildContext context) {
+          return const MessageDetailScreen();
         }));
       },
       child: Container(
@@ -45,7 +49,7 @@ class _ConversationListState extends State<ConversationList> {
                     width: 16,
                   ),
                   Expanded(
-                    child: Container(
+                    child: ColoredBox(
                       color: Colors.transparent,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

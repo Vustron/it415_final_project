@@ -143,7 +143,7 @@ class _ChatScreenState extends State<MessageScreen> {
                     messageText: chatUsers[index].messageText,
                     imageUrl: chatUsers[index].imageURL,
                     time: chatUsers[index].time,
-                    isMessageRead: (index == 0 || index == 3) ? true : false,
+                    isMessageRead: index == 0 || index == 3,
                   );
                 },
               ),

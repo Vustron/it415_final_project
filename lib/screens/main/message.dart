@@ -21,42 +21,50 @@ class _ChatScreenState extends State<MessageScreen> {
         messageText:
             'Awesome Setup', // Corrected from `secondaryText` to `messageText`
         imageURL: 'assets/images/placeholder_logo.png',
-        time: 'Now'),
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now()),
     ChatUsers(
         name: "Glady's Murphy",
         messageText: "That's Great",
         imageURL: 'assets/images/placeholder_logo.png',
-        time: 'Yesterday'),
+        createdAt: DateTime.now().subtract(const Duration(days: 1)),
+        updatedAt: DateTime.now().subtract(const Duration(days: 1))),
     ChatUsers(
         name: 'Jorge Henry',
         messageText: 'Hey where are you?',
         imageURL: 'assets/images/placeholder_logo.png',
-        time: '31 Mar'),
+        createdAt: DateTime.now().subtract(const Duration(days: 2)),
+        updatedAt: DateTime.now().subtract(const Duration(days: 2))),
     ChatUsers(
         name: 'Philip Fox',
         messageText: 'Busy! Call me in 20 mins',
         imageURL: 'assets/images/placeholder_logo.png',
-        time: '28 Mar'),
+        createdAt: DateTime.now().subtract(const Duration(days: 3)),
+        updatedAt: DateTime.now().subtract(const Duration(days: 3))),
     ChatUsers(
         name: 'Debra Hawkins',
         messageText: "Thank you, It's awesome",
         imageURL: 'assets/images/placeholder_logo.png',
-        time: '23 Mar'),
+        createdAt: DateTime.now().subtract(const Duration(days: 4)),
+        updatedAt: DateTime.now().subtract(const Duration(days: 4))),
     ChatUsers(
         name: 'Jacob Pena',
         messageText: 'Will update you in the evening',
         imageURL: 'assets/images/placeholder_logo.png',
-        time: '17 Mar'),
+        createdAt: DateTime.now().subtract(const Duration(days: 5)),
+        updatedAt: DateTime.now().subtract(const Duration(days: 5))),
     ChatUsers(
-        name: 'Andrey Jones',
+        name: 'Andrew Jones',
         messageText: 'Can you please share the file?',
         imageURL: 'assets/images/placeholder_logo.png',
-        time: '24 Feb'),
+        createdAt: DateTime.now().subtract(const Duration(days: 6)),
+        updatedAt: DateTime.now().subtract(const Duration(days: 6))),
     ChatUsers(
         name: 'John Wick',
         messageText: 'How are you?',
         imageURL: 'assets/images/placeholder_logo.png',
-        time: '18 Feb'),
+        createdAt: DateTime.now().subtract(const Duration(days: 7)),
+        updatedAt: DateTime.now().subtract(const Duration(days: 7))),
   ];
 
   @override
@@ -135,14 +143,13 @@ class _ChatScreenState extends State<MessageScreen> {
             Expanded(
               child: ListView.builder(
                 itemCount: chatUsers.length,
-                shrinkWrap: true,
                 padding: const EdgeInsets.only(top: 16),
                 itemBuilder: (BuildContext context, int index) {
                   return ConversationList(
                     name: chatUsers[index].name,
                     messageText: chatUsers[index].messageText,
                     imageUrl: chatUsers[index].imageURL,
-                    time: chatUsers[index].time,
+                    time: chatUsers[index].createdAt,
                     isMessageRead: index == 0 || index == 3,
                   );
                 },

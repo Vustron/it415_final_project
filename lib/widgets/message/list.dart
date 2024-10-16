@@ -1,5 +1,9 @@
-import 'package:babysitterapp/screens/message/detail.dart';
+// utils
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+// screens
+import 'package:babysitterapp/screens/message/detail.dart';
 
 class ConversationList extends StatefulWidget {
   const ConversationList({
@@ -14,7 +18,7 @@ class ConversationList extends StatefulWidget {
   final String name;
   final String messageText;
   final String imageUrl;
-  final String time;
+  final DateTime time;
   final bool isMessageRead;
 
   @override
@@ -78,7 +82,7 @@ class ConversationListState extends State<ConversationList> {
               ),
             ),
             Text(
-              widget.time,
+              DateFormat('hh:mm a').format(widget.time),
               style: TextStyle(
                   fontSize: 15,
                   fontWeight: widget.isMessageRead

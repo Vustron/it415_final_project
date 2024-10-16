@@ -1,7 +1,3 @@
-// models
-import 'ratings.dart';
-import 'booking.dart';
-
 enum Provider {
   google,
   facebook,
@@ -24,8 +20,8 @@ class Babysitter {
     required this.validId,
     required this.ratingsPerHour,
     required this.ratings,
+    required this.bookings,
     required this.onlineStatus,
-    required this.booking,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -47,8 +43,8 @@ class Babysitter {
       resume: data['resume'] as String,
       validId: data['validId'] as String,
       ratingsPerHour: data['ratingsPerHour'] as String,
-      ratings: Ratings.fromMap(data['ratings'] as Map<String, dynamic>),
-      booking: Booking.fromMap(data['booking'] as Map<String, dynamic>),
+      ratings: List<String>.from(data['ratings'] as List<String>),
+      bookings: List<String>.from(data['bookings'] as List<String>),
       onlineStatus: data['onlineStatus'] as bool,
       createdAt: DateTime.parse(data['createdAt'] as String),
       updatedAt: DateTime.parse(data['updatedAt'] as String),
@@ -69,8 +65,8 @@ class Babysitter {
   final String resume;
   final String validId;
   final String ratingsPerHour;
-  final Ratings ratings;
-  final Booking booking;
+  final List<String> ratings;
+  final List<String> bookings;
   final bool onlineStatus;
   final DateTime createdAt;
   final DateTime updatedAt;

@@ -32,6 +32,21 @@ jobs:
             If not reviewed within 24 hours, this PR will be automatically merged.
           branch: auto-pr-${{ github.ref_name }}
           base: main
+          delete-branch: true
+          labels: |
+            automated pr
+            review required
+          draft: false
+
+      - name: Print PR Details
+        if: steps.create_pr.outputs.pull-request-number
+        run: |
+          echo "Pull Request Number - ${{ steps.create_pr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.create_pr.outputs.pull-request-url }}"
+
+      - name: No PR Created
+        if: steps.create_pr.outputs.pull-request-number == ''
+        run: echo "No pull request was created"
 
       - name: Sleep for 24 hours
         run: sleep 86400

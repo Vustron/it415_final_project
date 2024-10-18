@@ -11,10 +11,8 @@ on:
       - Ruña_Group
 
 jobs:
-  create_pull_request:
+  create_and_handle_pr:
     runs-on: ubuntu-latest
-    outputs:
-      pull_request_number: ${{ steps.create_pr.outputs.pull-request-number }}
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -35,18 +33,15 @@ jobs:
           branch: auto-pr-${{ github.ref_name }}
           base: main
 
-  auto_merge_pull_request:
-    needs: create_pull_request
-    runs-on: ubuntu-latest
-    if: ${{ needs.create_pull_request.outputs.pull_request_number }}
-    steps:
-      - name: Wait for 24 hours
+      - name: Sleep for 24 hours
         run: sleep 86400
+        if: steps.create_pr.outputs.pull-request-number
 
       - name: Check PR status and merge if not reviewed
+        if: steps.create_pr.outputs.pull-request-number
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ needs.create_pull_request.outputs.pull_request_number }}
+          PR_NUMBER: ${{ steps.create_pr.outputs.pull-request-number }}
         run: |
           PR_STATE=$(gh pr view $PR_NUMBER --json state -q .state)
           if [ "$PR_STATE" = "OPEN" ]; then
@@ -54,12 +49,21 @@ jobs:
             if [ "$REVIEW_DECISION" = "null" ] || [ "$REVIEW_DECISION" = "REVIEW_REQUIRED" ]; then
               gh pr merge $PR_NUMBER --merge --admin
               echo "Pull request #$PR_NUMBER auto-merged after 24 hours without review."
-              
-              # Trigger the "Synchronize to main" workflow
-              gh workflow run "Synchronize to main"
             else
               echo "Pull request #$PR_NUMBER has been reviewed. No auto-merge performed."
+              exit 0
             fi
           else
             echo "Pull request #$PR_NUMBER is not open. No action taken."
+            exit 0
           fi
+
+      - name: Sync changes to main
+        if: success()
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git fetch origin
+          git checkout main
+          git merge origin/${{ github.ref_name }} -X theirs
+          git push origin main

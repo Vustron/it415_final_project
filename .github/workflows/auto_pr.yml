@@ -39,21 +39,25 @@ jobs:
           draft: false
 
       - name: Print PR Details
-        if: steps.create_pr.outputs.pull-request-number
+        if: steps.create_pr.outputs.pull-request-number != ''
         run: |
           echo "Pull Request Number - ${{ steps.create_pr.outputs.pull-request-number }}"
           echo "Pull Request URL - ${{ steps.create_pr.outputs.pull-request-url }}"
 
       - name: No PR Created
-        if: steps.create_pr.outputs.pull-request-number == ''
+        if: steps.create_pr.outputs.pull-request-number == null
         run: echo "No pull request was created"
 
-      - name: Sleep for 24 hours
+  check_and_merge_pr:
+    runs-on: ubuntu-latest
+    needs: create_and_handle_pr
+    steps:
+      - name: Wait for 24 hours
         run: sleep 86400
-        if: steps.create_pr.outputs.pull-request-number
+        if: steps.create_pr.outputs.pull-request-number != null
 
       - name: Check PR status and merge if not reviewed
-        if: steps.create_pr.outputs.pull-request-number
+        if: steps.create_pr.outputs.pull-request-number != null
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ steps.create_pr.outputs.pull-request-number }}

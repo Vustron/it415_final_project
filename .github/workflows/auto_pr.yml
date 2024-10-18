@@ -1,0 +1,65 @@
+name: Auto Create Pull Request
+
+on:
+  push:
+    branches:
+      - Escopalao_Group
+      - Lara_Group
+      - Macas_Group
+      - Manipon_Group
+      - Millan_Group
+      - Ruña_Group
+
+jobs:
+  create_pull_request:
+    runs-on: ubuntu-latest
+    outputs:
+      pull_request_number: ${{ steps.create_pr.outputs.pull-request-number }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create Pull Request
+        id: create_pr
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Auto PR from ${{ github.ref_name }}
+          title: "Auto PR: Merge ${{ github.ref_name }} into main"
+          body: |
+            This is an automated pull request created from a push to the ${{ github.ref_name }} branch.
+            Please review the changes and merge if appropriate.
+            If not reviewed within 24 hours, this PR will be automatically merged.
+          branch: auto-pr-${{ github.ref_name }}
+          base: main
+
+  auto_merge_pull_request:
+    needs: create_pull_request
+    runs-on: ubuntu-latest
+    if: ${{ needs.create_pull_request.outputs.pull_request_number }}
+    steps:
+      - name: Wait for 24 hours
+        run: sleep 86400
+
+      - name: Check PR status and merge if not reviewed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ needs.create_pull_request.outputs.pull_request_number }}
+        run: |
+          PR_STATE=$(gh pr view $PR_NUMBER --json state -q .state)
+          if [ "$PR_STATE" = "OPEN" ]; then
+            REVIEW_DECISION=$(gh pr view $PR_NUMBER --json reviewDecision -q .reviewDecision)
+            if [ "$REVIEW_DECISION" = "null" ] || [ "$REVIEW_DECISION" = "REVIEW_REQUIRED" ]; then
+              gh pr merge $PR_NUMBER --merge --admin
+              echo "Pull request #$PR_NUMBER auto-merged after 24 hours without review."
+              
+              # Trigger the "Synchronize to main" workflow
+              gh workflow run "Synchronize to main"
+            else
+              echo "Pull request #$PR_NUMBER has been reviewed. No auto-merge performed."
+            fi
+          else
+            echo "Pull request #$PR_NUMBER is not open. No action taken."
+          fi

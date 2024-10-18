@@ -24,7 +24,6 @@ class ConversationList extends StatefulWidget {
   @override
   ConversationListState createState() => ConversationListState();
 }
-
 class ConversationListState extends State<ConversationList> {
   @override
   Widget build(BuildContext context) {
@@ -32,11 +31,11 @@ class ConversationListState extends State<ConversationList> {
       onTap: () {
         Navigator.push(context,
             MaterialPageRoute<dynamic>(builder: (BuildContext context) {
-          return const MessageDetailScreen();
+          return MessageDetailScreen(name: widget.name); // Pass the name here
         }));
       },
       child: Container(
-        color: Colors.white,
+        color: const Color.fromARGB(255, 255, 255, 255),
         padding:
             const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
         child: Row(
@@ -45,13 +44,10 @@ class ConversationListState extends State<ConversationList> {
               child: Row(
                 children: <Widget>[
                   CircleAvatar(
-                    backgroundImage: AssetImage(widget
-                        .imageUrl), // Change from NetworkImage to AssetImage
+                    backgroundImage: AssetImage(widget.imageUrl),
                     maxRadius: 30,
                   ),
-                  const SizedBox(
-                    width: 16,
-                  ),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: ColoredBox(
                       color: Colors.transparent,
@@ -62,9 +58,7 @@ class ConversationListState extends State<ConversationList> {
                             widget.name,
                             style: const TextStyle(fontSize: 15),
                           ),
-                          const SizedBox(
-                            height: 6,
-                          ),
+                          const SizedBox(height: 6),
                           Text(
                             widget.messageText,
                             style: TextStyle(

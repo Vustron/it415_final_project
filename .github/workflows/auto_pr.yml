@@ -20,28 +20,20 @@ jobs:
           fetch-depth: 0
 
       - name: Create Pull Request
-        id: cpr
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: Auto PR from ${{ github.ref_name }}
-          title: "Auto PR: Merge ${{ github.ref_name }} into main"
-          body: |
-            This is an automated pull request created from a push to the ${{ github.ref_name }} branch.
-            Please review the changes and merge if appropriate.
-          branch: auto-pr-${{ github.ref_name }}
-          base: main
-          delete-branch: true
-          labels: |
-            automated pr
-            review required
-
-      - name: Check outputs
-        if: ${{ steps.cpr.outputs.pull-request-number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
-          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+          pr_exists=$(gh pr list --base main --head ${{ github.ref_name }} --json number --jq length)
+          if [ "$pr_exists" -eq "0" ]; then
+            pr_url=$(gh pr create --base main --head ${{ github.ref_name }} \
+              --title "Auto PR: Merge ${{ github.ref_name }} into main" \
+              --body "This is an automated pull request created from a push to the ${{ github.ref_name }} branch. Please review the changes and merge if appropriate." \
+              --label "automated pr" --label "review required")
+            echo "Pull Request created: $pr_url"
+          else
+            echo "Pull request already exists for this branch"
+          fi
 
-      - name: No PR Created
-        if: ${{ !steps.cpr.outputs.pull-request-number }}
-        run: echo "No pull request was created"
+      - name: Check if PR was created
+        if: failure()
+        run: echo "Failed to create pull request. Please check the logs for more information."

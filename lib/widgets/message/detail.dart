@@ -1,14 +1,21 @@
 // utils
+import 'package:babysitterapp/widgets/message/messageBubble.dart';
 import 'package:flutter/material.dart';
 
 class MessageDetailScreen extends StatefulWidget {
-  const MessageDetailScreen({super.key});
+  final String name;
+
+  const MessageDetailScreen(
+      {super.key, required this.name}); // Accept name in constructor
 
   @override
   MessageDetailScreenState createState() => MessageDetailScreenState();
 }
 
 class MessageDetailScreenState extends State<MessageDetailScreen> {
+  final TextEditingController _messageController = TextEditingController();
+  List<String> messages = []; // To store sent messages
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,31 +37,25 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(
-                  width: 2,
-                ),
+                const SizedBox(width: 2),
                 const CircleAvatar(
                   backgroundImage:
                       AssetImage('assets/images/placeholder_logo.png'),
                   maxRadius: 20,
                 ),
-                const SizedBox(
-                  width: 12,
-                ),
-                const Expanded(
+                const SizedBox(width: 12),
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'Kriss Benwat',
-                        style: TextStyle(
+                        widget.name, // Display the passed name here
+                        style: const TextStyle(
                             fontSize: 15, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Text(
+                      const SizedBox(height: 6),
+                      const Text(
                         'Online',
                         style: TextStyle(
                             color: Color.fromARGB(255, 1, 234, 24),
@@ -63,10 +64,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                     ],
                   ),
                 ),
-                const Icon(
-                  Icons.settings,
-                  color: Colors.black54,
-                ),
+                const Icon(Icons.settings, color: Colors.black54),
               ],
             ),
           ),
@@ -74,14 +72,19 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
       ),
       body: Column(
         children: <Widget>[
-          // Replace with your chat messages widget if needed
           Expanded(
             child: SingleChildScrollView(
               child: Container(
-                // Placeholder for the chat messages
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                child: const Text('Chat messages go here'),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: messages
+                      .map((message) => MessageBubble(
+                            message: message,
+                          ))
+                      .toList(),
+                ),
               ),
             ),
           ),
@@ -109,23 +112,27 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    const Expanded(
+                    const SizedBox(width: 15),
+                    Expanded(
                       child: TextField(
-                        decoration: InputDecoration(
+                        controller: _messageController,
+                        decoration: const InputDecoration(
                           hintText: 'Write message...',
                           hintStyle: TextStyle(color: Colors.black54),
                           border: InputBorder.none,
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      width: 15,
-                    ),
+                    const SizedBox(width: 15),
                     FloatingActionButton.small(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          if (_messageController.text.isNotEmpty) {
+                            messages.add(_messageController.text);
+                            _messageController.clear();
+                          }
+                        });
+                      },
                       backgroundColor: Colors.lightBlue,
                       elevation: 0,
                       child: const Icon(

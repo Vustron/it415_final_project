@@ -1,4 +1,5 @@
 // utils
+import 'package:babysitterapp/views/main/notification.dart';
 import 'package:flutter/material.dart';
 
 // widgets
@@ -36,7 +37,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: <Widget>[
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const NotificationScreen()),
+              );
+            },
             icon: const Icon(
               FluentIcons.alert_12_regular,
               color: Colors.black,

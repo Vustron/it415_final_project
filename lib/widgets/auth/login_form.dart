@@ -10,7 +10,7 @@ import 'package:babysitterapp/widgets/auth/account_check.dart';
 
 // screens
 import 'package:babysitterapp/views/auth/signup.dart';
-import 'package:babysitterapp/views/main/navbar.dart';
+import 'package:babysitterapp/views/main/index.dart';
 
 class LoginForm extends StatelessWidget with GlobalStyles {
   LoginForm({
@@ -54,7 +54,7 @@ class LoginForm extends StatelessWidget with GlobalStyles {
           const SizedBox(height: GlobalStyles.defaultPadding),
           ElevatedButton(
             onPressed: () {
-              goToPage(context, const NavbarScreen(), 'rightToLeftWithFade');
+              goToPage(context, const IndexScreen(), 'rightToLeftWithFade');
             },
             child: Text(
               'Login'.toUpperCase(),

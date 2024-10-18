@@ -3,7 +3,7 @@ description: "A collaborative babysitter mobile app for the final project in it4
 
 publish_to: 'none' 
 
-version: 1.0.9+1
+version: 1.0.10+1
 
 environment:
  sdk: '>=3.4.3 <4.0.0'

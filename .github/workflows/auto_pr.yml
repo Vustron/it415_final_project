@@ -11,7 +11,7 @@ on:
       - Ruña_Group
 
 jobs:
-  create_and_handle_pr:
+  create_pull_request:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 0
 
       - name: Create Pull Request
-        id: create_pr
+        id: cpr
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -29,54 +29,19 @@ jobs:
           body: |
             This is an automated pull request created from a push to the ${{ github.ref_name }} branch.
             Please review the changes and merge if appropriate.
-            If not reviewed within 24 hours, this PR will be automatically merged.
           branch: auto-pr-${{ github.ref_name }}
           base: main
           delete-branch: true
           labels: |
             automated pr
             review required
-          draft: false
 
-      - name: Print PR Details
-        if: steps.create_pr.outputs.pull-request-number
+      - name: Check outputs
+        if: ${{ steps.cpr.outputs.pull-request-number }}
         run: |
-          echo "Pull Request Number - ${{ steps.create_pr.outputs.pull-request-number }}"
-          echo "Pull Request URL - ${{ steps.create_pr.outputs.pull-request-url }}"
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
 
       - name: No PR Created
-        if: steps.create_pr.outputs.pull-request-number == ''
+        if: ${{ !steps.cpr.outputs.pull-request-number }}
         run: echo "No pull request was created"
-
-      - name: Wait for 24 hours
-        if: steps.create_pr.outputs.pull-request-number
-        run: sleep 86400
-
-      - name: Check PR status and merge if not reviewed
-        if: steps.create_pr.outputs.pull-request-number
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ steps.create_pr.outputs.pull-request-number }}
-        run: |
-          PR_STATE=$(gh pr view $PR_NUMBER --json state -q .state)
-          if [ "$PR_STATE" = "OPEN" ]; then
-            REVIEW_DECISION=$(gh pr view $PR_NUMBER --json reviewDecision -q .reviewDecision)
-            if [ "$REVIEW_DECISION" = "null" ] || [ "$REVIEW_DECISION" = "REVIEW_REQUIRED" ]; then
-              gh pr merge $PR_NUMBER --merge --admin
-              echo "Pull request #$PR_NUMBER auto-merged after 24 hours without review."
-            else
-              echo "Pull request #$PR_NUMBER has been reviewed. No auto-merge performed."
-            fi
-          else
-            echo "Pull request #$PR_NUMBER is not open. No action taken."
-          fi
-
-      - name: Sync changes to main
-        if: success()
-        run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'actions@github.com'
-          git fetch origin
-          git checkout main
-          git merge --no-ff origin/${{ github.ref_name }} -m "Merge branch '${{ github.ref_name }}' into main"
-          git push origin main

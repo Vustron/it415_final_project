@@ -12,14 +12,14 @@ import 'package:babysitterapp/utils/goto_page.dart';
 import 'search.dart';
 import 'home.dart';
 
-class NavbarScreen extends StatefulWidget {
-  const NavbarScreen({super.key});
+class IndexScreen extends StatefulWidget {
+  const IndexScreen({super.key});
 
   @override
-  State<NavbarScreen> createState() => _NavbarScreenState();
+  State<IndexScreen> createState() => _IndexScreenState();
 }
 
-class _NavbarScreenState extends State<NavbarScreen> {
+class _IndexScreenState extends State<IndexScreen> {
   int _currentIndex = 0;
   late PageController _pageController;
 

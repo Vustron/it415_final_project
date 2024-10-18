@@ -1,6 +1,6 @@
 // utils
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:babysitterapp/views/main/message.dart';
+import 'package:babysitterapp/utils/screen_list.dart';
 import 'package:babysitterapp/utils/get_icons.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,6 @@ import 'package:babysitterapp/utils/goto_page.dart';
 
 // screens
 import 'search.dart';
-import 'home.dart';
 
 class IndexScreen extends StatefulWidget {
   const IndexScreen({super.key});
@@ -46,17 +45,13 @@ class _IndexScreenState extends State<IndexScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
+      backgroundColor: Colors.white,
       body: PageView(
         controller: _pageController,
         onPageChanged: (int index) {
           setState(() => _currentIndex = index);
         },
-        children: const <Widget>[
-          HomeScreen(),
-          MessageScreen(),
-          Center(child: Text('2')),
-          Center(child: Text('3')),
-        ],
+        children: screens,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

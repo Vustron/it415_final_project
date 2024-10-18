@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:flutter/material.dart';
 
 class Widgetstyles extends StatefulWidget {
   const Widgetstyles({super.key});

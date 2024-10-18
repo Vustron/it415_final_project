@@ -14,8 +14,8 @@ IconData getIcon(int index, bool isSelected) {
           : FluentIcons.chat_12_regular;
     case 2:
       return isSelected
-          ? FluentIcons.map_16_filled
-          : FluentIcons.map_16_regular;
+          ? FluentIcons.person_add_16_filled
+          : FluentIcons.person_add_16_regular;
     case 3:
       return isSelected
           ? FluentIcons.person_12_filled

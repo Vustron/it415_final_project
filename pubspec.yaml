@@ -3,7 +3,7 @@ description: "A collaborative babysitter mobile app for the final project in it4
 
 publish_to: 'none' 
 
-version: 1.0.16+1
+version: 1.0.17+1
 
 environment:
  sdk: '>=3.4.3 <4.0.0'
@@ -81,6 +81,3 @@ fonts:
       fonts:
         - asset: assets/fonts/Nexa-Heavy.ttf
         - weight: 900
-        
-             
-             

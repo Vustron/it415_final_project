@@ -1,16 +1,10 @@
 // utils
-import 'package:hugeicons/hugeicons.dart';
+import 'package:babysitterapp/widgets/search/filter.dart';
+import 'package:babysitterapp/widgets/search/input.dart';
 import 'package:flutter/material.dart';
-
-// screens
-import 'filter.dart';
-
-// actions
-import 'package:babysitterapp/utils/goto_page.dart';
 
 // widgets
 import 'package:babysitterapp/widgets/search/search_list.dart';
-import 'package:babysitterapp/widgets/ui/input.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -21,50 +15,6 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchTxt = TextEditingController();
-
-  Widget searchButtons() => CustomInputWidget(
-      textEditingController: searchTxt,
-      hintText: '',
-      txtType: TextInputType.text,
-      labelTxt: 'Search');
-
-  Widget buttons() => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          TextButton.icon(
-            onPressed: () {},
-            label: const Text(
-              'Maps',
-              style: TextStyle(
-                  fontFamily: 'Nexa-ExtraLight',
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-            ),
-            icon: const HugeIcon(
-              icon: HugeIcons.strokeRoundedMaps,
-              color: Colors.black,
-            ),
-          ),
-          TextButton.icon(
-            onPressed: () {
-              goToPage(context, const FilterScreen(), 'rightToLeftWithFade');
-            },
-            label: const Text(
-              'Filter',
-              style: TextStyle(
-                  fontFamily: 'Nexa-ExtraLight',
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-            ),
-            icon: const HugeIcon(
-              icon: HugeIcons.strokeRoundedSorting01,
-              color: Colors.black,
-            ),
-          )
-        ],
-      );
 
   @override
   Widget build(BuildContext context) {
@@ -78,25 +28,25 @@ class _SearchScreenState extends State<SearchScreen> {
           },
           icon: const Icon(
             Icons.arrow_back,
-            color: Colors.grey,
+            color: Colors.black,
           ),
         ),
         centerTitle: false,
         title: const Text(
           'Search',
-          style: TextStyle(
-              color: Colors.black, fontSize: 20, fontFamily: 'Nexa-Heavy'),
         ),
       ),
+      backgroundColor: Colors.white,
       body: Container(
+        color: Colors.white,
         margin: const EdgeInsets.all(10.0),
         child: ListView(
           children: <Widget>[
-            searchButtons(),
+            searchButtons(searchTxt),
             const SizedBox(
               height: 5.0,
             ),
-            buttons(),
+            buttons(context),
             const SizedBox(
               height: 5.0,
             ),

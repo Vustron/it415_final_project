@@ -9,8 +9,8 @@ import 'package:babysitterapp/utils/goto_page.dart';
 import 'package:babysitterapp/widgets/auth/account_check.dart';
 
 // screens
-import 'package:babysitterapp/screens/auth/signup.dart';
-import 'package:babysitterapp/screens/main/navbar.dart';
+import 'package:babysitterapp/views/auth/signup.dart';
+import 'package:babysitterapp/views/main/navbar.dart';
 
 class LoginForm extends StatelessWidget with GlobalStyles {
   LoginForm({

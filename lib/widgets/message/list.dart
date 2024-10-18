@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 // screens
-import 'package:babysitterapp/screens/message/detail.dart';
+import 'package:babysitterapp/views/message/detail.dart';
 
 class ConversationList extends StatefulWidget {
   const ConversationList({

@@ -1,11 +1,10 @@
 // utils
-
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // screens
-import 'package:babysitterapp/screens/auth/login.dart';
+import 'package:babysitterapp/views/auth/login.dart';
 // import 'package:babysitterapp/screens/main/navbar.dart';
 
 Future<void> transitionHome(BuildContext context) async {

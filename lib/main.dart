@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'configs/root_theme.dart';
 
 // screens
-import 'screens/main/splash.dart';
+import 'views/main/splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

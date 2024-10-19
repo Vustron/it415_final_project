@@ -1,12 +1,10 @@
 // utils
-import 'package:babysitterapp/widgets/message/messageBubble.dart';
+import 'package:babysitterapp/widgets/message/bubble.dart';
 import 'package:flutter/material.dart';
 
 class MessageDetailScreen extends StatefulWidget {
+  const MessageDetailScreen({super.key, required this.name});
   final String name;
-
-  const MessageDetailScreen(
-      {super.key, required this.name}); // Accept name in constructor
 
   @override
   MessageDetailScreenState createState() => MessageDetailScreenState();
@@ -14,7 +12,7 @@ class MessageDetailScreen extends StatefulWidget {
 
 class MessageDetailScreenState extends State<MessageDetailScreen> {
   final TextEditingController _messageController = TextEditingController();
-  List<String> messages = []; // To store sent messages
+  List<String> messages = <String>[];
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +37,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                 ),
                 const SizedBox(width: 2),
                 const CircleAvatar(
-                  backgroundImage:
-                      AssetImage('assets/images/placeholder_logo.png'),
+                  backgroundImage: AssetImage('assets/images/hippo.png'),
                   maxRadius: 20,
                 ),
                 const SizedBox(width: 12),
@@ -80,7 +77,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: messages
-                      .map((message) => MessageBubble(
+                      .map((String message) => MessageBubble(
                             message: message,
                           ))
                       .toList(),

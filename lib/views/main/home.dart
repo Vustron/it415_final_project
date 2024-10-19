@@ -1,5 +1,6 @@
 // utils
 import 'package:babysitterapp/views/main/notification.dart';
+import 'package:babysitterapp/utils/goto_page.dart';
 import 'package:flutter/material.dart';
 
 // widgets
@@ -38,11 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const NotificationScreen()),
-              );
+              goToPage(
+                  context, const NotificationScreen(), 'rightToLeftWithFade');
             },
             icon: const Icon(
               FluentIcons.alert_12_regular,

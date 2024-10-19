@@ -1,6 +1,7 @@
 // utils
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:developer';
 
 class NotificationList extends StatefulWidget {
   const NotificationList({
@@ -10,7 +11,7 @@ class NotificationList extends StatefulWidget {
     required this.imageUrl,
     required this.time,
     required this.isMessageRead,
-    required this.showButtons, // New parameter to control button visibility
+    required this.showButtons,
   });
 
   final String name;
@@ -18,7 +19,7 @@ class NotificationList extends StatefulWidget {
   final String imageUrl;
   final DateTime time;
   final bool isMessageRead;
-  final bool showButtons; // To determine if buttons should be shown
+  final bool showButtons;
 
   @override
   NotificationListState createState() => NotificationListState();
@@ -26,13 +27,11 @@ class NotificationList extends StatefulWidget {
 
 class NotificationListState extends State<NotificationList> {
   void onConfirm() {
-    // Handle the confirm action here
-    print('${widget.name} confirmed');
+    log('${widget.name} confirmed');
   }
 
   void onDecline() {
-    // Handle the decline action here
-    print('${widget.name} declined');
+    log('${widget.name} declined');
   }
 
   @override
@@ -42,7 +41,7 @@ class NotificationListState extends State<NotificationList> {
         color: const Color.fromARGB(255, 255, 255, 255),
         padding: const EdgeInsets.all(10),
         child: Column(
-          children: [
+          children: <Widget>[
             Row(
               children: <Widget>[
                 CircleAvatar(
@@ -85,7 +84,7 @@ class NotificationListState extends State<NotificationList> {
             if (widget.showButtons)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   ElevatedButton(
                     onPressed: onConfirm,
                     style: ElevatedButton.styleFrom(

@@ -5,7 +5,7 @@ class NotificationUsers {
     required this.imageURL,
     required this.createdAt,
     required this.updatedAt,
-    this.showButtons = false, // Add this
+    this.showButtons = false,
   });
 
   factory NotificationUsers.fromMap(Map<String, dynamic> data) {
@@ -15,7 +15,7 @@ class NotificationUsers {
       imageURL: data['imageURL'] as String,
       createdAt: DateTime.parse(data['createdAt'] as String),
       updatedAt: DateTime.parse(data['updatedAt'] as String),
-      showButtons: data['showButtons'] as bool? ?? false, // Optional in data
+      showButtons: data['showButtons'] as bool? ?? false,
     );
   }
 
@@ -24,5 +24,5 @@ class NotificationUsers {
   final String imageURL;
   final DateTime createdAt;
   final DateTime updatedAt;
-  final bool showButtons; // New field to control button visibility
+  final bool showButtons;
 }

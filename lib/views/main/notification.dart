@@ -1,7 +1,11 @@
 // utils
-import 'package:babysitterapp/models/notificationuser.dart';
-import 'package:babysitterapp/widgets/notification/list.dart';
 import 'package:flutter/material.dart';
+
+// models
+import 'package:babysitterapp/models/notification.dart';
+
+// widgets
+import 'package:babysitterapp/widgets/notification/list.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -16,7 +20,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       name: 'Jane Russel',
       messageText:
           'has sent a request to apply as your babysitter! Review the application and respond at your earliest convenience.',
-      imageURL: 'assets/images/placeholder_logo.png',
+      imageURL: 'assets/images/hippo.png',
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       showButtons: true, // You decide when to show buttons
@@ -25,21 +29,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
         name: 'BabyCare',
         messageText:
             'Good news! A babysitter nearby has a 4.9-star rating. Book now to ensure the best care for your child!',
-        imageURL: 'assets/images/placeholder_logo.png',
+        imageURL: 'assets/images/hippo.png',
         createdAt: DateTime.now().subtract(const Duration(days: 1)),
         updatedAt: DateTime.now().subtract(const Duration(days: 1))),
     NotificationUsers(
         name: 'BabyCare',
         messageText:
             'Theres a babysitter nearby with a 4.5-star rating, offering her services for only 350 pesos per day. Dont miss out—book her now!',
-        imageURL: 'assets/images/placeholder_logo.png',
+        imageURL: 'assets/images/hippo.png',
         createdAt: DateTime.now().subtract(const Duration(days: 2)),
         updatedAt: DateTime.now().subtract(const Duration(days: 2))),
     NotificationUsers(
         name: 'Krystina',
         messageText:
             'has just sent a request for a babysitter. Please review and respond promptly!',
-        imageURL: 'assets/images/placeholder_logo.png',
+        imageURL: 'assets/images/hippo.png',
         showButtons: true, // You decide when to show buttons
         createdAt: DateTime.now().subtract(const Duration(days: 3)),
         updatedAt: DateTime.now().subtract(const Duration(days: 3))),

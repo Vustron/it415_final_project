@@ -1,4 +1,5 @@
 // third-party
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -40,12 +41,14 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'BabyCare',
-      themeMode: ThemeMode.light,
-      theme: rootThemeData(),
-      home: const SplashView(),
+    return ProviderScope(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'BabyCare',
+        themeMode: ThemeMode.light,
+        theme: rootThemeData(),
+        home: const SplashView(),
+      ),
     );
   }
 }

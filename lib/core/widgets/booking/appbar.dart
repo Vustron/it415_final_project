@@ -45,7 +45,7 @@ PreferredSize bookingAppBar() {
             'Booking',
             style: TextStyle(
               color: Colors.black,
-              fontSize: 20,
+              fontSize: 25,
               fontWeight: FontWeight.bold,
             ),
           ),

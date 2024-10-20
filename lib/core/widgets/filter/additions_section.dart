@@ -17,7 +17,7 @@ Widget additionsSection() {
           children: <Widget>[
             sectionTitle('Additions', Icons.add_circle_outline),
             TextButton(
-              child: Text(
+              child: const Text(
                 'See all',
                 style: TextStyle(color: GlobalStyles.buttonColor),
               ),

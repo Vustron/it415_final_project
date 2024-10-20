@@ -1,5 +1,5 @@
 // utils
-import 'package:babysitterapp/views/main/home.dart';
+import 'package:babysitterapp/views/home/home.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 void runHomeScreenTest() {
   testWidgets('HomeScreen widget test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MaterialApp(home: HomeScreen()));
+    await tester.pumpWidget(const MaterialApp(home: HomeView()));
 
     // Verify that the AppBar is present
     expect(find.byType(AppBar), findsOneWidget);

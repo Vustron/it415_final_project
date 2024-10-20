@@ -1,15 +1,15 @@
 // utils
-import 'package:babysitterapp/configs/firebase_options.dart';
+import 'package:babysitterapp/core/config/firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // configs
-import 'configs/root_theme.dart';
+import 'core/config/theme.dart';
 
 // screens
-import 'views/main/splash.dart';
+import 'views/auth/splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +43,7 @@ class App extends StatelessWidget {
       title: 'BabyCare',
       themeMode: ThemeMode.light,
       theme: rootThemeData(),
-      home: const SplashScreen(),
+      home: const SplashView(),
     );
   }
 }

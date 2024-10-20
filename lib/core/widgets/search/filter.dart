@@ -1,8 +1,14 @@
-// utils
-import 'package:babysitterapp/views/search/filter.dart';
-import 'package:babysitterapp/core/helper/goto_page.dart';
+// third party
 import 'package:hugeicons/hugeicons.dart';
+
+// core
+import 'package:babysitterapp/core/helper/goto_page.dart';
+
+// flutter
 import 'package:flutter/material.dart';
+
+// views
+import 'package:babysitterapp/views/search/filter.dart';
 
 Widget buttons(BuildContext context) => Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),

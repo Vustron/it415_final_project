@@ -1,4 +1,5 @@
 // utils
+import 'package:babysitterapp/core/widgets/message/input.dart';
 import 'package:flutter/material.dart';
 
 // models
@@ -72,6 +73,7 @@ class _ChatScreenState extends State<MessageView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Message'),
+        automaticallyImplyLeading: false,
       ),
       body: SafeArea(
         child: Column(
@@ -89,54 +91,26 @@ class _ChatScreenState extends State<MessageView> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.only(
-                        left: 10, right: 10, top: 2, bottom: 2),
-                    height: 30,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.pink[50],
+                  TextButton.icon(
+                    icon: const Icon(Icons.add),
+                    label: const Text(
+                      'Add New',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    child: const Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.add,
-                          color: Colors.pink,
-                          size: 20,
-                        ),
-                        SizedBox(width: 2),
-                        Text(
-                          'Add New',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                    onPressed: () {},
+                  )
                 ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search...',
-                  hintStyle: TextStyle(color: Colors.grey.shade600),
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: Colors.grey.shade600,
-                    size: 20,
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey.shade100,
-                  contentPadding: const EdgeInsets.all(8),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: Colors.grey.shade100),
-                  ),
-                ),
+              child: CustomTextInput(
+                onChanged: (String value) {},
+                onClear: () {},
+                prefixIcon: const Icon(Icons.search),
               ),
             ),
             const SizedBox(height: 10),

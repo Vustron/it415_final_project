@@ -1,12 +1,12 @@
-// utils
+// core
 import 'package:babysitterapp/core/widgets/auth/account_check.dart';
+import 'package:babysitterapp/core/helper/goto_page.dart';
 import 'package:babysitterapp/core/constants/styles.dart';
+
+// flutter
 import 'package:flutter/material.dart';
 
-// actions
-import 'package:babysitterapp/core/helper/goto_page.dart';
-
-// screens
+// views
 import 'package:babysitterapp/views/home/bottom_navbar.dart';
 import 'package:babysitterapp/views/auth/login.dart';
 

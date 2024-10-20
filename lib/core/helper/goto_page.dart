@@ -1,5 +1,7 @@
-// utils
+// third party
 import 'package:page_transition/page_transition.dart';
+
+// flutter
 import 'package:flutter/material.dart';
 
 PageTransitionType _getPageTransitionType(String transitionType) {

@@ -1,11 +1,15 @@
+// flutter
 import 'package:flutter/material.dart';
+
+// core
+import 'package:babysitterapp/core/constants/assets.dart';
 
 class Background extends StatelessWidget {
   const Background({
     super.key,
     required this.child,
-    this.topImage = 'assets/images/main_top.png',
-    this.bottomImage = 'assets/images/login_bottom.png',
+    this.topImage = mainTopBg,
+    this.bottomImage = mainBottomBg,
   });
 
   final Widget child;

@@ -1,5 +1,7 @@
-// utils
+// core
 import 'package:babysitterapp/core/constants/styles.dart';
+
+// flutter
 import 'package:flutter/material.dart';
 
 class LoginScreenTopImage extends StatelessWidget with GlobalStyles {
@@ -15,17 +17,6 @@ class LoginScreenTopImage extends StatelessWidget with GlobalStyles {
           'LOGIN',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: GlobalStyles.defaultPadding * 2),
-        // Row(
-        //   children: [
-        //     Spacer(),
-        //     Expanded(
-        //       flex: 8,
-        //       child: SvgPicture.asset("assets/icons/login.svg"),
-        //     ),
-        //     Spacer(),
-        //   ],
-        // ),
         SizedBox(height: GlobalStyles.defaultPadding * 2),
       ],
     );

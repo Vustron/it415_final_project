@@ -1,5 +1,7 @@
-// utils
+// third party
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+// flutter
 import 'package:flutter/material.dart';
 
 SpinKitThreeBounce loading() {

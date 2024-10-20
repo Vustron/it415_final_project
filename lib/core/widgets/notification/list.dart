@@ -1,6 +1,10 @@
-// utils
-import 'package:flutter/material.dart';
+// third party
 import 'package:intl/intl.dart';
+
+// flutter
+import 'package:flutter/material.dart';
+
+// dart
 import 'dart:developer';
 
 class NotificationList extends StatefulWidget {

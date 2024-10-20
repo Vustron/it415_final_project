@@ -1,6 +1,10 @@
-// utils
-import 'package:babysitterapp/core/constants/styles.dart';
+// third party
 import 'package:flutter_svg/flutter_svg.dart';
+
+// core
+import 'package:babysitterapp/core/constants/styles.dart';
+
+// flutter
 import 'package:flutter/material.dart';
 
 class SignUpScreenTopImage extends StatelessWidget with GlobalStyles {

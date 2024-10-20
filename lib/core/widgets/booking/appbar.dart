@@ -1,5 +1,7 @@
-// utils
+// flutter
 import 'package:flutter/material.dart';
+
+// dart
 import 'dart:ui';
 
 PreferredSize bookingAppBar() {

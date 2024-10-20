@@ -1,4 +1,4 @@
-// utils
+// flutter
 import 'package:flutter/material.dart';
 
 ThemeData rootThemeData() {
@@ -16,10 +16,12 @@ ThemeData rootThemeData() {
       ),
       backgroundColor: Colors.white,
     ),
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.transparent),
     useMaterial3: true,
     fontFamily: 'Nexa-ExtraLight',
     scaffoldBackgroundColor: Colors.white,
+    cardColor: Colors.white,
+    canvasColor: Colors.white,
+    dialogBackgroundColor: Colors.white,
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: Colors.white,
@@ -34,10 +36,10 @@ ThemeData rootThemeData() {
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        foregroundColor: Colors.white,
-        backgroundColor: const Color(0xFF1686AA), // Button text color
+        foregroundColor: const Color(0xFF1686AA),
+        backgroundColor: Colors.white,
         side: const BorderSide(
-          color: Colors.white,
+          color: Color(0xFF1686AA),
         ),
       ),
     ),

@@ -1,4 +1,4 @@
-// utils
+// flutter
 import 'package:flutter/material.dart';
 
 class CustomInputWidget extends StatelessWidget {

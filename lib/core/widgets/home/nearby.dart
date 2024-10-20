@@ -1,4 +1,4 @@
-// utils
+// flutter
 import 'package:flutter/material.dart';
 
 Widget titleBabySitterNearby() => Padding(
@@ -18,7 +18,7 @@ Widget titleBabySitterNearby() => Padding(
             child: const Text(
               'See all',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 15,
                 fontWeight: FontWeight.bold,
               ),
             ),

@@ -1,10 +1,10 @@
-// utils
-import 'package:flutter/material.dart';
+// core
+import 'card_button.dart';
+import 'card_header.dart';
+import 'bio.dart';
 
-// widgets
-import 'package:babysitterapp/core/widgets/home/babysitter_card_button.dart';
-import 'package:babysitterapp/core/widgets/home/babysitter_card_header.dart';
-import 'package:babysitterapp/core/widgets/home/babysitter_bio.dart';
+// flutter
+import 'package:flutter/material.dart';
 
 Widget babySitterCardNearby() => SizedBox(
       width: 360,

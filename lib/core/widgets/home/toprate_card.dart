@@ -1,8 +1,8 @@
-// utils
-import 'package:flutter/material.dart';
+// core
+import 'toprate.dart';
 
-// widgets
-import 'package:babysitterapp/core/widgets/home/toprate_button.dart';
+// flutter
+import 'package:flutter/material.dart';
 
 Widget topRatedBabySitterCard() => SizedBox(
       width: 360,

@@ -3,9 +3,9 @@ import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/material.dart';
 
 // widgets
-import 'package:babysitterapp/core/widgets/auth/signup_topimage.dart';
+import 'package:babysitterapp/core/widgets/auth/register_topimage.dart';
 import 'package:babysitterapp/core/widgets/auth/social_signup.dart';
-import 'package:babysitterapp/core/widgets/auth/signup_form.dart';
+import 'package:babysitterapp/core/widgets/auth/register_form.dart';
 import 'package:babysitterapp/core/widgets/auth/background.dart';
 import 'package:babysitterapp/core/helper/responsive.dart';
 

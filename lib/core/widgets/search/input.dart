@@ -1,9 +1,8 @@
-// utils
-
-import 'package:flutter/material.dart';
-
-// widgets
+// core
 import 'package:babysitterapp/core/widgets/ui/input.dart';
+
+// flutter
+import 'package:flutter/material.dart';
 
 Widget searchButtons(TextEditingController searchTxt) => CustomInputWidget(
     textEditingController: searchTxt,

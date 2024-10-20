@@ -1,8 +1,8 @@
-// utils
-import 'package:flutter/material.dart';
-
-// widgets
+// core
 import 'body.dart';
+
+// flutter
+import 'package:flutter/material.dart';
 
 class SearchList extends StatefulWidget {
   const SearchList({super.key});

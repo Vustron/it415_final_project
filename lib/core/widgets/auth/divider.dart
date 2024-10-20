@@ -1,5 +1,8 @@
-import 'package:babysitterapp/core/constants/styles.dart';
+// flutter
 import 'package:flutter/material.dart';
+
+// core
+import 'package:babysitterapp/core/constants/styles.dart';
 
 class OrDivider extends StatelessWidget with GlobalStyles {
   OrDivider({super.key});

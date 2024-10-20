@@ -1,13 +1,17 @@
-// utils
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:babysitterapp/core/helper/goto_page.dart';
-import 'package:flutter/material.dart';
+// third party
 
-// widgets
-import 'package:babysitterapp/core/widgets/home/toprate_sitter_card.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+
+// core
 import 'package:babysitterapp/core/widgets/home/toprated_babysitter.dart';
-import 'package:babysitterapp/core/widgets/home/babysitter_nearby.dart';
-import 'package:babysitterapp/core/widgets/home/horizontal_scroll.dart';
+import 'package:babysitterapp/core/widgets/home/scroll_horizontal.dart';
+import 'package:babysitterapp/core/widgets/home/toprate_card.dart';
+import 'package:babysitterapp/core/widgets/home/nearby.dart';
+import 'package:babysitterapp/core/helper/goto_page.dart';
+import 'package:babysitterapp/core/constants/assets.dart';
+
+// flutter
+import 'package:flutter/material.dart';
 
 // views
 import 'package:babysitterapp/views/home/notification.dart';
@@ -29,7 +33,7 @@ class _HomeViewState extends State<HomeView> {
         leading: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 5),
           child: CircleAvatar(
-            backgroundImage: AssetImage('assets/images/placeholder_logo.png'),
+            backgroundImage: AssetImage(avatar2),
           ),
         ),
         centerTitle: false,

@@ -1,10 +1,10 @@
-// utils
-import 'package:flutter/material.dart';
-
-// widgets
+// core
 import 'price_dropdown.dart';
 import 'section_title.dart';
 import 'card.dart';
+
+// flutter
+import 'package:flutter/material.dart';
 
 class PriceFilter extends StatefulWidget {
   const PriceFilter({super.key});

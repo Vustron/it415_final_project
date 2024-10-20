@@ -1,5 +1,7 @@
-// utils
+// third party
 import 'package:flutter_animate/flutter_animate.dart';
+
+// flutter
 import 'package:flutter/material.dart';
 
 late Size mq;

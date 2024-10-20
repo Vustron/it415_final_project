@@ -1,8 +1,9 @@
-//  utils
+// third party
 import 'package:animated_text_kit/animated_text_kit.dart';
+
+// flutter
 import 'package:flutter/material.dart';
 
-// TODO(Vustron): Replace the placeholder subtitle.
 AnimatedTextKit subtitle() {
   return AnimatedTextKit(
     animatedTexts: <AnimatedText>[

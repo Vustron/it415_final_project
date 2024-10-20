@@ -1,8 +1,10 @@
-// utils
-import 'package:flutter/material.dart';
+// third party
 import 'package:intl/intl.dart';
 
-// screens
+// flutter
+import 'package:flutter/material.dart';
+
+// views
 import 'package:babysitterapp/core/widgets/message/detail.dart';
 
 class ConversationList extends StatefulWidget {
@@ -79,6 +81,7 @@ class ConversationListState extends State<ConversationList> {
             Text(
               DateFormat('hh:mm a').format(widget.time),
               style: TextStyle(
+                  color: const Color(0xFF1686AA),
                   fontSize: 15,
                   fontWeight: widget.isMessageRead
                       ? FontWeight.bold

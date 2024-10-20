@@ -77,8 +77,8 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
         rightCornerRadius: 10,
         onTap: _onItemTapped,
         iconSize: 30,
-        activeColor: Colors.lightBlue,
-        splashColor: Colors.lightBlue.withOpacity(0.2),
+        activeColor: const Color(0xFF1686AA),
+        splashColor: const Color(0xFF1686AA).withOpacity(0.2),
         splashRadius: 30,
         height: 65,
         shadow: const BoxShadow(

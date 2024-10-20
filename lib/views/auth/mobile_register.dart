@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 // widgets
-import 'package:babysitterapp/core/widgets/auth/signup_topimage.dart';
-import 'package:babysitterapp/core/widgets/auth/signup_form.dart';
+import 'package:babysitterapp/core/widgets/auth/register_topimage.dart';
+import 'package:babysitterapp/core/widgets/auth/register_form.dart';
 
 class MobileRegisterView extends StatelessWidget {
   const MobileRegisterView({

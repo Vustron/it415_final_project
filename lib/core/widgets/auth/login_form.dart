@@ -1,16 +1,15 @@
-// utils
+// core
+import 'package:babysitterapp/core/widgets/auth/account_check.dart';
+import 'package:babysitterapp/core/helper/goto_page.dart';
 import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/core/widgets/message/input.dart';
+
+// flutter
 import 'package:flutter/material.dart';
 
-// actions
-import 'package:babysitterapp/core/helper/goto_page.dart';
-
-// widgets
-import 'package:babysitterapp/core/widgets/auth/account_check.dart';
-
-// screens
-import 'package:babysitterapp/views/auth/register.dart';
+// views
 import 'package:babysitterapp/views/home/bottom_navbar.dart';
+import 'package:babysitterapp/views/auth/register.dart';
 
 class LoginForm extends StatelessWidget with GlobalStyles {
   LoginForm({
@@ -22,33 +21,23 @@ class LoginForm extends StatelessWidget with GlobalStyles {
     return Form(
       child: Column(
         children: <Widget>[
-          TextFormField(
-            keyboardType: TextInputType.emailAddress,
+          CustomTextInput(
+            onChanged: (String value) {},
+            onClear: () {},
+            prefixIcon: const Icon(Icons.mail),
+            hintText: 'Enter your email address',
             textInputAction: TextInputAction.next,
-            cursorColor: GlobalStyles.kPrimaryColor,
-            onSaved: (String? email) {},
-            decoration: const InputDecoration(
-              hintText: 'Your email',
-              prefixIcon: Padding(
-                padding: EdgeInsets.all(GlobalStyles.defaultPadding),
-                child: Icon(Icons.person),
-              ),
-            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
                 vertical: GlobalStyles.defaultPadding),
-            child: TextFormField(
-              textInputAction: TextInputAction.done,
+            child: CustomTextInput(
+              onChanged: (String value) {},
+              onClear: () {},
+              prefixIcon: const Icon(Icons.lock),
+              hintText: 'Enter your password',
               obscureText: true,
-              cursorColor: GlobalStyles.kPrimaryColor,
-              decoration: const InputDecoration(
-                hintText: 'Your password',
-                prefixIcon: Padding(
-                  padding: EdgeInsets.all(GlobalStyles.defaultPadding),
-                  child: Icon(Icons.lock),
-                ),
-              ),
+              cursorColor: GlobalStyles.buttonColor,
             ),
           ),
           const SizedBox(height: GlobalStyles.defaultPadding),

@@ -1,9 +1,9 @@
-// utils
-import 'package:flutter/material.dart';
-
-// widgets
+// core
 import 'package:babysitterapp/core/widgets/auth/social_icon.dart';
 import 'package:babysitterapp/core/widgets/auth/divider.dart';
+
+// flutter
+import 'package:flutter/material.dart';
 
 class SocialSignUp extends StatelessWidget {
   const SocialSignUp({

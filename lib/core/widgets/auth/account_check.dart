@@ -1,5 +1,7 @@
-// utils
+// core
 import 'package:babysitterapp/core/constants/styles.dart';
+
+// flutter
 import 'package:flutter/material.dart';
 
 class AlreadyHaveAnAccountCheck extends StatelessWidget with GlobalStyles {
@@ -19,16 +21,11 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget with GlobalStyles {
       children: <Widget>[
         Text(
           login ? "Don't have an Account ? " : 'Already have an Account ? ',
-          style: const TextStyle(color: Colors.black),
         ),
         GestureDetector(
           onTap: press as void Function()?,
           child: Text(
             login ? 'Sign Up' : 'Sign In',
-            style: const TextStyle(
-              color: GlobalStyles.kPrimaryColor,
-              fontWeight: FontWeight.bold,
-            ),
           ),
         )
       ],

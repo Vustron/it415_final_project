@@ -1,5 +1,7 @@
-// utils
-import 'package:babysitterapp/core/widgets/message/bubble.dart';
+// core
+import 'bubble.dart';
+
+// flutter
 import 'package:flutter/material.dart';
 
 class MessageDetailScreen extends StatefulWidget {

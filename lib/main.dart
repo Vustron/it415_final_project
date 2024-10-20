@@ -1,14 +1,16 @@
-// utils
-import 'package:babysitterapp/core/config/firebase_options.dart';
+// third-party
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+// flutter
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// configs
+// core
+import 'core/config/firebase_options.dart';
 import 'core/config/theme.dart';
 
-// screens
+// views
 import 'views/auth/splash.dart';
 
 void main() async {

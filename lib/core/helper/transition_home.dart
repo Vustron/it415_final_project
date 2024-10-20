@@ -1,11 +1,12 @@
-// utils
+// third party
 import 'package:page_transition/page_transition.dart';
+
+// flutter
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// screens
+// views
 import 'package:babysitterapp/views/auth/login.dart';
-// import 'package:babysitterapp/screens/main/navbar.dart';
 
 Future<void> transitionHome(BuildContext context) async {
   await Future<void>.delayed(

@@ -1,9 +1,9 @@
-// utils
-import 'package:flutter/material.dart';
-
-// widgets
+// core
 import 'request_button.dart';
 import 'user.dart';
+
+// flutter
+import 'package:flutter/material.dart';
 
 Widget showSearched() => Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

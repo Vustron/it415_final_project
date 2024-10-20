@@ -1,43 +1,123 @@
+// core
+import 'package:babysitterapp/core/constants/styles.dart';
+
 // flutter
 import 'package:flutter/material.dart';
 
-class CustomInputWidget extends StatelessWidget {
-  const CustomInputWidget({
-    required this.textEditingController,
-    required this.hintText,
-    required this.txtType,
-    required this.labelTxt,
-    this.isPass = false,
+class CustomTextInput extends StatefulWidget {
+  const CustomTextInput({
     super.key,
+    required this.onChanged,
+    this.onClear,
+    this.controller,
+    this.hintText = 'Enter text...',
+    this.prefixIcon,
+    this.suffixIcon,
+    this.fillColor,
+    this.textColor,
+    this.hintColor,
+    this.borderColor,
+    this.focusedBorderColor,
+    this.cursorColor,
+    this.borderRadius = 20.0,
+    this.contentPadding =
+        const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+    this.textInputAction = TextInputAction.done,
+    this.keyboardType = TextInputType.text,
+    this.obscureText = false,
+    this.maxLines = 1,
+    this.initialValue,
   });
 
-  final TextEditingController textEditingController;
-  final TextInputType txtType;
+  final void Function(String) onChanged;
+  final VoidCallback? onClear;
+  final TextEditingController? controller;
   final String hintText;
-  final String labelTxt;
-  final bool isPass;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final Color? fillColor;
+  final Color? textColor;
+  final Color? hintColor;
+  final Color? borderColor;
+  final Color? focusedBorderColor;
+  final Color? cursorColor;
+  final double borderRadius;
+  final EdgeInsetsGeometry contentPadding;
+  final TextInputAction textInputAction;
+  final TextInputType keyboardType;
+  final bool obscureText;
+  final int maxLines;
+  final String? initialValue;
+
+  @override
+  CustomTextInputState createState() => CustomTextInputState();
+}
+
+class CustomTextInputState extends State<CustomTextInput> {
+  late TextEditingController _controller;
+  bool _showClearButton = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        widget.controller ?? TextEditingController(text: widget.initialValue);
+    _controller.addListener(_updateClearButtonVisibility);
+  }
+
+  void _updateClearButtonVisibility() {
+    setState(() {
+      _showClearButton = _controller.text.isNotEmpty;
+    });
+  }
+
+  @override
+  void dispose() {
+    if (widget.controller == null) {
+      _controller.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final OutlineInputBorder inpBd = OutlineInputBorder(
-      borderSide: Divider.createBorderSide(context),
-    );
     return TextField(
-      onSubmitted: (String value) {
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      obscureText: isPass,
-      controller: textEditingController,
-      keyboardType: txtType,
+      controller: _controller,
+      onChanged: widget.onChanged,
       decoration: InputDecoration(
-        labelText: labelTxt,
-        border: inpBd,
-        focusedBorder: inpBd,
-        enabledBorder: inpBd,
-        hintText: hintText,
+        hintText: widget.hintText,
+        hintStyle: TextStyle(color: widget.hintColor ?? Colors.grey.shade600),
+        prefixIcon: widget.prefixIcon,
+        suffixIcon: _showClearButton && widget.onClear != null
+            ? IconButton(
+                icon: Icon(Icons.clear,
+                    color: widget.hintColor ?? Colors.grey.shade600),
+                onPressed: () {
+                  _controller.clear();
+                  widget.onClear!();
+                },
+              )
+            : widget.suffixIcon,
         filled: true,
-        contentPadding: const EdgeInsets.all(8),
+        fillColor: widget.fillColor ?? Colors.grey.shade100,
+        contentPadding: widget.contentPadding,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+          borderSide:
+              BorderSide(color: widget.borderColor ?? Colors.grey.shade300),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+          borderSide: BorderSide(
+              color: widget.focusedBorderColor ?? GlobalStyles.buttonColor),
+        ),
       ),
+      style: TextStyle(color: widget.textColor ?? Colors.grey.shade800),
+      cursorColor: widget.cursorColor ?? GlobalStyles.buttonColor,
+      textInputAction: widget.textInputAction,
+      keyboardType: widget.keyboardType,
+      obscureText: widget.obscureText,
+      maxLines: widget.maxLines,
     );
   }
 }

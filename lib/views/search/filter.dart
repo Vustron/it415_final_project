@@ -1,8 +1,4 @@
-// utils
-import 'package:babysitterapp/core/constants/styles.dart';
-import 'package:flutter/material.dart';
-
-// widgets
+// core
 import 'package:babysitterapp/core/widgets/filter/additions_section.dart';
 import 'package:babysitterapp/core/widgets/filter/distance_slider.dart';
 import 'package:babysitterapp/core/widgets/filter/sorting_options.dart';
@@ -10,6 +6,10 @@ import 'package:babysitterapp/core/widgets/filter/price_filter.dart';
 import 'package:babysitterapp/core/widgets/filter/filter_theme.dart';
 import 'package:babysitterapp/core/widgets/filter/find_button.dart';
 import 'package:babysitterapp/core/widgets/filter/online.dart';
+import 'package:babysitterapp/core/constants/styles.dart';
+
+// flutter
+import 'package:flutter/material.dart';
 
 class FilterView extends StatefulWidget {
   const FilterView({super.key});
@@ -66,9 +66,9 @@ class _FilterViewState extends State<FilterView>
           centerTitle: true,
           actions: <Widget>[
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.refresh,
-                color: GlobalStyles.filterColorScheme.primary,
+                color: GlobalStyles.buttonColor,
               ),
               onPressed: () {},
             ),

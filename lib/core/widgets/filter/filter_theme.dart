@@ -1,18 +1,14 @@
 // flutter
+import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/material.dart';
 
 ThemeData filterTheme(ColorScheme filterColorScheme) {
   return ThemeData(
     colorScheme: filterColorScheme,
-    appBarTheme: AppBarTheme(
-      backgroundColor: filterColorScheme.surface,
-      foregroundColor: filterColorScheme.onSurface,
-      elevation: 0,
-    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: filterColorScheme.primary,
-        foregroundColor: filterColorScheme.onPrimary,
+        backgroundColor: GlobalStyles.buttonColor,
+        foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),

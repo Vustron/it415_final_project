@@ -1,11 +1,12 @@
-// utils
+// core
+import 'package:babysitterapp/core/widgets/notification/list.dart';
+import 'package:babysitterapp/core/widgets/ui/input.dart';
+
+// flutter
 import 'package:flutter/material.dart';
 
 // models
 import 'package:babysitterapp/models/notification.dart';
-
-// widgets
-import 'package:babysitterapp/core/widgets/notification/list.dart';
 
 class NotificationView extends StatefulWidget {
   const NotificationView({super.key});
@@ -61,23 +62,12 @@ class _NotificationViewState extends State<NotificationView> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search...',
-                  hintStyle: TextStyle(color: Colors.grey.shade600),
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: Colors.grey.shade600,
-                    size: 20,
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey.shade100,
-                  contentPadding: const EdgeInsets.all(8),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: Colors.grey.shade100),
-                  ),
-                ),
+              child: CustomTextInput(
+                onChanged: (String value) {},
+                onClear: () {},
+                prefixIcon: const Icon(Icons.search),
+                hintText: 'Search...',
+                textInputAction: TextInputAction.next,
               ),
             ),
             const SizedBox(height: 10),

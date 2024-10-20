@@ -19,7 +19,7 @@ Widget additionsSection() {
             TextButton(
               child: Text(
                 'See all',
-                style: TextStyle(color: GlobalStyles.filterColorScheme.primary),
+                style: TextStyle(color: GlobalStyles.buttonColor),
               ),
               onPressed: () {},
             ),

@@ -2,7 +2,7 @@
 import 'package:babysitterapp/core/widgets/auth/account_check.dart';
 import 'package:babysitterapp/core/helper/goto_page.dart';
 import 'package:babysitterapp/core/constants/styles.dart';
-import 'package:babysitterapp/core/widgets/message/input.dart';
+import 'package:babysitterapp/core/widgets/ui/input.dart';
 
 // flutter
 import 'package:flutter/material.dart';

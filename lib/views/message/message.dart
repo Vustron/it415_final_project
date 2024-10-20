@@ -1,5 +1,5 @@
 // utils
-import 'package:babysitterapp/core/widgets/message/input.dart';
+import 'package:babysitterapp/core/widgets/ui/input.dart';
 import 'package:flutter/material.dart';
 
 // models

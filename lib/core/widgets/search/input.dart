@@ -4,8 +4,11 @@ import 'package:babysitterapp/core/widgets/ui/input.dart';
 // flutter
 import 'package:flutter/material.dart';
 
-Widget searchButtons(TextEditingController searchTxt) => CustomInputWidget(
-    textEditingController: searchTxt,
-    hintText: '',
-    txtType: TextInputType.text,
-    labelTxt: 'Search');
+Widget searchButtons(TextEditingController searchTxt) => CustomTextInput(
+      controller: searchTxt,
+      onChanged: (String value) {},
+      onClear: () {},
+      prefixIcon: const Icon(Icons.search),
+      hintText: 'Search...',
+      textInputAction: TextInputAction.next,
+    );

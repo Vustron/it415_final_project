@@ -26,6 +26,7 @@ Widget priceDropdown({
       filled: true,
       fillColor: GlobalStyles.filterColorScheme.surface,
     ),
-    icon: const Icon(Icons.arrow_drop_down, color: GlobalStyles.buttonColor),
+    icon: const Icon(Icons.arrow_drop_down,
+        color: GlobalStyles.primaryButtonColor),
   );
 }

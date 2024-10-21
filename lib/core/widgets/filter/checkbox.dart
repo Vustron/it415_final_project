@@ -44,7 +44,7 @@ class AdditionCheckboxState extends State<AdditionCheckbox> {
               }
             });
           },
-          activeColor: GlobalStyles.buttonColor,
+          activeColor: GlobalStyles.primaryButtonColor,
         );
       }).toList(),
     );

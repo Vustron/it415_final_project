@@ -40,7 +40,7 @@ class ChoiceSlipState extends State<ChoiceSlip> {
       onSelected: (bool selected) {
         setState(() => sortBy = selected ? widget.label : null);
       },
-      selectedColor: GlobalStyles.buttonColor,
+      selectedColor: GlobalStyles.primaryButtonColor,
       backgroundColor: GlobalStyles.filterColorScheme.surface,
     );
   }

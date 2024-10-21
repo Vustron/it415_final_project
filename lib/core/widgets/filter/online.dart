@@ -28,7 +28,7 @@ class OnlineNowSwitchState extends State<OnlineNowSwitch> {
             onChanged: (bool value) {
               setState(() => onlineNow = value);
             },
-            activeColor: GlobalStyles.buttonColor,
+            activeColor: GlobalStyles.primaryButtonColor,
           ),
         ],
       ),

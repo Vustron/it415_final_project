@@ -37,7 +37,7 @@ class LoginForm extends StatelessWidget with GlobalStyles {
               prefixIcon: const Icon(Icons.lock),
               hintText: 'Enter your password',
               obscureText: true,
-              cursorColor: GlobalStyles.buttonColor,
+              cursorColor: GlobalStyles.primaryButtonColor,
             ),
           ),
           const SizedBox(height: GlobalStyles.defaultPadding),

@@ -7,7 +7,7 @@ ThemeData filterTheme(ColorScheme filterColorScheme) {
     colorScheme: filterColorScheme,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: GlobalStyles.buttonColor,
+        backgroundColor: GlobalStyles.primaryButtonColor,
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),

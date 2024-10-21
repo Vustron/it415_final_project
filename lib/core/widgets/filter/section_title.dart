@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 Widget sectionTitle(String title, IconData icon) {
   return Row(
     children: <Widget>[
-      Icon(icon, color: GlobalStyles.buttonColor, size: 24),
+      Icon(icon, color: GlobalStyles.primaryButtonColor, size: 24),
       const SizedBox(width: 8),
       Text(
         title,

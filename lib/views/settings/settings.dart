@@ -5,12 +5,11 @@ import 'package:babysitterapp/core/widgets/settings/option_tile.dart';
 
 import 'package:babysitterapp/core/constants/assets.dart';
 
-
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
 
   @override
-  State<SettingsView> createState () => _SettingsViewState();
+  State<SettingsView> createState() => _SettingsViewState();
 }
 
 class _SettingsViewState extends State<SettingsView> {
@@ -23,25 +22,15 @@ class _SettingsViewState extends State<SettingsView> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        backgroundColor:Colors.blue[100],
-        elevation: 0,
-        centerTitle: true,
         title: const Text(
           'Settings',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
         ),
       ),
-
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-
             children: <Widget>[
               const Center(
                 child: Column(
@@ -50,28 +39,22 @@ class _SettingsViewState extends State<SettingsView> {
                       backgroundImage: AssetImage(avatar2),
                       radius: 80,
                     ),
-
                     SizedBox(height: 10),
-
                     Text(
-                      'Arvin Sison', 
+                      'Arvin Sison',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-
                     Text(
-                      'arvinsison@gmail.com', 
+                      'arvinsison@gmail.com',
                       style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey
-                      ),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey),
                     ),
-
                     SizedBox(height: 10),
-
                   ],
                 ),
               ),
@@ -105,7 +88,8 @@ class _SettingsViewState extends State<SettingsView> {
                 text: 'Notifications',
                 onTap: () {
                   setState(() {
-                    isNotificationsExpanded = !isNotificationsExpanded; // Toggle expansion
+                    isNotificationsExpanded =
+                        !isNotificationsExpanded; // Toggle expansion
                   });
                 },
                 showDropdownIcon: true, // Show dropdown icon
@@ -155,36 +139,28 @@ class _SettingsViewState extends State<SettingsView> {
                   // );
                 },
               ),
-        
+
               const SizedBox(height: 20, width: 20),
-        
+
               Center(
                 child: SizedBox(
                   width: double.infinity,
                   child: TextButton.icon(
                     onPressed: () {},
-                  
                     icon: const Icon(Icons.logout, color: Colors.white),
-                  
                     label: const Text(
                       'Log out',
                       style: TextStyle(color: Colors.white),
                     ),
-                  
                     style: TextButton.styleFrom(
-                      backgroundColor: Colors.blue.shade300,
-                      padding: const EdgeInsets.all(10),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)
-                      )
-                      
-                    ),
-                    
+                        backgroundColor: Colors.blue.shade300,
+                        padding: const EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
                   ),
                 ),
-                
               ),
-        
+              const SizedBox(height: 50),
             ],
           ),
         ),
@@ -192,5 +168,3 @@ class _SettingsViewState extends State<SettingsView> {
     );
   }
 }
-
-

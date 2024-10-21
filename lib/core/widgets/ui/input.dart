@@ -109,11 +109,12 @@ class CustomTextInputState extends State<CustomTextInput> {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius),
           borderSide: BorderSide(
-              color: widget.focusedBorderColor ?? GlobalStyles.buttonColor),
+              color:
+                  widget.focusedBorderColor ?? GlobalStyles.primaryButtonColor),
         ),
       ),
       style: TextStyle(color: widget.textColor ?? Colors.grey.shade800),
-      cursorColor: widget.cursorColor ?? GlobalStyles.buttonColor,
+      cursorColor: widget.cursorColor ?? GlobalStyles.primaryButtonColor,
       textInputAction: widget.textInputAction,
       keyboardType: widget.keyboardType,
       obscureText: widget.obscureText,

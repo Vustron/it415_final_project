@@ -68,7 +68,7 @@ class _FilterViewState extends State<FilterView>
             IconButton(
               icon: const Icon(
                 Icons.refresh,
-                color: GlobalStyles.buttonColor,
+                color: GlobalStyles.primaryButtonColor,
               ),
               onPressed: () {},
             ),

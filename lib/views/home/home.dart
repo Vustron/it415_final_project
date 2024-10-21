@@ -1,5 +1,6 @@
 // third party
 
+import 'package:babysitterapp/views/settings/settings.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 // core
@@ -53,7 +54,20 @@ class _HomeViewState extends State<HomeView> {
               color: Colors.black,
               size: 31,
             ),
+          ),
+
+          IconButton(
+            onPressed: () {
+              goToPage(
+                  context, const SettingsView(), 'rightToLeftWithFade');
+            },
+            icon: const Icon(
+              FluentIcons.settings_16_filled,
+              color: Colors.black,
+              size: 31,
+            ),
           )
+
         ],
       ),
       backgroundColor: Colors.white,

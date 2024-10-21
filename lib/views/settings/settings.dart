@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/core/widgets/settings/option_card.dart';
 import 'package:babysitterapp/core/widgets/settings/option_tile.dart';
+import 'package:babysitterapp/core/widgets/settings/personal_info.dart';
 
 import 'package:babysitterapp/core/constants/assets.dart';
 
@@ -63,26 +64,18 @@ class _SettingsViewState extends State<SettingsView> {
               const SizedBox(height: 8),
               SettingsOptionCard(
                 icon: Icons.person,
-                text: 'Account',
+                text: 'Personal Info',
                 onTap: () {
-                  setState(() {
-                    isAccountExpanded = !isAccountExpanded; // Toggle expansion
-                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<PersonalInfoPage>(
+                      builder: (BuildContext context) => const PersonalInfoPage()
+                    ),
+                  );
+                  
                 },
-                showDropdownIcon: true, // Show dropdown icon
-                isExpanded: isAccountExpanded, // Pass the expanded state
               ),
-              // if (isAccountExpanded) ...[
-              //   ListTile(
-              //     title: const Text('Profile'),
-              //     onTap: () {
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(builder: (context) => AccountPage()),
-              //       );
-              //     },
-              //   ),
-              // ],
+              
               SettingsOptionCard(
                 icon: Icons.notifications,
                 text: 'Notifications',

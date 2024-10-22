@@ -11,8 +11,6 @@ const TextStyle _optionTextStyle = TextStyle(
   color: Colors.grey,
 );
 
-// Define padding for common use
-const EdgeInsets _sectionPadding = EdgeInsets.symmetric(vertical: 8);
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});

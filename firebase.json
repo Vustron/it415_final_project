@@ -1,0 +1,25 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "bsit4c-it415-babysitter-app",
+          "appId": "1:488014187283:android:dd1012e90b817a035268e6",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "bsit4c-it415-babysitter-app",
+          "configurations": {
+            "android": "1:488014187283:android:dd1012e90b817a035268e6",
+            "ios": "1:488014187283:ios:f104a07f1ecf89135268e6",
+            "macos": "1:488014187283:ios:f104a07f1ecf89135268e6",
+            "web": "1:488014187283:web:cf470b26ee23d7565268e6",
+            "windows": "1:488014187283:web:db6df0c485a805165268e6"
+          }
+        }
+      }
+    }
+  }
+}

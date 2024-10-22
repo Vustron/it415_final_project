@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "488014187283",
+    "project_id": "bsit4c-it415-babysitter-app",
+    "storage_bucket": "bsit4c-it415-babysitter-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488014187283:android:dd1012e90b817a035268e6",
+        "android_client_info": {
+          "package_name": "com.it415bsit4c.babysitterapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDA9sapCZXC3InxK0HH2JBR3uOjAIqYjEA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

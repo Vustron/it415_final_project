@@ -1,6 +1,12 @@
-import 'feedback_page.dart';
-import 'help_support_page.dart';
+import 'package:babysitterapp/core/widgets/settings/logout_button.dart';
+import 'package:babysitterapp/views/settings/transaction_history.dart';
 import 'package:flutter/material.dart';
+
+import 'package:babysitterapp/views/settings/personal_info_page.dart';
+
+import 'package:babysitterapp/views/settings/feedback_page.dart';
+import 'package:babysitterapp/views/settings/help_support_page.dart';
+
 import 'package:babysitterapp/core/widgets/settings/option_card.dart';
 import 'package:babysitterapp/core/widgets/settings/option_tile.dart' as core;
 
@@ -34,18 +40,19 @@ class _SettingsViewState extends State<SettingsView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _buildUserProfile(),
               const core.SectionTitle(title: 'GENERAL'), // Use core prefix
               const SizedBox(height: 8),
               _buildOptionCard(
                 icon: Icons.person,
-                text: 'Account',
+                text: 'Personal Information',
                 onTap: () {
-                  setState(() {
-                    isAccountExpanded = !isAccountExpanded;
-                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => const PersonalInfoPage(),
+                    ),
+                  );
                 },
-                isExpanded: isAccountExpanded,
               ),
               _buildOptionCard(
                 icon: Icons.help_outline,
@@ -61,13 +68,18 @@ class _SettingsViewState extends State<SettingsView> {
                 },
               ),
               const SizedBox(height: 24),
-              const core.SectionTitle(title: 'ACTIONS'), // Use core prefix
+              const core.SectionTitle(title: 'ACTIONS'),
               const SizedBox(height: 8),
               _buildOptionCard(
                 icon: Icons.list_alt,
-                text: 'Transaction List',
+                text: 'Transaction History',
                 onTap: () {
-                  // Transaction page navigation
+                  Navigator.push<dynamic>(
+                    context, 
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => TransactionHistoryPage(),
+                    ),
+                  );
                 },
               ),
               _buildOptionCard(
@@ -83,7 +95,7 @@ class _SettingsViewState extends State<SettingsView> {
                 },
               ),
               const SizedBox(height: 20),
-              _buildLogoutButton(),
+              LogoutButton(),
               const SizedBox(height: 50),
             ],
           ),
@@ -93,35 +105,7 @@ class _SettingsViewState extends State<SettingsView> {
   }
 
   // User profile widget
-  Widget _buildUserProfile() {
-    return const Center(
-      child: Column(
-        children: <Widget>[
-          CircleAvatar(
-            backgroundImage: AssetImage('assets/images/sid.png'),
-            radius: 80,
-          ),
-          SizedBox(height: 10),
-          Text(
-            'Arvin Sison',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            'arvinsison@gmail.com',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey,
-            ),
-          ),
-          SizedBox(height: 10),
-        ],
-      ),
-    );
-  }
+  
 
   // Reusable option card widget
   Widget _buildOptionCard({
@@ -140,24 +124,5 @@ class _SettingsViewState extends State<SettingsView> {
     );
   }
 
-  // Logout button widget
-  Widget _buildLogoutButton() {
-    return Center(
-      child: SizedBox(
-        width: double.infinity,
-        child: TextButton.icon(
-          onPressed: () {},
-          icon: const Icon(Icons.logout, color: Colors.white),
-          label: const Text('Log out', style: TextStyle(color: Colors.white)),
-          style: TextButton.styleFrom(
-            backgroundColor: Colors.blue.shade300,
-            padding: const EdgeInsets.all(10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  
 }

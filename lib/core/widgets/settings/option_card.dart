@@ -8,7 +8,7 @@ class SettingsOptionCard extends StatelessWidget {
     required this.text,
     required this.onTap,
     this.showDropdownIcon = false, 
-    this.isExpanded = false, 
+    this.isExpanded = false, required TextStyle style, 
   });
 
   final IconData icon;

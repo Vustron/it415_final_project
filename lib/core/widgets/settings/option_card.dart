@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
 class SettingsOptionCard extends StatelessWidget {
-
   const SettingsOptionCard({
     super.key,
     required this.icon,
     required this.text,
     required this.onTap,
-    this.showDropdownIcon = false, 
-    this.isExpanded = false, required TextStyle style, 
+    this.showDropdownIcon = false,
+    this.isExpanded = false,
+    required TextStyle style,
   });
 
   final IconData icon;
   final String text;
   final VoidCallback onTap;
-  final bool showDropdownIcon; // New property to show dropdown icon
-  final bool isExpanded; 
+  final bool showDropdownIcon;
+  final bool isExpanded;
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +34,16 @@ class SettingsOptionCard extends StatelessWidget {
         ],
       ),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         leading: Icon(icon, color: Colors.black),
         title: Text(
           text,
           style: const TextStyle(fontSize: 16),
         ),
         trailing: showDropdownIcon
-            ? Icon(isExpanded ? Icons.arrow_drop_down : Icons.arrow_right, size: 20) // Show dropdown icon based on state
+            ? Icon(isExpanded ? Icons.arrow_drop_down : Icons.arrow_right,
+                size: 20) // Show dropdown icon based on state
             : const Icon(Icons.arrow_forward_ios, size: 16),
         onTap: onTap,
       ),

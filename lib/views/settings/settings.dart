@@ -11,7 +11,6 @@ const TextStyle _optionTextStyle = TextStyle(
   color: Colors.grey,
 );
 
-
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
 

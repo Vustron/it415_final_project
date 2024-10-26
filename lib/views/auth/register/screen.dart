@@ -1,19 +1,16 @@
-// utils
-import 'package:babysitterapp/core/constants/styles.dart';
-import 'package:flutter/material.dart';
-
-// widgets
-import 'package:babysitterapp/core/widgets/auth/register_topimage.dart';
-import 'package:babysitterapp/core/widgets/auth/social_signup.dart';
-import 'package:babysitterapp/core/widgets/auth/register_form.dart';
-import 'package:babysitterapp/core/widgets/auth/background.dart';
+// core
 import 'package:babysitterapp/core/helper/responsive.dart';
+import 'package:babysitterapp/core/constants/styles.dart';
 
 // views
-import 'package:babysitterapp/views/auth/mobile_register.dart';
+import 'package:babysitterapp/views/auth/register/views.dart';
+import 'package:babysitterapp/views/auth/login/views.dart';
 
-class RegisterView extends StatelessWidget with GlobalStyles {
-  RegisterView({super.key});
+// flutter
+import 'package:flutter/material.dart';
+
+class RegisterScreen extends StatelessWidget with GlobalStyles {
+  RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

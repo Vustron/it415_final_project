@@ -1,23 +1,20 @@
 // utils
 import 'package:flutter/material.dart';
 
-// widgets
-import 'package:babysitterapp/core/widgets/splash/subtitle.dart';
-import 'package:babysitterapp/core/widgets/splash/loading.dart';
-import 'package:babysitterapp/core/widgets/splash/title.dart';
-import 'package:babysitterapp/core/widgets/splash/logo.dart';
-
 // methods
 import 'package:babysitterapp/core/helper/transition_home.dart';
 
-class SplashView extends StatefulWidget {
-  const SplashView({super.key});
+// views
+import 'views.dart';
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  State<SplashView> createState() => _SplashViewState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashViewState extends State<SplashView> {
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();

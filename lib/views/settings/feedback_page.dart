@@ -1,17 +1,15 @@
-// ignore_for_file: library_private_types_in_public_api, always_specify_types
-
 import 'package:flutter/material.dart';
 
 class FeedbackPage extends StatefulWidget {
   const FeedbackPage({super.key});
 
   @override
-  _FeedbackPageState createState() => _FeedbackPageState();
+  FeedbackPageState createState() => FeedbackPageState();
 }
 
-class _FeedbackPageState extends State<FeedbackPage> {
-  double _rating = 0; // Store the selected rating
-  final double _starSize = 30.0; // Adjustable size for stars
+class FeedbackPageState extends State<FeedbackPage> {
+  double _rating = 0;
+  final double _starSize = 30.0;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +47,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
             const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(5, (int index) {
+              children: List<Widget>.generate(5, (int index) {
                 return IconButton(
                   icon: Icon(
                     index < _rating ? Icons.star : Icons.star_border,
@@ -64,18 +62,14 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 );
               }),
             ),
-            // Using Expanded to stretch the button across the width
+
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Handle feedback submission
-                      // You can access _rating to get the rating value
-                      // and implement your submission logic here
-                    },
+                    onPressed: () {},
                     child: const Text(
                       'Submit',
                       style: TextStyle(fontSize: 15),

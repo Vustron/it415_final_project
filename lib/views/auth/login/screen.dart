@@ -2,16 +2,13 @@
 import 'package:flutter/material.dart';
 
 // widgets
-import 'package:babysitterapp/core/widgets/auth/login_topimage.dart';
-import 'package:babysitterapp/core/widgets/auth/login_form.dart';
-import 'package:babysitterapp/core/widgets/auth/background.dart';
 import 'package:babysitterapp/core/helper/responsive.dart';
 
 // views
-import 'package:babysitterapp/views/auth/mobile_login.dart';
+import 'package:babysitterapp/views/auth/login/views.dart';
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,24 +1,27 @@
 // core
 import 'package:babysitterapp/core/widgets/booking/appbar.dart';
-import 'package:babysitterapp/core/constants/assets.dart';
-import 'package:babysitterapp/core/constants/styles.dart';
 
-// third party
-import 'package:intl/intl.dart';
+// widgets
+import 'widgets/children_selector.dart';
+import 'widgets/continue_btn.dart';
+import 'widgets/section_title.dart';
+import 'widgets/stayin_toggle.dart';
+import 'widgets/time_pickers.dart';
+import 'widgets/date_picker.dart';
+import 'widgets/address.dart';
+import 'widgets/details.dart';
 
 // flutter
 import 'package:flutter/material.dart';
 
-import 'views.dart';
-
-class BookingScreen extends StatefulWidget {
-  const BookingScreen({super.key});
+class BookingView extends StatefulWidget {
+  const BookingView({super.key});
 
   @override
-  State<BookingScreen> createState() => _BookingScreenState();
+  State<BookingView> createState() => _BookingViewState();
 }
 
-class _BookingScreenState extends State<BookingScreen> {
+class _BookingViewState extends State<BookingView> {
   int? numberOfChildren;
   DateTime? selectedDate;
   TimeOfDay? startTime;
@@ -97,40 +100,6 @@ class _BookingScreenState extends State<BookingScreen> {
     }
   }
 
-  bool isFormValid() {
-    return numberOfChildren != null &&
-        selectedDate != null &&
-        startTime != null &&
-        endTime != null &&
-        selectedAddress.isNotEmpty;
-  }
-
-  void onContinuePressed() {
-    if (isFormValid()) {
-      final String bookingDetails = 'Booking details: '
-          '\nChildren: $numberOfChildren'
-          '\nDate: ${DateFormat('yyyy-MM-dd').format(selectedDate!)}'
-          '\nTime: ${startTime?.format(context)} - ${endTime?.format(context)}'
-          '\nStay in: $stayIn'
-          '\nAddress: $selectedAddress'
-          '\nDetails: $details';
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(bookingDetails),
-          backgroundColor: Colors.green,
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please fill in all required fields'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,26 +144,15 @@ class _BookingScreenState extends State<BookingScreen> {
                 });
               }),
               const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: onContinuePressed,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: GlobalStyles.primaryButtonColor,
-                    foregroundColor: GlobalStyles.secondaryButtonColor,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  icon: const Icon(Icons.check),
-                  label: const Text(
-                    'Continue Booking',
-                    style: TextStyle(
-                      fontFamily: nexaExtraLight,
-                    ),
-                  ),
-                ),
+              buildContinueButton(
+                context: context,
+                numberOfChildren: numberOfChildren,
+                selectedDate: selectedDate,
+                startTime: startTime,
+                endTime: endTime,
+                stayIn: stayIn,
+                selectedAddress: selectedAddress,
+                details: details,
               ),
               const SizedBox(height: 100),
             ],

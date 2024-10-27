@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // views
 import 'package:babysitterapp/views/profile/edit_profile.dart';
-import 'package:babysitterapp/views/booking/screen.dart';
+import 'package:babysitterapp/views/booking/view.dart';
 import 'package:babysitterapp/views/message/message.dart';
 import 'package:babysitterapp/views/home/home.dart';
 
@@ -11,6 +11,6 @@ import 'package:babysitterapp/views/home/home.dart';
 List<Widget> screens = const <Widget>[
   HomeView(),
   MessageView(),
-  BookingScreen(),
+  BookingView(),
   EditProfile(),
 ];

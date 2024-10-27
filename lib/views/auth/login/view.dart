@@ -5,10 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:babysitterapp/core/helper/responsive.dart';
 
 // views
-import 'package:babysitterapp/views/auth/login/views.dart';
+import 'widgets/mobile_login.dart';
+import 'widgets/login_form.dart';
+import 'widgets/background.dart';
+import 'widgets/top_image.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class LoginView extends StatelessWidget {
+  const LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {

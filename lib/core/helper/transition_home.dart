@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // views
-import 'package:babysitterapp/views/auth/login/screen.dart';
+import 'package:babysitterapp/views/auth/login/view.dart';
 
 Future<void> transitionHome(BuildContext context) async {
   await Future<void>.delayed(
@@ -31,7 +31,7 @@ Future<void> transitionHome(BuildContext context) async {
       PageTransition<void>(
         type: PageTransitionType.size,
         alignment: Alignment.bottomCenter,
-        child: const LoginScreen(),
+        child: const LoginView(),
       ),
     );
   }

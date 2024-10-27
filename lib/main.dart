@@ -12,7 +12,7 @@ import 'core/config/firebase_options.dart';
 import 'core/config/theme.dart';
 
 // views
-import 'views/splash/screen.dart';
+import 'views/splash/view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,7 +47,7 @@ class App extends StatelessWidget {
         title: 'BabyCare',
         themeMode: ThemeMode.light,
         theme: rootThemeData(),
-        home: const SplashScreen(),
+        home: const SplashView(),
       ),
     );
   }

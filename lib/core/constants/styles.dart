@@ -14,6 +14,12 @@ mixin GlobalStyles {
     fontFamily: 'Nexa-ExtraLight',
   );
 
+  final TextStyle optionTextStyle = const TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.bold,
+    color: Colors.grey,
+  );
+
   /*-------------- Color Styles --------------*/
   static const Color primaryButtonColor = Color(0xFF1686AA);
   static const Color secondaryButtonColor = Colors.white;

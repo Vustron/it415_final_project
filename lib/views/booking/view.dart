@@ -1,5 +1,5 @@
 // core
-import 'package:babysitterapp/core/widgets/booking/appbar.dart';
+import 'package:babysitterapp/views/booking/widgets/appbar.dart';
 
 // widgets
 import 'widgets/children_selector.dart';

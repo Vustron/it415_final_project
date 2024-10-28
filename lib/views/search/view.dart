@@ -1,19 +1,19 @@
-// utils
-import 'package:babysitterapp/views/search/widgets/filter.dart';
-import 'package:babysitterapp/views/search/widgets/input.dart';
+// flutter
 import 'package:flutter/material.dart';
 
 // widgets
 import 'widgets/search_list.dart';
+import 'widgets/filter.dart';
+import 'widgets/input.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+class SearchView extends StatefulWidget {
+  const SearchView({super.key});
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<SearchView> createState() => _SearchViewState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SearchViewState extends State<SearchView> {
   TextEditingController searchTxt = TextEditingController();
 
   @override

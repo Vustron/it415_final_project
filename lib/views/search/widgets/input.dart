@@ -1,5 +1,5 @@
 // core
-import 'package:babysitterapp/core/components/ui/input.dart';
+import 'package:babysitterapp/core/components/input.dart';
 
 // flutter
 import 'package:flutter/material.dart';

@@ -57,7 +57,7 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          goToPage(context, const SearchScreen(), 'rightToLeftWithFade');
+          goToPage(context, const SearchView(), 'rightToLeftWithFade');
         },
         shape: const CircleBorder(),
         backgroundColor: Colors.white,

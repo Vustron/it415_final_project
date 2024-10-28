@@ -1,7 +1,7 @@
 // core
 import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:babysitterapp/core/helper/goto_page.dart';
-import 'package:babysitterapp/core/components/ui/input.dart';
+import 'package:babysitterapp/core/components/input.dart';
 
 // flutter
 import 'package:flutter/material.dart';

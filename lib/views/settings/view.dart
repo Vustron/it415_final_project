@@ -10,7 +10,6 @@ import 'widgets/logout_button.dart';
 import 'widgets/profile_info.dart';
 import 'widgets/help_support.dart';
 import 'widgets/option_card.dart';
-import 'widgets/feedback.dart';
 import 'widgets/history.dart';
 
 class SettingsView extends StatefulWidget {
@@ -73,18 +72,6 @@ class _SettingsViewState extends State<SettingsView> with GlobalStyles {
                     context,
                     MaterialPageRoute<dynamic>(
                       builder: (BuildContext context) => TransactionHistory(),
-                    ),
-                  );
-                },
-              ),
-              _buildOptionCard(
-                icon: Icons.feedback_outlined,
-                text: 'Feedback & Ratings',
-                onTap: () {
-                  Navigator.push<dynamic>(
-                    context,
-                    MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) => const FeedbackPage(),
                     ),
                   );
                 },

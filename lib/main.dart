@@ -1,15 +1,18 @@
-// utils
-import 'package:babysitterapp/configs/firebase_options.dart';
+// third-party
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+// flutter
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// configs
-import 'configs/root_theme.dart';
+// core
+import 'core/config/firebase_options.dart';
+import 'core/config/theme.dart';
 
-// screens
-import 'screens/main/splash.dart';
+// views
+import 'views/splash/view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,12 +41,14 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'BabyCare',
-      themeMode: ThemeMode.light,
-      theme: rootThemeData(),
-      home: const SplashScreen(),
+    return ProviderScope(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'BabyCare',
+        themeMode: ThemeMode.light,
+        theme: rootThemeData(),
+        home: const SplashView(),
+      ),
     );
   }
 }

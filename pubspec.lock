@@ -386,14 +386,10 @@ packages:
     dependency: "direct main"
     description:
       name: fluentui_system_icons
-<<<<<<< HEAD
       sha256: "0ff2d03ca3b388c41750abbe6214dbf455b57c215c489155c97989b0a9d3f78d"
-=======
-      sha256: a0f9693f8d1cf99f6556ae8df4108c2ee1d0c23d90959305bb4474f79b29aa96
->>>>>>> aeed4ee6c392a3aa578f2ee5f8097892117c3ea6
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.262"
+    version: "1.1.260"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -805,14 +801,10 @@ packages:
     dependency: transitive
     description:
       name: path_parsing
-<<<<<<< HEAD
       sha256: e3e67b1629e6f7e8100b367d3db6ba6af4b1f0bb80f64db18ef1fbabd2fa9ccf
-=======
-      sha256: "45f7d6bba1128761de5540f39d5ca000ea8a1f22f06b76b61094a60a2997bd0e"
->>>>>>> aeed4ee6c392a3aa578f2ee5f8097892117c3ea6
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.1"
   path_provider:
     dependency: transitive
     description:

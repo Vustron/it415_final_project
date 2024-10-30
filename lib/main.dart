@@ -12,7 +12,7 @@ import 'core/config/firebase_options.dart';
 import 'core/config/theme.dart';
 
 // views
-import 'views/auth/splash.dart';
+import 'views/splash/view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

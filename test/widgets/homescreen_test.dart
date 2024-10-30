@@ -1,5 +1,5 @@
 // utils
-import 'package:babysitterapp/views/home/home.dart';
+import 'package:babysitterapp/views/home/view.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/material.dart';

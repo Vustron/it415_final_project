@@ -83,10 +83,20 @@ Widget _buildInputField(
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(5),
+      boxShadow: <BoxShadow>[
+        BoxShadow(
+          color: Colors.black.withOpacity(0.1),
+          blurRadius: 0.8,
+          offset: const Offset(0, 4)
+        )
+      ]
     ),
     child: Row(
       children: <Widget>[
-        Icon(icon, color: Colors.black),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(icon, color: Colors.black),
+        ),
         Expanded(
           child: TextFormField(
             obscureText: isPassword,
@@ -104,6 +114,7 @@ Widget _buildInputField(
               focusedBorder: InputBorder.none,
               enabledBorder: InputBorder.none,
             ),
+            
           ),
         ),
       ],

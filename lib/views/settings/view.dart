@@ -10,7 +10,8 @@ import 'widgets/logout_button.dart';
 import 'widgets/profile_info.dart';
 import 'widgets/help_support.dart';
 import 'widgets/option_card.dart';
-import 'widgets/history.dart';
+import 'widgets/transaction_history.dart';
+
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -71,7 +72,7 @@ class _SettingsViewState extends State<SettingsView> with GlobalStyles {
                   Navigator.push<dynamic>(
                     context,
                     MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) => TransactionHistory(),
+                      builder: (BuildContext context) => const TransactionHistory(),
                     ),
                   );
                 },

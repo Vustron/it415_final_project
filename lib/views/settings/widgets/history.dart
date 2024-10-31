@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TransactionHistory extends StatelessWidget {
-  TransactionHistory({super.key});
+class History extends StatelessWidget {
+  History({super.key});
 
   final List<Map<String, String>> transactions = <Map<String, String>>[
     <String, String>{'date': 'As of Oct 18, 2024', 'amount': '+10,000'},

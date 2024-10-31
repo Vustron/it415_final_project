@@ -1,4 +1,5 @@
 import 'package:babysitterapp/core/constants/assets.dart';
+import 'package:babysitterapp/views/settings/widgets/stats.dart';
 import 'package:flutter/material.dart';
 
 class UserProfile extends StatelessWidget {
@@ -9,34 +10,37 @@ class UserProfile extends StatelessWidget {
     return Center(
       child: Column(
         children: <Widget>[
-          const CircleAvatar(
-            backgroundImage: AssetImage(avatar2),
-            radius: 70,
-          ),
-
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: GestureDetector(
-              onTap: (){},
-              child: Container(
-                padding: const EdgeInsets.all(8.0),
-
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                ),
-                
-                child: const Icon(
-                  Icons.edit,
-                  color: Colors.white,
-                  size: 24,
+          Stack(
+            alignment: Alignment.bottomLeft, 
+            children: <Widget>[
+              const CircleAvatar(
+                backgroundImage: AssetImage(avatar2),
+                radius: 70,
+              ),
+              Positioned(
+                bottom: 3,
+                left: 2,
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    padding: const EdgeInsets.all(4.0),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black,
+                    ),
+                    child: const Icon(
+                      Icons.edit,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
 
           const SizedBox(height: 10),
+
           const Text(
             'Arvin Sison',
             style: TextStyle(
@@ -44,6 +48,8 @@ class UserProfile extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
+
+
           const Text(
             'arvinsison@gmail.com',
             style: TextStyle(
@@ -52,7 +58,12 @@ class UserProfile extends StatelessWidget {
               color: Colors.grey,
             ),
           ),
-          const SizedBox(height: 10),
+
+          const SizedBox(height: 20),
+
+          const Stats(),
+
+          const SizedBox(height: 15),
         ],
       ),
     );

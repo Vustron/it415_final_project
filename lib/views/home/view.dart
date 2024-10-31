@@ -77,7 +77,7 @@ class _HomeViewState extends State<HomeView> {
               child: Column(
                 children: <Widget>[
                   titleBabySitterNearby(),
-                  scrollHorizontal(),
+                  scrollHorizontal(context),
                   titleTopRatedBabySitter(),
                   topRatedBabySitterCard(),
                 ],

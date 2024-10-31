@@ -6,7 +6,7 @@ import 'bio.dart';
 // flutter
 import 'package:flutter/material.dart';
 
-Widget babySitterCardNearby() => SizedBox(
+Widget babySitterCardNearby(BuildContext context) => SizedBox(
       width: 360,
       child: Card(
         color: const Color.fromRGBO(237, 237, 241, 1),
@@ -17,7 +17,7 @@ Widget babySitterCardNearby() => SizedBox(
             children: <Widget>[
               babySitterCardHeader(),
               babySitterCardBio(),
-              babySitterCardButton(),
+              babySitterCardButton(context),
             ],
           ),
         ),

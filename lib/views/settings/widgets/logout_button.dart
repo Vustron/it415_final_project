@@ -15,9 +15,9 @@ class LogoutButton extends StatelessWidget with GlobalStyles {
           label: const Text('Log out', style: TextStyle(color: Colors.white)),
           style: TextButton.styleFrom(
             backgroundColor: GlobalStyles.primaryButtonColor,
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(15),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
             ),
           ),
         ),

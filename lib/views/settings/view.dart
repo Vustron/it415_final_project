@@ -77,6 +77,21 @@ class _SettingsViewState extends State<SettingsView> with GlobalStyles {
                   );
                 },
               ),
+
+              const SizedBox(height: 8),
+              _buildOptionCard(
+                icon: Icons.notifications,
+                text: 'Notification Preference',
+                onTap: () {
+                  Navigator.push<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => const TransactionHistory(),
+                    ),
+                  );
+                },
+              ),
+
               const SizedBox(height: 20),
               LogoutButton(),
               const SizedBox(height: 50),

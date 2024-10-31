@@ -1,5 +1,4 @@
 import 'package:babysitterapp/core/constants/assets.dart';
-import 'package:babysitterapp/views/settings/widgets/stats.dart';
 import 'package:flutter/material.dart';
 
 class UserProfile extends StatelessWidget {
@@ -61,7 +60,7 @@ class UserProfile extends StatelessWidget {
 
           const SizedBox(height: 20),
 
-          const Stats(),
+          // const Stats(),
 
           const SizedBox(height: 15),
         ],

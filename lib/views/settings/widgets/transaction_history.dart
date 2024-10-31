@@ -17,15 +17,15 @@ class TransactionHistory extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
+          const SizedBox(height: 20),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
 
               PopupMenuButton<String>(
-                icon: const Icon(Icons.filter_alt_rounded, size: 30.0),
-                tooltip: 'Filter Transactions',
+                tooltip: '',
                 onSelected: (String result) {
-                  // Handle your choice selection here
                   if (result == 'Payment') {
                     // Do something for Payment
                   } else if (result == 'Service Profile') {
@@ -38,13 +38,36 @@ class TransactionHistory extends StatelessWidget {
                     value: 'Payment',
                     child: Text('Payment'),
                   ),
+
                   const PopupMenuItem<String>(
                     value: 'Service Profile',
                     child: Text('Service Profile'),
                   ),
+
                 ],
-                offset: const Offset(-50, 40), // Position the menu to the left of the icon
+                
+
+                child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        'Filter Transaction',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
+                      SizedBox(width: 2),
+                      Icon(Icons.filter_alt_rounded, size: 30.0),
+
+                    ],
+                  ),
               ),
+
+
+              const SizedBox(width: 14),
+
+              
             ],
           ),
 

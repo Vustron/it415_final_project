@@ -12,7 +12,7 @@ class SaveChangesButton extends StatelessWidget with GlobalStyles {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: GlobalStyles.primaryButtonColor, // Set button background color
+                            backgroundColor: Colors.black, // Set button background color
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),

@@ -1,11 +1,12 @@
-import 'package:babysitterapp/views/settings/widgets/save_changes_button.dart';
-import 'package:babysitterapp/views/settings/widgets/user_profile.dart';
+import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/views/settings/widgets/personal_information/save_changes_button.dart';
+import 'package:babysitterapp/views/settings/widgets/personal_information/user_profile.dart';
 
 // flutter
 import 'package:flutter/material.dart';
 
-class ProfileInfo extends StatelessWidget {
-  const ProfileInfo({super.key});
+class PersonalInformation extends StatelessWidget {
+  const PersonalInformation({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -93,10 +94,19 @@ Widget _buildInputField(
     ),
     child: Row(
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Icon(icon, color: Colors.black),
-        ),
+          Container(
+            decoration: BoxDecoration(
+              color: GlobalStyles.primaryButtonColor, 
+              borderRadius: BorderRadius.circular(10)
+            ),
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              icon,
+              color: Colors.white,
+            ),
+
+          ),
+
         Expanded(
           child: TextFormField(
             obscureText: isPassword,
@@ -109,8 +119,9 @@ Widget _buildInputField(
               ),
               contentPadding: const EdgeInsets.symmetric(
                   vertical: 4,
-                  horizontal: 12), // Further reduced padding for height
-              border: InputBorder.none, // Remove the border
+                  horizontal: 12
+                ), 
+              border: InputBorder.none, 
               focusedBorder: InputBorder.none,
               enabledBorder: InputBorder.none,
             ),

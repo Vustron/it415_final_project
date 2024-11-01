@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 // widgets
 import 'widgets/option_tile.dart' as core;
 import 'widgets/logout_button.dart';
-import 'widgets/profile_info.dart';
 import 'widgets/help_support.dart';
 import 'widgets/option_card.dart';
 import 'widgets/transaction_history.dart';
@@ -36,19 +35,36 @@ class _SettingsViewState extends State<SettingsView> with GlobalStyles {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const core.SectionTitle(title: 'GENERAL'),
+              // _buildOptionCard(
+              //   icon: Icons.person,
+              //   text: 'Personal Information',
+              //   onTap: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute<dynamic>(
+              //         builder: (BuildContext context) => const PersonalInformation(),
+              //       ),
+              //     );
+              //   },
+              // ),
+
               const SizedBox(height: 8),
+
               _buildOptionCard(
-                icon: Icons.person,
-                text: 'Personal Information',
+                icon: Icons.list_alt,
+                text: 'Transaction History',
                 onTap: () {
-                  Navigator.push(
+                  Navigator.push<dynamic>(
                     context,
                     MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) => const ProfileInfo(),
+                      builder: (BuildContext context) => const TransactionHistory(),
                     ),
                   );
                 },
               ),
+
+              const SizedBox(height: 8),
+
               _buildOptionCard(
                 icon: Icons.help_outline,
                 text: 'Help & Support',
@@ -58,21 +74,6 @@ class _SettingsViewState extends State<SettingsView> with GlobalStyles {
                     MaterialPageRoute<dynamic>(
                       builder: (BuildContext context) =>
                           const HelpSupportPage(),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 24),
-              const core.SectionTitle(title: 'ACTIONS'),
-              const SizedBox(height: 8),
-              _buildOptionCard(
-                icon: Icons.list_alt,
-                text: 'Transaction History',
-                onTap: () {
-                  Navigator.push<dynamic>(
-                    context,
-                    MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) => const TransactionHistory(),
                     ),
                   );
                 },

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // widgets
-import 'package:babysitterapp/views/home/widgets/transaction_card.dart';
+import 'package:babysitterapp/views/settings/widgets/transaction_history/transaction_card.dart';
 
 class TransactionHistory extends StatelessWidget {
   const TransactionHistory({super.key});

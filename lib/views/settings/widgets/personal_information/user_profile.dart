@@ -62,7 +62,6 @@ class UserProfile extends StatelessWidget {
 
           // const Stats(),
 
-          const SizedBox(height: 15),
         ],
       ),
     );

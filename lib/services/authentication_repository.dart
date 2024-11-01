@@ -28,7 +28,7 @@ class AuthenticationRepository {
           .createUserWithEmailAndPassword(email: email, password: password);
       return right(response.user!);
     } on FirebaseAuthException catch (e) {
-      return left(e.message ?? 'Failed to Signup.');
+      return left(e.message ?? 'Failed to register');
     }
   }
 
@@ -42,7 +42,7 @@ class AuthenticationRepository {
       );
       return right(response.user);
     } on FirebaseAuthException catch (e) {
-      return left(e.message ?? 'Failed to Login');
+      return left(e.message ?? 'Failed to login');
     }
   }
 
@@ -68,5 +68,9 @@ class AuthenticationRepository {
     } on FirebaseAuthException catch (e) {
       return left(e.message ?? 'Unknown Error');
     }
+  }
+
+  Future<Either<String, User>> continueWithFacebook() async {
+    return left('Facebook login not implemented');
   }
 }

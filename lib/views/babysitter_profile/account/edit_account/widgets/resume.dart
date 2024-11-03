@@ -1,6 +1,9 @@
 import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/material.dart';
 
+import 'package:file_picker/file_picker.dart';
+
+
 class EditResume extends StatelessWidget {
   const EditResume({super.key});
 
@@ -25,7 +28,7 @@ class EditResume extends StatelessWidget {
 
               GestureDetector(
                 onTap: () {
-                  // Handle the click event here
+                  resumeUpload();
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.8,
@@ -66,3 +69,19 @@ class EditResume extends StatelessWidget {
     );
   }
 }
+
+
+Future<void> resumeUpload() async {
+  final FilePickerResult? result = await FilePicker.platform.pickFiles(
+    allowMultiple: true,
+  );
+
+  if (result != null && result.files.isNotEmpty) {
+      final PlatformFile file = result.files.first;
+
+      print('File name: ${file.name}');
+      print('File path: ${file.path}'); 
+    } else {
+      print('No file selected.');
+    }
+} 

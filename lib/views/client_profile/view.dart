@@ -1,12 +1,12 @@
 import 'package:babysitterapp/core/constants/styles.dart';
-import 'package:babysitterapp/views/settings/widgets/personal_information/save_changes_button.dart';
-import 'package:babysitterapp/views/settings/widgets/personal_information/user_profile.dart';
+import 'package:babysitterapp/views/client_profile/widgets/save_changes_button.dart';
+import 'package:babysitterapp/views/client_profile/widgets/user_profile.dart';
 
 // flutter
 import 'package:flutter/material.dart';
 
-class PersonalInformation extends StatelessWidget {
-  const PersonalInformation({super.key});
+class ClientProfile extends StatelessWidget {
+  const ClientProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class PersonalInformation extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          'Personal Information',
+          'Edit Profile',
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
         leading: IconButton(

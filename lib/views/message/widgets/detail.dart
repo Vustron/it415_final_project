@@ -1,12 +1,16 @@
 // core
+import 'package:url_launcher/url_launcher.dart';
+
 import 'bubble.dart';
 
 // flutter
 import 'package:flutter/material.dart';
 
 class MessageDetailScreen extends StatefulWidget {
-  const MessageDetailScreen({super.key, required this.name});
+  const MessageDetailScreen(
+      {super.key, required this.name, required this.number});
   final String name;
+  final String number;
 
   @override
   MessageDetailScreenState createState() => MessageDetailScreenState();
@@ -49,7 +53,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        widget.name, // Display the passed name here
+                        widget.name,
                         style: const TextStyle(
                             fontSize: 15, fontWeight: FontWeight.w600),
                       ),
@@ -63,7 +67,25 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                     ],
                   ),
                 ),
-                const Icon(Icons.settings, color: Colors.black54),
+                IconButton(
+                  onPressed: () async {
+                    // Add functionality for phone call here
+                    final Uri url = Uri(scheme: 'tel', path: widget.number);
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(url);
+                    } else {
+                      print('cannot Launch this url');
+                    }
+                  },
+                  icon: const Icon(Icons.phone, color: Colors.black54),
+                ),
+                IconButton(
+                  onPressed: () {
+                    // Add functionality for video call here
+                  },
+                  icon: const Icon(Icons.request_page_rounded,
+                      color: Colors.black54),
+                ),
               ],
             ),
           ),

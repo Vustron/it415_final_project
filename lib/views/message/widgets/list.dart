@@ -15,6 +15,7 @@ class ConversationList extends StatefulWidget {
     required this.imageUrl,
     required this.time,
     required this.isMessageRead,
+    required this.number,
   });
 
   final String name;
@@ -22,6 +23,7 @@ class ConversationList extends StatefulWidget {
   final String imageUrl;
   final DateTime time;
   final bool isMessageRead;
+  final String number;
 
   @override
   ConversationListState createState() => ConversationListState();
@@ -34,7 +36,10 @@ class ConversationListState extends State<ConversationList> {
       onTap: () {
         Navigator.push(context,
             MaterialPageRoute<dynamic>(builder: (BuildContext context) {
-          return MessageDetailScreen(name: widget.name); // Pass the name here
+          return MessageDetailScreen(
+            name: widget.name,
+            number: widget.number,
+          ); // Pass the name here
         }));
       },
       child: Container(

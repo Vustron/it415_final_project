@@ -5,6 +5,7 @@ class ChatUsers {
     required this.imageURL,
     required this.createdAt,
     required this.updatedAt,
+    required this.number,
   });
 
   factory ChatUsers.fromMap(Map<String, dynamic> data) {
@@ -14,6 +15,7 @@ class ChatUsers {
       imageURL: data['imageURL'] as String,
       createdAt: DateTime.parse(data['createdAt'] as String),
       updatedAt: DateTime.parse(data['updatedAt'] as String),
+      number: data['number'] as String, // Ensure this is assigned as a String
     );
   }
 
@@ -22,4 +24,5 @@ class ChatUsers {
   final String imageURL;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final String number; // Define number as String
 }

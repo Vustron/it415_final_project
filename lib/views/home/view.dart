@@ -1,4 +1,5 @@
 // third party
+import 'package:babysitterapp/views/booking/view.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 // core
@@ -15,7 +16,7 @@ import 'widgets/nearby.dart';
 import 'package:flutter/material.dart';
 
 // views
-import 'package:babysitterapp/views/notification/view.dart';
+
 import 'package:babysitterapp/views/settings/view.dart';
 
 class HomeView extends StatefulWidget {
@@ -47,11 +48,10 @@ class _HomeViewState extends State<HomeView> {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              goToPage(
-                  context, const NotificationView(), 'rightToLeftWithFade');
+              goToPage(context, const BookingView(), 'rightToLeftWithFade');
             },
             icon: const Icon(
-              FluentIcons.alert_12_regular,
+              FluentIcons.person_add_16_regular,
               color: Colors.black,
               size: 31,
             ),

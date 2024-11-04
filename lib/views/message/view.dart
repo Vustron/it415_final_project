@@ -124,7 +124,7 @@ class _ChatScreenState extends State<MessageView> {
             Expanded(
               child: ListView.builder(
                 itemCount: chatUsers.length,
-                padding: const EdgeInsets.only(top: 16),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 itemBuilder: (BuildContext context, int index) {
                   return ConversationList(
                     name: chatUsers[index].name,

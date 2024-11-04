@@ -49,21 +49,25 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
       extendBody: true,
       backgroundColor: Colors.white,
       body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
         controller: _pageController,
         onPageChanged: (int index) {
           setState(() => _currentIndex = index);
         },
         children: screens,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          goToPage(context, const SearchView(), 'rightToLeftWithFade');
-        },
-        shape: const CircleBorder(),
-        backgroundColor: Colors.white,
-        child: const HugeIcon(
-          icon: HugeIcons.strokeRoundedSearch01,
-          color: Colors.black,
+      floatingActionButton: Visibility(
+        visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
+        child: FloatingActionButton(
+          onPressed: () {
+            goToPage(context, const SearchView(), 'rightToLeftWithFade');
+          },
+          shape: const CircleBorder(),
+          backgroundColor: Colors.white,
+          child: const HugeIcon(
+            icon: HugeIcons.strokeRoundedSearch01,
+            color: Colors.black,
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

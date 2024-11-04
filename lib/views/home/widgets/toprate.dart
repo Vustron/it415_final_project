@@ -32,7 +32,7 @@ Widget topRatedBabySitter() => Row(
                 Icon(
                   Icons.star,
                   size: 16,
-                  color: Colors.yellow,
+                  color: Color.fromRGBO(255, 193, 7, 1),
                 ),
                 Text('4.5 / 808 reviews'),
               ],

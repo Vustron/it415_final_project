@@ -11,16 +11,16 @@ class OrDivider extends StatelessWidget with GlobalStyles {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Container(
-      margin: EdgeInsets.symmetric(vertical: size.height * 0.02),
+      margin: const EdgeInsets.symmetric(vertical: GlobalStyles.smallPadding), // Use smallPadding for vertical margin
       width: size.width * 0.8,
       child: Row(
         children: <Widget>[
           buildDivider(),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: GlobalStyles.smallPadding), // Use smallPadding for horizontal padding
             child: Text(
               'OR',
-              style: TextStyle(
+              style: labelStyle.copyWith( // Use labelStyle from GlobalStyles
                 color: GlobalStyles.kPrimaryColor,
                 fontWeight: FontWeight.w600,
               ),
@@ -35,7 +35,7 @@ class OrDivider extends StatelessWidget with GlobalStyles {
   Expanded buildDivider() {
     return const Expanded(
       child: Divider(
-        color: Color(0xFFD9D9D9),
+        color: Color(0xFFD9D9D9), // Consider defining this color in styles.dart if used frequently
         height: 1.5,
       ),
     );

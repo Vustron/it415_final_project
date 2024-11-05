@@ -2,7 +2,6 @@
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:developer';
 
-import 'package:url_launcher/url_launcher.dart';
 import 'bubble.dart';
 
 // flutter
@@ -31,10 +30,12 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
-        backgroundColor: GlobalStyles.appBarBackgroundColor, // Use appBarBackgroundColor
+        backgroundColor:
+            GlobalStyles.appBarBackgroundColor, // Use appBarBackgroundColor
         flexibleSpace: SafeArea(
           child: Container(
-            padding: const EdgeInsets.only(right: GlobalStyles.smallPadding), // Use smallPadding
+            padding: const EdgeInsets.only(
+                right: GlobalStyles.smallPadding), // Use smallPadding
             child: Row(
               children: <Widget>[
                 IconButton(
@@ -57,7 +58,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                     Text(
+                      Text(
                         widget.name,
                         style: const TextStyle(
                             fontSize: 15, fontWeight: FontWeight.w600),
@@ -134,7 +135,8 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                         height: 30,
                         width: 30,
                         decoration: BoxDecoration(
-                          color: GlobalStyles.primaryButtonColor, // Use primaryButtonColor
+                          color: GlobalStyles
+                              .primaryButtonColor, // Use primaryButtonColor
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: const Icon(
@@ -165,7 +167,8 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                           }
                         });
                       },
-                      backgroundColor: GlobalStyles.primaryButtonColor, // Use primaryButtonColor
+                      backgroundColor: GlobalStyles
+                          .primaryButtonColor, // Use primaryButtonColor
                       elevation: 0,
                       child: const Icon(
                         Icons.send,

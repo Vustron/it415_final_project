@@ -5,7 +5,7 @@ mixin GlobalStyles {
   /*-------------- Text Styles --------------*/
 
   /// Large header style for primary titles
-  static const TextStyle headerStyle = TextStyle(
+  final TextStyle headerStyle = const TextStyle(
     fontSize: 36,
     fontWeight: FontWeight.bold,
     letterSpacing: 1,
@@ -13,13 +13,13 @@ mixin GlobalStyles {
   );
 
   /// Style for general labels and captions
-  static const TextStyle labelStyle = TextStyle(
+  final TextStyle labelStyle = const TextStyle(
     fontSize: 18,
     fontFamily: 'Nexa-ExtraLight',
   );
 
   /// Style for options or button labels
-  static const TextStyle optionTextStyle = TextStyle(
+  final TextStyle optionTextStyle = const TextStyle(
     fontSize: 15,
     fontWeight: FontWeight.bold,
     color: Colors.grey,
@@ -80,3 +80,4 @@ mixin GlobalStyles {
   static const double defaultSize = 50.0;
   static const double defaultIconSize = 24.0;
 }
+

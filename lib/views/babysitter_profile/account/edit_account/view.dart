@@ -56,7 +56,7 @@ class EditBabySitterProfile extends StatelessWidget {
 
               SizedBox(height: 24),
 
-               EditValidID(),
+              EditValidID(),
 
 
               SizedBox(height: 24),

@@ -79,7 +79,7 @@ class AccountImageEditButton extends StatelessWidget {
                               ),
                               SizedBox(width: 3),
                               Text(
-                                'Edit Profile',
+                                'Edit Account',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12,

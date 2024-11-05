@@ -1,5 +1,6 @@
 // core
 import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/views/settings/widgets/notification_preference.dart';
 
 // flutter
 import 'package:flutter/material.dart';
@@ -87,14 +88,14 @@ class _SettingsViewState extends State<SettingsView> with GlobalStyles {
                   Navigator.push<dynamic>(
                     context,
                     MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) => const TransactionHistory(),
+                      builder: (BuildContext context) => const NotificationPreference(),
                     ),
                   );
                 },
               ),
 
               const SizedBox(height: 20),
-              LogoutButton(),
+                LogoutButton(),
               const SizedBox(height: 50),
             ],
           ),

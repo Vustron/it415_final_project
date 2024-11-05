@@ -37,14 +37,9 @@ class _SplashViewState extends State<SplashView> {
             bottom: mq.height * .28,
             width: mq.width,
             // duration: const Duration(seconds: 1),
-            child: Center(
+            child: const Center(
               child: Column(
-                children: <Widget>[
-                  title(),
-                  subtitle(),
-                  const SizedBox(height: 30),
-                  loading(),
-                ],
+                
               ),
             ),
           ),

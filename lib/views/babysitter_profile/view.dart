@@ -14,7 +14,7 @@ class _BabysitterProfileState extends State<BabysitterProfile>
     with GlobalStyles {
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size;
+    final Size width = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 270,

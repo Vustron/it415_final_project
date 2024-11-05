@@ -1,4 +1,6 @@
 // core
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:developer';
 
 import 'package:url_launcher/url_launcher.dart';
 import 'bubble.dart';
@@ -77,7 +79,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                     if (await canLaunchUrl(url)) {
                       await launchUrl(url);
                     } else {
-                      print('cannot Launch this url');
+                      log('cannot Launch this url');
                     }
                   },
                   icon: const Icon(Icons.phone, color: Colors.black54),

@@ -10,6 +10,9 @@ import 'package:babysitterapp/models/notification.dart';
 // widgets
 import 'widgets/list.dart';
 
+// styles
+
+
 class NotificationView extends StatefulWidget {
   const NotificationView({super.key});
 
@@ -18,46 +21,43 @@ class NotificationView extends StatefulWidget {
 }
 
 class _NotificationViewState extends State<NotificationView> {
-  List<NotificationUsers> notificationUsers = <NotificationUsers>[
+  final List<NotificationUsers> notificationUsers = <NotificationUsers>[
     NotificationUsers(
       name: 'Jane Russel',
-      messageText:
-          'has sent a request to apply as your babysitter! Review the application and respond at your earliest convenience.',
+      messageText: 'has sent a request to apply as your babysitter! Review the application and respond at your earliest convenience.',
       imageURL: 'assets/images/hippo.png',
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
-      showButtons: true, // You decide when to show buttons
+      showButtons: true,
     ),
     NotificationUsers(
-        name: 'BabyCare',
-        messageText:
-            'Good news! A babysitter nearby has a 4.9-star rating. Book now to ensure the best care for your child!',
-        imageURL: 'assets/images/hippo.png',
-        createdAt: DateTime.now().subtract(const Duration(days: 1)),
-        updatedAt: DateTime.now().subtract(const Duration(days: 1))),
+      name: 'BabyCare',
+      messageText: 'Good news! A babysitter nearby has a 4.9-star rating. Book now to ensure the best care for your child!',
+      imageURL: 'assets/images/hippo.png',
+      createdAt: DateTime.now().subtract(const Duration(days: 1)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 1)),
+    ),
     NotificationUsers(
-        name: 'BabyCare',
-        messageText:
-            'Theres a babysitter nearby with a 4.5-star rating, offering her services for only 350 pesos per day. Dont miss out—book her now!',
-        imageURL: 'assets/images/hippo.png',
-        createdAt: DateTime.now().subtract(const Duration(days: 2)),
-        updatedAt: DateTime.now().subtract(const Duration(days: 2))),
+      name: 'BabyCare',
+      messageText: "There's a babysitter nearby with a 4.5-star rating, offering her services for only 350 pesos per day. Don't miss out—book her now!",
+      imageURL: 'assets/images/hippo.png',
+      createdAt: DateTime.now().subtract(const Duration(days: 2)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 2)),
+    ),
     NotificationUsers(
-        name: 'Krystina',
-        messageText:
-            'has just sent a request for a babysitter. Please review and respond promptly!',
-        imageURL: 'assets/images/hippo.png',
-        showButtons: true, // You decide when to show buttons
-        createdAt: DateTime.now().subtract(const Duration(days: 3)),
-        updatedAt: DateTime.now().subtract(const Duration(days: 3))),
+      name: 'Krystina',
+      messageText: 'has just sent a request for a babysitter. Please review and respond promptly!',
+      imageURL: 'assets/images/hippo.png',
+      createdAt: DateTime.now().subtract(const Duration(days: 3)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 3)),
+      showButtons: true,
+    ),
   ];
 
-  @override
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Notification'),
-      ),
+      appBar: AppBar(title: const Text('Notification')),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,14 +78,14 @@ class _NotificationViewState extends State<NotificationView> {
                 itemCount: notificationUsers.length,
                 padding: const EdgeInsets.only(top: 16),
                 itemBuilder: (BuildContext context, int index) {
+                  final NotificationUsers user = notificationUsers[index];
                   return NotificationList(
-                    name: notificationUsers[index].name,
-                    messageText: notificationUsers[index].messageText,
-                    imageUrl: notificationUsers[index].imageURL,
-                    time: notificationUsers[index].createdAt,
+                    name: user.name,
+                    messageText: user.messageText,
+                    imageUrl: user.imageURL,
+                    time: user.createdAt,
                     isMessageRead: index == 0 || index == 3,
-                    showButtons: notificationUsers[index]
-                        .showButtons, // Controlled by you
+                    showButtons: user.showButtons,
                   );
                 },
               ),

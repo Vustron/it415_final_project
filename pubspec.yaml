@@ -3,7 +3,7 @@ description: "A collaborative babysitter mobile app for the final project in it4
 
 publish_to: 'none' 
 
-version: 1.0.33+1
+version: 1.0.34+1
 
 environment:
  sdk: '>=3.4.3 <4.0.0'
@@ -52,15 +52,15 @@ dev_dependencies:
 # dart run flutter_launcher_icons
 flutter_launcher_icons:
   android: true
-  image_path: "assets/images/placeholder_logo.png"
+  image_path: "assets/images/logo.png"
   min_sdk_android: 21
-  adaptive_icon_foreground: "assets/images/placeholder_logo.png"
+  adaptive_icon_foreground: "assets/images/logo.png"
   adaptive_icon_background: "#ffffff"
 
 # dart run flutter_native_splash:create
 flutter_native_splash:
   color: "#FFFFFF"
-  image: "assets/images/placeholder_logo.png"
+  image: "assets/images/logo.png"
 
 # dart run build_runner build
 flutter:
@@ -71,7 +71,6 @@ flutter:
     - assets/fonts/
     - .env 
 
-    
 fonts:
     - family: Quicksand
       fonts:

@@ -1,4 +1,8 @@
 import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/views/babysitter_profile/widgets/Availability.dart';
+import 'package:babysitterapp/views/babysitter_profile/widgets/Experience.dart';
+import 'package:babysitterapp/views/babysitter_profile/widgets/Reviews.dart';
+import 'package:babysitterapp/views/babysitter_profile/widgets/descriptions.dart';
 import 'package:babysitterapp/views/babysitter_profile/widgets/input.dart';
 import 'package:babysitterapp/views/babysitter_profile/widgets/profile_header.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +14,8 @@ class BabysitterProfile extends StatefulWidget {
   State<BabysitterProfile> createState() => _BabysitterProfileState();
 }
 
+ScrollController _scrollController = ScrollController();
+
 class _BabysitterProfileState extends State<BabysitterProfile>
     with GlobalStyles {
   @override
@@ -17,7 +23,7 @@ class _BabysitterProfileState extends State<BabysitterProfile>
     final Size width = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 270,
+        toolbarHeight: 280,
         leadingWidth: width.width,
         elevation: 3,
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -57,7 +63,31 @@ class _BabysitterProfileState extends State<BabysitterProfile>
                 bottomLeft: Radius.circular(15),
                 bottomRight: Radius.circular(15))),
       ),
-      body: Container(),
+      body: ListView(
+        controller: _scrollController,
+        children: <Widget>[
+          Container(
+            padding: GlobalStyles.defaultContentPadding,
+            child: Column(
+              children: <Widget>[
+                DescriptionsPage(),
+                const SizedBox(
+                  height: GlobalStyles.defaultPadding,
+                ),
+                ExperiencePage(),
+                const SizedBox(
+                  height: GlobalStyles.defaultPadding,
+                ),
+                AvailabilityPage(),
+                const SizedBox(
+                  height: GlobalStyles.defaultPadding,
+                ),
+                ReviewsPage(),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

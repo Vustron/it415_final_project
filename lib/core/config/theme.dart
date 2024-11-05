@@ -1,5 +1,6 @@
 // flutter
 import 'package:flutter/material.dart';
+import 'package:babysitterapp/core/constants/styles.dart'; // Import your styles
 
 ThemeData rootThemeData() {
   return ThemeData(
@@ -7,39 +8,35 @@ ThemeData rootThemeData() {
       centerTitle: true,
       elevation: 0,
       iconTheme: IconThemeData(
-        color: Colors.black,
+        color: GlobalStyles.appBarTextColor,
       ),
-      titleTextStyle: TextStyle(
-        color: Colors.black,
-        fontSize: 25.0,
-        fontWeight: FontWeight.bold,
-      ),
-      backgroundColor: Colors.white,
+      titleTextStyle: GlobalStyles.appBarTitleStyle,
+      backgroundColor: GlobalStyles.appBarBackgroundColor,
     ),
     useMaterial3: true,
     fontFamily: 'Nexa-ExtraLight',
-    scaffoldBackgroundColor: Colors.white,
-    cardColor: Colors.white,
-    canvasColor: Colors.white,
-    dialogBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: GlobalStyles.cardColor,
+    cardColor: GlobalStyles.cardColor,
+    canvasColor: GlobalStyles.cardColor,
+    dialogBackgroundColor: GlobalStyles.dialogBackgroundColor,
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: Colors.white,
-        backgroundColor: const Color(0xFF1686AA),
+        backgroundColor: GlobalStyles.primaryButtonColor,
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF1686AA),
+        backgroundColor: GlobalStyles.primaryButtonColor,
         foregroundColor: Colors.white,
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        foregroundColor: const Color(0xFF1686AA),
-        backgroundColor: Colors.white,
+        foregroundColor: GlobalStyles.primaryButtonColor,
+        backgroundColor: GlobalStyles.cardColor,
         side: const BorderSide(
-          color: Color(0xFF1686AA),
+          color: GlobalStyles.primaryButtonColor,
         ),
       ),
     ),

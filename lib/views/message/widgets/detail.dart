@@ -1,12 +1,14 @@
 // core
-import 'dart:developer';
-
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:developer';
 
 import 'bubble.dart';
 
 // flutter
 import 'package:flutter/material.dart';
+
+// styles
+import 'package:babysitterapp/core/constants/styles.dart';
 
 class MessageDetailScreen extends StatefulWidget {
   const MessageDetailScreen(
@@ -28,10 +30,12 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
+        backgroundColor:
+            GlobalStyles.appBarBackgroundColor, // Use appBarBackgroundColor
         flexibleSpace: SafeArea(
           child: Container(
-            padding: const EdgeInsets.only(right: 16),
+            padding: const EdgeInsets.only(
+                right: GlobalStyles.smallPadding), // Use smallPadding
             child: Row(
               children: <Widget>[
                 IconButton(
@@ -40,7 +44,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                   },
                   icon: const Icon(
                     Icons.arrow_back,
-                    color: Colors.black,
+                    color: GlobalStyles.appBarIconColor, // Use appBarIconColor
                   ),
                 ),
                 const SizedBox(width: 2),
@@ -63,15 +67,15 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                       const Text(
                         'Online',
                         style: TextStyle(
-                            color: Color.fromARGB(255, 1, 234, 24),
-                            fontSize: 15),
+                          color: Color.fromARGB(255, 1, 234, 24),
+                          fontSize: 15,
+                        ),
                       ),
                     ],
                   ),
                 ),
                 IconButton(
                   onPressed: () async {
-                    // Add functionality for phone call here
                     final Uri url = Uri(scheme: 'tel', path: widget.number);
                     if (await canLaunchUrl(url)) {
                       await launchUrl(url);
@@ -98,8 +102,10 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
           Expanded(
             child: SingleChildScrollView(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: GlobalStyles.defaultPadding, // Use defaultPadding
+                  vertical: 10,
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: messages
@@ -115,7 +121,11 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
             alignment: Alignment.bottomLeft,
             child: SafeArea(
               child: Container(
-                padding: const EdgeInsets.only(left: 10, bottom: 10, top: 10),
+                padding: const EdgeInsets.only(
+                  left: GlobalStyles.smallPadding, // Use smallPadding
+                  bottom: GlobalStyles.smallPadding,
+                  top: GlobalStyles.smallPadding,
+                ),
                 color: Colors.white,
                 child: Row(
                   children: <Widget>[
@@ -125,7 +135,8 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                         height: 30,
                         width: 30,
                         decoration: BoxDecoration(
-                          color: Colors.lightBlue,
+                          color: GlobalStyles
+                              .primaryButtonColor, // Use primaryButtonColor
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: const Icon(
@@ -156,7 +167,8 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                           }
                         });
                       },
-                      backgroundColor: Colors.lightBlue,
+                      backgroundColor: GlobalStyles
+                          .primaryButtonColor, // Use primaryButtonColor
                       elevation: 0,
                       child: const Icon(
                         Icons.send,

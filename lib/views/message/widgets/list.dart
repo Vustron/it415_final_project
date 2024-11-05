@@ -4,8 +4,11 @@ import 'package:intl/intl.dart';
 // flutter
 import 'package:flutter/material.dart';
 
+
 // views
 import 'package:babysitterapp/views/message/widgets/detail.dart';
+
+import '../../../core/constants/styles.dart';
 
 class ConversationList extends StatefulWidget {
   const ConversationList({
@@ -29,7 +32,7 @@ class ConversationList extends StatefulWidget {
   ConversationListState createState() => ConversationListState();
 }
 
-class ConversationListState extends State<ConversationList> {
+class ConversationListState extends State<ConversationList> with GlobalStyles {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -44,8 +47,7 @@ class ConversationListState extends State<ConversationList> {
       },
       child: Container(
         color: const Color.fromARGB(255, 255, 255, 255),
-        padding:
-            const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+        padding: const EdgeInsets.all(GlobalStyles.defaultPadding),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -64,10 +66,10 @@ class ConversationListState extends State<ConversationList> {
                         children: <Widget>[
                           Text(
                             widget.name,
-                            style: const TextStyle(fontSize: 15),
+                           style: const TextStyle(fontSize: 15),
                           ),
                           const SizedBox(height: 6),
-                          Text(
+                                  Text(
                             widget.messageText,
                             style: TextStyle(
                                 fontSize: 15,

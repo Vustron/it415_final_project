@@ -2,7 +2,7 @@ import 'package:babysitterapp/views/babysitter_profile/account/widgets/contacts.
 
 import 'package:babysitterapp/views/babysitter_profile/account/widgets/image_edit_button.dart';
 import 'package:babysitterapp/views/babysitter_profile/account/widgets/ratings.dart';
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/resume.dart';
+import 'package:babysitterapp/views/babysitter_profile/account/widgets/rate.dart';
 import 'package:babysitterapp/views/babysitter_profile/account/widgets/service_history.dart';
 import 'package:babysitterapp/views/babysitter_profile/account/widgets/valid_id.dart';
 import 'package:babysitterapp/views/babysitter_profile/account/widgets/years_experience.dart';
@@ -51,6 +51,15 @@ class _AccountViewState extends State<AccountView> {
               SizedBox(height: 14),
 
               // YEARS EXPERIENCE
+              Rate(),
+
+              SizedBox(height: 15),
+
+              Divider(color: Colors.grey, thickness: 1),
+
+              SizedBox(height: 14),
+
+              // YEARS EXPERIENCE
               YearsExperience(),
 
               SizedBox(height: 15),
@@ -76,11 +85,6 @@ class _AccountViewState extends State<AccountView> {
 
               // VALID ID UPLOAD
               ValidIdUpload(),
-
-              Divider(color: Colors.grey, thickness: 1),
-
-              // RESUME ID UPLOAD
-              ResumeUpload(),
 
               Divider(color: Colors.grey, thickness: 1),
 

@@ -1,11 +1,11 @@
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/contacts.dart';
+import 'widgets/contacts.dart';
 
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/image_edit_button.dart';
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/ratings.dart';
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/resume.dart';
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/service_history.dart';
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/valid_id.dart';
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/years_experience.dart';
+import 'widgets/image_edit_button.dart';
+import 'widgets/ratings.dart';
+import 'widgets/resume.dart';
+import 'widgets/service_history.dart';
+import 'widgets/valid_id.dart';
+import 'widgets/years_experience.dart';
 import 'package:flutter/material.dart';
 
 class AccountView extends StatefulWidget {

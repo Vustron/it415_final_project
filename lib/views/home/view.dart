@@ -48,7 +48,7 @@ class _HomeViewState extends State<HomeView> with GlobalStyles {
           style: headerStyle.copyWith(
             color: Colors.black,
             fontSize: 20,
-          ), // Reusing headerStyle from GlobalStyles with slight modifications
+          ),
         ),
         actions: <Widget>[
           IconButton(

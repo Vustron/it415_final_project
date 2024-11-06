@@ -2,7 +2,6 @@ import 'package:babysitterapp/views/babysitter_profile/account/edit_account/widg
 import 'package:babysitterapp/views/babysitter_profile/account/edit_account/widgets/image.dart';
 import 'package:babysitterapp/views/babysitter_profile/account/edit_account/widgets/rate.dart';
 import 'package:babysitterapp/views/babysitter_profile/account/edit_account/widgets/experience.dart';
-import 'package:babysitterapp/views/babysitter_profile/account/edit_account/widgets/resume.dart';
 import 'package:babysitterapp/views/babysitter_profile/account/edit_account/widgets/service_history.dart';
 import 'package:babysitterapp/views/babysitter_profile/account/edit_account/widgets/valid_id.dart';
 import 'package:babysitterapp/views/babysitter_profile/account/edit_account/widgets/contacts.dart';

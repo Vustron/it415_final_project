@@ -7,7 +7,7 @@ import 'bio.dart';
 import 'package:flutter/material.dart';
 
 Widget babySitterCardNearby(BuildContext context) => Container(
-      margin: const EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       width: 340,
       decoration: BoxDecoration(
         color: const Color.fromRGBO(244, 244, 244, 1),

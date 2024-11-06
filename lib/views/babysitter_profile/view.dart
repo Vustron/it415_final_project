@@ -14,10 +14,10 @@ class _BabysitterProfileState extends State<BabysitterProfile>
     with GlobalStyles {
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size;
+    final Size width = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 270,
+        toolbarHeight: 300,
         leadingWidth: width.width,
         elevation: 3,
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -49,6 +49,7 @@ class _BabysitterProfileState extends State<BabysitterProfile>
                 height: 15,
               ),
               messageButton(GlobalStyles.kPrimaryColor),
+              const SizedBox(height: 10)
             ],
           ),
         ),

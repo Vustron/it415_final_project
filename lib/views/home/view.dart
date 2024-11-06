@@ -1,5 +1,7 @@
 // third party
 import 'package:babysitterapp/views/booking/view.dart';
+import 'package:babysitterapp/views/home/widgets/card_nearby.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 // core
@@ -8,7 +10,7 @@ import 'package:babysitterapp/core/constants/assets.dart';
 
 // widgets
 import 'widgets/toprated_babysitter.dart';
-import 'widgets/scroll_horizontal.dart';
+
 import 'widgets/toprate_card.dart';
 import 'widgets/nearby.dart';
 
@@ -27,8 +29,16 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  int _currentIndex = 0;
+  final CarouselSliderController _carouselController =
+      CarouselSliderController();
+
   @override
   Widget build(BuildContext context) {
+    final List<Widget> babysitterCards = List<Widget>.generate(
+      10,
+      (int index) => babySitterCardNearby(context),
+    );
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
@@ -77,7 +87,46 @@ class _HomeViewState extends State<HomeView> {
               child: Column(
                 children: <Widget>[
                   titleBabySitterNearby(),
-                  scrollHorizontal(context),
+                  //carousel
+                  //many types of carousel based on package
+                  CarouselSlider(
+                    carouselController: _carouselController,
+                    items: babysitterCards,
+                    options: CarouselOptions(
+                        enableInfiniteScroll: false,
+                        autoPlay: false, //make carousel autoplay
+                        enlargeCenterPage: true,
+                        onPageChanged:
+                            (int index, CarouselPageChangedReason reason) {
+                          setState(() {
+                            _currentIndex = index;
+                          });
+                        }),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: babysitterCards
+                        .asMap()
+                        .entries
+                        .map((MapEntry<int, Widget> entry) {
+                      return GestureDetector(
+                        onTap: () =>
+                            _carouselController.animateToPage(entry.key),
+                        child: Container(
+                          width: 8.0,
+                          height: 8.0,
+                          margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.black.withOpacity(
+                                _currentIndex == entry.key ? 0.9 : 0.4),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+
                   titleTopRatedBabySitter(),
                   topRatedBabySitterCard(),
                 ],

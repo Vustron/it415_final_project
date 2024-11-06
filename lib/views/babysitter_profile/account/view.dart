@@ -1,5 +1,4 @@
 import 'widgets/contacts.dart';
-
 import 'widgets/image_edit_button.dart';
 import 'widgets/ratings.dart';
 import 'widgets/resume.dart';
@@ -51,6 +50,15 @@ class _AccountViewState extends State<AccountView> {
               SizedBox(height: 14),
 
               // YEARS EXPERIENCE
+              Rate(),
+
+              SizedBox(height: 15),
+
+              Divider(color: Colors.grey, thickness: 1),
+
+              SizedBox(height: 14),
+
+              // YEARS EXPERIENCE
               YearsExperience(),
 
               SizedBox(height: 15),
@@ -76,11 +84,6 @@ class _AccountViewState extends State<AccountView> {
 
               // VALID ID UPLOAD
               ValidIdUpload(),
-
-              Divider(color: Colors.grey, thickness: 1),
-
-              // RESUME ID UPLOAD
-              ResumeUpload(),
 
               Divider(color: Colors.grey, thickness: 1),
 

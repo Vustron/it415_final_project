@@ -9,12 +9,12 @@ class AccountImageEditButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
                 children: <Widget>[
 
                   // PROFILE AND RATE PER HOUR
-                  Row(
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Image.asset(
                         avatar2,
@@ -27,14 +27,17 @@ class AccountImageEditButton extends StatelessWidget {
                           Text(
                             'Arvin Sison',
                             style: TextStyle(
-                                fontSize: 23, fontWeight: FontWeight.bold),
+                              fontSize: 23, 
+                              fontWeight: FontWeight.bold
+                            ),
                           ),
                           Text(
                             'arvinsison@gmail.com',
                             style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey
+                            ),
                           ),
                           
                         ],
@@ -42,16 +45,9 @@ class AccountImageEditButton extends StatelessWidget {
                     ],
                   ),
 
-                  Column(
-                    children: <Widget>[
-                      const Text(
-                        '₱ 300/hr',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-
-                      const SizedBox(height: 3),
-
+                  
+                  const SizedBox(height: 14),
+                      
                       ElevatedButton(
                           onPressed: () {
                             Navigator.push<dynamic>(
@@ -72,23 +68,22 @@ class AccountImageEditButton extends StatelessWidget {
                             ),
                           ),
                           child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Icon(
                                 Icons.edit,
-                                size: 12,
+                                size: 15,
                               ),
                               SizedBox(width: 3),
                               Text(
                                 'Edit Account',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 12,
+                                  fontSize: 14,
                                 ),
                               )
                             ],
                           ))
-                    ],
-                  )
                 ],
               );
   }

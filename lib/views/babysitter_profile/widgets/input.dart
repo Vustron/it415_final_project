@@ -10,7 +10,7 @@ Widget messageButton(Color colors) => Row(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
                 backgroundColor: colors,
-                minimumSize: const Size.fromHeight(50)),
+                minimumSize: const Size.fromHeight(40)),
             child: const Text('Message'),
           ),
         ),

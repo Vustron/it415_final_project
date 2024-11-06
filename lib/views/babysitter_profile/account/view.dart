@@ -1,11 +1,11 @@
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/contacts.dart';
-
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/image_edit_button.dart';
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/ratings.dart';
 import 'package:babysitterapp/views/babysitter_profile/account/widgets/rate.dart';
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/service_history.dart';
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/valid_id.dart';
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/years_experience.dart';
+
+import 'widgets/contacts.dart';
+import 'widgets/image_edit_button.dart';
+import 'widgets/ratings.dart';
+import 'widgets/service_history.dart';
+import 'widgets/valid_id.dart';
+import 'widgets/years_experience.dart';
 import 'package:flutter/material.dart';
 
 class AccountView extends StatefulWidget {
@@ -16,22 +16,17 @@ class AccountView extends StatefulWidget {
 }
 
 class _AccountViewState extends State<AccountView> {
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       appBar: AppBar(
         title: const Text('Account'),
       ),
-
       body: const SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
-              
               SizedBox(height: 18),
 
               AccountImageEditButton(),
@@ -73,15 +68,11 @@ class _AccountViewState extends State<AccountView> {
 
               SizedBox(height: 12),
 
-
-              // SEVICE HISTORY UPLOAD
-
               Divider(color: Colors.grey, thickness: 1),
 
               ServiceHistoryUpload(),
 
               Divider(color: Colors.grey, thickness: 1),
-
 
               // VALID ID UPLOAD
               ValidIdUpload(),
@@ -94,7 +85,6 @@ class _AccountViewState extends State<AccountView> {
               Contacts(),
 
               SizedBox(height: 100),
-
             ],
           ),
         ),

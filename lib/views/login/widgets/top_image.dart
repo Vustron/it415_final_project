@@ -5,19 +5,17 @@ import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreenTopImage extends StatelessWidget with GlobalStyles {
-  LoginScreenTopImage({
-    super.key,
-  });
+  LoginScreenTopImage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: <Widget>[
         Text(
           'LOGIN',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: headerStyle, 
         ),
-        SizedBox(height: GlobalStyles.defaultPadding * 2),
+        const SizedBox(height:  GlobalStyles.defaultPadding * 2), 
       ],
     );
   }

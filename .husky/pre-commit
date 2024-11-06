@@ -1,6 +1,24 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+# Check for remote changes and pull if necessary
+echo "Checking for remote changes..."
+git fetch origin
+
+LOCAL=$(git rev-parse @)
+REMOTE=$(git rev-parse @{u})
+BASE=$(git merge-base @ @{u})
+
+if [ $REMOTE = $BASE ]; then
+    echo "Local branch is ahead or up to date. Proceeding..."
+elif [ $LOCAL = $BASE ]; then
+    echo "Remote changes detected. Pulling updates..."
+    git pull || { echo "Pull failed. Please resolve conflicts and try again."; exit 1; }
+else
+    echo "Branches have diverged. Please resolve conflicts manually."
+    exit 1
+fi
+
 # dart test
 dart analyze
 

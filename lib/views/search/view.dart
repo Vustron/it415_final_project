@@ -1,9 +1,12 @@
 // flutter
+import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/core/helper/goto_page.dart';
+import 'package:babysitterapp/views/filter/view.dart';
+import 'package:babysitterapp/views/search/widgets/map_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 // widgets
-import 'widgets/search_list.dart';
-import 'widgets/filter.dart';
 import 'widgets/input.dart';
 
 class SearchView extends StatefulWidget {
@@ -19,40 +22,58 @@ class _SearchViewState extends State<SearchView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 60,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
+      body: Stack(
+        children: <Widget>[
+          const MapScreen(),
+          Container(
+            margin: const EdgeInsets.only(top: 30),
+            color: const Color.fromARGB(0, 143, 43, 43),
+            padding: GlobalStyles.defaultContentPadding,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(
+                  width: GlobalStyles.smallPadding,
+                ),
+                Expanded(
+                  child: searchButtons(searchTxt),
+                )
+              ],
+            ),
           ),
-        ),
-        centerTitle: false,
-        title: const Text(
-          'Search',
-        ),
-      ),
-      backgroundColor: Colors.white,
-      body: Container(
-        color: Colors.white,
-        margin: const EdgeInsets.all(10.0),
-        child: ListView(
-          children: <Widget>[
-            searchButtons(searchTxt),
-            const SizedBox(
-              height: 5.0,
+          Positioned(
+            bottom: 60,
+            right: 20,
+            child: FloatingActionButton.extended(
+              backgroundColor: GlobalStyles.primaryButtonColor,
+              foregroundColor: Colors.white,
+              onPressed: () {
+                setState(() {
+                  goToPage(context, const FilterView(), 'rightToLeftWithFade');
+                });
+              },
+              label: const Text('Filter'),
+              icon: const Icon(
+                HugeIcons.strokeRoundedSorting01,
+              ),
             ),
-            buttons(context),
-            const SizedBox(
-              height: 5.0,
-            ),
-            const SearchList(),
-          ],
-        ),
+          ),
+          // Container(
+          //   margin: const EdgeInsets.only(top: 95),
+          //   padding: GlobalStyles.defaultContentPadding,
+          //   child: searchButtons(searchTxt),
+          // )
+        ],
       ),
     );
   }

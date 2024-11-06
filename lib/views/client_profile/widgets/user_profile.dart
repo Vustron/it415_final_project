@@ -10,7 +10,7 @@ class UserProfile extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Stack(
-            alignment: Alignment.bottomLeft, 
+            alignment: Alignment.bottomLeft,
             children: <Widget>[
               const CircleAvatar(
                 backgroundImage: AssetImage(avatar2),
@@ -48,7 +48,6 @@ class UserProfile extends StatelessWidget {
             ),
           ),
 
-
           const Text(
             'arvinsison@gmail.com',
             style: TextStyle(
@@ -61,7 +60,6 @@ class UserProfile extends StatelessWidget {
           const SizedBox(height: 20),
 
           // const Stats(),
-
         ],
       ),
     );

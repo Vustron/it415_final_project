@@ -37,7 +37,6 @@ PreferredSize bookingAppBar() {
           ),
         ),
         AppBar(
-          automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,

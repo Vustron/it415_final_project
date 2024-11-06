@@ -25,7 +25,7 @@ class _BabysitterProfileState extends State<BabysitterProfile>
     final Size width = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 250,
+        toolbarHeight: 300,
         leadingWidth: width.width,
         elevation: 3,
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -54,7 +54,8 @@ class _BabysitterProfileState extends State<BabysitterProfile>
               const SizedBox(
                 height: 15,
               ),
-              messageButton(GlobalStyles.primaryButtonColor),
+              messageButton(GlobalStyles.kPrimaryColor),
+              const SizedBox(height: 10)
             ],
           ),
         ),

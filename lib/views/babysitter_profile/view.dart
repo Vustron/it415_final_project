@@ -1,11 +1,13 @@
-import 'package:babysitterapp/core/constants/styles.dart';
-import 'package:babysitterapp/views/babysitter_profile/widgets/Availability.dart';
-import 'package:babysitterapp/views/babysitter_profile/widgets/Experience.dart';
-import 'package:babysitterapp/views/babysitter_profile/widgets/Reviews.dart';
-import 'package:babysitterapp/views/babysitter_profile/widgets/descriptions.dart';
-import 'package:babysitterapp/views/babysitter_profile/widgets/input.dart';
-import 'package:babysitterapp/views/babysitter_profile/widgets/profile_header.dart';
 import 'package:flutter/material.dart';
+
+import 'package:babysitterapp/core/constants/styles.dart';
+
+import 'availability/widgets/experience_details.dart';
+import 'availability/widgets/reviews.dart';
+import 'availability/view.dart';
+import 'widgets/profile_header.dart';
+import 'widgets/descriptions.dart';
+import 'widgets/input.dart';
 
 class BabysitterProfile extends StatefulWidget {
   const BabysitterProfile({super.key});
@@ -74,11 +76,11 @@ class _BabysitterProfileState extends State<BabysitterProfile>
                 const SizedBox(
                   height: GlobalStyles.defaultPadding,
                 ),
-                ExperiencePage(),
+                ExperienceDetails(),
                 const SizedBox(
                   height: GlobalStyles.defaultPadding,
                 ),
-                AvailabilityPage(),
+                AvailabilityView(),
                 const SizedBox(
                   height: GlobalStyles.defaultPadding,
                 ),

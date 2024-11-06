@@ -1,8 +1,8 @@
 import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/widgets.dart';
 
-class ExperiencePage extends StatelessWidget with GlobalStyles {
-  ExperiencePage({super.key});
+class ExperienceDetails extends StatelessWidget with GlobalStyles {
+  ExperienceDetails({super.key});
 
   @override
   Widget build(BuildContext context) {

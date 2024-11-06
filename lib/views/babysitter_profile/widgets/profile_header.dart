@@ -15,7 +15,7 @@ Widget profileHeader(Color colors) => Container(
                   shape: BoxShape.circle,
                 ),
                 child: Stack(
-                  children: [
+                  children: <Widget>[
                     const CircleAvatar(
                       backgroundImage: AssetImage(avatar1),
                       radius: 100 / 2,

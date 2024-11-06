@@ -1,8 +1,8 @@
 import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/material.dart';
 
-class AvailabilityinfoPage extends StatelessWidget with GlobalStyles {
-  AvailabilityinfoPage({super.key});
+class Info extends StatelessWidget with GlobalStyles {
+  Info({super.key});
 
   @override
   Widget build(BuildContext context) {

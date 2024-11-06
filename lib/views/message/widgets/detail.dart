@@ -1,15 +1,13 @@
-// core
-import 'package:babysitterapp/views/booking/view.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/material.dart';
 import 'dart:developer';
+
+import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/core/helper/goto_page.dart';
 
 import 'bubble.dart';
 
-// flutter
-import 'package:flutter/material.dart';
-
-// styles
-import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/views/booking/view.dart';
 
 class MessageDetailScreen extends StatefulWidget {
   const MessageDetailScreen(
@@ -88,12 +86,8 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                 ),
                 IconButton(
                   onPressed: () {
-                    // Add functionality for video call here
-                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => const BookingView()),
-                    );
+                    goToPage(
+                        context, const BookingView(), 'rightToLeftWithFade');
                   },
                   icon: const Icon(Icons.request_page_rounded,
                       color: Colors.black54),

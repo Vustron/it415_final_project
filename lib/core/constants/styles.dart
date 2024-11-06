@@ -80,4 +80,3 @@ mixin GlobalStyles {
   static const double defaultSize = 50.0;
   static const double defaultIconSize = 24.0;
 }
-

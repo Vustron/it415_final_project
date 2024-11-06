@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class BookingDetailNotification extends StatefulWidget {
   const BookingDetailNotification({super.key});
 
@@ -28,10 +27,10 @@ class _BookingDetailNotificationState extends State<BookingDetailNotification> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+          children: <Widget>[
             _buildInfoCard(
               title: 'Booking Summary',
-              children: [
+              children: <Widget>[
                 _buildDetailRow('Children', children.toString()),
                 _buildDetailRow('Date', '${date.toLocal()}'.split(' ')[0]),
                 _buildDetailRow('Time', time),
@@ -41,7 +40,7 @@ class _BookingDetailNotificationState extends State<BookingDetailNotification> {
             const SizedBox(height: 16),
             _buildInfoCard(
               title: 'Address Information',
-              children: [
+              children: <Widget>[
                 _buildDetailRow('Address', address),
                 _buildDetailRow('Details', details),
               ],
@@ -59,7 +58,7 @@ class _BookingDetailNotificationState extends State<BookingDetailNotification> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
+        boxShadow: <BoxShadow>[
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
             blurRadius: 5,
@@ -69,7 +68,7 @@ class _BookingDetailNotificationState extends State<BookingDetailNotification> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Text(
             title,
             style: const TextStyle(
@@ -90,7 +89,7 @@ class _BookingDetailNotificationState extends State<BookingDetailNotification> {
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+        children: <Widget>[
           Text(
             label,
             style: const TextStyle(

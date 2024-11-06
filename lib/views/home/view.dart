@@ -29,8 +29,8 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> with GlobalStyles{
-   @override
+class _HomeViewState extends State<HomeView> with GlobalStyles {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

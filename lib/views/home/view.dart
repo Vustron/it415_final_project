@@ -23,12 +23,18 @@ import 'package:babysitterapp/core/constants/styles.dart';
 
 import 'package:babysitterapp/views/settings/view.dart';
 
-class _HomeViewState extends State<HomeView> {
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> with GlobalStyles {
   int _currentIndex = 0;
   final CarouselSliderController _carouselController =
       CarouselSliderController();
 
-class _HomeViewState extends State<HomeView> with GlobalStyles {
   @override
   Widget build(BuildContext context) {
     final List<Widget> babysitterCards = List<Widget>.generate(
@@ -92,7 +98,6 @@ class _HomeViewState extends State<HomeView> with GlobalStyles {
                     items: babysitterCards,
                     options: CarouselOptions(
                         enableInfiniteScroll: false,
-                        autoPlay: false, //make carousel autoplay
                         enlargeCenterPage: true,
                         onPageChanged:
                             (int index, CarouselPageChangedReason reason) {

@@ -59,7 +59,10 @@ class _NotificationViewState extends State<NotificationView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Notification')),
+      appBar: AppBar(
+        title: const Text('Notification'),
+        automaticallyImplyLeading: false,
+      ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +81,7 @@ class _NotificationViewState extends State<NotificationView> {
             Expanded(
               child: ListView.builder(
                 itemCount: notificationUsers.length,
-                padding: const EdgeInsets.only(top: 16),
+                padding: const EdgeInsets.symmetric(vertical: 17),
                 itemBuilder: (BuildContext context, int index) {
                   final NotificationUsers user = notificationUsers[index];
                   return NotificationList(

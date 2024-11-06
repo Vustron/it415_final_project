@@ -39,7 +39,7 @@ Widget babySitterCardHeader() => const Row(
           children: <Widget>[
             Icon(
               Icons.star,
-              color: Colors.yellow,
+              color: Color.fromRGBO(255, 193, 7, 1),
             ),
             Text('4.5')
           ],

@@ -7,7 +7,7 @@ import 'package:babysitterapp/views/login/widgets/account_check.dart';
 import 'package:babysitterapp/views/login/widgets/mobile_login.dart';
 
 // views
-import 'package:babysitterapp/views/home/widgets/bottom_navbar.dart';
+import 'package:babysitterapp/views/home/bottom_navbar.dart';
 
 // flutter
 import 'package:flutter/material.dart';

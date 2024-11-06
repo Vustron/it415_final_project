@@ -20,6 +20,7 @@ class _AccountViewState extends State<AccountView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Account'),
       ),
       body: const SingleChildScrollView(

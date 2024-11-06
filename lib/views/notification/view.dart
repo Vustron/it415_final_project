@@ -50,7 +50,7 @@ class _NotificationViewState extends State<NotificationView> {
       imageURL: 'assets/images/hippo.png',
       createdAt: DateTime.now().subtract(const Duration(days: 3)),
       updatedAt: DateTime.now().subtract(const Duration(days: 3)),
-      showButtons: true,
+      showButtons: false,
     ),
   ];
 

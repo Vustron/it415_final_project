@@ -92,7 +92,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                    Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const BookingView()),
+                          builder: (BuildContext context) => const BookingView()),
                     );
                   },
                   icon: const Icon(Icons.request_page_rounded,

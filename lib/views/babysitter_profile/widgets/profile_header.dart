@@ -8,16 +8,43 @@ Widget profileHeader(Color colors) => Container(
         children: <Widget>[
           Row(
             children: <Widget>[
-              const SizedBox(
-                width: 100,
-                height: 100,
-                child: CircleAvatar(
-                  backgroundImage: AssetImage(avatar1),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: const BoxDecoration(
+                  // border color
+                  shape: BoxShape.circle,
                 ),
+                child: Stack(
+                  children: <Widget>[
+                    const CircleAvatar(
+                      backgroundImage: AssetImage(avatar1),
+                      radius: 100 / 2,
+                    ),
+                    Positioned(
+                      top: 70,
+                      left: 70,
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white, width: 3.0),
+                          color: Colors.green,
+                          shape: BoxShape.circle,
+                        ),
+                        width: 10,
+                        height: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                width: 15,
               ),
               Expanded(
                 flex: 5,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     const Text(
@@ -32,7 +59,6 @@ Widget profileHeader(Color colors) => Container(
                       height: 5,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
                           Icons.location_on_sharp,
@@ -67,6 +93,7 @@ Widget profileHeader(Color colors) => Container(
               ),
               Expanded(
                 child: IconButton(
+                  color: Colors.red,
                   onPressed: () {},
                   icon: const Icon(Icons.favorite),
                 ),

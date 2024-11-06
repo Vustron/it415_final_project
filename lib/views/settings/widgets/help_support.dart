@@ -57,10 +57,26 @@ class HelpSupportPageState extends State<HelpSupportPage>
         children: <Widget>[
           SectionTitle(title: 'Frequently Asked Questions'),
           SizedBox(height: 10),
-          FAQTile(question: 'How do I create an account?'),
-          FAQTile(question: 'Where can I find my bookings?'),
-          FAQTile(question: 'How do I change my password?'),
-          FAQTile(question: 'How do I know if my booking is confirmed?'),
+          FAQTile(
+            question: 'How do I create an account?',
+            answer:
+                'To create an account, click on the "Sign Up" button, fill in the required information, and submit the form. You will receive a confirmation email to verify your account.',
+          ),
+          FAQTile(
+            question: 'Where can I find my bookings?',
+            answer:
+                'You can find your bookings in the "My Bookings" section of the app. This section lists all your current and past bookings.',
+          ),
+          FAQTile(
+            question: 'How do I change my password?',
+            answer:
+                'To change your password, go to the "Settings" section, select "Change Password," and follow the instructions provided.',
+          ),
+          FAQTile(
+            question: 'How do I know if my booking is confirmed?',
+            answer:
+                'You will receive a confirmation notification and an email once your booking is confirmed.',
+          ),
           SizedBox(height: 20),
           SectionTitle(title: 'Support Contacts'),
           SizedBox(height: 10),
@@ -161,22 +177,46 @@ class SectionTitle extends StatelessWidget {
 }
 
 // Custom widget for FAQ items
-class FAQTile extends StatelessWidget {
-  const FAQTile({super.key, required this.question});
+class FAQTile extends StatefulWidget {
+  const FAQTile({super.key, required this.question, required this.answer});
   final String question;
+  final String answer;
+
+  @override
+  FAQTileState createState() => FAQTileState();
+}
+
+class FAQTileState extends State<FAQTile> {
+  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: ListTile(
-        title: Text(
-          question,
-          style: const TextStyle(fontSize: 15),
-        ),
-        trailing: const Icon(Icons.keyboard_arrow_down),
-        onTap: () {
-          // Expand or show answer logic here
-        },
+      child: Column(
+        children: <Widget>[
+          ListTile(
+            title: Text(
+              widget.question,
+              style: const TextStyle(fontSize: 15),
+            ),
+            trailing: Icon(
+              _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+            ),
+            onTap: () {
+              setState(() {
+                _isExpanded = !_isExpanded;
+              });
+            },
+          ),
+          if (_isExpanded)
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                widget.answer,
+                style: const TextStyle(fontSize: 14),
+              ),
+            ),
+        ],
       ),
     );
   }

@@ -1,11 +1,11 @@
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/contacts.dart';
+import 'package:babysitterapp/views/babysitter_profile/account/widgets/rate.dart';
 
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/image_edit_button.dart';
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/ratings.dart';
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/resume.dart';
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/service_history.dart';
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/valid_id.dart';
-import 'package:babysitterapp/views/babysitter_profile/account/widgets/years_experience.dart';
+import 'widgets/contacts.dart';
+import 'widgets/image_edit_button.dart';
+import 'widgets/ratings.dart';
+import 'widgets/service_history.dart';
+import 'widgets/valid_id.dart';
+import 'widgets/years_experience.dart';
 import 'package:flutter/material.dart';
 
 class AccountView extends StatefulWidget {
@@ -47,6 +47,15 @@ class _AccountViewState extends State<AccountView> {
               SizedBox(height: 14),
 
               // YEARS EXPERIENCE
+              Rate(),
+
+              SizedBox(height: 15),
+
+              Divider(color: Colors.grey, thickness: 1),
+
+              SizedBox(height: 14),
+
+              // YEARS EXPERIENCE
               YearsExperience(),
 
               SizedBox(height: 15),
@@ -60,8 +69,6 @@ class _AccountViewState extends State<AccountView> {
 
               SizedBox(height: 12),
 
-              // SEVICE HISTORY UPLOAD
-
               Divider(color: Colors.grey, thickness: 1),
 
               ServiceHistoryUpload(),
@@ -70,11 +77,6 @@ class _AccountViewState extends State<AccountView> {
 
               // VALID ID UPLOAD
               ValidIdUpload(),
-
-              Divider(color: Colors.grey, thickness: 1),
-
-              // RESUME ID UPLOAD
-              ResumeUpload(),
 
               Divider(color: Colors.grey, thickness: 1),
 

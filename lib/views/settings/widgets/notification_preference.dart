@@ -121,7 +121,7 @@ class _NotificationPreferenceState extends State<NotificationPreference> {
                         ),
                       ),
                       Text(
-                        'Updates and alerts directly to your phone via SMS',
+                        'Updates directly to your phone via SMS',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.grey,

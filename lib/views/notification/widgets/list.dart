@@ -1,11 +1,11 @@
-// third party
-import 'package:intl/intl.dart';
-
-// flutter
 import 'package:flutter/material.dart';
-
-// dart
+import 'package:intl/intl.dart';
 import 'dart:developer';
+
+import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/core/helper/goto_page.dart';
+
+import 'package:babysitterapp/views/notification/booking/detail.dart';
 
 class NotificationList extends StatefulWidget {
   const NotificationList({
@@ -42,8 +42,8 @@ class NotificationListState extends State<NotificationList> {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
-        color: const Color.fromARGB(255, 255, 255, 255),
-        padding: const EdgeInsets.all(10),
+        color: Colors.white,
+        padding: const EdgeInsets.all(GlobalStyles.smallPadding),
         child: Column(
           children: <Widget>[
             Row(
@@ -63,7 +63,7 @@ class NotificationListState extends State<NotificationList> {
                         widget.messageText,
                         style: TextStyle(
                           fontSize: 15,
-                          color: const Color.fromARGB(255, 0, 0, 0),
+                          color: Colors.black,
                           fontWeight: widget.isMessageRead
                               ? FontWeight.bold
                               : FontWeight.normal,
@@ -75,6 +75,7 @@ class NotificationListState extends State<NotificationList> {
                 Text(
                   DateFormat('hh:mm a').format(widget.time),
                   style: TextStyle(
+                    color: GlobalStyles.appBarIconColor,
                     fontSize: 15,
                     fontWeight: widget.isMessageRead
                         ? FontWeight.bold
@@ -92,8 +93,7 @@ class NotificationListState extends State<NotificationList> {
                   ElevatedButton(
                     onPressed: onConfirm,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromRGBO(22, 134, 170,
-                          1), // Corrected Color values (R, G, B, opacity)
+                      backgroundColor: GlobalStyles.primaryButtonColor,
                     ),
                     child: const Text(
                       'Confirm',
@@ -102,15 +102,30 @@ class NotificationListState extends State<NotificationList> {
                   ),
                   const SizedBox(width: 10),
                   ElevatedButton(
+                    onPressed: () {
+                      goToPage(context, const BookingDetailNotification(),
+                          'rightToLeftWithFade');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: GlobalStyles.primaryButtonColor,
+                    ),
+                    child: const Text(
+                      'View',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  ElevatedButton(
                     onPressed: onDecline,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey, // Decline button color
+                      backgroundColor: Colors.grey,
                     ),
                     child: const Text(
                       'Decline',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
+                  const SizedBox(width: 10),
                 ],
               ),
           ],

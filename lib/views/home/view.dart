@@ -1,4 +1,3 @@
-// third party
 import 'package:babysitterapp/views/booking/view.dart';
 import 'package:babysitterapp/views/home/widgets/card_nearby.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -17,22 +16,19 @@ import 'widgets/nearby.dart';
 // flutter
 import 'package:flutter/material.dart';
 
+// styles
+import 'package:babysitterapp/core/constants/styles.dart';
+
 // views
 
 import 'package:babysitterapp/views/settings/view.dart';
-
-class HomeView extends StatefulWidget {
-  const HomeView({super.key});
-
-  @override
-  State<HomeView> createState() => _HomeViewState();
-}
 
 class _HomeViewState extends State<HomeView> {
   int _currentIndex = 0;
   final CarouselSliderController _carouselController =
       CarouselSliderController();
 
+class _HomeViewState extends State<HomeView> with GlobalStyles {
   @override
   Widget build(BuildContext context) {
     final List<Widget> babysitterCards = List<Widget>.generate(
@@ -50,10 +46,12 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
         centerTitle: false,
-        title: const Text(
+        title: Text(
           'Hello Arvin Sison!',
-          style: TextStyle(
-              color: Colors.black, fontSize: 20, fontFamily: 'Nexa-Heavy'),
+          style: headerStyle.copyWith(
+            color: Colors.black,
+            fontSize: 20,
+          ),
         ),
         actions: <Widget>[
           IconButton(
@@ -82,7 +80,7 @@ class _HomeViewState extends State<HomeView> {
       body: ListView(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(GlobalStyles.defaultPadding),
             child: Center(
               child: Column(
                 children: <Widget>[

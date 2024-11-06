@@ -12,7 +12,6 @@ import 'widgets/list.dart';
 
 // styles
 
-
 class NotificationView extends StatefulWidget {
   const NotificationView({super.key});
 
@@ -24,7 +23,8 @@ class _NotificationViewState extends State<NotificationView> {
   final List<NotificationUsers> notificationUsers = <NotificationUsers>[
     NotificationUsers(
       name: 'Jane Russel',
-      messageText: 'has sent a request to apply as your babysitter! Review the application and respond at your earliest convenience.',
+      messageText:
+          'has sent a request to apply as your babysitter! Review the application and respond at your earliest convenience.',
       imageURL: 'assets/images/hippo.png',
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
@@ -32,29 +32,31 @@ class _NotificationViewState extends State<NotificationView> {
     ),
     NotificationUsers(
       name: 'BabyCare',
-      messageText: 'Good news! A babysitter nearby has a 4.9-star rating. Book now to ensure the best care for your child!',
+      messageText:
+          'Good news! A babysitter nearby has a 4.9-star rating. Book now to ensure the best care for your child!',
       imageURL: 'assets/images/hippo.png',
       createdAt: DateTime.now().subtract(const Duration(days: 1)),
       updatedAt: DateTime.now().subtract(const Duration(days: 1)),
     ),
     NotificationUsers(
       name: 'BabyCare',
-      messageText: "There's a babysitter nearby with a 4.5-star rating, offering her services for only 350 pesos per day. Don't miss out—book her now!",
+      messageText:
+          "There's a babysitter nearby with a 4.5-star rating, offering her services for only 350 pesos per day. Don't miss out—book her now!",
       imageURL: 'assets/images/hippo.png',
       createdAt: DateTime.now().subtract(const Duration(days: 2)),
       updatedAt: DateTime.now().subtract(const Duration(days: 2)),
     ),
     NotificationUsers(
       name: 'Krystina',
-      messageText: 'has just sent a request for a babysitter. Please review and respond promptly!',
+      messageText:
+          'has just sent a request for a babysitter. Please review and respond promptly!',
       imageURL: 'assets/images/hippo.png',
       createdAt: DateTime.now().subtract(const Duration(days: 3)),
       updatedAt: DateTime.now().subtract(const Duration(days: 3)),
-      showButtons: true,
     ),
   ];
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Notification')),

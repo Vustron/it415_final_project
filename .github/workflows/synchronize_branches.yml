@@ -4,6 +4,8 @@ on:
     workflows: ["Synchronize to main"]
     types:
       - completed
+  repository_dispatch:
+    types: [trigger-branch-update]
 
 jobs:
   update-branches:

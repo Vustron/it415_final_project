@@ -29,8 +29,8 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> with GlobalStyles{
-   @override
+class _HomeViewState extends State<HomeView> with GlobalStyles {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -48,7 +48,7 @@ class _HomeViewState extends State<HomeView> with GlobalStyles{
           style: headerStyle.copyWith(
             color: Colors.black,
             fontSize: 20,
-          ), // Reusing headerStyle from GlobalStyles with slight modifications
+          ),
         ),
         actions: <Widget>[
           IconButton(

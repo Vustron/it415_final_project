@@ -1,15 +1,11 @@
-// third party
-import 'package:intl/intl.dart';
-
-// flutter
 import 'package:flutter/material.dart';
-
-// dart
+import 'package:intl/intl.dart';
 import 'dart:developer';
-// styles
-import '../../../core/constants/styles.dart'; // Import your styles file
 
+import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/core/helper/goto_page.dart';
 
+import 'package:babysitterapp/views/notification/booking/detail.dart';
 
 class NotificationList extends StatefulWidget {
   const NotificationList({
@@ -46,8 +42,8 @@ class NotificationListState extends State<NotificationList> {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
-        color: Colors.white, // Default container color
-        padding: const EdgeInsets.all(GlobalStyles.smallPadding), // Use smallPadding
+        color: Colors.white,
+        padding: const EdgeInsets.all(GlobalStyles.smallPadding),
         child: Column(
           children: <Widget>[
             Row(
@@ -61,7 +57,7 @@ class NotificationListState extends State<NotificationList> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                          Text(widget.name, style: const TextStyle(fontSize: 15)),
+                      Text(widget.name, style: const TextStyle(fontSize: 15)),
                       const SizedBox(height: 6),
                       Text(
                         widget.messageText,
@@ -79,7 +75,7 @@ class NotificationListState extends State<NotificationList> {
                 Text(
                   DateFormat('hh:mm a').format(widget.time),
                   style: TextStyle(
-                    color: GlobalStyles.appBarIconColor, // Use appBarIconColor
+                    color: GlobalStyles.appBarIconColor,
                     fontSize: 15,
                     fontWeight: widget.isMessageRead
                         ? FontWeight.bold
@@ -97,7 +93,7 @@ class NotificationListState extends State<NotificationList> {
                   ElevatedButton(
                     onPressed: onConfirm,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: GlobalStyles.primaryButtonColor, // Use primaryButtonColor
+                      backgroundColor: GlobalStyles.primaryButtonColor,
                     ),
                     child: const Text(
                       'Confirm',
@@ -106,15 +102,30 @@ class NotificationListState extends State<NotificationList> {
                   ),
                   const SizedBox(width: 10),
                   ElevatedButton(
+                    onPressed: () {
+                      goToPage(context, const BookingDetailNotification(),
+                          'rightToLeftWithFade');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: GlobalStyles.primaryButtonColor,
+                    ),
+                    child: const Text(
+                      'View',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  ElevatedButton(
                     onPressed: onDecline,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey, // Use a defined color from styles if available
+                      backgroundColor: Colors.grey,
                     ),
                     child: const Text(
                       'Decline',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
+                  const SizedBox(width: 10),
                 ],
               ),
           ],

@@ -193,7 +193,7 @@ class FAQTileState extends State<FAQTile> {
   Widget build(BuildContext context) {
     return Card(
       child: Column(
-        children: [
+        children: <Widget>[
           ListTile(
             title: Text(
               widget.question,

@@ -1,16 +1,16 @@
 // flutter
+import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/material.dart';
 
 Widget filterCard({required Widget child}) {
-  return Card(
-    elevation: 4,
-    margin: const EdgeInsets.symmetric(vertical: 8),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(16),
+  return Container(
+    decoration: BoxDecoration(
+      border: Border.all(
+        color: const Color(0xFFD0D0D0),
+      ),
+      borderRadius: BorderRadius.circular(20),
     ),
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: child,
-    ),
+    padding: GlobalStyles.defaultContentPadding,
+    child: child,
   );
 }

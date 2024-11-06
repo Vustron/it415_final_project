@@ -1,10 +1,11 @@
 import 'package:babysitterapp/core/constants/styles.dart';
-import 'package:babysitterapp/views/babysitter_profile/widgets/AvailabilityInfo.dart';
-import 'package:babysitterapp/views/babysitter_profile/widgets/sectionTitle.dart';
-import 'package:flutter/material.dart';
 
-class AvailabilityPage extends StatelessWidget with GlobalStyles {
-  AvailabilityPage({super.key});
+import 'package:babysitterapp/views/babysitter_profile/widgets/section_title.dart';
+import 'package:flutter/material.dart';
+import 'review_info.dart';
+
+class ReviewsPage extends StatelessWidget with GlobalStyles {
+  ReviewsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +20,15 @@ class AvailabilityPage extends StatelessWidget with GlobalStyles {
       child: Column(
         children: <Widget>[
           SectionTitle(
-            text: 'Availability',
+            text: 'Reviews',
           ),
-          AvailabilityinfoPage(),
-          AvailabilityinfoPage(),
-          AvailabilityinfoPage(),
-          AvailabilityinfoPage(),
+          const SizedBox(
+            height: GlobalStyles.defaultPadding,
+          ),
+          ReviewsInfoPage(),
+          ReviewsInfoPage(),
+          ReviewsInfoPage(),
+          ReviewsInfoPage(),
         ],
       ),
     );

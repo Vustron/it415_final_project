@@ -2,6 +2,7 @@ import 'package:babysitterapp/views/babysitter_profile/account/widgets/rate.dart
 
 import 'widgets/contacts.dart';
 import 'widgets/image_edit_button.dart';
+import 'widgets/rate.dart';
 import 'widgets/ratings.dart';
 import 'widgets/service_history.dart';
 import 'widgets/valid_id.dart';
@@ -67,8 +68,6 @@ class _AccountViewState extends State<AccountView> {
               Ratings(),
 
               SizedBox(height: 12),
-
-              // SEVICE HISTORY UPLOAD
 
               Divider(color: Colors.grey, thickness: 1),
 

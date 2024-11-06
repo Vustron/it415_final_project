@@ -1,6 +1,5 @@
 import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class DescriptionsPage extends StatelessWidget with GlobalStyles {
   DescriptionsPage({super.key});

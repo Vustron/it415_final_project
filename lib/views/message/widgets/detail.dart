@@ -1,4 +1,5 @@
 // core
+import 'package:babysitterapp/views/booking/view.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:developer';
 
@@ -88,6 +89,11 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                 IconButton(
                   onPressed: () {
                     // Add functionality for video call here
+                   Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BookingView()),
+                    );
                   },
                   icon: const Icon(Icons.request_page_rounded,
                       color: Colors.black54),

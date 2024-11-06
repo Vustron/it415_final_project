@@ -38,9 +38,13 @@ Widget profileHeader(Color colors) => Container(
                   ],
                 ),
               ),
+              const SizedBox(
+                width: 15,
+              ),
               Expanded(
                 flex: 5,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     const Text(
@@ -55,7 +59,6 @@ Widget profileHeader(Color colors) => Container(
                       height: 5,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
                           Icons.location_on_sharp,

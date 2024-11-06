@@ -1,3 +1,5 @@
+
+import 'package:flutter/material.dart';
 import 'widgets/bio.dart';
 import 'widgets/image.dart';
 import 'widgets/rate.dart';
@@ -6,7 +8,6 @@ import 'widgets/service_history.dart';
 import 'widgets/valid_id.dart';
 import 'widgets/contacts.dart';
 import 'widgets/save_edit_button.dart';
-import 'package:flutter/material.dart';
 
 class EditBabySitterProfile extends StatelessWidget {
   const EditBabySitterProfile({super.key});

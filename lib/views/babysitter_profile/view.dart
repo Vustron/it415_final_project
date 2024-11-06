@@ -25,18 +25,16 @@ class _BabysitterProfileState extends State<BabysitterProfile>
     final Size width = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 280,
+        toolbarHeight: 250,
         leadingWidth: width.width,
         elevation: 3,
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         shadowColor: const Color.fromARGB(176, 0, 0, 0),
         leading: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: GlobalStyles.defaultContentPadding,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              const SizedBox(
-                height: 40,
-              ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: IconButton(
@@ -50,7 +48,7 @@ class _BabysitterProfileState extends State<BabysitterProfile>
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 5,
               ),
               profileHeader(GlobalStyles.primaryButtonColor),
               const SizedBox(

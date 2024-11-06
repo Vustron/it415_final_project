@@ -54,7 +54,7 @@ class _BabysitterProfileState extends State<BabysitterProfile>
               const SizedBox(
                 height: 15,
               ),
-              messageButton(GlobalStyles.kPrimaryColor),
+              messageButton(GlobalStyles.primaryButtonColor),
             ],
           ),
         ),

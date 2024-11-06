@@ -1,7 +1,8 @@
+import 'package:babysitterapp/views/babysitter_profile/account/widgets/rate.dart';
+
 import 'widgets/contacts.dart';
 import 'widgets/image_edit_button.dart';
 import 'widgets/ratings.dart';
-import 'widgets/resume.dart';
 import 'widgets/service_history.dart';
 import 'widgets/valid_id.dart';
 import 'widgets/years_experience.dart';
@@ -15,22 +16,17 @@ class AccountView extends StatefulWidget {
 }
 
 class _AccountViewState extends State<AccountView> {
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       appBar: AppBar(
         title: const Text('Account'),
       ),
-
       body: const SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
-              
               SizedBox(height: 18),
 
               AccountImageEditButton(),
@@ -72,7 +68,6 @@ class _AccountViewState extends State<AccountView> {
 
               SizedBox(height: 12),
 
-
               // SEVICE HISTORY UPLOAD
 
               Divider(color: Colors.grey, thickness: 1),
@@ -80,7 +75,6 @@ class _AccountViewState extends State<AccountView> {
               ServiceHistoryUpload(),
 
               Divider(color: Colors.grey, thickness: 1),
-
 
               // VALID ID UPLOAD
               ValidIdUpload(),
@@ -93,7 +87,6 @@ class _AccountViewState extends State<AccountView> {
               Contacts(),
 
               SizedBox(height: 100),
-
             ],
           ),
         ),

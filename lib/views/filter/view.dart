@@ -5,13 +5,11 @@ import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/material.dart';
 
 // widgets
-import 'widgets/additions_section.dart';
 import 'widgets/distance_slider.dart';
 import 'widgets/sorting_options.dart';
 import 'widgets/price_filter.dart';
 import 'widgets/filter_theme.dart';
 import 'widgets/find_button.dart';
-import 'widgets/online.dart';
 
 class FilterView extends StatefulWidget {
   const FilterView({super.key});
@@ -84,16 +82,13 @@ class _FilterViewState extends State<FilterView>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  const SizedBox(height: 10),
                   const PriceFilter(),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 10),
                   const DistanceSlider(),
-                  const SizedBox(height: 5),
-                  const OnlineNowSwitch(),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 10),
                   sortingOptions(),
-                  const SizedBox(height: 5),
-                  additionsSection(),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 20),
                   findButton(),
                   const SizedBox(height: 50),
                 ],

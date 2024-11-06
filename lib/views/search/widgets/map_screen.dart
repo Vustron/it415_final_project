@@ -17,9 +17,8 @@ class _MapScreenState extends State<MapScreen> {
     return FlutterMap(
       mapController: _mapController,
       options: MapOptions(
-          initialCenter: LatLng(7.3136, 125.6703),
-          initialZoom: 13.0,
-          onTap: (tapPosition, latlng) {
+          initialCenter: const LatLng(7.3136, 125.6703),
+          onTap: (TapPosition tapPosition, LatLng latlng) {
             //Code Here
           }),
       children: <Widget>[

@@ -1182,10 +1182,10 @@ packages:
     dependency: transitive
     description:
       name: vector_graphics_compiler
-      sha256: "101e1a04b7474acdf58b463e5df78c8a51401581c2f7dfdaf27376d1aa3b92c6"
+      sha256: "26d520739b7c6b5d2a2b3274427874a8390831fd4cd5bb8cfbd7d913477d3a2e"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.13"
+    version: "1.1.14"
   vector_math:
     dependency: transitive
     description:

@@ -61,11 +61,6 @@ class EditBabySitterProfile extends StatelessWidget {
 
               SizedBox(height: 24),
 
-              EditResume(),
-
-
-              SizedBox(height: 24),
-
               Divider(color: Colors.grey, thickness: 1),
 
               SizedBox(height: 8),

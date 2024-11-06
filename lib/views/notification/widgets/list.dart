@@ -1,4 +1,5 @@
 // third party
+import 'package:babysitterapp/views/notification/booking/detail.dart';
 import 'package:intl/intl.dart';
 
 // flutter
@@ -104,6 +105,26 @@ class NotificationListState extends State<NotificationList> {
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
+                     const SizedBox(width: 10),
+                      ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const BookingDetailNotification(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: GlobalStyles
+                          .primaryButtonColor, // Use primaryButtonColor
+                    ),
+                    child: const Text(
+                      'View',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                   const SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: onDecline,
@@ -115,6 +136,8 @@ class NotificationListState extends State<NotificationList> {
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
+                  const SizedBox(width: 10),
+             
                 ],
               ),
           ],

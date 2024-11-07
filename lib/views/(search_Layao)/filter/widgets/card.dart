@@ -1,6 +1,6 @@
-// flutter
-import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/material.dart';
+
+import 'package:babysitterapp/core/constants/styles.dart';
 
 Widget filterCard({required Widget child}) {
   return Container(

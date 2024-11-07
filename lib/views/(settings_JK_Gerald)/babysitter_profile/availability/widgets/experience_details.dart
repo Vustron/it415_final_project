@@ -1,5 +1,6 @@
-import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/widgets.dart';
+
+import 'package:babysitterapp/core/constants/styles.dart';
 
 class ExperienceDetails extends StatelessWidget with GlobalStyles {
   ExperienceDetails({super.key});

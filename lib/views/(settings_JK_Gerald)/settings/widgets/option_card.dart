@@ -44,7 +44,7 @@ class SettingsOptionCard extends StatelessWidget {
         ),
         trailing: showDropdownIcon
             ? Icon(isExpanded ? Icons.arrow_drop_down : Icons.arrow_right,
-                size: 20) // Show dropdown icon based on state
+                size: 20)
             : const Icon(Icons.arrow_forward_ios, size: 16),
         onTap: onTap,
       ),

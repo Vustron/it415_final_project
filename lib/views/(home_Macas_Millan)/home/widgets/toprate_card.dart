@@ -1,8 +1,6 @@
-// core
-import 'toprate.dart';
-
-// flutter
 import 'package:flutter/material.dart';
+
+import 'toprate.dart';
 
 Widget topRatedBabySitterCard() => Container(
       width: 340,

@@ -4,9 +4,9 @@ import 'package:babysitterapp/core/constants/styles.dart';
 
 import 'availability/widgets/experience_details.dart';
 import 'availability/widgets/reviews.dart';
-import 'availability/view.dart';
 import 'widgets/profile_header.dart';
 import 'widgets/descriptions.dart';
+import 'availability/view.dart';
 import 'widgets/input.dart';
 
 class BabysitterProfile extends StatefulWidget {

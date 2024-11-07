@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/core/helper/goto_page.dart';
 
 import 'widgets/notification_preference.dart';
-import 'widgets/transaction_history.dart';
+import '../transaction_history/view.dart';
 import 'widgets/option_tile.dart' as core;
 import 'widgets/logout_button.dart';
-import 'widgets/help_support.dart';
+import '../help_support/view.dart';
 import 'widgets/option_card.dart';
 
 class SettingsView extends StatefulWidget {
@@ -33,46 +34,34 @@ class _SettingsViewState extends State<SettingsView> with GlobalStyles {
             children: <Widget>[
               const core.SectionTitle(title: 'GENERAL'),
               const SizedBox(height: 8),
-              _buildOptionCard(
+              SettingsOptionCard(
                 icon: Icons.list_alt,
                 text: 'Transaction History',
                 onTap: () {
-                  Navigator.push<dynamic>(
-                    context,
-                    MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) =>
-                          const TransactionHistory(),
-                    ),
-                  );
+                  goToPage(context, const TransactionHistoryView(),
+                      'rightToLeftWithFade');
                 },
+                style: optionTextStyle,
               ),
               const SizedBox(height: 8),
-              _buildOptionCard(
+              SettingsOptionCard(
                 icon: Icons.help_outline,
                 text: 'Help & Support',
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) =>
-                          const HelpSupportPage(),
-                    ),
-                  );
+                  goToPage(
+                      context, const HelpSupportPage(), 'rightToLeftWithFade');
                 },
+                style: optionTextStyle,
               ),
               const SizedBox(height: 8),
-              _buildOptionCard(
+              SettingsOptionCard(
                 icon: Icons.notifications,
                 text: 'Notification Preference',
                 onTap: () {
-                  Navigator.push<dynamic>(
-                    context,
-                    MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) =>
-                          const NotificationPreference(),
-                    ),
-                  );
+                  goToPage(context, const NotificationPreference(),
+                      'rightToLeftWithFade');
                 },
+                style: optionTextStyle,
               ),
               const SizedBox(height: 20),
               LogoutButton(),
@@ -81,22 +70,6 @@ class _SettingsViewState extends State<SettingsView> with GlobalStyles {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildOptionCard({
-    required IconData icon,
-    required String text,
-    required VoidCallback onTap,
-    bool isExpanded = false,
-  }) {
-    return SettingsOptionCard(
-      icon: icon,
-      text: text,
-      onTap: onTap,
-      showDropdownIcon: text == 'Account',
-      isExpanded: isExpanded,
-      style: optionTextStyle,
     );
   }
 }

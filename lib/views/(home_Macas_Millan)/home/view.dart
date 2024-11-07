@@ -1,46 +1,34 @@
-import 'package:babysitterapp/views/(booking_runa)/booking/view.dart';
-import 'package:babysitterapp/views/(home_Macas_Millan)/home/widgets/card_nearby.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-
-// core
-import 'package:babysitterapp/core/helper/goto_page.dart';
-import 'package:babysitterapp/core/constants/assets.dart';
-
-// widgets
-import 'widgets/toprated_babysitter.dart';
-
-import 'widgets/toprate_card.dart';
-import 'widgets/nearby.dart';
-
-// flutter
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
-// styles
+import 'package:babysitterapp/core/helper/goto_page.dart';
+import 'package:babysitterapp/core/constants/assets.dart';
 import 'package:babysitterapp/core/constants/styles.dart';
 
-// views
+import 'widgets/toprated_babysitter.dart';
+import 'widgets/toprate_card.dart';
+import 'widgets/card_nearby.dart';
+import 'widgets/nearby.dart';
 
 import 'package:babysitterapp/views/(settings_JK_Gerald)/settings/view.dart';
+import 'package:babysitterapp/views/(booking_runa)/booking/view.dart';
 
-class HomeView extends StatefulWidget {
-  const HomeView({super.key});
-
-  @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> with GlobalStyles {
-  int _currentIndex = 0;
-  final CarouselSliderController _carouselController =
-      CarouselSliderController();
+class HomeView extends HookWidget with GlobalStyles {
+  HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ValueNotifier<int> currentIndex = useState(0);
+    final CarouselSliderController carouselController =
+        useMemoized(() => CarouselSliderController());
+
     final List<Widget> babysitterCards = List<Widget>.generate(
       10,
       (int index) => babySitterCardNearby(context),
     );
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
@@ -94,7 +82,7 @@ class _HomeViewState extends State<HomeView> with GlobalStyles {
                   //carousel
                   //many types of carousel based on package
                   CarouselSlider(
-                    carouselController: _carouselController,
+                    carouselController: carouselController,
                     items: babysitterCards,
                     options: CarouselOptions(
                         height: 250,
@@ -102,9 +90,7 @@ class _HomeViewState extends State<HomeView> with GlobalStyles {
                         enlargeCenterPage: true,
                         onPageChanged:
                             (int index, CarouselPageChangedReason reason) {
-                          setState(() {
-                            _currentIndex = index;
-                          });
+                          currentIndex.value = index;
                         }),
                   ),
                   const SizedBox(height: 10),
@@ -116,7 +102,7 @@ class _HomeViewState extends State<HomeView> with GlobalStyles {
                         .map((MapEntry<int, Widget> entry) {
                       return GestureDetector(
                         onTap: () =>
-                            _carouselController.animateToPage(entry.key),
+                            carouselController.animateToPage(entry.key),
                         child: Container(
                           width: 8.0,
                           height: 8.0,
@@ -124,7 +110,7 @@ class _HomeViewState extends State<HomeView> with GlobalStyles {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.black.withOpacity(
-                                _currentIndex == entry.key ? 0.9 : 0.4),
+                                currentIndex.value == entry.key ? 0.9 : 0.4),
                           ),
                         ),
                       );

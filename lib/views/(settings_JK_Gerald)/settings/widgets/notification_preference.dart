@@ -1,5 +1,6 @@
-import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/material.dart';
+
+import 'package:babysitterapp/core/constants/styles.dart';
 import 'option_tile.dart' as core;
 
 class NotificationPreference extends StatefulWidget {
@@ -10,8 +11,8 @@ class NotificationPreference extends StatefulWidget {
 }
 
 class _NotificationPreferenceState extends State<NotificationPreference> {
-  bool _isEmailToggled = false; 
-  bool _isSMSToggled = false; 
+  bool _isEmailToggled = false;
+  bool _isSMSToggled = false;
 
   void _toggleEmail() {
     setState(() {
@@ -40,15 +41,14 @@ class _NotificationPreferenceState extends State<NotificationPreference> {
                 alignment: Alignment.topLeft,
                 child: core.SectionTitle(title: 'GENERAL'),
               ),
-              const SizedBox(height: 14), 
+              const SizedBox(height: 14),
 
               // Row for Email Notifications
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   const Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start, // Align text to the start
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
                         'Receive email notifications',
@@ -67,7 +67,6 @@ class _NotificationPreferenceState extends State<NotificationPreference> {
                       ),
                     ],
                   ),
-
                   GestureDetector(
                     onTap: _toggleEmail,
                     child: AnimatedContainer(
@@ -102,16 +101,13 @@ class _NotificationPreferenceState extends State<NotificationPreference> {
                 ],
               ),
 
+              const SizedBox(height: 25),
 
-              const SizedBox(height: 25), 
-
-              // Row for SMS Notifications
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   const Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start, 
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
                         'Receive SMS notifications',
@@ -130,7 +126,6 @@ class _NotificationPreferenceState extends State<NotificationPreference> {
                       ),
                     ],
                   ),
-
                   GestureDetector(
                     onTap: _toggleSMS,
                     child: AnimatedContainer(

@@ -1,20 +1,59 @@
-// utils
 import 'package:flutter/material.dart';
+import 'dart:developer';
 
-class EditProfile extends StatefulWidget {
+import 'package:babysitterapp/core/components/dynamic_form.dart';
+
+import 'package:babysitterapp/models/inputfield.dart';
+
+class EditProfile extends StatelessWidget {
   const EditProfile({super.key});
 
   @override
-  EditProfileState createState() => EditProfileState();
-}
-
-class EditProfileState extends State<EditProfile> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-
-  @override
   Widget build(BuildContext context) {
+    final List<InputFieldConfig> fields = <InputFieldConfig>[
+      InputFieldConfig(
+        label: 'Full Name',
+        hintText: 'Enter your full name',
+        value: 'Arvin Sison',
+        prefixIcon: Icons.person,
+        type: 'text',
+      ),
+      InputFieldConfig(
+        label: 'Email',
+        hintText: 'Enter your email',
+        value: 'arvinsison@gmail.com',
+        prefixIcon: Icons.email,
+        keyboardType: TextInputType.emailAddress,
+        type: 'email',
+      ),
+      InputFieldConfig(
+        label: 'Phone Number',
+        hintText: 'Enter your phone number',
+        value: '09252325981',
+        prefixIcon: Icons.phone,
+        keyboardType: TextInputType.phone,
+        type: 'text',
+      ),
+      InputFieldConfig(
+        label: 'Address',
+        hintText: 'Enter your address',
+        value: 'Purok Salvacion Panabo City',
+        prefixIcon: Icons.location_on_sharp,
+        type: 'text',
+      ),
+      InputFieldConfig(
+        label: 'Password',
+        hintText: 'Enter your password',
+        prefixIcon: Icons.password,
+        obscureText: true,
+        type: 'password',
+      ),
+    ];
+
+    void onSubmit(Map<String, String> formData) {
+      log(formData.toString());
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Profile'),
@@ -22,14 +61,8 @@ class EditProfileState extends State<EditProfile> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.edit),
+          icon: const Icon(Icons.arrow_back),
         ),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.arrow_forward_ios_outlined),
-          ),
-        ],
         backgroundColor: Colors.blueAccent,
         elevation: 0,
       ),
@@ -47,54 +80,9 @@ class EditProfileState extends State<EditProfile> {
               ),
             ),
             const SizedBox(height: 20),
-            TextField(
-              controller: _nameController,
-              decoration: InputDecoration(
-                labelText: 'Full Name',
-                prefixIcon: const Icon(Icons.person),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                prefixIcon: const Icon(Icons.email),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            const SizedBox(height: 15),
-            TextField(
-              controller: _phoneController,
-              decoration: InputDecoration(
-                labelText: 'Phone Number',
-                prefixIcon: const Icon(Icons.phone),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              keyboardType: TextInputType.phone,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size.fromHeight(50),
-                backgroundColor: Colors.blueAccent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: const Text(
-                'Save Changes',
-                style: TextStyle(fontSize: 18),
-              ),
+            DynamicForm(
+              fields: fields,
+              onSubmit: onSubmit,
             ),
           ],
         ),

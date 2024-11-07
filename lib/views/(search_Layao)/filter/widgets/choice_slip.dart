@@ -1,8 +1,6 @@
-// core
-import 'package:babysitterapp/core/constants/styles.dart';
-
-// flutter
 import 'package:flutter/material.dart';
+
+import 'package:babysitterapp/core/constants/styles.dart';
 
 class ChoiceSlip extends StatefulWidget {
   const ChoiceSlip({

@@ -1,13 +1,8 @@
-// third party
-import 'package:hugeicons/hugeicons.dart';
-
-// core
-import 'package:babysitterapp/core/helper/goto_page.dart';
-
-// flutter
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
-// views
+import 'package:babysitterapp/core/helper/goto_page.dart';
+
 import 'package:babysitterapp/views/(search_Layao)/filter/view.dart';
 
 Widget buttons(BuildContext context) => Padding(
@@ -20,8 +15,8 @@ Widget buttons(BuildContext context) => Padding(
             label: const Text(
               'Maps',
             ),
-            icon: const HugeIcon(
-              icon: HugeIcons.strokeRoundedMaps,
+            icon: const Icon(
+              FluentIcons.map_24_regular,
               color: Colors.white,
             ),
           ),
@@ -32,8 +27,8 @@ Widget buttons(BuildContext context) => Padding(
             label: const Text(
               'Filter',
             ),
-            icon: const HugeIcon(
-              icon: HugeIcons.strokeRoundedSorting01,
+            icon: const Icon(
+              FluentIcons.filter_24_regular,
               color: Colors.white,
             ),
           )

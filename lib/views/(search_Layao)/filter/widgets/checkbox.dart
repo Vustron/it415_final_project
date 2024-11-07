@@ -1,8 +1,6 @@
-// core
-import 'package:babysitterapp/core/constants/styles.dart';
-
-// flutter
 import 'package:flutter/material.dart';
+
+import 'package:babysitterapp/core/constants/styles.dart';
 
 class AdditionCheckbox extends StatefulWidget {
   const AdditionCheckbox({super.key});

@@ -1,8 +1,6 @@
-// third party
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-
-// flutter
 import 'package:flutter/material.dart';
+
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 Widget babySitterCardHeader() => const Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -35,14 +33,5 @@ Widget babySitterCardHeader() => const Row(
             ),
           ],
         ),
-        // Row(
-        //   children: <Widget>[
-        //     Icon(
-        //       Icons.star,
-        //       color: Color.fromRGBO(255, 193, 7, 1),
-        //     ),
-        //     Text('4.5')
-        //   ],
-        // )
       ],
     );

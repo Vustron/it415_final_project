@@ -1,5 +1,6 @@
-import 'package:babysitterapp/core/constants/assets.dart';
 import 'package:flutter/material.dart';
+
+import 'package:babysitterapp/core/constants/assets.dart';
 
 class UserProfile extends StatelessWidget {
   const UserProfile({super.key});

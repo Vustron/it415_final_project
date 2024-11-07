@@ -1,10 +1,7 @@
-// core
-import 'package:babysitterapp/core/constants/styles.dart';
-
-// flutter
 import 'package:flutter/material.dart';
 
-// widgets
+import 'package:babysitterapp/core/constants/styles.dart';
+
 import 'widgets/distance_slider.dart';
 import 'widgets/sorting_options.dart';
 import 'widgets/price_filter.dart';

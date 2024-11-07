@@ -1,7 +1,5 @@
-// core
 import 'package:babysitterapp/core/constants/styles.dart';
 
-// flutter
 import 'package:flutter/material.dart';
 
 class CustomTextInput extends StatefulWidget {
@@ -59,7 +57,8 @@ class CustomTextInputState extends State<CustomTextInput> {
   @override
   void initState() {
     super.initState();
-    _controller = widget.controller ?? TextEditingController(text: widget.initialValue);
+    _controller =
+        widget.controller ?? TextEditingController(text: widget.initialValue);
     _controller.addListener(_updateClearButtonVisibility);
   }
 
@@ -82,7 +81,7 @@ class CustomTextInputState extends State<CustomTextInput> {
     return TextField(
       controller: _controller,
       onChanged: widget.onChanged,
-      decoration:  InputDecoration(
+      decoration: InputDecoration(
         hintText: widget.hintText,
         hintStyle: TextStyle(color: widget.hintColor ?? Colors.grey.shade600),
         prefixIcon: widget.prefixIcon,
@@ -101,11 +100,14 @@ class CustomTextInputState extends State<CustomTextInput> {
         contentPadding: widget.contentPadding,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius),
-          borderSide: BorderSide(color: widget.borderColor ?? GlobalStyles.defaultBorderColor),
+          borderSide: BorderSide(
+              color: widget.borderColor ?? GlobalStyles.defaultBorderColor),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius),
-          borderSide: BorderSide(color: widget.focusedBorderColor ?? GlobalStyles.defaultFocusedBorderColor),
+          borderSide: BorderSide(
+              color: widget.focusedBorderColor ??
+                  GlobalStyles.defaultFocusedBorderColor),
         ),
       ),
       style: TextStyle(color: widget.textColor ?? Colors.grey.shade800),

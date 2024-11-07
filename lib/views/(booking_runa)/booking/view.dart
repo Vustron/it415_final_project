@@ -1,6 +1,5 @@
-import 'package:babysitterapp/views/(booking_runa)/booking/widgets/appbar.dart';
+import 'package:flutter/material.dart';
 
-// widgets
 import 'widgets/children_selector.dart';
 import 'widgets/continue_btn.dart';
 import 'widgets/section_title.dart';
@@ -9,9 +8,7 @@ import 'widgets/time_pickers.dart';
 import 'widgets/date_picker.dart';
 import 'widgets/address.dart';
 import 'widgets/details.dart';
-
-// flutter
-import 'package:flutter/material.dart';
+import 'widgets/appbar.dart';
 
 class BookingView extends StatefulWidget {
   const BookingView({super.key});

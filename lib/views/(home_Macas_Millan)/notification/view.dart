@@ -1,16 +1,10 @@
-// core
-import 'package:babysitterapp/core/components/input.dart';
-
-// flutter
 import 'package:flutter/material.dart';
 
-// models
+import 'package:babysitterapp/core/components/input.dart';
+
 import 'package:babysitterapp/models/notification.dart';
 
-// widgets
 import 'widgets/list.dart';
-
-// styles
 
 class NotificationView extends StatefulWidget {
   const NotificationView({super.key});

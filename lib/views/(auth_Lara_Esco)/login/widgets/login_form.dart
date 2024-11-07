@@ -8,7 +8,7 @@ import 'package:babysitterapp/models/inputfield.dart';
 
 import 'account_check.dart';
 
-import 'package:babysitterapp/views/(home_Macas_Millan)/home/bottom_navbar.dart';
+import 'package:babysitterapp/views/(home_Macas_Millan)/home/widgets/bottom_navbar.dart';
 import 'package:babysitterapp/views/(auth_Lara_Esco)/register/view.dart';
 
 class LoginForm extends StatelessWidget with GlobalStyles {

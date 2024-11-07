@@ -1,10 +1,8 @@
-// core
+import 'package:flutter/material.dart';
+
 import 'section_title.dart';
 import 'choice_slip.dart';
 import 'card.dart';
-
-// flutter
-import 'package:flutter/material.dart';
 
 Widget sortingOptions() {
   return filterCard(

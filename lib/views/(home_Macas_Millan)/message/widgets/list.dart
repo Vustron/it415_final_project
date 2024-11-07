@@ -1,14 +1,9 @@
-// third party
+import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/core/helper/goto_page.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-// flutter
-import 'package:flutter/material.dart';
-
-
-// views
 import 'package:babysitterapp/views/(home_Macas_Millan)/message/widgets/detail.dart';
-
-import '../../../../core/constants/styles.dart';
 
 class ConversationList extends StatefulWidget {
   const ConversationList({
@@ -37,13 +32,14 @@ class ConversationListState extends State<ConversationList> with GlobalStyles {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute<dynamic>(builder: (BuildContext context) {
-          return MessageDetailScreen(
+        goToPage(
+          context,
+          MessageDetailScreen(
             name: widget.name,
             number: widget.number,
-          ); // Pass the name here
-        }));
+          ),
+          'rightToLeftWithFade',
+        );
       },
       child: Container(
         color: const Color.fromARGB(255, 255, 255, 255),
@@ -66,10 +62,10 @@ class ConversationListState extends State<ConversationList> with GlobalStyles {
                         children: <Widget>[
                           Text(
                             widget.name,
-                           style: const TextStyle(fontSize: 15),
+                            style: const TextStyle(fontSize: 15),
                           ),
                           const SizedBox(height: 6),
-                                  Text(
+                          Text(
                             widget.messageText,
                             style: TextStyle(
                                 fontSize: 15,

@@ -1,12 +1,13 @@
-import 'package:babysitterapp/views/(settings_JK_Gerald)/babysitter_profile/account/widgets/rate.dart';
-
-import 'widgets/contacts.dart';
-import 'widgets/image_edit_button.dart';
-import 'widgets/ratings.dart';
-import 'widgets/service_history.dart';
-import 'widgets/valid_id.dart';
-import 'widgets/years_experience.dart';
 import 'package:flutter/material.dart';
+
+import 'widgets/image_edit_button.dart';
+import 'widgets/years_experience.dart';
+import 'widgets/service_history.dart';
+import 'widgets/contacts.dart';
+import 'widgets/valid_id.dart';
+import 'widgets/ratings.dart';
+
+import 'package:babysitterapp/views/(settings_JK_Gerald)/babysitter_profile/account/widgets/rate.dart';
 
 class AccountView extends StatefulWidget {
   const AccountView({super.key});
@@ -29,12 +30,8 @@ class _AccountViewState extends State<AccountView> {
           child: Column(
             children: <Widget>[
               SizedBox(height: 18),
-
               AccountImageEditButton(),
-
               SizedBox(height: 14),
-
-              // BIO
               Text(
                 'Good Day! My Name is Arvin Sison from Panabo City. I am currently looking for a job, babysit. I have many experience working as a babysitter. I am honest flexible and hardworking person.',
                 style: TextStyle(
@@ -43,52 +40,26 @@ class _AccountViewState extends State<AccountView> {
                 ),
                 textAlign: TextAlign.justify,
               ),
-
               SizedBox(height: 14),
-
               Divider(color: Colors.grey, thickness: 1),
-
               SizedBox(height: 14),
-
-              // YEARS EXPERIENCE
               Rate(),
-
               SizedBox(height: 15),
-
               Divider(color: Colors.grey, thickness: 1),
-
               SizedBox(height: 14),
-
-              // YEARS EXPERIENCE
               YearsExperience(),
-
               SizedBox(height: 15),
-
               Divider(color: Colors.grey, thickness: 1),
-
               SizedBox(height: 16),
-
-              // RATINGS
               Ratings(),
-
               SizedBox(height: 12),
-
               Divider(color: Colors.grey, thickness: 1),
-
               ServiceHistoryUpload(),
-
               Divider(color: Colors.grey, thickness: 1),
-
-              // VALID ID UPLOAD
               ValidIdUpload(),
-
               Divider(color: Colors.grey, thickness: 1),
-
               SizedBox(height: 14),
-
-              // CONTACTS
               Contacts(),
-
               SizedBox(height: 100),
             ],
           ),

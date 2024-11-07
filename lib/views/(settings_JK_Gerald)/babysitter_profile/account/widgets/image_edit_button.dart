@@ -1,6 +1,6 @@
 import 'package:babysitterapp/core/constants/assets.dart';
 import 'package:babysitterapp/core/constants/styles.dart';
-import 'package:babysitterapp/views/(settings_JK_Gerald)/babysitter_profile/account/edit_account/view.dart';
+import 'package:babysitterapp/views/(settings_JK_Gerald)/babysitter_profile/edit_account/view.dart';
 import 'package:flutter/material.dart';
 
 class AccountImageEditButton extends StatelessWidget {

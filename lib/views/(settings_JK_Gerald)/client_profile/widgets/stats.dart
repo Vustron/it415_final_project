@@ -20,24 +20,21 @@ class _StatsState extends State<Stats> {
       padding: const EdgeInsets.all(9.0),
       width: MediaQuery.of(context).size.width * 0.9,
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 4)
-          )
-        ]
-      ),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 4))
+          ]),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: stats.map((Map<String, String> stat) {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-
-              if(stat['title'] == 'Ratings')
+              if (stat['title'] == 'Ratings')
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -48,20 +45,15 @@ class _StatsState extends State<Stats> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-
                     const SizedBox(width: 4),
-
                     const Icon(
                       Icons.star,
                       color: Colors.amber,
                       size: 18,
                     ),
-
                   ],
                 )
-              
               else if (stat['title'] == 'Rate')
-      
                 Text(
                   '₱ ${stat['value']!} / hr',
                   style: const TextStyle(
@@ -69,7 +61,6 @@ class _StatsState extends State<Stats> {
                     fontWeight: FontWeight.bold,
                   ),
                 )
-
               else
                 Text(
                   stat['value'] ?? '',
@@ -78,15 +69,12 @@ class _StatsState extends State<Stats> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                
-
               Text(
                 stat['title'] ?? '',
                 style: const TextStyle(
                   fontSize: 14,
                   color: Colors.grey,
                   fontWeight: FontWeight.bold,
-
                 ),
               ),
             ],

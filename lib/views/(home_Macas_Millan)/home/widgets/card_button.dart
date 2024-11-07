@@ -1,7 +1,8 @@
-// flutter
-import 'package:babysitterapp/core/helper/goto_page.dart';
-import 'package:babysitterapp/views/(settings_JK_Gerald)/babysitter_profile/view.dart';
 import 'package:flutter/material.dart';
+
+import 'package:babysitterapp/core/helper/goto_page.dart';
+
+import 'package:babysitterapp/views/(settings_JK_Gerald)/babysitter_profile/view.dart';
 
 Widget babySitterCardButton(BuildContext context) => Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,

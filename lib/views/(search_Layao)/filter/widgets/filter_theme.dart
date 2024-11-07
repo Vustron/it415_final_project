@@ -1,6 +1,6 @@
-// flutter
-import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/material.dart';
+
+import 'package:babysitterapp/core/constants/styles.dart';
 
 ThemeData filterTheme(ColorScheme filterColorScheme) {
   return ThemeData(

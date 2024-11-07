@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
+
 import 'package:babysitterapp/core/constants/styles.dart';
+
 import 'package:babysitterapp/views/(settings_JK_Gerald)/babysitter_profile/availability/widgets/info.dart';
 import 'package:babysitterapp/views/(settings_JK_Gerald)/babysitter_profile/widgets/section_title.dart';
-
-import 'package:flutter/material.dart';
 
 class AvailabilityView extends StatelessWidget with GlobalStyles {
   AvailabilityView({super.key});

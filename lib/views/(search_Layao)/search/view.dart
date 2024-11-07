@@ -1,26 +1,22 @@
-// flutter
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter/material.dart';
+
 import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:babysitterapp/core/helper/goto_page.dart';
-import 'package:babysitterapp/views/(search_Layao)/filter/view.dart';
-import 'package:babysitterapp/views/(search_Layao)/search/widgets/map_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:hugeicons/hugeicons.dart';
 
-// widgets
+import 'widgets/map_screen.dart';
 import 'widgets/input.dart';
 
-class SearchView extends StatefulWidget {
+import 'package:babysitterapp/views/(search_Layao)/filter/view.dart';
+
+class SearchView extends HookWidget {
   const SearchView({super.key});
 
   @override
-  State<SearchView> createState() => _SearchViewState();
-}
-
-class _SearchViewState extends State<SearchView> {
-  TextEditingController searchTxt = TextEditingController();
-
-  @override
   Widget build(BuildContext context) {
+    final TextEditingController searchTxt = useTextEditingController();
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -38,7 +34,7 @@ class _SearchViewState extends State<SearchView> {
                     Navigator.pop(context);
                   },
                   icon: const Icon(
-                    Icons.arrow_back,
+                    FluentIcons.arrow_left_24_regular,
                     color: Colors.black,
                   ),
                 ),
@@ -58,21 +54,14 @@ class _SearchViewState extends State<SearchView> {
               backgroundColor: GlobalStyles.primaryButtonColor,
               foregroundColor: Colors.white,
               onPressed: () {
-                setState(() {
-                  goToPage(context, const FilterView(), 'rightToLeftWithFade');
-                });
+                goToPage(context, const FilterView(), 'rightToLeftWithFade');
               },
               label: const Text('Filter'),
               icon: const Icon(
-                HugeIcons.strokeRoundedSorting01,
+                FluentIcons.filter_24_regular,
               ),
             ),
           ),
-          // Container(
-          //   margin: const EdgeInsets.only(top: 95),
-          //   padding: GlobalStyles.defaultContentPadding,
-          //   child: searchButtons(searchTxt),
-          // )
         ],
       ),
     );

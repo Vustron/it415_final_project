@@ -1,11 +1,10 @@
-// core
+import 'package:flutter/material.dart';
+
 import 'package:babysitterapp/core/constants/styles.dart';
+
 import 'section_title.dart';
 import 'checkbox.dart';
 import 'card.dart';
-
-// flutter
-import 'package:flutter/material.dart';
 
 Widget additionsSection() {
   return filterCard(

@@ -5,7 +5,7 @@ import 'dart:developer';
 import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:babysitterapp/core/helper/goto_page.dart';
 
-import 'package:babysitterapp/views/(home_Macas_Millan)/notification/booking/detail.dart';
+import 'package:babysitterapp/views/(home_Macas_Millan)/booking_details/view.dart';
 
 class NotificationList extends StatefulWidget {
   const NotificationList({

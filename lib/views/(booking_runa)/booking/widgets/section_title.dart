@@ -1,9 +1,7 @@
-// core
+import 'package:flutter/material.dart';
+
 import 'package:babysitterapp/core/constants/assets.dart';
 import 'package:babysitterapp/core/constants/styles.dart';
-
-// flutter
-import 'package:flutter/material.dart';
 
 Widget buildSectionTitle(BuildContext context, String title, IconData icon) {
   return Row(

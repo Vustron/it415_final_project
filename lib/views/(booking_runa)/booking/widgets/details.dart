@@ -1,10 +1,7 @@
-// core
-import 'package:babysitterapp/core/constants/assets.dart';
-
-// flutter
 import 'package:flutter/material.dart';
 
-// widgets
+import 'package:babysitterapp/core/constants/assets.dart';
+
 import 'section_title.dart';
 
 Widget buildDetailsSection(

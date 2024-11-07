@@ -1,12 +1,8 @@
-// core
-import 'package:babysitterapp/core/constants/assets.dart';
-import 'package:babysitterapp/core/constants/styles.dart';
-
-// third party
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-// flutter
-import 'package:flutter/material.dart';
+import 'package:babysitterapp/core/constants/assets.dart';
+import 'package:babysitterapp/core/constants/styles.dart';
 
 bool isFormValid({
   required int? numberOfChildren,

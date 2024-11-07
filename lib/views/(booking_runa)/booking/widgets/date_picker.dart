@@ -1,12 +1,8 @@
-// third party
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-// core
 import 'package:babysitterapp/core/constants/assets.dart';
 import 'package:babysitterapp/core/constants/styles.dart';
-
-// flutter
-import 'package:flutter/material.dart';
 
 Widget buildDatePicker(BuildContext context, DateTime? selectedDate,
     Future<void> Function(BuildContext) selectDate) {

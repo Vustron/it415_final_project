@@ -1,9 +1,7 @@
-// core
+import 'package:flutter/material.dart';
+
 import 'package:babysitterapp/core/constants/assets.dart';
 import 'package:babysitterapp/core/constants/styles.dart';
-
-// flutter
-import 'package:flutter/material.dart';
 
 Widget buildTimePicker(BuildContext context, String label, TimeOfDay? time,
     IconData icon, VoidCallback onTimeSelected) {

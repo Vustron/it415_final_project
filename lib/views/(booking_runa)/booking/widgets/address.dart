@@ -1,11 +1,8 @@
-// core
+import 'package:flutter/material.dart';
+
 import 'package:babysitterapp/core/constants/assets.dart';
 import 'package:babysitterapp/core/constants/styles.dart';
 
-// flutter
-import 'package:flutter/material.dart';
-
-// widgets
 import 'option.dart';
 
 Widget buildAddressSection(

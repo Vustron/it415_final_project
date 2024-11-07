@@ -1,8 +1,6 @@
-// widgets
-import 'time_picker.dart';
-
-// flutter
 import 'package:flutter/material.dart';
+
+import 'time_picker.dart';
 
 Widget buildTimePickers(
     BuildContext context,

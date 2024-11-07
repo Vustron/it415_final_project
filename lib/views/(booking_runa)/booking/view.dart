@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'widgets/children_selector.dart';
 import 'widgets/continue_btn.dart';
@@ -10,94 +11,80 @@ import 'widgets/address.dart';
 import 'widgets/details.dart';
 import 'widgets/appbar.dart';
 
-class BookingView extends StatefulWidget {
+class BookingView extends HookWidget {
   const BookingView({super.key});
 
   @override
-  State<BookingView> createState() => _BookingViewState();
-}
+  Widget build(BuildContext context) {
+    final ValueNotifier<int?> numberOfChildren = useState<int?>(null);
+    final ValueNotifier<DateTime?> selectedDate = useState<DateTime?>(null);
+    final ValueNotifier<TimeOfDay?> startTime = useState<TimeOfDay?>(null);
+    final ValueNotifier<TimeOfDay?> endTime = useState<TimeOfDay?>(null);
+    final ValueNotifier<bool> stayIn = useState<bool>(false);
+    final ValueNotifier<String> details = useState<String>('');
+    final ValueNotifier<String> selectedAddress = useState<String>('Home');
 
-class _BookingViewState extends State<BookingView> {
-  int? numberOfChildren;
-  DateTime? selectedDate;
-  TimeOfDay? startTime;
-  TimeOfDay? endTime;
-  bool stayIn = false;
-  String details = '';
-  String selectedAddress = 'Home';
-
-  Future<void> showChildrenSelectionDialog(BuildContext context) async {
-    final int? result = await showDialog<int>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Select Number of Children'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: List<Widget>.generate(
-              5,
-              (int index) => ListTile(
-                title:
-                    Text('${index + 1} ${index == 0 ? 'child' : 'children'}'),
-                onTap: () => Navigator.of(context).pop(index + 1),
+    Future<void> showChildrenSelectionDialog(BuildContext context) async {
+      final int? result = await showDialog<int>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Select Number of Children'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: List<Widget>.generate(
+                5,
+                (int index) => ListTile(
+                  title:
+                      Text('${index + 1} ${index == 0 ? 'child' : 'children'}'),
+                  onTap: () => Navigator.of(context).pop(index + 1),
+                ),
               ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
 
-    if (result != null) {
-      setState(() {
-        numberOfChildren = result;
-      });
+      if (result != null) {
+        numberOfChildren.value = result;
+      }
     }
-  }
 
-  Future<void> selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
-    );
+    Future<void> selectDate(BuildContext context) async {
+      final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate.value ?? DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(const Duration(days: 365)),
+      );
 
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
+      if (picked != null && picked != selectedDate.value) {
+        selectedDate.value = picked;
+      }
     }
-    return;
-  }
 
-  Future<void> selectStartTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: startTime ?? TimeOfDay.now(),
-    );
+    Future<void> selectStartTime(BuildContext context) async {
+      final TimeOfDay? picked = await showTimePicker(
+        context: context,
+        initialTime: startTime.value ?? TimeOfDay.now(),
+      );
 
-    if (picked != null) {
-      setState(() {
-        startTime = picked;
-      });
+      if (picked != null) {
+        startTime.value = picked;
+      }
     }
-  }
 
-  Future<void> selectEndTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: endTime ?? TimeOfDay.now(),
-    );
+    Future<void> selectEndTime(BuildContext context) async {
+      final TimeOfDay? picked = await showTimePicker(
+        context: context,
+        initialTime: endTime.value ?? TimeOfDay.now(),
+      );
 
-    if (picked != null) {
-      setState(() {
-        endTime = picked;
-      });
+      if (picked != null) {
+        endTime.value = picked;
+      }
     }
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: bookingAppBar(),
       body: SingleChildScrollView(
@@ -110,45 +97,39 @@ class _BookingViewState extends State<BookingView> {
                   context, 'Children to take care of', Icons.child_care),
               const SizedBox(height: 8),
               buildChildrenSelector(
-                  context, numberOfChildren, showChildrenSelectionDialog),
+                  context, numberOfChildren.value, showChildrenSelectionDialog),
               const SizedBox(height: 20),
               buildSectionTitle(context, 'Appointment Details', Icons.event),
-              buildStayInToggle(stayIn, (bool value) {
-                setState(() {
-                  stayIn = value;
-                });
+              buildStayInToggle(stayIn.value, (bool value) {
+                stayIn.value = value;
               }),
-              buildDatePicker(context, selectedDate, selectDate),
+              buildDatePicker(context, selectedDate.value, selectDate),
               const SizedBox(height: 20),
               buildTimePickers(
                 context,
-                startTime,
-                endTime,
+                startTime.value,
+                endTime.value,
                 selectStartTime,
                 selectEndTime,
               ),
               const SizedBox(height: 20),
-              buildDetailsSection(context, details, (String value) {
-                setState(() {
-                  details = value;
-                });
+              buildDetailsSection(context, details.value, (String value) {
+                details.value = value;
               }),
               const SizedBox(height: 20),
-              buildAddressSection(selectedAddress, (String label) {
-                setState(() {
-                  selectedAddress = label;
-                });
+              buildAddressSection(selectedAddress.value, (String label) {
+                selectedAddress.value = label;
               }),
               const SizedBox(height: 20),
               buildContinueButton(
                 context: context,
-                numberOfChildren: numberOfChildren,
-                selectedDate: selectedDate,
-                startTime: startTime,
-                endTime: endTime,
-                stayIn: stayIn,
-                selectedAddress: selectedAddress,
-                details: details,
+                numberOfChildren: numberOfChildren.value,
+                selectedDate: selectedDate.value,
+                startTime: startTime.value,
+                endTime: endTime.value,
+                stayIn: stayIn.value,
+                selectedAddress: selectedAddress.value,
+                details: details.value,
               ),
               const SizedBox(height: 100),
             ],

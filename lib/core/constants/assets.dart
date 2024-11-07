@@ -19,3 +19,4 @@ const String bottomBg = 'assets/images/login_bottom.png';
 const String mainBottomBg = 'assets/images/main_bottom.png';
 const String mainTopBg = 'assets/images/main_top.png';
 const String placeholder = 'assets/images/placeholder_logo.png';
+const String logo = 'assets/images/logo.png';

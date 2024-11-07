@@ -1,6 +1,6 @@
-// flutter
 import 'package:flutter/material.dart';
-import 'package:babysitterapp/core/constants/styles.dart'; // Import your styles
+
+import 'package:babysitterapp/core/constants/styles.dart';
 
 ThemeData rootThemeData() {
   return ThemeData(

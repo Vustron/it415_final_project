@@ -1,17 +1,13 @@
-// third-party
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-// flutter
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// core
 import 'core/config/firebase_options.dart';
 import 'core/config/theme.dart';
 
-// views
 import 'views/splash/view.dart';
 
 void main() async {

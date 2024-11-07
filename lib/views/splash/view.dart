@@ -1,10 +1,7 @@
-// core
-import 'package:babysitterapp/core/helper/transition_home.dart';
-
-// flutter
 import 'package:flutter/material.dart';
 
-// widgets
+import 'package:babysitterapp/core/helper/transition_home.dart';
+
 import 'widgets/logo.dart';
 
 class SplashView extends StatefulWidget {
@@ -23,7 +20,6 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   Widget build(BuildContext context) {
-    // ini media query size
     mq = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -33,11 +29,8 @@ class _SplashViewState extends State<SplashView> {
           Positioned(
             bottom: mq.height * .28,
             width: mq.width,
-            // duration: const Duration(seconds: 1),
             child: const Center(
-              child: Column(
-                
-              ),
+              child: Column(),
             ),
           ),
         ],

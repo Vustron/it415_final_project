@@ -1,5 +1,9 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/controllers/authentication_controller.dart';
+import 'package:babysitterapp/core/helper/check_user.dart';
 import 'package:babysitterapp/core/constants/styles.dart';
 
 import 'widgets/distance_slider.dart';
@@ -8,48 +12,41 @@ import 'widgets/price_filter.dart';
 import 'widgets/filter_theme.dart';
 import 'widgets/find_button.dart';
 
-class FilterView extends StatefulWidget {
-  const FilterView({super.key});
+class FilterView extends HookConsumerWidget with GlobalStyles {
+  FilterView({super.key});
 
   @override
-  State<FilterView> createState() => _FilterViewState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(authController);
 
-class _FilterViewState extends State<FilterView>
-    with SingleTickerProviderStateMixin, GlobalStyles {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+    useEffect(() {
+      checkUserAndRedirect(context, ref);
+      return null;
+    }, <Object?>[]);
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
+    final AnimationController controller = useAnimationController(
       duration: const Duration(milliseconds: 500),
-      vsync: this,
     );
-    _animation = CurvedAnimation(
-      parent: _controller,
+    final Animation<double> animation = CurvedAnimation(
+      parent: controller,
       curve: Curves.easeInOut,
     );
-    _controller.forward();
-  }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+    useEffect(() {
+      controller.forward();
+      return controller.dispose;
+    }, [controller]);
 
-  @override
-  Widget build(BuildContext context) {
     return Theme(
       data: filterTheme(GlobalStyles.filterColorScheme),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back,
-                color: GlobalStyles.filterColorScheme.onSurface),
+            icon: Icon(
+              Icons.arrow_back,
+              color: GlobalStyles.filterColorScheme.onSurface,
+            ),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -57,8 +54,9 @@ class _FilterViewState extends State<FilterView>
           title: Text(
             'Filter by',
             style: TextStyle(
-                color: GlobalStyles.filterColorScheme.onSurface,
-                fontWeight: FontWeight.bold),
+              color: GlobalStyles.filterColorScheme.onSurface,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           centerTitle: true,
           actions: <Widget>[
@@ -75,7 +73,7 @@ class _FilterViewState extends State<FilterView>
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: FadeTransition(
-              opacity: _animation,
+              opacity: animation,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[

@@ -15,30 +15,30 @@ class UserAccount {
     this.updatedAt,
   });
 
-  factory UserAccount.fromMap(Map<String, dynamic> data) {
+  factory UserAccount.fromJson(Map<String, dynamic> json) {
     return UserAccount(
-      id: data['id'] as String,
-      name: data['name'] as String,
-      address: data['address'] as String?,
-      phoneNumber: data['phoneNumber'] as String?,
-      email: data['email'] as String,
-      provider: data['provider'] as String?,
-      profileImg: data['profileImg'] as String?,
-      description: data['description'] as String?,
-      validId: data['validId'] as String?,
-      role: data['role'] as String,
-      onlineStatus: data['onlineStatus'] as bool?,
-      createdAt: data['createdAt'] != null
-          ? DateTime.parse(data['createdAt'] as String)
+      id: json['id'] as String,
+      name: json['name'] as String,
+      address: json['address'] as String?,
+      phoneNumber: json['phoneNumber'] as String?,
+      email: json['email'] as String,
+      provider: json['provider'] as String?,
+      profileImg: json['profileImg'] as String?,
+      description: json['description'] as String?,
+      validId: json['validId'] as String?,
+      role: json['role'] as String,
+      onlineStatus: json['onlineStatus'] as bool?,
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'] as String)
           : null,
-      updatedAt: data['updatedAt'] != null
-          ? DateTime.parse(data['updatedAt'] as String)
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.parse(json['updatedAt'] as String)
           : null,
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
       'id': id,
       'name': name,
       'address': address,

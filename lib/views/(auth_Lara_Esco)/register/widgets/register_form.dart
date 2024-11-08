@@ -78,14 +78,51 @@ class RegisterForm extends HookConsumerWidget with GlobalStyles {
       ),
     ];
 
-    void onSubmit(Map<String, String> formData) {
-      ref.read(authController.notifier).signup(
-            name: formData['Name']!,
-            email: formData['Email']!,
-            password: formData['Password']!,
-            role: formData['Type of account']!,
+    Future<void> showConfirmationDialog(
+        BuildContext context, Map<String, String> formData) async {
+      return showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Confirm Your Details'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('Name: ${formData['Name']}'),
+                Text('Email: ${formData['Email']}'),
+                Text('Type of account: ${formData['Type of account']}'),
+              ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  isLoading.value = false;
+                },
+                child: const Text('Edit'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  ref.read(authController.notifier).signup(
+                        name: formData['Name']!,
+                        email: formData['Email']!,
+                        password: formData['Password']!,
+                        role: formData['Type of account']!,
+                      );
+                  isLoading.value = true;
+                },
+                child: const Text('Confirm'),
+              ),
+            ],
           );
-      isLoading.value = true;
+        },
+      );
+    }
+
+    void onSubmit(Map<String, String> formData) {
+      showConfirmationDialog(context, formData);
     }
 
     return Column(

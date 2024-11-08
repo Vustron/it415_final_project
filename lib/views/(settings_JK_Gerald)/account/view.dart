@@ -1,10 +1,11 @@
-import 'package:babysitterapp/core/state/authentication_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/controllers/authentication_controller.dart';
+import 'package:babysitterapp/core/state/authentication_state.dart';
 import 'package:babysitterapp/core/helper/check_user.dart';
+import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:babysitterapp/models/user_account.dart';
 
 import 'widgets/image_edit_button.dart';
@@ -19,8 +20,8 @@ import 'widgets/ratings.dart';
     
 * */
 
-class AccountView extends HookConsumerWidget {
-  const AccountView({super.key});
+class AccountView extends HookConsumerWidget with GlobalStyles {
+  AccountView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -46,10 +47,12 @@ class AccountView extends HookConsumerWidget {
                 AccountImageEditButton(user: user),
                 const SizedBox(height: 30),
                 Text(
-                  user.description ?? 'No description yet',
+                  user.description != null && user.description!.isNotEmpty
+                      ? user.description!
+                      : 'No description yet',
                   style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
                   ),
                   textAlign: TextAlign.justify,
                 ),

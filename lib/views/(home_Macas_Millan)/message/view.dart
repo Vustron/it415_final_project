@@ -1,20 +1,19 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/models/chatuser.dart';
-
+import 'package:babysitterapp/controllers/authentication_controller.dart';
+import 'package:babysitterapp/core/helper/check_user.dart';
 import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:babysitterapp/core/components/input.dart';
 
+import 'package:babysitterapp/models/chatuser.dart';
+
 import 'widgets/list.dart';
 
-class MessageView extends StatefulWidget {
-  const MessageView({super.key});
+class MessageView extends HookConsumerWidget with GlobalStyles {
+  MessageView({super.key});
 
-  @override
-  State<MessageView> createState() => _ChatScreenState();
-}
-
-class _ChatScreenState extends State<MessageView> {
   final List<ChatUsers> chatUsers = <ChatUsers>[
     ChatUsers(
       name: 'Jane Russel',
@@ -83,7 +82,14 @@ class _ChatScreenState extends State<MessageView> {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(authController);
+
+    useEffect(() {
+      checkUserAndRedirect(context, ref);
+      return null;
+    }, <Object?>[]);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Message'),

@@ -1,17 +1,17 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
+
+import 'package:babysitterapp/controllers/authentication_controller.dart';
+import 'package:babysitterapp/core/helper/check_user.dart';
+import 'package:babysitterapp/core/constants/styles.dart';
 
 import 'widgets/card_details.dart';
 import 'widgets/info_card.dart';
 
-class BookingDetailNotification extends StatefulWidget {
-  const BookingDetailNotification({super.key});
+class BookingDetailNotification extends HookConsumerWidget with GlobalStyles {
+  BookingDetailNotification({super.key});
 
-  @override
-  State<BookingDetailNotification> createState() =>
-      _BookingDetailNotificationState();
-}
-
-class _BookingDetailNotificationState extends State<BookingDetailNotification> {
   final int children = 5;
   final DateTime date = DateTime.parse('2024-11-11');
   final String time = '12:15 AM - 4:20 AM';
@@ -20,7 +20,14 @@ class _BookingDetailNotificationState extends State<BookingDetailNotification> {
   final String details = 'Bring Your ID';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(authController);
+
+    useEffect(() {
+      checkUserAndRedirect(context, ref);
+      return null;
+    }, <Object?>[]);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Booking Details'),

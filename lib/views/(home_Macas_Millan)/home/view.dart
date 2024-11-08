@@ -47,10 +47,21 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
       appBar: AppBar(
         toolbarHeight: 80,
         backgroundColor: Colors.white,
-        leading: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5),
-          child: CircleAvatar(
-            backgroundImage: AssetImage(avatar2),
+        leading: authState.maybeWhen(
+          authenticated: (UserAccount user) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: CircleAvatar(
+              backgroundImage:
+                  (user.profileImg != null && user.profileImg!.isNotEmpty)
+                      ? NetworkImage(user.profileImg!)
+                      : const AssetImage(avatar2) as ImageProvider,
+            ),
+          ),
+          orElse: () => const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            child: CircleAvatar(
+              backgroundImage: AssetImage(avatar2),
+            ),
           ),
         ),
         centerTitle: false,
@@ -68,7 +79,7 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              goToPage(context, const BookingView(), 'rightToLeftWithFade');
+              goToPage(context, BookingView(), 'rightToLeftWithFade');
             },
             icon: const Icon(
               FluentIcons.person_add_16_regular,
@@ -78,7 +89,7 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
           ),
           IconButton(
             onPressed: () {
-              goToPage(context, const SettingsView(), 'rightToLeftWithFade');
+              goToPage(context, SettingsView(), 'rightToLeftWithFade');
             },
             icon: const Icon(
               FluentIcons.settings_16_filled,

@@ -95,6 +95,16 @@ class AuthController extends StateNotifier<AuthenticationState> {
       (_) => const AuthenticationState.unauthenticated(),
     );
   }
+
+  Future<void> updateAccount(UserAccount updatedUser) async {
+    state = const AuthenticationState.loading();
+    final Either<String, UserAccount> response =
+        await _dataSource.updateAccount(updatedUser);
+    state = response.fold(
+      (String error) => AuthenticationState.unauthenticated(message: error),
+      (UserAccount user) => AuthenticationState.authenticated(user: user),
+    );
+  }
 }
 
 final StateNotifierProvider<AuthController, AuthenticationState>

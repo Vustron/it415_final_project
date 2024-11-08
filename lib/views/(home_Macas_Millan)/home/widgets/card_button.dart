@@ -9,7 +9,7 @@ Widget babySitterCardButton(BuildContext context) => Row(
       children: <Widget>[
         TextButton(
           onPressed: () {
-            goToPage(context, const BabysitterProfile(), 'rightToLeftWithFade');
+            goToPage(context, Profile(), 'rightToLeftWithFade');
           },
           child: const Text('View profile'),
         ),

@@ -1,25 +1,37 @@
-import 'package:babysitterapp/core/constants/errors.dart';
-import 'package:babysitterapp/models/user_account.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dartz/dartz.dart';
+import 'dart:io';
+
+import 'package:babysitterapp/models/user_account.dart';
 
 import 'package:babysitterapp/core/providers/firebase_providers.dart';
 import 'package:babysitterapp/core/config/firebase_options.dart';
+import 'package:babysitterapp/core/constants/errors.dart';
 
 final Provider<AuthenticationRepository> authenticationRepository =
     Provider<AuthenticationRepository>(
   (ProviderRef<AuthenticationRepository> ref) => AuthenticationRepository(
-      ref.read(firebaseAuthProvider), ref.read(firebaseFirestoreProvider), ref),
+      ref.read(firebaseAuthProvider),
+      ref.read(firebaseFirestoreProvider),
+      ref.read(firebaseStorageProvider),
+      ref),
 );
 
 class AuthenticationRepository {
-  AuthenticationRepository(this._firebaseAuth, this._firestore, this._ref);
+  AuthenticationRepository(
+    this._firebaseAuth,
+    this._firestore,
+    this._storage,
+    this._ref,
+  );
 
   final FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firestore;
+  final FirebaseStorage _storage;
   // ignore: unused_field
   final Ref _ref;
 
@@ -46,8 +58,8 @@ class AuthenticationRepository {
       await _firestore
           .collection('users')
           .doc(user.uid)
-          .set(userAccount.toMap());
-      print('User data saved to Firestore: ${userAccount.toMap()}');
+          .set(userAccount.toJson());
+      print('User data saved to Firestore: ${userAccount.toJson()}');
 
       return right(userAccount);
     } on FirebaseAuthException catch (e) {
@@ -78,7 +90,7 @@ class AuthenticationRepository {
         return left(AuthError.userNotFound);
       }
 
-      final UserAccount userAccount = UserAccount.fromMap(userDoc.data()!);
+      final UserAccount userAccount = UserAccount.fromJson(userDoc.data()!);
 
       return right(userAccount);
     } on FirebaseAuthException catch (e) {
@@ -112,7 +124,7 @@ class AuthenticationRepository {
           return left(AuthError.userNotFound);
         }
 
-        final UserAccount userAccount = UserAccount.fromMap(userDoc.data()!);
+        final UserAccount userAccount = UserAccount.fromJson(userDoc.data()!);
 
         return right(userAccount);
       } else {
@@ -147,7 +159,7 @@ class AuthenticationRepository {
         return left(AuthError.userNotFound);
       }
 
-      final UserAccount userAccount = UserAccount.fromMap(userDoc.data()!);
+      final UserAccount userAccount = UserAccount.fromJson(userDoc.data()!);
 
       return right(userAccount);
     } catch (e) {
@@ -169,6 +181,36 @@ class AuthenticationRepository {
       return right(null);
     } on FirebaseAuthException catch (e) {
       return left(handleFirebaseAuthException(e));
+    } catch (e) {
+      return left(AuthError.genericError);
+    }
+  }
+
+  Future<String> uploadFile(String path, String filePath) async {
+    final File file = File(filePath);
+    final TaskSnapshot snapshot = await _storage.ref(path).putFile(file);
+    // ignore: unnecessary_await_in_return
+    return await snapshot.ref.getDownloadURL();
+  }
+
+  Future<Either<String, UserAccount>> updateAccount(
+      UserAccount updatedUser) async {
+    try {
+      final User? user = _firebaseAuth.currentUser;
+
+      if (user == null) {
+        return left(AuthError.userNotFound);
+      }
+
+      await _firestore
+          .collection('users')
+          .doc(user.uid)
+          .update(updatedUser.toJson());
+      final DocumentSnapshot<Map<String, dynamic>> userDoc =
+          await _firestore.collection('users').doc(user.uid).get();
+      final UserAccount userAccount = UserAccount.fromJson(userDoc.data()!);
+
+      return right(userAccount);
     } catch (e) {
       return left(AuthError.genericError);
     }

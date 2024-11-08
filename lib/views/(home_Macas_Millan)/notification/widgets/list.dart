@@ -107,8 +107,11 @@ class NotificationListState extends State<NotificationList> {
                   const SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: () {
-                      goToPage(context, const BookingDetailNotification(),
-                          'rightToLeftWithFade');
+                      goToPage(
+                        context,
+                        BookingDetailNotification(),
+                        'rightToLeftWithFade',
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: GlobalStyles.primaryButtonColor,

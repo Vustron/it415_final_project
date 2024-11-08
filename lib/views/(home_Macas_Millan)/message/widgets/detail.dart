@@ -81,8 +81,7 @@ class MessageDetailScreen extends HookWidget {
                 ),
                 IconButton(
                   onPressed: () {
-                    goToPage(
-                        context, const BookingView(), 'rightToLeftWithFade');
+                    goToPage(context, BookingView(), 'rightToLeftWithFade');
                   },
                   icon: const Icon(Icons.request_page_rounded,
                       color: Colors.black54),

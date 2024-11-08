@@ -34,9 +34,11 @@ class Contacts extends StatelessWidget {
             ),
             const SizedBox(width: 14),
             Text(
-              user.phoneNumber ?? 'No contact number yet',
+              user.phoneNumber != null && user.phoneNumber!.isNotEmpty
+                  ? user.phoneNumber!
+                  : 'No phone number yet',
               style: const TextStyle(
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 fontSize: 16,
               ),
             ),
@@ -69,8 +71,13 @@ class Contacts extends StatelessWidget {
             ),
             const SizedBox(width: 14),
             Text(
-              user.address ?? 'No address yet',
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              user.address != null && user.address!.isNotEmpty
+                  ? user.address!
+                  : 'No address yet',
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+              ),
             ),
           ],
         ),

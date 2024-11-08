@@ -53,22 +53,24 @@ class CustomTextInput extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController controller = useTextEditingController(
-      text: initialValue,
-    );
+    final TextEditingController effectiveController = controller ??
+        useTextEditingController(
+          text: initialValue,
+        );
     final ValueNotifier<bool> showClearButton = useState(false);
 
     useEffect(() {
       void updateClearButtonVisibility() {
-        showClearButton.value = controller.text.isNotEmpty;
+        showClearButton.value = effectiveController.text.isNotEmpty;
       }
 
-      controller.addListener(updateClearButtonVisibility);
-      return () => controller.removeListener(updateClearButtonVisibility);
-    }, <Object?>[controller]);
+      effectiveController.addListener(updateClearButtonVisibility);
+      return () =>
+          effectiveController.removeListener(updateClearButtonVisibility);
+    }, <Object?>[effectiveController]);
 
     return TextField(
-      controller: controller,
+      controller: effectiveController,
       onChanged: onChanged,
       decoration: InputDecoration(
         hintText: hintText,
@@ -79,7 +81,7 @@ class CustomTextInput extends HookWidget {
                 icon:
                     Icon(Icons.clear, color: hintColor ?? Colors.grey.shade600),
                 onPressed: () {
-                  controller.clear();
+                  effectiveController.clear();
                   onClear!();
                 },
               )

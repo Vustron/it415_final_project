@@ -1,28 +1,33 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/controllers/authentication_controller.dart';
+import 'package:babysitterapp/core/helper/check_user.dart';
 import 'package:babysitterapp/core/constants/styles.dart';
 
-import 'availability/widgets/experience_details.dart';
-import 'availability/widgets/reviews.dart';
+import '../availability/widgets/experience_details.dart';
+import '../availability/widgets/reviews.dart';
+import '../availability/view.dart';
 import 'widgets/profile_header.dart';
 import 'widgets/descriptions.dart';
-import 'availability/view.dart';
 import 'widgets/input.dart';
 
-class BabysitterProfile extends StatefulWidget {
-  const BabysitterProfile({super.key});
+class Profile extends HookConsumerWidget with GlobalStyles {
+  Profile({super.key});
 
   @override
-  State<BabysitterProfile> createState() => _BabysitterProfileState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(authController);
 
-ScrollController _scrollController = ScrollController();
+    useEffect(() {
+      checkUserAndRedirect(context, ref);
+      return null;
+    }, <Object?>[]);
 
-class _BabysitterProfileState extends State<BabysitterProfile>
-    with GlobalStyles {
-  @override
-  Widget build(BuildContext context) {
     final Size width = MediaQuery.of(context).size;
+    final ScrollController scrollController = useScrollController();
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 300,
@@ -60,12 +65,14 @@ class _BabysitterProfileState extends State<BabysitterProfile>
           ),
         ),
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15))),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(15),
+            bottomRight: Radius.circular(15),
+          ),
+        ),
       ),
       body: ListView(
-        controller: _scrollController,
+        controller: scrollController,
         children: <Widget>[
           Container(
             padding: GlobalStyles.defaultContentPadding,

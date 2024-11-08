@@ -26,7 +26,6 @@ class LoginForm extends HookConsumerWidget with GlobalStyles {
       hintText: 'Enter your email address',
       keyboardType: TextInputType.emailAddress,
       prefixIcon: Icons.mail,
-      textInputAction: TextInputAction.next,
     ),
     InputFieldConfig(
       label: 'Password',
@@ -34,7 +33,6 @@ class LoginForm extends HookConsumerWidget with GlobalStyles {
       hintText: 'Enter your password',
       obscureText: true,
       prefixIcon: Icons.lock,
-      cursorColor: GlobalStyles.primaryButtonColor,
     ),
   ];
 

@@ -3,7 +3,7 @@ description: "A collaborative babysitter mobile app for the final project in it4
 
 publish_to: 'none' 
 
-version: 1.0.47+1
+version: 1.0.48+1
 
 environment:
  sdk: '>=3.4.3 <4.0.0'
@@ -32,6 +32,8 @@ dependencies:
   carousel_slider: ^5.0.0
   flutter_map: ^7.0.2
   flutter_screenutil: ^5.9.3
+  path: ^1.9.0
+  toastification: ^2.3.0
 
 dev_dependencies:
   flutter_test:

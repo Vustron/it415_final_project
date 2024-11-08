@@ -22,7 +22,7 @@ Widget buttons(BuildContext context) => Padding(
           ),
           TextButton.icon(
             onPressed: () {
-              goToPage(context, const FilterView(), 'rightToLeftWithFade');
+              goToPage(context, FilterView(), 'rightToLeftWithFade');
             },
             label: const Text(
               'Filter',

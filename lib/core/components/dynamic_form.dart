@@ -1,20 +1,23 @@
+import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/models/inputfield.dart';
 
-import 'input.dart';
 import 'select.dart';
+import 'input.dart';
 
 class DynamicForm extends HookWidget {
   const DynamicForm({
     super.key,
     required this.fields,
     required this.onSubmit,
+    this.isLoading,
   });
 
   final List<InputFieldConfig> fields;
   final void Function(Map<String, String>) onSubmit;
+  final ValueNotifier<bool>? isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +43,16 @@ class DynamicForm extends HookWidget {
       ),
     );
 
+    final ValueNotifier<Map<String, String?>> errors =
+        useState<Map<String, String?>>(
+      Map<String, String?>.fromEntries(
+        fields.map(
+          (InputFieldConfig field) =>
+              MapEntry<String, String?>(field.label, null),
+        ),
+      ),
+    );
+
     useEffect(() {
       return () {
         for (final TextEditingController controller in controllers.values) {
@@ -47,6 +60,24 @@ class DynamicForm extends HookWidget {
         }
       };
     }, <Object?>[controllers]);
+
+    final ValueNotifier<bool> defaultLoading = useState(false);
+
+    bool validateForm() {
+      bool isValid = true;
+      final Map<String, String?> newErrors = {};
+      for (final InputFieldConfig field in fields) {
+        final String value = formData.value[field.label] ?? '';
+        if (field.isRequired && value.isEmpty) {
+          newErrors[field.label] = '${field.label} is required';
+          isValid = false;
+        } else {
+          newErrors[field.label] = null;
+        }
+      }
+      errors.value = newErrors;
+      return isValid;
+    }
 
     return Column(
       children: <Widget>[
@@ -64,6 +95,14 @@ class DynamicForm extends HookWidget {
                     field.label: value ?? '',
                   };
                 },
+                validator: (String? value) {
+                  if (field.isRequired && (value == null || value.isEmpty)) {
+                    return '${field.label} is required';
+                  }
+                  return null;
+                },
+                errorText: errors.value[field.label],
+                enabled: !(isLoading ?? defaultLoading).value,
               );
             case 'text':
             default:
@@ -80,6 +119,8 @@ class DynamicForm extends HookWidget {
                     field.label: value,
                   };
                 },
+                errorText: errors.value[field.label],
+                enabled: !(isLoading ?? defaultLoading).value,
               );
               break;
           }
@@ -97,17 +138,46 @@ class DynamicForm extends HookWidget {
                 ),
                 const SizedBox(height: 8),
                 fieldWidget,
+                if (errors.value[field.label] != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5.0),
+                    child: Text(
+                      errors.value[field.label]!,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ),
               ],
             ),
           );
         }),
         const SizedBox(height: 16),
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: () => onSubmit(formData.value),
-            child: const Text('Submit'),
-          ),
+        ValueListenableBuilder<bool>(
+          valueListenable: isLoading ?? defaultLoading,
+          builder: (BuildContext context, bool loading, Widget? child) {
+            return SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: loading
+                    ? null
+                    : () {
+                        if (validateForm()) {
+                          (isLoading ?? defaultLoading).value = true;
+                          onSubmit(formData.value);
+                        }
+                      },
+                child: loading
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          color: GlobalStyles.primaryButtonColor,
+                          strokeWidth: 2.0,
+                        ),
+                      )
+                    : const Text('Submit'),
+              ),
+            );
+          },
         ),
       ],
     );

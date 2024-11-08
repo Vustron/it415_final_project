@@ -1,12 +1,10 @@
-// third party
 import 'package:page_transition/page_transition.dart';
-
-// flutter
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// views
 import 'package:babysitterapp/views/(auth_Lara_Esco)/login/view.dart';
+import 'package:babysitterapp/views/(home_Macas_Millan)/home/widgets/bottom_navbar.dart';
 
 Future<void> transitionHome(BuildContext context) async {
   await Future<void>.delayed(
@@ -24,14 +22,15 @@ Future<void> transitionHome(BuildContext context) async {
     systemNavigationBarColor: Colors.black,
   ));
 
-  // Navigate to the new screen
+  final User? user = FirebaseAuth.instance.currentUser;
+
   if (context.mounted) {
     Navigator.pushReplacement<void, void>(
       context,
       PageTransition<void>(
         type: PageTransitionType.size,
         alignment: Alignment.bottomCenter,
-        child: const LoginView(),
+        child: user != null ? const BottomNavbarView() : const LoginView(),
       ),
     );
   }

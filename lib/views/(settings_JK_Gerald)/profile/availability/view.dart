@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/core/constants/styles.dart';
 
-import 'package:babysitterapp/views/(settings_JK_Gerald)/babysitter_profile/widgets/section_title.dart';
+import 'package:babysitterapp/views/(settings_JK_Gerald)/profile/availability/widgets/info.dart';
+import 'package:babysitterapp/views/(settings_JK_Gerald)/profile/widgets/section_title.dart';
 
-import 'review_info.dart';
-
-class ReviewsPage extends StatelessWidget with GlobalStyles {
-  ReviewsPage({super.key});
+class AvailabilityView extends StatelessWidget with GlobalStyles {
+  AvailabilityView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,15 +21,12 @@ class ReviewsPage extends StatelessWidget with GlobalStyles {
       child: Column(
         children: <Widget>[
           SectionTitle(
-            text: 'Reviews',
+            text: 'Availability',
           ),
-          const SizedBox(
-            height: GlobalStyles.defaultPadding,
-          ),
-          ReviewsInfoPage(),
-          ReviewsInfoPage(),
-          ReviewsInfoPage(),
-          ReviewsInfoPage(),
+          Info(),
+          Info(),
+          Info(),
+          Info(),
         ],
       ),
     );

@@ -12,6 +12,7 @@ class InputFieldConfig {
     this.cursorColor,
     this.textInputAction,
     this.options,
+    this.isRequired = true,
   });
 
   final String label;
@@ -24,4 +25,5 @@ class InputFieldConfig {
   final Color? cursorColor;
   final TextInputAction? textInputAction;
   final List<String>? options;
+  final bool isRequired;
 }

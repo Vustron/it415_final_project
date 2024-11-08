@@ -30,6 +30,7 @@ class CustomSelect<T extends Object> extends HookWidget {
     this.enabled = true,
     this.onTap,
     this.autoFocus = false,
+    this.errorText,
   });
 
   final T? value;
@@ -55,6 +56,7 @@ class CustomSelect<T extends Object> extends HookWidget {
   final bool? enabled;
   final VoidCallback? onTap;
   final bool autoFocus;
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
@@ -105,18 +107,26 @@ class CustomSelect<T extends Object> extends HookWidget {
             isDense: isDense,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),
-              borderSide:
-                  const BorderSide(color: GlobalStyles.defaultBorderColor),
+              borderSide: BorderSide(
+                color: errorText != null
+                    ? Colors.red
+                    : GlobalStyles.defaultBorderColor,
+              ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),
-              borderSide:
-                  const BorderSide(color: GlobalStyles.defaultBorderColor),
+              borderSide: BorderSide(
+                color: errorText != null
+                    ? Colors.red
+                    : GlobalStyles.defaultBorderColor,
+              ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: const BorderSide(
-                color: GlobalStyles.defaultFocusedBorderColor,
+              borderSide: BorderSide(
+                color: errorText != null
+                    ? Colors.red
+                    : GlobalStyles.defaultFocusedBorderColor,
               ),
             ),
             labelStyle: labelStyle,
@@ -161,11 +171,15 @@ class CustomSelect<T extends Object> extends HookWidget {
           fillColor: fillColor,
           textColor: style?.color,
           hintColor: hintStyle?.color,
-          borderColor: GlobalStyles.defaultBorderColor,
-          focusedBorderColor: GlobalStyles.defaultFocusedBorderColor,
+          borderColor:
+              errorText != null ? Colors.red : GlobalStyles.defaultBorderColor,
+          focusedBorderColor: errorText != null
+              ? Colors.red
+              : GlobalStyles.defaultFocusedBorderColor,
           borderRadius: borderRadius,
           contentPadding: contentPadding,
           onChanged: (String value) {},
+          enabled: enabled!,
         );
       },
     );

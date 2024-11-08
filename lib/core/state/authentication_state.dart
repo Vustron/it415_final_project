@@ -1,8 +1,5 @@
-// run 'dart run build_runner build' if there's error and no freezed files
-
-// third party
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:babysitterapp/models/user_account.dart';
 
 part 'authentication_state.freezed.dart';
 
@@ -15,6 +12,7 @@ class AuthenticationState with _$AuthenticationState {
   const factory AuthenticationState.unauthenticated({String? message}) =
       _UnAuthentication;
 
-  const factory AuthenticationState.authenticated({required User user}) =
-      _Authenticated;
+  const factory AuthenticationState.authenticated({
+    required UserAccount user,
+  }) = _Authenticated;
 }

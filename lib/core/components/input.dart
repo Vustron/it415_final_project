@@ -25,6 +25,8 @@ class CustomTextInput extends HookWidget {
     this.obscureText = false,
     this.maxLines = 1,
     this.initialValue,
+    this.errorText,
+    this.enabled = true,
   });
 
   final void Function(String) onChanged;
@@ -46,6 +48,8 @@ class CustomTextInput extends HookWidget {
   final bool obscureText;
   final int maxLines;
   final String? initialValue;
+  final String? errorText;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -85,14 +89,18 @@ class CustomTextInput extends HookWidget {
         contentPadding: contentPadding,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
-          borderSide:
-              BorderSide(color: borderColor ?? GlobalStyles.defaultBorderColor),
+          borderSide: BorderSide(
+              color: errorText != null
+                  ? Colors.red
+                  : borderColor ?? GlobalStyles.defaultBorderColor),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
           borderSide: BorderSide(
-              color:
-                  focusedBorderColor ?? GlobalStyles.defaultFocusedBorderColor),
+              color: errorText != null
+                  ? Colors.red
+                  : focusedBorderColor ??
+                      GlobalStyles.defaultFocusedBorderColor),
         ),
       ),
       style: TextStyle(color: textColor ?? Colors.grey.shade800),
@@ -101,6 +109,7 @@ class CustomTextInput extends HookWidget {
       keyboardType: keyboardType,
       obscureText: obscureText,
       maxLines: maxLines,
+      enabled: enabled,
     );
   }
 }

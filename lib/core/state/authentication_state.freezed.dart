@@ -21,7 +21,7 @@ mixin _$AuthenticationState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String? message) unauthenticated,
-    required TResult Function(User user) authenticated,
+    required TResult Function(UserAccount user) authenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -29,7 +29,7 @@ mixin _$AuthenticationState {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String? message)? unauthenticated,
-    TResult? Function(User user)? authenticated,
+    TResult? Function(UserAccount user)? authenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -37,7 +37,7 @@ mixin _$AuthenticationState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String? message)? unauthenticated,
-    TResult Function(User user)? authenticated,
+    TResult Function(UserAccount user)? authenticated,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -133,7 +133,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String? message) unauthenticated,
-    required TResult Function(User user) authenticated,
+    required TResult Function(UserAccount user) authenticated,
   }) {
     return initial();
   }
@@ -144,7 +144,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String? message)? unauthenticated,
-    TResult? Function(User user)? authenticated,
+    TResult? Function(UserAccount user)? authenticated,
   }) {
     return initial?.call();
   }
@@ -155,7 +155,7 @@ class _$InitialImpl implements _Initial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String? message)? unauthenticated,
-    TResult Function(User user)? authenticated,
+    TResult Function(UserAccount user)? authenticated,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -250,7 +250,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String? message) unauthenticated,
-    required TResult Function(User user) authenticated,
+    required TResult Function(UserAccount user) authenticated,
   }) {
     return loading();
   }
@@ -261,7 +261,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String? message)? unauthenticated,
-    TResult? Function(User user)? authenticated,
+    TResult? Function(UserAccount user)? authenticated,
   }) {
     return loading?.call();
   }
@@ -272,7 +272,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String? message)? unauthenticated,
-    TResult Function(User user)? authenticated,
+    TResult Function(UserAccount user)? authenticated,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -395,7 +395,7 @@ class _$UnAuthenticationImpl implements _UnAuthentication {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String? message) unauthenticated,
-    required TResult Function(User user) authenticated,
+    required TResult Function(UserAccount user) authenticated,
   }) {
     return unauthenticated(message);
   }
@@ -406,7 +406,7 @@ class _$UnAuthenticationImpl implements _UnAuthentication {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String? message)? unauthenticated,
-    TResult? Function(User user)? authenticated,
+    TResult? Function(UserAccount user)? authenticated,
   }) {
     return unauthenticated?.call(message);
   }
@@ -417,7 +417,7 @@ class _$UnAuthenticationImpl implements _UnAuthentication {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String? message)? unauthenticated,
-    TResult Function(User user)? authenticated,
+    TResult Function(UserAccount user)? authenticated,
     required TResult orElse(),
   }) {
     if (unauthenticated != null) {
@@ -483,7 +483,7 @@ abstract class _$$AuthenticatedImplCopyWith<$Res> {
           _$AuthenticatedImpl value, $Res Function(_$AuthenticatedImpl) then) =
       __$$AuthenticatedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({User user});
+  $Res call({UserAccount user});
 }
 
 /// @nodoc
@@ -505,7 +505,7 @@ class __$$AuthenticatedImplCopyWithImpl<$Res>
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
+              as UserAccount,
     ));
   }
 }
@@ -516,7 +516,7 @@ class _$AuthenticatedImpl implements _Authenticated {
   const _$AuthenticatedImpl({required this.user});
 
   @override
-  final User user;
+  final UserAccount user;
 
   @override
   String toString() {
@@ -548,7 +548,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String? message) unauthenticated,
-    required TResult Function(User user) authenticated,
+    required TResult Function(UserAccount user) authenticated,
   }) {
     return authenticated(user);
   }
@@ -559,7 +559,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String? message)? unauthenticated,
-    TResult? Function(User user)? authenticated,
+    TResult? Function(UserAccount user)? authenticated,
   }) {
     return authenticated?.call(user);
   }
@@ -570,7 +570,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String? message)? unauthenticated,
-    TResult Function(User user)? authenticated,
+    TResult Function(UserAccount user)? authenticated,
     required TResult orElse(),
   }) {
     if (authenticated != null) {
@@ -618,10 +618,10 @@ class _$AuthenticatedImpl implements _Authenticated {
 }
 
 abstract class _Authenticated implements AuthenticationState {
-  const factory _Authenticated({required final User user}) =
+  const factory _Authenticated({required final UserAccount user}) =
       _$AuthenticatedImpl;
 
-  User get user;
+  UserAccount get user;
 
   /// Create a copy of AuthenticationState
   /// with the given fields replaced by the non-null parameter values.

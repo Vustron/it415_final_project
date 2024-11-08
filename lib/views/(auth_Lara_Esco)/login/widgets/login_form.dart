@@ -1,9 +1,14 @@
+import 'package:babysitterapp/controllers/authentication_controller.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/core/state/authentication_state.dart';
 import 'package:babysitterapp/core/components/dynamic_form.dart';
 import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:babysitterapp/core/helper/goto_page.dart';
 
+import 'package:babysitterapp/models/user_account.dart';
 import 'package:babysitterapp/models/inputfield.dart';
 
 import 'account_check.dart';
@@ -11,7 +16,7 @@ import 'account_check.dart';
 import 'package:babysitterapp/views/(home_Macas_Millan)/home/widgets/bottom_navbar.dart';
 import 'package:babysitterapp/views/(auth_Lara_Esco)/register/view.dart';
 
-class LoginForm extends StatelessWidget with GlobalStyles {
+class LoginForm extends HookConsumerWidget with GlobalStyles {
   LoginForm({super.key});
 
   final List<InputFieldConfig> loginFields = <InputFieldConfig>[
@@ -33,30 +38,56 @@ class LoginForm extends StatelessWidget with GlobalStyles {
     ),
   ];
 
-  void _handleSubmit(BuildContext context, Map<String, String> formData) {
+  void handleSubmit(BuildContext context, WidgetRef ref,
+      Map<String, String> formData, ValueNotifier<bool> isLoading) {
     final String email = formData['Email'] ?? '';
     final String password = formData['Password'] ?? '';
 
-    final String message = 'Email: $email\nPassword: $password';
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.green,
-      ),
-    );
+    ref.read(authController.notifier).login(
+          email: email,
+          password: password,
+        );
+    isLoading.value = true;
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ValueNotifier<bool> isLoading = useState(false);
+
+    ref.listen(authController,
+        (AuthenticationState? previous, AuthenticationState next) {
+      next.maybeWhen(
+        orElse: () => isLoading.value = false,
+        authenticated: (UserAccount user) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('User Logged In'),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+          isLoading.value = false;
+          goToPage(context, const BottomNavbarView(), 'rightToLeftWithFade');
+        },
+        unauthenticated: (String? message) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(message!),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+          isLoading.value = false;
+        },
+      );
+    });
+
     return Column(
       children: <Widget>[
         DynamicForm(
           fields: loginFields,
           onSubmit: (Map<String, String> formData) {
-            _handleSubmit(context, formData);
-            goToPage(context, const BottomNavbarView(), 'rightToLeftWithFade');
+            handleSubmit(context, ref, formData, isLoading);
           },
+          isLoading: isLoading,
         ),
         const SizedBox(height: GlobalStyles.defaultPadding),
         AlreadyHaveAnAccountCheck(

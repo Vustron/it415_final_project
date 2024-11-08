@@ -24,8 +24,12 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget with GlobalStyles {
           onTap: press as void Function()?,
           child: Text(
             login ? 'Sign Up' : 'Sign In',
+            style:  const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: GlobalStyles.primaryButtonColor,
+            ),
           ),
-        )
+        ),
       ],
     );
   }

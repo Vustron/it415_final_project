@@ -1,11 +1,7 @@
-// third party
 import 'package:flutter_svg/flutter_svg.dart';
-
-// core
-import 'package:babysitterapp/core/constants/styles.dart';
-
-// flutter
 import 'package:flutter/material.dart';
+
+import 'package:babysitterapp/core/constants/styles.dart';
 
 class SocalIcon extends StatelessWidget with GlobalStyles {
   SocalIcon({

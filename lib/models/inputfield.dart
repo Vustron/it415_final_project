@@ -11,6 +11,7 @@ class InputFieldConfig {
     this.prefixIcon,
     this.cursorColor,
     this.textInputAction,
+    this.options,
   });
 
   final String label;
@@ -22,4 +23,5 @@ class InputFieldConfig {
   final IconData? prefixIcon;
   final Color? cursorColor;
   final TextInputAction? textInputAction;
+  final List<String>? options;
 }

@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 
 import 'core/config/firebase_options.dart';
 import 'core/config/theme.dart';
+
 import 'views/splash/view.dart';
 
 void main() async {

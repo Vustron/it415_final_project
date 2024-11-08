@@ -1,8 +1,9 @@
-import 'package:babysitterapp/core/constants/styles.dart';
-
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextInput extends StatefulWidget {
+import 'package:babysitterapp/core/constants/styles.dart';
+
+class CustomTextInput extends HookWidget {
   const CustomTextInput({
     super.key,
     required this.onChanged,
@@ -47,75 +48,59 @@ class CustomTextInput extends StatefulWidget {
   final String? initialValue;
 
   @override
-  CustomTextInputState createState() => CustomTextInputState();
-}
-
-class CustomTextInputState extends State<CustomTextInput> {
-  late TextEditingController _controller;
-  bool _showClearButton = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller =
-        widget.controller ?? TextEditingController(text: widget.initialValue);
-    _controller.addListener(_updateClearButtonVisibility);
-  }
-
-  void _updateClearButtonVisibility() {
-    setState(() {
-      _showClearButton = _controller.text.isNotEmpty;
-    });
-  }
-
-  @override
-  void dispose() {
-    if (widget.controller == null) {
-      _controller.dispose();
-    }
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final TextEditingController controller = useTextEditingController(
+      text: initialValue,
+    );
+    final ValueNotifier<bool> showClearButton = useState(false);
+
+    useEffect(() {
+      void updateClearButtonVisibility() {
+        showClearButton.value = controller.text.isNotEmpty;
+      }
+
+      controller.addListener(updateClearButtonVisibility);
+      return () => controller.removeListener(updateClearButtonVisibility);
+    }, <Object?>[controller]);
+
     return TextField(
-      controller: _controller,
-      onChanged: widget.onChanged,
+      controller: controller,
+      onChanged: onChanged,
       decoration: InputDecoration(
-        hintText: widget.hintText,
-        hintStyle: TextStyle(color: widget.hintColor ?? Colors.grey.shade600),
-        prefixIcon: widget.prefixIcon,
-        suffixIcon: _showClearButton && widget.onClear != null
+        hintText: hintText,
+        hintStyle: TextStyle(color: hintColor ?? Colors.grey.shade600),
+        prefixIcon: prefixIcon,
+        suffixIcon: showClearButton.value && onClear != null
             ? IconButton(
-                icon: Icon(Icons.clear,
-                    color: widget.hintColor ?? Colors.grey.shade600),
+                icon:
+                    Icon(Icons.clear, color: hintColor ?? Colors.grey.shade600),
                 onPressed: () {
-                  _controller.clear();
-                  widget.onClear!();
+                  controller.clear();
+                  onClear!();
                 },
               )
-            : widget.suffixIcon,
+            : suffixIcon,
         filled: true,
-        fillColor: widget.fillColor ?? GlobalStyles.defaultFillColor,
-        contentPadding: widget.contentPadding,
+        fillColor: fillColor ?? GlobalStyles.defaultFillColor,
+        contentPadding: contentPadding,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius),
-          borderSide: BorderSide(
-              color: widget.borderColor ?? GlobalStyles.defaultBorderColor),
+          borderRadius: BorderRadius.circular(borderRadius),
+          borderSide:
+              BorderSide(color: borderColor ?? GlobalStyles.defaultBorderColor),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius),
+          borderRadius: BorderRadius.circular(borderRadius),
           borderSide: BorderSide(
-              color: widget.focusedBorderColor ??
-                  GlobalStyles.defaultFocusedBorderColor),
+              color:
+                  focusedBorderColor ?? GlobalStyles.defaultFocusedBorderColor),
         ),
       ),
-      style: TextStyle(color: widget.textColor ?? Colors.grey.shade800),
-      cursorColor: widget.cursorColor ?? GlobalStyles.defaultFocusedBorderColor,
-      textInputAction: widget.textInputAction,
-      keyboardType: widget.keyboardType,
-      obscureText: widget.obscureText,
-      maxLines: widget.maxLines,
+      style: TextStyle(color: textColor ?? Colors.grey.shade800),
+      cursorColor: cursorColor ?? GlobalStyles.defaultFocusedBorderColor,
+      textInputAction: textInputAction,
+      keyboardType: keyboardType,
+      obscureText: obscureText,
+      maxLines: maxLines,
     );
   }
 }

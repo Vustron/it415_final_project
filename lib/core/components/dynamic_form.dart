@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:babysitterapp/models/inputfield.dart';
 
 import 'input.dart';
+import 'select.dart';
 
 class DynamicForm extends HookWidget {
   const DynamicForm({
@@ -49,41 +50,64 @@ class DynamicForm extends HookWidget {
 
     return Column(
       children: <Widget>[
-        ...fields.map((InputFieldConfig field) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    field.label,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+        ...fields.map((InputFieldConfig field) {
+          Widget fieldWidget;
+          switch (field.type) {
+            case 'select':
+              fieldWidget = CustomSelect<String>(
+                items: field.options ?? <String>[],
+                value: field.value,
+                hint: field.hintText,
+                onChanged: (String? value) {
+                  formData.value = <String, String>{
+                    ...formData.value,
+                    field.label: value ?? '',
+                  };
+                },
+              );
+            case 'text':
+            default:
+              fieldWidget = CustomTextInput(
+                controller: controllers[field.label],
+                hintText: field.hintText,
+                keyboardType: field.keyboardType ?? TextInputType.text,
+                obscureText: field.obscureText,
+                prefixIcon:
+                    field.prefixIcon != null ? Icon(field.prefixIcon) : null,
+                onChanged: (String value) {
+                  formData.value = <String, String>{
+                    ...formData.value,
+                    field.label: value,
+                  };
+                },
+              );
+              break;
+          }
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  field.label,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
                   ),
-                  const SizedBox(height: 8),
-                  CustomTextInput(
-                    controller: controllers[field.label],
-                    hintText: field.hintText,
-                    keyboardType: field.keyboardType ?? TextInputType.text,
-                    obscureText: field.obscureText,
-                    prefixIcon: field.prefixIcon != null
-                        ? Icon(field.prefixIcon)
-                        : null,
-                    onChanged: (String value) {
-                      formData.value = <String, String>{
-                        ...formData.value,
-                        field.label: value,
-                      };
-                    },
-                  ),
-                ],
-              ),
-            )),
+                ),
+                const SizedBox(height: 8),
+                fieldWidget,
+              ],
+            ),
+          );
+        }),
         const SizedBox(height: 16),
-        ElevatedButton(
-          onPressed: () => onSubmit(formData.value),
-          child: const Text('Submit'),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: () => onSubmit(formData.value),
+            child: const Text('Submit'),
+          ),
         ),
       ],
     );

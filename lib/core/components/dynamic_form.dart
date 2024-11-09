@@ -14,7 +14,7 @@ import 'select.dart';
 import 'input.dart';
 
 class DynamicForm extends HookWidget {
-  const DynamicForm({
+  DynamicForm({
     super.key,
     required this.fields,
     required this.onSubmit,
@@ -24,6 +24,7 @@ class DynamicForm extends HookWidget {
   final List<InputFieldConfig> fields;
   final void Function(Map<String, String>) onSubmit;
   final ValueNotifier<bool>? isLoading;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -85,179 +86,185 @@ class DynamicForm extends HookWidget {
       <Object?>[fields],
     );
 
-    return Column(
-      children: <Widget>[
-        ...fields.map((InputFieldConfig field) {
-          Widget fieldWidget;
-          switch (field.type) {
-            case 'select':
-              fieldWidget = CustomSelect<String>(
-                items: field.options ?? <String>[],
-                value: field.value,
-                hint: field.hintText,
-                onChanged: (String? value) {
-                  formData.value = <String, String>{
-                    ...formData.value,
-                    field.label: value ?? '',
-                  };
-                },
-                isRequired: field.isRequired,
-                errorText: errors.value[field.label],
-                enabled: !(isLoading ?? defaultLoading).value,
-              );
-              break;
+    return Form(
+      key: formKey,
+      child: Column(
+        children: <Widget>[
+          ...fields.map((InputFieldConfig field) {
+            Widget fieldWidget;
+            switch (field.type) {
+              case 'select':
+                fieldWidget = CustomSelect<String>(
+                  items: field.options ?? <String>[],
+                  value: field.value,
+                  hint: field.hintText,
+                  onChanged: (String? value) {
+                    formData.value = <String, String>{
+                      ...formData.value,
+                      field.label: value ?? '',
+                    };
+                  },
+                  isRequired: field.isRequired,
+                  errorText: errors.value[field.label],
+                  enabled: !(isLoading ?? defaultLoading).value,
+                  validator: (_) => getValidator(field)(field.value),
+                );
+                break;
 
-            case 'file':
-              final ValueNotifier<FilePickerState> fileState =
-                  fileStates[field.label]!;
-              fieldWidget = Column(
-                children: <Widget>[
-                  FormField<String>(
-                    builder: (FormFieldState<String> state) {
-                      return Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: ElevatedButton.icon(
-                                  onPressed: fileState.value.isLoading ||
-                                          (isLoading ?? defaultLoading).value
-                                      ? null
-                                      : () => pickFile(
-                                          field.label,
-                                          field.allowedFileTypes,
-                                          fileState,
-                                          formData),
-                                  icon: const Icon(Icons.upload_file),
-                                  label: Text(fileState.value.fileName !=
-                                              null &&
-                                          fileState.value.fileName!.isNotEmpty
-                                      ? shortenFileName(
-                                          fileState.value.fileName!)
-                                      : field.hintText),
+              case 'file':
+                final ValueNotifier<FilePickerState> fileState =
+                    fileStates[field.label]!;
+                fieldWidget = Column(
+                  children: <Widget>[
+                    FormField<String>(
+                      validator: getValidator(field),
+                      builder: (FormFieldState<String> state) {
+                        return Column(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: ElevatedButton.icon(
+                                    onPressed: fileState.value.isLoading ||
+                                            (isLoading ?? defaultLoading).value
+                                        ? null
+                                        : () => pickFile(
+                                            field.label,
+                                            field.allowedFileTypes,
+                                            fileState,
+                                            formData),
+                                    icon: const Icon(Icons.upload_file),
+                                    label: Text(fileState.value.fileName !=
+                                                null &&
+                                            fileState.value.fileName!.isNotEmpty
+                                        ? shortenFileName(
+                                            fileState.value.fileName!)
+                                        : field.hintText),
+                                  ),
                                 ),
-                              ),
-                              if (fileState.value.filePath != null &&
-                                  fileState
-                                      .value.filePath!.isNotEmpty) ...<Widget>[
-                                const SizedBox(width: 8),
-                                IconButton(
-                                  icon: const Icon(Icons.clear),
-                                  onPressed: () {
-                                    fileState.value = const FilePickerState();
-                                    formData.value = <String, String>{
-                                      ...formData.value,
-                                      field.label: '',
-                                    };
-                                    state.didChange(null);
-                                  },
-                                ),
+                                if (fileState.value.filePath != null &&
+                                    fileState.value.filePath!
+                                        .isNotEmpty) ...<Widget>[
+                                  const SizedBox(width: 8),
+                                  IconButton(
+                                    icon: const Icon(Icons.clear),
+                                    onPressed: () {
+                                      fileState.value = const FilePickerState();
+                                      formData.value = <String, String>{
+                                        ...formData.value,
+                                        field.label: '',
+                                      };
+                                      state.didChange(null);
+                                    },
+                                  ),
+                                ],
                               ],
-                            ],
-                          ),
-                          if (state.hasError)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5.0),
-                              child: Text(
-                                state.errorText!,
-                                style: const TextStyle(color: Colors.red),
-                              ),
                             ),
-                          if (fileState.value.isLoading)
-                            const Padding(
-                              padding: EdgeInsets.only(top: 8.0),
-                              child: CircularProgressIndicator(
-                                color: GlobalStyles.primaryButtonColor,
+                            if (state.hasError)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 5.0),
+                                child: Text(
+                                  state.errorText!,
+                                  style: const TextStyle(color: Colors.red),
+                                ),
                               ),
-                            )
-                          else if (fileState.value.filePath != null &&
-                              fileState.value.filePath!.isNotEmpty)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: FilePreview(
-                                  filePath: fileState.value.filePath!),
-                            ),
-                        ],
-                      );
-                    },
-                  ),
-                ],
-              );
-              break;
-
-            case 'text':
-            case 'password':
-            case 'email':
-            default:
-              fieldWidget = CustomTextInput(
-                controller: controllers[field.label],
-                hintText: field.hintText,
-                keyboardType: field.keyboardType ?? TextInputType.text,
-                obscureText: field.obscureText,
-                prefixIcon:
-                    field.prefixIcon != null ? Icon(field.prefixIcon) : null,
-                onChanged: (String value) {
-                  formData.value = <String, String>{
-                    ...formData.value,
-                    field.label: value,
-                  };
-                },
-                isRequired: field.isRequired,
-                minLength: field.minLength,
-                maxLength: field.maxLength,
-                errorText: errors.value[field.label],
-                enabled: !(isLoading ?? defaultLoading).value,
-              );
-              break;
-          }
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  field.label,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                fieldWidget,
-              ],
-            ),
-          );
-        }).toList(),
-        const SizedBox(height: 16),
-        ValueListenableBuilder<bool>(
-          valueListenable: isLoading ?? defaultLoading,
-          builder: (BuildContext context, bool loading, Widget? child) {
-            return SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: loading
-                    ? null
-                    : () {
-                        if (validateForm(fields, formData, errors)) {
-                          (isLoading ?? defaultLoading).value = true;
-                          onSubmit(formData.value);
-                        }
+                            if (fileState.value.isLoading)
+                              const Padding(
+                                padding: EdgeInsets.only(top: 8.0),
+                                child: CircularProgressIndicator(
+                                  color: GlobalStyles.primaryButtonColor,
+                                ),
+                              )
+                            else if (fileState.value.filePath != null &&
+                                fileState.value.filePath!.isNotEmpty)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: FilePreview(
+                                    filePath: fileState.value.filePath!),
+                              ),
+                          ],
+                        );
                       },
-                child: loading
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          color: GlobalStyles.primaryButtonColor,
-                          strokeWidth: 2.0,
-                        ),
-                      )
-                    : const Text('Submit'),
+                    ),
+                  ],
+                );
+                break;
+
+              case 'text':
+              case 'password':
+              case 'email':
+              default:
+                fieldWidget = CustomTextInput(
+                  controller: controllers[field.label],
+                  hintText: field.hintText,
+                  keyboardType: field.keyboardType ?? TextInputType.text,
+                  obscureText: field.obscureText,
+                  prefixIcon:
+                      field.prefixIcon != null ? Icon(field.prefixIcon) : null,
+                  onChanged: (String value) {
+                    formData.value = <String, String>{
+                      ...formData.value,
+                      field.label: value,
+                    };
+                  },
+                  isRequired: field.isRequired,
+                  minLength: field.minLength,
+                  maxLength: field.maxLength,
+                  errorText: errors.value[field.label],
+                  enabled: !(isLoading ?? defaultLoading).value,
+                  validator: getValidator(field),
+                );
+                break;
+            }
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    field.label,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  fieldWidget,
+                ],
               ),
             );
-          },
-        ),
-      ],
+          }),
+          const SizedBox(height: 16),
+          ValueListenableBuilder<bool>(
+            valueListenable: isLoading ?? defaultLoading,
+            builder: (BuildContext context, bool loading, Widget? child) {
+              return SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: loading
+                      ? null
+                      : () {
+                          if (formKey.currentState!.validate()) {
+                            isLoading?.value = true;
+                            onSubmit(formData.value);
+                          }
+                        },
+                  child: loading
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            color: GlobalStyles.primaryButtonColor,
+                            strokeWidth: 2.0,
+                          ),
+                        )
+                      : const Text('Submit'),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

@@ -11,6 +11,8 @@ class AuthError {
       'An unknown error occurred. Please try again later.';
   static const String genericError =
       'Failed to perform the operation. Please try again.';
+  static const String createUserWithEmailAndPasswordError =
+      'Failed to create user with email and password. Please try again.';
 }
 
 String handleFirebaseAuthException(FirebaseAuthException e) {
@@ -25,6 +27,8 @@ String handleFirebaseAuthException(FirebaseAuthException e) {
       return AuthError.weakPassword;
     case 'invalid-email':
       return AuthError.invalidEmail;
+    case 'dev.flutter.pigeon.firebase_auth_platform_interface.FirebaseAuthHostApi.createUserWithEmailAndPassword':
+      return AuthError.createUserWithEmailAndPasswordError;
     default:
       return e.message ?? AuthError.unknownError;
   }

@@ -20,27 +20,37 @@ class RegisterForm extends HookConsumerWidget with GlobalStyles {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ValueNotifier<bool> isLoading = useState(false);
+    final ValueNotifier<bool> snackbarShown = useState(false);
 
     ref.listen(authController,
         (AuthenticationState? previous, AuthenticationState next) {
       next.maybeWhen(
-        orElse: () => isLoading.value = false,
+        orElse: () {
+          isLoading.value = false;
+          snackbarShown.value = false;
+        },
         authenticated: (UserAccount user) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('User Authenticated'),
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
+          if (!snackbarShown.value) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('User Authenticated'),
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+            snackbarShown.value = true;
+          }
           isLoading.value = false;
         },
         unauthenticated: (String? message) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(message!),
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
+          if (!snackbarShown.value) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(message!),
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+            snackbarShown.value = true;
+          }
           isLoading.value = false;
         },
       );
@@ -105,13 +115,14 @@ class RegisterForm extends HookConsumerWidget with GlobalStyles {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  ref.read(authController.notifier).signup(
+                  ref.read(authController.notifier).register(
                         name: formData['Name']!,
                         email: formData['Email']!,
                         password: formData['Password']!,
                         role: formData['Type of account']!,
                       );
                   isLoading.value = true;
+                  snackbarShown.value = false; // Reset the flag on submit
                 },
                 child: const Text('Confirm'),
               ),

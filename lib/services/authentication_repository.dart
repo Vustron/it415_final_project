@@ -41,6 +41,11 @@ class AuthenticationRepository {
     required String password,
     required String role,
   }) async {
+    // Check if any of the fields are empty
+    if (name.isEmpty || email.isEmpty || password.isEmpty || role.isEmpty) {
+      return left('Fields cannot be empty');
+    }
+
     try {
       final UserCredential response = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);

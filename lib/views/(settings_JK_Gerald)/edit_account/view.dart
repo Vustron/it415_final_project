@@ -27,7 +27,6 @@ class EditProfile extends HookConsumerWidget with GlobalStyles {
     }, <Object?>[]);
 
     final ValueNotifier<bool> isLoading = useState(false);
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     final List<InputFieldConfig> fields = <InputFieldConfig>[
       InputFieldConfig(
@@ -71,6 +70,15 @@ class EditProfile extends HookConsumerWidget with GlobalStyles {
     Future<void> onSubmit(Map<String, String> formData) async {
       isLoading.value = true;
 
+      String? profileImgUrl;
+      if (formData['Profile Image'] != null &&
+          formData['Profile Image']!.isNotEmpty) {
+        profileImgUrl = await ref.read(authController.notifier).uploadFile(
+              'profile_images/${user.id}',
+              formData['Profile Image']!,
+            );
+      }
+
       final UserAccount updatedUser = UserAccount(
         id: user.id,
         name: formData['Name'] ?? user.name,
@@ -78,7 +86,7 @@ class EditProfile extends HookConsumerWidget with GlobalStyles {
         phoneNumber: formData['Phone Number'] ?? user.phoneNumber,
         email: user.email,
         provider: user.provider,
-        profileImg: formData['Profile Image'] ?? user.profileImg,
+        profileImg: profileImgUrl ?? user.profileImg,
         description: formData['Bio'] ?? user.description,
         validId: formData['Valid ID'] ?? user.validId,
         role: user.role,
@@ -127,7 +135,6 @@ class EditProfile extends HookConsumerWidget with GlobalStyles {
                 fields: fields,
                 onSubmit: onSubmit,
                 isLoading: isLoading,
-                formKey: formKey,
               ),
               const SizedBox(height: 50),
             ],

@@ -27,6 +27,10 @@ class CustomTextInput extends HookWidget {
     this.initialValue,
     this.errorText,
     this.enabled = true,
+    this.validator,
+    this.isRequired = false,
+    this.minLength,
+    this.maxLength,
   });
 
   final void Function(String) onChanged;
@@ -50,6 +54,10 @@ class CustomTextInput extends HookWidget {
   final String? initialValue;
   final String? errorText;
   final bool enabled;
+  final String? Function(String?)? validator;
+  final bool isRequired;
+  final int? minLength;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +77,22 @@ class CustomTextInput extends HookWidget {
           effectiveController.removeListener(updateClearButtonVisibility);
     }, <Object?>[effectiveController]);
 
-    return TextField(
+    return TextFormField(
       controller: effectiveController,
       onChanged: onChanged,
+      validator: validator ??
+          (String? value) {
+            if (isRequired && (value == null || value.isEmpty)) {
+              return 'This field is required';
+            }
+            if (minLength != null && value!.length < minLength!) {
+              return 'Must be at least $minLength characters';
+            }
+            if (maxLength != null && value!.length > maxLength!) {
+              return 'Must be at most $maxLength characters';
+            }
+            return null;
+          },
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(color: hintColor ?? Colors.grey.shade600),
@@ -92,20 +113,22 @@ class CustomTextInput extends HookWidget {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
           borderSide: BorderSide(
-              color: errorText != null
-                  ? Colors.red
-                  : borderColor ?? GlobalStyles.defaultBorderColor),
+            color: errorText != null
+                ? Colors.red
+                : borderColor ?? GlobalStyles.defaultBorderColor,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
           borderSide: BorderSide(
-              color: errorText != null
-                  ? Colors.red
-                  : focusedBorderColor ??
-                      GlobalStyles.defaultFocusedBorderColor),
+            color: errorText != null
+                ? Colors.red
+                : focusedBorderColor ?? GlobalStyles.defaultFocusedBorderColor,
+          ),
         ),
+        errorText: errorText,
       ),
-      style: TextStyle(color: textColor ?? Colors.grey.shade800),
+      style: TextStyle(color: textColor),
       cursorColor: cursorColor ?? GlobalStyles.defaultFocusedBorderColor,
       textInputAction: textInputAction,
       keyboardType: keyboardType,

@@ -27,7 +27,7 @@ class AuthController extends StateNotifier<AuthenticationState> {
     );
   }
 
-  Future<void> signup({
+  Future<void> register({
     required String name,
     required String email,
     required String password,
@@ -104,6 +104,10 @@ class AuthController extends StateNotifier<AuthenticationState> {
       (String error) => AuthenticationState.unauthenticated(message: error),
       (UserAccount user) => AuthenticationState.authenticated(user: user),
     );
+  }
+
+  Future<String> uploadFile(String path, String filePath) async {
+    return _dataSource.uploadFile(path, filePath);
   }
 }
 

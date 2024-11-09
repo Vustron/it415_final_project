@@ -14,8 +14,6 @@ class CustomSelect<T extends Object> extends HookWidget {
     this.label,
     this.displayStringFor,
     this.isSearchable = false,
-    this.isRequired = false,
-    this.validator,
     this.decoration,
     this.menuMaxHeight,
     this.prefix,
@@ -31,6 +29,8 @@ class CustomSelect<T extends Object> extends HookWidget {
     this.onTap,
     this.autoFocus = false,
     this.errorText,
+    this.validator,
+    this.isRequired = false,
   });
 
   final T? value;
@@ -40,8 +40,6 @@ class CustomSelect<T extends Object> extends HookWidget {
   final String? label;
   final String Function(T)? displayStringFor;
   final bool isSearchable;
-  final bool isRequired;
-  final String? Function(T?)? validator;
   final InputDecoration? decoration;
   final double? menuMaxHeight;
   final Widget? prefix;
@@ -57,6 +55,8 @@ class CustomSelect<T extends Object> extends HookWidget {
   final VoidCallback? onTap;
   final bool autoFocus;
   final String? errorText;
+  final String? Function(T?)? validator;
+  final bool isRequired;
 
   @override
   Widget build(BuildContext context) {
@@ -79,10 +79,7 @@ class CustomSelect<T extends Object> extends HookWidget {
         padding: const EdgeInsets.only(left: 5.0),
         child: Text(
           hint,
-          style: hintStyle ??
-              TextStyle(
-                color: Colors.grey.shade600,
-              ),
+          style: hintStyle ?? TextStyle(color: Colors.grey.shade600),
         ),
       ),
       items: items.map((T item) {
@@ -95,7 +92,13 @@ class CustomSelect<T extends Object> extends HookWidget {
         );
       }).toList(),
       onChanged: enabled! ? onChanged : null,
-      validator: validator,
+      validator: validator ??
+          (T? value) {
+            if (isRequired && value == null) {
+              return 'This field is required';
+            }
+            return null;
+          },
       decoration: decoration ??
           InputDecoration(
             labelText: label,

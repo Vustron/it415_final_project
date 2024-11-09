@@ -35,7 +35,7 @@ class FilterView extends HookConsumerWidget with GlobalStyles {
     useEffect(() {
       controller.forward();
       return controller.dispose;
-    }, [controller]);
+    }, <Object?>[controller]);
 
     return Theme(
       data: filterTheme(GlobalStyles.filterColorScheme),

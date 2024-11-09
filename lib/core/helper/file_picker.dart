@@ -15,8 +15,7 @@ Future<void> pickFile(
   try {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: allowedFileTypes ??
-          <String>['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx'],
+      allowedExtensions: allowedFileTypes ?? <String>['jpg', 'jpeg', 'png'],
     );
 
     if (result != null && result.files.single.path != null) {

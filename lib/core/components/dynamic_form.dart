@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/models/inputfield.dart';
 
+import 'package:babysitterapp/core/helper/shorten_file_name.dart';
 import 'package:babysitterapp/core/state/file_picker_state.dart';
 import 'package:babysitterapp/core/helper/validate_form.dart';
 import 'package:babysitterapp/core/helper/file_preview.dart';
@@ -18,13 +19,11 @@ class DynamicForm extends HookWidget {
     required this.fields,
     required this.onSubmit,
     this.isLoading,
-    this.formKey,
   });
 
   final List<InputFieldConfig> fields;
   final void Function(Map<String, String>) onSubmit;
   final ValueNotifier<bool>? isLoading;
-  final GlobalKey<FormState>? formKey;
 
   @override
   Widget build(BuildContext context) {
@@ -70,163 +69,195 @@ class DynamicForm extends HookWidget {
 
     final ValueNotifier<bool> defaultLoading = useState(false);
 
-    return Form(
-      key: formKey,
-      child: Column(
-        children: <Widget>[
-          ...fields.map((InputFieldConfig field) {
-            Widget fieldWidget;
-            switch (field.type) {
-              case 'select':
-                fieldWidget = CustomSelect<String>(
-                  items: field.options ?? <String>[],
-                  value: field.value,
-                  hint: field.hintText,
-                  onChanged: (String? value) {
-                    formData.value = <String, String>{
-                      ...formData.value,
-                      field.label: value ?? '',
-                    };
-                  },
-                  validator: (String? value) {
-                    if (field.isRequired && (value == null || value.isEmpty)) {
-                      return '${field.label} is required';
-                    }
-                    return null;
-                  },
-                  errorText: errors.value[field.label],
-                  enabled: !(isLoading ?? defaultLoading).value,
-                );
+    final Map<String, ValueNotifier<FilePickerState>> fileStates = useMemoized(
+      () => Map<String, ValueNotifier<FilePickerState>>.fromEntries(
+        fields.where((InputFieldConfig field) => field.type == 'file').map(
+              (InputFieldConfig field) =>
+                  MapEntry<String, ValueNotifier<FilePickerState>>(
+                field.label,
+                ValueNotifier<FilePickerState>(FilePickerState(
+                  filePath: field.value,
+                  fileName: field.value?.split('/').last,
+                )),
+              ),
+            ),
+      ),
+      <Object?>[fields],
+    );
 
-              case 'file':
-                final ValueNotifier<FilePickerState> fileState =
-                    useState(const FilePickerState());
-                fieldWidget = Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: ElevatedButton.icon(
-                            onPressed: fileState.value.isLoading ||
-                                    (isLoading ?? defaultLoading).value
-                                ? null
-                                : () => pickFile(
-                                    field.label,
-                                    field.allowedFileTypes,
-                                    fileState,
-                                    formData),
-                            icon: const Icon(Icons.upload_file),
-                            label: Text(
-                                fileState.value.fileName ?? field.hintText),
-                          ),
-                        ),
-                        if (fileState.value.filePath != null) ...<Widget>[
-                          const SizedBox(width: 8),
-                          IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: () {
-                              fileState.value = const FilePickerState();
-                              formData.value = <String, String>{
-                                ...formData.value,
-                                field.label: '',
-                              };
-                            },
-                          ),
-                        ],
-                      ],
-                    ),
-                    if (fileState.value.isLoading)
-                      const Padding(
-                        padding: EdgeInsets.only(top: 8.0),
-                        child: CircularProgressIndicator(),
-                      )
-                    else if (fileState.value.filePath != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: FilePreview(filePath: fileState.value.filePath!),
-                      ),
-                  ],
-                );
+    return Column(
+      children: <Widget>[
+        ...fields.map((InputFieldConfig field) {
+          Widget fieldWidget;
+          switch (field.type) {
+            case 'select':
+              fieldWidget = CustomSelect<String>(
+                items: field.options ?? <String>[],
+                value: field.value,
+                hint: field.hintText,
+                onChanged: (String? value) {
+                  formData.value = <String, String>{
+                    ...formData.value,
+                    field.label: value ?? '',
+                  };
+                },
+                isRequired: field.isRequired,
+                errorText: errors.value[field.label],
+                enabled: !(isLoading ?? defaultLoading).value,
+              );
+              break;
 
-              case 'text':
-              case 'password':
-              case 'email':
-              default:
-                fieldWidget = CustomTextInput(
-                  controller: controllers[field.label],
-                  hintText: field.hintText,
-                  keyboardType: field.keyboardType ?? TextInputType.text,
-                  obscureText: field.obscureText,
-                  prefixIcon:
-                      field.prefixIcon != null ? Icon(field.prefixIcon) : null,
-                  onChanged: (String value) {
-                    formData.value = <String, String>{
-                      ...formData.value,
-                      field.label: value,
-                    };
-                  },
-                  errorText: errors.value[field.label],
-                  enabled: !(isLoading ?? defaultLoading).value,
-                );
-                break;
-            }
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            case 'file':
+              final ValueNotifier<FilePickerState> fileState =
+                  fileStates[field.label]!;
+              fieldWidget = Column(
                 children: <Widget>[
-                  Text(
-                    field.label,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+                  FormField<String>(
+                    builder: (FormFieldState<String> state) {
+                      return Column(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  onPressed: fileState.value.isLoading ||
+                                          (isLoading ?? defaultLoading).value
+                                      ? null
+                                      : () => pickFile(
+                                          field.label,
+                                          field.allowedFileTypes,
+                                          fileState,
+                                          formData),
+                                  icon: const Icon(Icons.upload_file),
+                                  label: Text(fileState.value.fileName !=
+                                              null &&
+                                          fileState.value.fileName!.isNotEmpty
+                                      ? shortenFileName(
+                                          fileState.value.fileName!)
+                                      : field.hintText),
+                                ),
+                              ),
+                              if (fileState.value.filePath != null &&
+                                  fileState
+                                      .value.filePath!.isNotEmpty) ...<Widget>[
+                                const SizedBox(width: 8),
+                                IconButton(
+                                  icon: const Icon(Icons.clear),
+                                  onPressed: () {
+                                    fileState.value = const FilePickerState();
+                                    formData.value = <String, String>{
+                                      ...formData.value,
+                                      field.label: '',
+                                    };
+                                    state.didChange(null);
+                                  },
+                                ),
+                              ],
+                            ],
+                          ),
+                          if (state.hasError)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5.0),
+                              child: Text(
+                                state.errorText!,
+                                style: const TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          if (fileState.value.isLoading)
+                            const Padding(
+                              padding: EdgeInsets.only(top: 8.0),
+                              child: CircularProgressIndicator(
+                                color: GlobalStyles.primaryButtonColor,
+                              ),
+                            )
+                          else if (fileState.value.filePath != null &&
+                              fileState.value.filePath!.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: FilePreview(
+                                  filePath: fileState.value.filePath!),
+                            ),
+                        ],
+                      );
+                    },
                   ),
-                  const SizedBox(height: 8),
-                  fieldWidget,
-                  if (errors.value[field.label] != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Text(
-                        errors.value[field.label]!,
-                        style: const TextStyle(color: Colors.red),
-                      ),
-                    ),
                 ],
+              );
+              break;
+
+            case 'text':
+            case 'password':
+            case 'email':
+            default:
+              fieldWidget = CustomTextInput(
+                controller: controllers[field.label],
+                hintText: field.hintText,
+                keyboardType: field.keyboardType ?? TextInputType.text,
+                obscureText: field.obscureText,
+                prefixIcon:
+                    field.prefixIcon != null ? Icon(field.prefixIcon) : null,
+                onChanged: (String value) {
+                  formData.value = <String, String>{
+                    ...formData.value,
+                    field.label: value,
+                  };
+                },
+                isRequired: field.isRequired,
+                minLength: field.minLength,
+                maxLength: field.maxLength,
+                errorText: errors.value[field.label],
+                enabled: !(isLoading ?? defaultLoading).value,
+              );
+              break;
+          }
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  field.label,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                fieldWidget,
+              ],
+            ),
+          );
+        }).toList(),
+        const SizedBox(height: 16),
+        ValueListenableBuilder<bool>(
+          valueListenable: isLoading ?? defaultLoading,
+          builder: (BuildContext context, bool loading, Widget? child) {
+            return SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: loading
+                    ? null
+                    : () {
+                        if (validateForm(fields, formData, errors)) {
+                          (isLoading ?? defaultLoading).value = true;
+                          onSubmit(formData.value);
+                        }
+                      },
+                child: loading
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          color: GlobalStyles.primaryButtonColor,
+                          strokeWidth: 2.0,
+                        ),
+                      )
+                    : const Text('Submit'),
               ),
             );
-          }),
-          const SizedBox(height: 16),
-          ValueListenableBuilder<bool>(
-            valueListenable: isLoading ?? defaultLoading,
-            builder: (BuildContext context, bool loading, Widget? child) {
-              return SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: loading
-                      ? null
-                      : () {
-                          if (validateForm(fields, formData, errors)) {
-                            (isLoading ?? defaultLoading).value = true;
-                            onSubmit(formData.value);
-                          }
-                        },
-                  child: loading
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            color: GlobalStyles.primaryButtonColor,
-                            strokeWidth: 2.0,
-                          ),
-                        )
-                      : const Text('Submit'),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+          },
+        ),
+      ],
     );
   }
 }

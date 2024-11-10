@@ -96,30 +96,44 @@ class DynamicForm extends HookWidget {
               case 'select':
                 fieldWidget = CustomSelect<String>(
                   items: field.options ?? <String>[],
-                  value: field.value,
+                  value: formData.value[field.label]!.isEmpty
+                      ? null
+                      : formData.value[field.label],
                   hint: field.hintText,
                   onChanged: (String? value) {
-                    formData.value = <String, String>{
-                      ...formData.value,
-                      field.label: value ?? '',
-                    };
+                    if (value != null) {
+                      formData.value = <String, String>{
+                        ...formData.value,
+                        field.label: value,
+                      };
+                    }
                   },
                   isRequired: field.isRequired,
                   errorText: errors.value[field.label],
                   enabled: !(isLoading ?? defaultLoading).value,
-                  validator: (_) => getValidator(field)(field.value),
+                  validator: getValidator(field),
                 );
                 break;
 
+              // In DynamicForm class, update the file field case:
               case 'file':
                 final ValueNotifier<FilePickerState> fileState =
                     fileStates[field.label]!;
                 fieldWidget = Column(
                   children: <Widget>[
                     FormField<String>(
-                      validator: getValidator(field),
+                      initialValue: fileState.value.filePath,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (String? value) {
+                        if (field.isRequired &&
+                            (value == null || value.isEmpty)) {
+                          return '${field.label} is required';
+                        }
+                        return null;
+                      },
                       builder: (FormFieldState<String> state) {
                         return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Row(
                               children: <Widget>[
@@ -128,18 +142,32 @@ class DynamicForm extends HookWidget {
                                     onPressed: fileState.value.isLoading ||
                                             (isLoading ?? defaultLoading).value
                                         ? null
-                                        : () => pickFile(
-                                            field.label,
-                                            field.allowedFileTypes,
-                                            fileState,
-                                            formData),
+                                        : () async {
+                                            await pickFile(
+                                              field.label,
+                                              field.allowedFileTypes,
+                                              fileState,
+                                              formData,
+                                            );
+                                            // Update form field state
+                                            state.didChange(
+                                                fileState.value.filePath);
+                                            formData.value = <String, String>{
+                                              ...formData.value,
+                                              field.label:
+                                                  fileState.value.filePath ??
+                                                      '',
+                                            };
+                                          },
                                     icon: const Icon(Icons.upload_file),
-                                    label: Text(fileState.value.fileName !=
-                                                null &&
-                                            fileState.value.fileName!.isNotEmpty
-                                        ? shortenFileName(
-                                            fileState.value.fileName!)
-                                        : field.hintText),
+                                    label: Text(
+                                      fileState.value.fileName != null &&
+                                              fileState
+                                                  .value.fileName!.isNotEmpty
+                                          ? shortenFileName(
+                                              fileState.value.fileName!)
+                                          : field.hintText,
+                                    ),
                                   ),
                                 ),
                                 if (fileState.value.filePath != null &&
@@ -150,11 +178,11 @@ class DynamicForm extends HookWidget {
                                     icon: const Icon(Icons.clear),
                                     onPressed: () {
                                       fileState.value = const FilePickerState();
+                                      state.didChange(null);
                                       formData.value = <String, String>{
                                         ...formData.value,
                                         field.label: '',
                                       };
-                                      state.didChange(null);
                                     },
                                   ),
                                 ],
@@ -165,15 +193,16 @@ class DynamicForm extends HookWidget {
                                 padding: const EdgeInsets.only(top: 5.0),
                                 child: Text(
                                   state.errorText!,
-                                  style: const TextStyle(color: Colors.red),
+                                  style: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                  ),
                                 ),
                               ),
                             if (fileState.value.isLoading)
                               const Padding(
                                 padding: EdgeInsets.only(top: 8.0),
-                                child: CircularProgressIndicator(
-                                  color: GlobalStyles.primaryButtonColor,
-                                ),
+                                child: CircularProgressIndicator(),
                               )
                             else if (fileState.value.filePath != null &&
                                 fileState.value.filePath!.isNotEmpty)

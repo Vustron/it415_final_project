@@ -183,6 +183,12 @@ class CustomSelect<T extends Object> extends HookWidget {
           contentPadding: contentPadding,
           onChanged: (String value) {},
           enabled: enabled!,
+          validator: (String? value) {
+            if (isRequired && (value == null || value.isEmpty)) {
+              return 'This field is required';
+            }
+            return validator?.call(value as T?);
+          },
         );
       },
     );

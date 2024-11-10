@@ -11,6 +11,7 @@ String? Function(String?) getValidator(InputFieldConfig field) {
       validation.email('Please enter a valid email');
       break;
     case 'text':
+    case 'select':
     case 'password':
       if (field.minLength != null) {
         validation.minLength(

@@ -37,7 +37,7 @@ Widget helpSupportTab() {
         SizedBox(height: 10),
         SupportTile(
           icon: Icons.email,
-          title: 'Email us at support@babysitterapp.com',
+          title: 'Email us at bsit4cit415@gmail.com',
         ),
         SizedBox(height: 10),
         SupportTile(

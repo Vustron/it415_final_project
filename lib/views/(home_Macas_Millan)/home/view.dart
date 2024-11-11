@@ -27,13 +27,27 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final String? locationName = 'Unknown';
+
     final ValueNotifier<int> currentIndex = useState(0);
     final CarouselSliderController carouselController =
         CarouselSliderController();
 
+    //example of list
     final List<Widget> babysitterCards = List<Widget>.generate(
-      10,
-      (int index) => babySitterCardNearby(context),
+      5,
+      //use .toString() if the datatype is different
+      (int index) => babySitterCardNearby(
+        context,
+        networkImage:
+            'https://images.unsplash.com/photo-1631947430066-48c30d57b943?q=80&w=1432&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        nameUser: 'Ms. Kara',
+        ratePhp: '200',
+        locationUser: 'Panabo City',
+        starCount: '5.0',
+        userBio:
+            'lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium',
+      ),
     );
 
     final AuthenticationState authState = ref.watch(authController);
@@ -45,7 +59,7 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
 
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 80,
+        toolbarHeight: 70,
         backgroundColor: Colors.white,
         leading: authState.maybeWhen(
           authenticated: (UserAccount user) => Padding(
@@ -65,16 +79,29 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
           ),
         ),
         centerTitle: false,
-        title: authState.maybeWhen(
-          authenticated: (UserAccount user) => Text(
-            'Hello ${user.name}!',
-            style: headerStyle.copyWith(
-              color: Colors.black,
-              fontSize: 20,
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            authState.maybeWhen(
+              authenticated: (UserAccount user) => Text(
+                'Hello ${user.name}!',
+                style: headerStyle.copyWith(
+                  color: Colors.black,
+                  fontSize: 20,
+                ),
+              ),
+              loading: () => const CircularProgressIndicator(),
+              orElse: () => const Text('Hello Guest!'),
             ),
-          ),
-          loading: () => const CircularProgressIndicator(),
-          orElse: () => const Text('Hello Guest!'),
+            Text(
+              'Location: $locationName',
+              maxLines: 1,
+              style: const TextStyle(
+                fontSize: 10,
+              ),
+            )
+          ],
         ),
         actions: <Widget>[
           IconButton(
@@ -110,17 +137,20 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
                   titleBabySitterNearby(),
                   //carousel
                   //many types of carousel based on package
-                  CarouselSlider(
-                    carouselController: carouselController,
-                    items: babysitterCards,
-                    options: CarouselOptions(
-                        height: 250,
-                        enableInfiniteScroll: false,
-                        enlargeCenterPage: true,
-                        onPageChanged:
-                            (int index, CarouselPageChangedReason reason) {
-                          currentIndex.value = index;
-                        }),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.30,
+                    child: CarouselSlider(
+                      carouselController: carouselController,
+                      items: babysitterCards,
+                      options: CarouselOptions(
+                          enlargeFactor: 0.20,
+                          enableInfiniteScroll: false,
+                          enlargeCenterPage: true,
+                          onPageChanged:
+                              (int index, CarouselPageChangedReason reason) {
+                            currentIndex.value = index;
+                          }),
+                    ),
                   ),
                   const SizedBox(height: 10),
                   Row(
@@ -147,7 +177,23 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
                   ),
 
                   titleTopRatedBabySitter(),
-                  topRatedBabySitterCard(),
+                  //use .toString() if the datatype is different
+                  ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: 5,
+                    itemBuilder: (BuildContext context, int index) {
+                      return topRatedBabySitterCard(
+                        networkImage:
+                            'https://images.unsplash.com/photo-1631947430066-48c30d57b943?q=80&w=1432&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                        nameUser: 'Ms. Kara',
+                        ratePhp: '200',
+                        starCount: '5.0',
+                        reviewsCount: '999',
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 15)
                 ],
               ),
             ),

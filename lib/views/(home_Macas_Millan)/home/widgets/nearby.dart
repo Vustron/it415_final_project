@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Widget titleBabySitterNearby() => Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[

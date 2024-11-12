@@ -4,22 +4,28 @@ class InputFieldConfig {
   InputFieldConfig({
     required this.label,
     required this.type,
+    required this.hintText,
     this.value,
+    this.isRequired = false,
+    this.minLength,
+    this.maxLength,
+    this.options,
     this.keyboardType,
     this.obscureText = false,
-    this.hintText = 'Enter text...',
     this.prefixIcon,
-    this.cursorColor,
-    this.textInputAction,
+    this.allowedFileTypes,
   });
 
   final String label;
   final String type;
+  final String hintText;
   final String? value;
+  final bool isRequired;
+  final int? minLength;
+  final int? maxLength;
+  final List<String>? options;
   final TextInputType? keyboardType;
   final bool obscureText;
-  final String hintText;
   final IconData? prefixIcon;
-  final Color? cursorColor;
-  final TextInputAction? textInputAction;
+  final List<String>? allowedFileTypes;
 }

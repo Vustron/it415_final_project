@@ -1,10 +1,8 @@
-// third party
-import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-// flutter
 import 'package:flutter/foundation.dart'
     show TargetPlatform, defaultTargetPlatform, kIsWeb;
+
+import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {

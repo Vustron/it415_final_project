@@ -1,10 +1,9 @@
-// core
-import 'package:babysitterapp/core/constants/styles.dart';
-
-// flutter
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextInput extends StatefulWidget {
+import 'package:babysitterapp/core/constants.dart';
+
+class CustomTextInput extends HookWidget {
   const CustomTextInput({
     super.key,
     required this.onChanged,
@@ -26,6 +25,12 @@ class CustomTextInput extends StatefulWidget {
     this.obscureText = false,
     this.maxLines = 1,
     this.initialValue,
+    this.errorText,
+    this.enabled = true,
+    this.validator,
+    this.isRequired = false,
+    this.minLength,
+    this.maxLength,
   });
 
   final void Function(String) onChanged;
@@ -47,73 +52,89 @@ class CustomTextInput extends StatefulWidget {
   final bool obscureText;
   final int maxLines;
   final String? initialValue;
-
-  @override
-  CustomTextInputState createState() => CustomTextInputState();
-}
-
-class CustomTextInputState extends State<CustomTextInput> {
-  late TextEditingController _controller;
-  bool _showClearButton = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = widget.controller ?? TextEditingController(text: widget.initialValue);
-    _controller.addListener(_updateClearButtonVisibility);
-  }
-
-  void _updateClearButtonVisibility() {
-    setState(() {
-      _showClearButton = _controller.text.isNotEmpty;
-    });
-  }
-
-  @override
-  void dispose() {
-    if (widget.controller == null) {
-      _controller.dispose();
-    }
-    super.dispose();
-  }
+  final String? errorText;
+  final bool enabled;
+  final String? Function(String?)? validator;
+  final bool isRequired;
+  final int? minLength;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: _controller,
-      onChanged: widget.onChanged,
-      decoration:  InputDecoration(
-        hintText: widget.hintText,
-        hintStyle: TextStyle(color: widget.hintColor ?? Colors.grey.shade600),
-        prefixIcon: widget.prefixIcon,
-        suffixIcon: _showClearButton && widget.onClear != null
+    final TextEditingController effectiveController = controller ??
+        useTextEditingController(
+          text: initialValue,
+        );
+    final ValueNotifier<bool> showClearButton = useState(false);
+
+    useEffect(() {
+      void updateClearButtonVisibility() {
+        showClearButton.value = effectiveController.text.isNotEmpty;
+      }
+
+      effectiveController.addListener(updateClearButtonVisibility);
+      return () =>
+          effectiveController.removeListener(updateClearButtonVisibility);
+    }, <Object?>[effectiveController]);
+
+    return TextFormField(
+      controller: effectiveController,
+      onChanged: onChanged,
+      validator: validator ??
+          (String? value) {
+            if (isRequired && (value == null || value.isEmpty)) {
+              return 'This field is required';
+            }
+            if (minLength != null && value!.length < minLength!) {
+              return 'Must be at least $minLength characters';
+            }
+            if (maxLength != null && value!.length > maxLength!) {
+              return 'Must be at most $maxLength characters';
+            }
+            return null;
+          },
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: TextStyle(color: hintColor ?? Colors.grey.shade600),
+        prefixIcon: prefixIcon,
+        suffixIcon: showClearButton.value && onClear != null
             ? IconButton(
-                icon: Icon(Icons.clear,
-                    color: widget.hintColor ?? Colors.grey.shade600),
+                icon:
+                    Icon(Icons.clear, color: hintColor ?? Colors.grey.shade600),
                 onPressed: () {
-                  _controller.clear();
-                  widget.onClear!();
+                  effectiveController.clear();
+                  onClear!();
                 },
               )
-            : widget.suffixIcon,
+            : suffixIcon,
         filled: true,
-        fillColor: widget.fillColor ?? GlobalStyles.defaultFillColor,
-        contentPadding: widget.contentPadding,
+        fillColor: fillColor ?? GlobalStyles.defaultFillColor,
+        contentPadding: contentPadding,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius),
-          borderSide: BorderSide(color: widget.borderColor ?? GlobalStyles.defaultBorderColor),
+          borderRadius: BorderRadius.circular(borderRadius),
+          borderSide: BorderSide(
+            color: errorText != null
+                ? Colors.red
+                : borderColor ?? GlobalStyles.defaultBorderColor,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius),
-          borderSide: BorderSide(color: widget.focusedBorderColor ?? GlobalStyles.defaultFocusedBorderColor),
+          borderRadius: BorderRadius.circular(borderRadius),
+          borderSide: BorderSide(
+            color: errorText != null
+                ? Colors.red
+                : focusedBorderColor ?? GlobalStyles.defaultFocusedBorderColor,
+          ),
         ),
+        errorText: errorText,
       ),
-      style: TextStyle(color: widget.textColor ?? Colors.grey.shade800),
-      cursorColor: widget.cursorColor ?? GlobalStyles.defaultFocusedBorderColor,
-      textInputAction: widget.textInputAction,
-      keyboardType: widget.keyboardType,
-      obscureText: widget.obscureText,
-      maxLines: widget.maxLines,
+      style: TextStyle(color: textColor),
+      cursorColor: cursorColor ?? GlobalStyles.defaultFocusedBorderColor,
+      textInputAction: textInputAction,
+      keyboardType: keyboardType,
+      obscureText: obscureText,
+      maxLines: maxLines,
+      enabled: enabled,
     );
   }
 }

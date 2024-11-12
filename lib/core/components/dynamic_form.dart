@@ -1,43 +1,33 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/core/state/file_picker_state.dart';
+import 'package:babysitterapp/core/components.dart';
+
 import 'package:babysitterapp/models/inputfield.dart';
 
-import 'input.dart';
-
 class DynamicForm extends HookWidget {
-  const DynamicForm({
+  DynamicForm({
     super.key,
     required this.fields,
     required this.onSubmit,
+    this.isLoading,
   });
 
   final List<InputFieldConfig> fields;
   final void Function(Map<String, String>) onSubmit;
+  final ValueNotifier<bool>? isLoading;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, TextEditingController> controllers = useMemoized(
-      () => Map<String, TextEditingController>.fromEntries(
-        fields.map(
-          (InputFieldConfig field) => MapEntry<String, TextEditingController>(
-            field.label,
-            TextEditingController(text: field.value),
-          ),
-        ),
-      ),
-      <Object?>[fields],
-    );
-
-    final ValueNotifier<Map<String, String>> formData =
-        useState<Map<String, String>>(
-      Map<String, String>.fromEntries(
-        fields.map(
-          (InputFieldConfig field) =>
-              MapEntry<String, String>(field.label, field.value ?? ''),
-        ),
-      ),
-    );
+    final Map<String, TextEditingController> controllers =
+        useControllers(fields);
+    final ValueNotifier<Map<String, String>> formData = useFormData(fields);
+    final ValueNotifier<Map<String, String?>> errors = useErrors(fields);
+    final ValueNotifier<bool> defaultLoading = useState(false);
+    final Map<String, ValueNotifier<FilePickerState>> fileStates =
+        useFileStates(fields);
 
     useEffect(() {
       return () {
@@ -47,45 +37,32 @@ class DynamicForm extends HookWidget {
       };
     }, <Object?>[controllers]);
 
-    return Column(
-      children: <Widget>[
-        ...fields.map((InputFieldConfig field) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return Form(
+      key: formKey,
+      child: Column(
+        children: <Widget>[
+          const SizedBox(height: 16),
+          ...fields.map((InputFieldConfig field) => Column(
                 children: <Widget>[
-                  Text(
-                    field.label,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+                  buildField(
+                    field,
+                    controllers,
+                    formData,
+                    errors,
+                    isLoading ?? defaultLoading,
+                    fileStates,
                   ),
-                  const SizedBox(height: 8),
-                  CustomTextInput(
-                    controller: controllers[field.label],
-                    hintText: field.hintText,
-                    keyboardType: field.keyboardType ?? TextInputType.text,
-                    obscureText: field.obscureText,
-                    prefixIcon: field.prefixIcon != null
-                        ? Icon(field.prefixIcon)
-                        : null,
-                    onChanged: (String value) {
-                      formData.value = <String, String>{
-                        ...formData.value,
-                        field.label: value,
-                      };
-                    },
-                  ),
+                  const SizedBox(height: 16),
                 ],
-              ),
-            )),
-        const SizedBox(height: 16),
-        ElevatedButton(
-          onPressed: () => onSubmit(formData.value),
-          child: const Text('Submit'),
-        ),
-      ],
+              )),
+          buildSubmitButton(
+            formKey,
+            isLoading ?? defaultLoading,
+            formData,
+            onSubmit,
+          ),
+        ],
+      ),
     );
   }
 }

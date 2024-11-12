@@ -1,30 +1,21 @@
-// core
-import 'package:babysitterapp/core/helper/transition_home.dart';
-
-// flutter
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
-// widgets
-import 'widgets/logo.dart';
+import 'package:babysitterapp/core/helpers.dart';
 
-class SplashView extends StatefulWidget {
+import 'package:babysitterapp/views/splash.dart';
+
+class SplashView extends HookWidget {
   const SplashView({super.key});
 
   @override
-  State<SplashView> createState() => _SplashViewState();
-}
-
-class _SplashViewState extends State<SplashView> {
-  @override
-  void initState() {
-    super.initState();
-    transitionHome(context);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // ini media query size
-    mq = MediaQuery.of(context).size;
+    useEffect(() {
+      transitionHome(context);
+      return null;
+    }, <Object?>[]);
+
+    final Size mq = MediaQuery.of(context).size;
 
     return Scaffold(
       body: Stack(
@@ -33,11 +24,8 @@ class _SplashViewState extends State<SplashView> {
           Positioned(
             bottom: mq.height * .28,
             width: mq.width,
-            // duration: const Duration(seconds: 1),
             child: const Center(
-              child: Column(
-                
-              ),
+              child: Column(),
             ),
           ),
         ],

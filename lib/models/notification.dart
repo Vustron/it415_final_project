@@ -1,3 +1,6 @@
+
+import 'package:flutter/material.dart';
+
 class NotificationUsers {
   NotificationUsers({
     required this.name,
@@ -6,6 +9,8 @@ class NotificationUsers {
     required this.createdAt,
     required this.updatedAt,
     this.showButtons = false,
+        this.onTap, // Add this line
+
   });
 
   factory NotificationUsers.fromMap(Map<String, dynamic> data) {
@@ -25,4 +30,5 @@ class NotificationUsers {
   final DateTime createdAt;
   final DateTime updatedAt;
   final bool showButtons;
+  final VoidCallback? onTap; // Add this line
 }

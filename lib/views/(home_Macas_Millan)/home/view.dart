@@ -4,15 +4,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/controllers/auth_controller.dart';
+
 import 'package:babysitterapp/core/constants.dart';
 import 'package:babysitterapp/core/helpers.dart';
 import 'package:babysitterapp/core/state.dart';
 
-import 'package:babysitterapp/controllers/auth_controller.dart';
-
 import 'package:babysitterapp/models/user_account.dart';
 
-import 'package:babysitterapp/views/(settings_JK_Gerald)/settings/view.dart';
+import 'package:babysitterapp/views/settings.dart';
 import 'package:babysitterapp/views/booking.dart';
 import 'package:babysitterapp/views/home.dart';
 
@@ -21,16 +21,14 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String? locationName = 'Unknown';
+    const String locationName = 'Unknown';
 
     final ValueNotifier<int> currentIndex = useState(0);
     final CarouselSliderController carouselController =
         CarouselSliderController();
 
-    //example of list
     final List<Widget> babysitterCards = List<Widget>.generate(
       5,
-      //use .toString() if the datatype is different
       (int index) => babySitterCardNearby(
         context,
         networkImage:
@@ -88,10 +86,10 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
               loading: () => const CircularProgressIndicator(),
               orElse: () => const Text('Hello Guest!'),
             ),
-            Text(
+            const Text(
               'Location: $locationName',
               maxLines: 1,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 10,
               ),
             )

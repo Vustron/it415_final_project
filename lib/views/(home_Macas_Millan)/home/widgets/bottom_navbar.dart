@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:babysitterapp/core/constants.dart';
 import 'package:babysitterapp/core/helpers.dart';
 
-import 'package:babysitterapp/views/(search_Layao)/search/view.dart';
+import 'package:babysitterapp/views/search.dart';
 
 class BottomNavbarView extends HookWidget {
   const BottomNavbarView({super.key});

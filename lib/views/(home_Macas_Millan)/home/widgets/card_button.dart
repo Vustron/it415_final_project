@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/core/helpers.dart';
 
-import 'package:babysitterapp/views/(settings_JK_Gerald)/profile/view.dart';
+import 'package:babysitterapp/views/settings.dart';
 
 Widget babySitterCardButton(BuildContext context) => Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),

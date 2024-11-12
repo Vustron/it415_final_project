@@ -6,11 +6,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dartz/dartz.dart';
 import 'dart:io';
 
-import 'package:babysitterapp/models/user_account.dart';
-
 import 'package:babysitterapp/core/providers/firebase_providers.dart';
-import 'package:babysitterapp/core/config/firebase_options.dart';
-import 'package:babysitterapp/core/constants/errors.dart';
+import 'package:babysitterapp/core/constants.dart';
+import 'package:babysitterapp/core/config.dart';
+
+import 'package:babysitterapp/models/user_account.dart';
 
 final Provider<AuthenticationRepository> authenticationRepository =
     Provider<AuthenticationRepository>(
@@ -191,11 +191,23 @@ class AuthenticationRepository {
     }
   }
 
-  Future<String> uploadFile(String path, String filePath) async {
-    final File file = File(filePath);
-    final TaskSnapshot snapshot = await _storage.ref(path).putFile(file);
-    // ignore: unnecessary_await_in_return
-    return await snapshot.ref.getDownloadURL();
+  Future<String?> uploadFile(String path, String? filePath) async {
+    if (filePath == null || filePath.isEmpty) {
+      return null;
+    }
+
+    try {
+      final File file = File(filePath);
+      if (!await file.exists()) {
+        return null;
+      }
+
+      final TaskSnapshot snapshot = await _storage.ref(path).putFile(file);
+      return await snapshot.ref.getDownloadURL();
+    } catch (e) {
+      print('Error uploading file: $e');
+      return null;
+    }
   }
 
   Future<Either<String, UserAccount>> updateAccount(

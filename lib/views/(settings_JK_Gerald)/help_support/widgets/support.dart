@@ -29,7 +29,7 @@ class _SupportTileState extends State<SupportTile> {
       );
 
       if (!mounted) {
-        return; // Check if widget is still mounted
+        return;
       }
 
       if (!launched) {
@@ -42,7 +42,7 @@ class _SupportTileState extends State<SupportTile> {
       }
     } catch (e) {
       if (!mounted) {
-        return; // Check if widget is still mounted
+        return;
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -54,9 +54,46 @@ class _SupportTileState extends State<SupportTile> {
     }
   }
 
+  Future<void> _launchPhoneDialer() async {
+    final Uri phoneUri = Uri(
+      scheme: 'tel',
+      path: '+1 800 123 456',
+    );
+
+    try {
+      final bool launched = await launchUrl(
+        phoneUri,
+        mode: LaunchMode.externalApplication,
+      );
+
+      if (!mounted) {
+        return;
+      }
+
+      if (!launched) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Could not open phone dialer.'),
+          ),
+        );
+      }
+    } catch (e) {
+      if (!mounted) {
+        return;
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('An error occurred while trying to open the dialer.'),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white,
       child: ListTile(
         leading: Icon(widget.icon),
         title: Text(
@@ -66,6 +103,8 @@ class _SupportTileState extends State<SupportTile> {
         onTap: () {
           if (widget.title.contains('bsit4cit415@gmail.com')) {
             _launchEmail();
+          } else if (widget.title.contains('+1 800 123 456')) {
+            _launchPhoneDialer();
           }
         },
       ),

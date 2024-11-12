@@ -15,6 +15,9 @@ Widget feedbackTab(ValueNotifier<double> rating, double starSize) {
           maxLines: 5,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue, width: 2.0),
+            ),
             labelText: 'Your feedback',
             alignLabelWithHint: true,
           ),

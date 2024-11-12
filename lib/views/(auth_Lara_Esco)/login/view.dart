@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/core/constants/assets.dart';
-import 'widgets/login_form.dart';
-import 'widgets/background.dart';
+import 'package:babysitterapp/core/constants.dart';
+
+import 'package:babysitterapp/views/auth.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});

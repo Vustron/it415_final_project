@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/core/constants/styles.dart';
-import 'package:babysitterapp/views/(auth_Lara_Esco)/login/widgets/background.dart';
-
-import 'widgets/terms_and_conditions.dart';
-import 'widgets/register_form.dart';
+import 'package:babysitterapp/views/auth.dart';
 
 class RegisterView extends StatelessWidget with GlobalStyles {
   RegisterView({super.key});

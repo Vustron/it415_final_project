@@ -3,12 +3,11 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 
-import 'package:babysitterapp/core/constants/styles.dart';
-import 'package:babysitterapp/core/helper/goto_page.dart';
+import 'package:babysitterapp/core/constants.dart';
+import 'package:babysitterapp/core/helpers.dart';
 
-import 'bubble.dart';
-
-import 'package:babysitterapp/views/(booking_runa)/booking/view.dart';
+import 'package:babysitterapp/views/booking.dart';
+import 'package:babysitterapp/views/home.dart';
 
 class MessageDetailScreen extends HookWidget {
   const MessageDetailScreen(

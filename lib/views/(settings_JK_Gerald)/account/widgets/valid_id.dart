@@ -1,6 +1,6 @@
-import 'package:babysitterapp/core/constants/assets.dart';
-import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/material.dart';
+
+import 'package:babysitterapp/core/constants.dart';
 
 class ValidIdUpload extends StatefulWidget {
   const ValidIdUpload({super.key});
@@ -12,10 +12,7 @@ class ValidIdUpload extends StatefulWidget {
 class _ValidIdUploadState extends State<ValidIdUpload> {
   bool _isImageListVisible = false;
 
-  final List<String> _images = <String>[
-    avatar1,
-    avatar2
-  ];
+  final List<String> _images = <String>[avatar1, avatar2];
 
   void _toggleImageList() {
     setState(() {

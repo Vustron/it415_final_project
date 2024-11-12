@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
 
-import 'package:babysitterapp/core/components/dynamic_form.dart';
+import 'package:babysitterapp/core/components.dart';
 
 import 'package:babysitterapp/models/inputfield.dart';
 
-class EditProfile extends StatelessWidget {
-  const EditProfile({super.key});
+class EditAccount extends StatelessWidget {
+  const EditAccount({super.key});
 
   @override
   Widget build(BuildContext context) {

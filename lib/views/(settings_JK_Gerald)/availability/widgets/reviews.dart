@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/core/constants.dart';
 
-import 'package:babysitterapp/views/(settings_JK_Gerald)/profile/widgets/section_title.dart';
-
-import 'review_info.dart';
+import 'package:babysitterapp/views/settings.dart';
 
 class ReviewsPage extends StatelessWidget with GlobalStyles {
   ReviewsPage({super.key});
@@ -21,7 +19,7 @@ class ReviewsPage extends StatelessWidget with GlobalStyles {
       padding: GlobalStyles.defaultContentPadding,
       child: Column(
         children: <Widget>[
-          SectionTitle(
+          SectionLabel(
             text: 'Reviews',
           ),
           const SizedBox(

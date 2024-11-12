@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/core/constants/assets.dart';
-import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/core/constants.dart';
 
 class ReviewsInfoPage extends StatelessWidget with GlobalStyles {
   ReviewsInfoPage({super.key});

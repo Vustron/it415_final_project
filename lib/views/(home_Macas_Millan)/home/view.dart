@@ -4,23 +4,17 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/core/state/authentication_state.dart';
-import 'package:babysitterapp/core/helper/check_user.dart';
-import 'package:babysitterapp/core/helper/goto_page.dart';
-import 'package:babysitterapp/core/constants/assets.dart';
-import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/core/constants.dart';
+import 'package:babysitterapp/core/helpers.dart';
+import 'package:babysitterapp/core/state.dart';
 
-import 'package:babysitterapp/controllers/authentication_controller.dart';
+import 'package:babysitterapp/controllers/auth_controller.dart';
 
 import 'package:babysitterapp/models/user_account.dart';
 
-import 'widgets/toprated_babysitter.dart';
-import 'widgets/toprate_card.dart';
-import 'widgets/card_nearby.dart';
-import 'widgets/nearby.dart';
-
 import 'package:babysitterapp/views/(settings_JK_Gerald)/settings/view.dart';
-import 'package:babysitterapp/views/(booking_runa)/booking/view.dart';
+import 'package:babysitterapp/views/booking.dart';
+import 'package:babysitterapp/views/home.dart';
 
 class HomeView extends HookConsumerWidget with GlobalStyles {
   HomeView({super.key});

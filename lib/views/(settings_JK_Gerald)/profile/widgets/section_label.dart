@@ -1,8 +1,9 @@
-import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/material.dart';
 
-class SectionTitle extends StatelessWidget with GlobalStyles {
-  SectionTitle({super.key, required this.text});
+import 'package:babysitterapp/core/constants.dart';
+
+class SectionLabel extends StatelessWidget with GlobalStyles {
+  SectionLabel({super.key, required this.text});
 
   final String text;
 

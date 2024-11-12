@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/core/constants.dart';
 
-import 'section_title.dart';
-import 'card.dart';
+import 'package:babysitterapp/views/search.dart';
 
 class OnlineNowSwitch extends StatefulWidget {
   const OnlineNowSwitch({super.key});

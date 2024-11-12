@@ -2,16 +2,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/controllers/authentication_controller.dart';
-import 'package:babysitterapp/core/helper/check_user.dart';
-import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/controllers/auth_controller.dart';
 
-import '../availability/widgets/experience_details.dart';
-import '../availability/widgets/reviews.dart';
-import '../availability/view.dart';
-import 'widgets/profile_header.dart';
-import 'widgets/descriptions.dart';
-import 'widgets/input.dart';
+import 'package:babysitterapp/core/constants.dart';
+import 'package:babysitterapp/core/helpers.dart';
+
+import 'package:babysitterapp/views/settings.dart';
 
 class Profile extends HookConsumerWidget with GlobalStyles {
   Profile({super.key});

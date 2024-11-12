@@ -1,5 +1,6 @@
-import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/material.dart';
+
+import 'package:babysitterapp/core/constants.dart';
 
 class EditBio extends StatelessWidget {
   const EditBio({super.key});

@@ -1,5 +1,6 @@
-import 'package:babysitterapp/core/constants/assets.dart';
 import 'package:flutter/material.dart';
+
+import 'package:babysitterapp/core/constants.dart';
 
 Widget profileHeader(Color colors) => Container(
       padding: const EdgeInsets.symmetric(horizontal: 5),

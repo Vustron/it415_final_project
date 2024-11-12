@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'toprate.dart';
+import 'package:babysitterapp/views/home.dart';
 
 Widget topRatedBabySitterCard({
   required String networkImage,

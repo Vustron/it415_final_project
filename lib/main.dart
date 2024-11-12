@@ -5,10 +5,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'core/config/firebase_options.dart';
-import 'core/config/theme.dart';
+import 'core/config.dart';
 
-import 'views/splash/view.dart';
+import 'views/splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

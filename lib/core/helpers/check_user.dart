@@ -2,9 +2,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:dartz/dartz.dart';
 
-import 'package:babysitterapp/controllers/authentication_controller.dart';
+import 'package:babysitterapp/controllers/auth_controller.dart';
 
-import 'package:babysitterapp/core/helper/goto_page.dart';
+import 'package:babysitterapp/core/helpers.dart';
 
 import 'package:babysitterapp/models/user_account.dart';
 

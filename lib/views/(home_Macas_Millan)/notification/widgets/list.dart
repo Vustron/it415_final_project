@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:developer';
 
-import 'package:babysitterapp/core/constants/styles.dart';
-import 'package:babysitterapp/core/helper/goto_page.dart';
+import 'package:babysitterapp/core/constants.dart';
+import 'package:babysitterapp/core/helpers.dart';
 
-import 'package:babysitterapp/views/(home_Macas_Millan)/booking_details/view.dart';
+import 'package:babysitterapp/views/home.dart';
 
 class NotificationList extends StatefulWidget {
   const NotificationList({

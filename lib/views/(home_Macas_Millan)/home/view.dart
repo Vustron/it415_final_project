@@ -21,8 +21,6 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const String locationName = 'Unknown';
-
     final ValueNotifier<int> currentIndex = useState(0);
     final CarouselSliderController carouselController =
         CarouselSliderController();
@@ -43,11 +41,6 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
     );
 
     final AuthenticationState authState = ref.watch(authController);
-
-    useEffect(() {
-      checkUserAndRedirect(context, ref);
-      return null;
-    }, <Object?>[]);
 
     return Scaffold(
       appBar: AppBar(
@@ -86,13 +79,17 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
               loading: () => const CircularProgressIndicator(),
               orElse: () => const Text('Hello Guest!'),
             ),
-            const Text(
-              'Location: $locationName',
-              maxLines: 1,
-              style: TextStyle(
-                fontSize: 10,
+            authState.maybeWhen(
+              authenticated: (UserAccount user) => Text(
+                'Location: ${user.address}',
+                maxLines: 1,
+                style: const TextStyle(
+                  fontSize: 10,
+                ),
               ),
-            )
+              loading: () => const CircularProgressIndicator(),
+              orElse: () => const Text('Hello Guest!'),
+            ),
           ],
         ),
         actions: <Widget>[

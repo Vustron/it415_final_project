@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:babysitterapp/controllers/auth_controller.dart';
 
 import 'package:babysitterapp/core/constants.dart';
-import 'package:babysitterapp/core/helpers.dart';
-
-import 'package:babysitterapp/views/auth.dart';
 
 class LogoutButton extends HookConsumerWidget with GlobalStyles {
   LogoutButton({super.key});
@@ -24,21 +21,48 @@ class LogoutButton extends HookConsumerWidget with GlobalStyles {
           onPressed: isLoading.value
               ? null
               : () async {
+                  final bool confirmed = await showDialog<bool>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Logout'),
+                          content:
+                              const Text('Are you sure you want to logout?'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(false),
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(true),
+                              child: const Text('Logout'),
+                            ),
+                          ],
+                        ),
+                      ) ??
+                      false;
+
+                  if (!confirmed) {
+                    return;
+                  }
+
                   try {
                     isLoading.value = true;
                     await ref.read(authController.notifier).logout();
 
                     if (context.mounted) {
                       await Future<void>.delayed(
-                          const Duration(milliseconds: 500));
+                        const Duration(milliseconds: 500),
+                      );
 
-                      if (context.mounted) {
-                        goToPage(
-                          context,
-                          const LoginView(),
-                          'rightToLeftWithFade',
-                        );
-                      }
+                      // navigatorKey.currentState?.pushAndRemoveUntil(
+                      //   PageTransition<void>(
+                      //     type: PageTransitionType.rightToLeftWithFade,
+                      //     duration: const Duration(milliseconds: 300),
+                      //     reverseDuration: const Duration(milliseconds: 300),
+                      //     child: const LoginView(),
+                      //   ),
+                      //   (Route<dynamic> route) => false,
+                      // );
                     }
                   } catch (e) {
                     if (context.mounted) {
@@ -61,7 +85,7 @@ class LogoutButton extends HookConsumerWidget with GlobalStyles {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
-            elevation: 2, // Add subtle shadow
+            elevation: 2,
           ),
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 200),

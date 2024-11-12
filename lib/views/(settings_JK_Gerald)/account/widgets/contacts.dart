@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/core/constants/styles.dart';
-
 import 'package:babysitterapp/models/user_account.dart';
+
+import 'package:babysitterapp/core/constants.dart';
 
 class Contacts extends StatelessWidget {
   const Contacts({super.key, required this.user});

@@ -1,12 +1,11 @@
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'dart:developer';
 
-import 'package:babysitterapp/core/constants/styles.dart';
-import 'package:flutter/material.dart';
+import 'package:babysitterapp/core/constants.dart';
 
-import 'package:file_picker/file_picker.dart';
-
-class EditValidID extends StatelessWidget {
-  const EditValidID({super.key});
+class EditValidId extends StatelessWidget {
+  const EditValidId({super.key});
 
   @override
   Widget build(BuildContext context) {

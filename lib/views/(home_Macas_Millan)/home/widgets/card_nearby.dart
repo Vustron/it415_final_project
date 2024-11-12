@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'card_button.dart';
-import 'card_header.dart';
-import 'bio.dart';
+import 'package:babysitterapp/views/home.dart';
 
 Widget babySitterCardNearby(BuildContext context) => Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),

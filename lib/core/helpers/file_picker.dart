@@ -2,7 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as path;
 
-import 'package:babysitterapp/core/state/file_picker_state.dart';
+import 'package:babysitterapp/core/state.dart';
 
 Future<void> pickFile(
   String label,

@@ -1,6 +1,6 @@
-import 'package:babysitterapp/core/constants/assets.dart';
-import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/material.dart';
+
+import 'package:babysitterapp/core/constants.dart';
 
 class ServiceHistoryUpload extends StatefulWidget {
   const ServiceHistoryUpload({super.key});

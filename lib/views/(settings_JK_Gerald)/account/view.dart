@@ -2,17 +2,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/controllers/authentication_controller.dart';
-import 'package:babysitterapp/core/state/authentication_state.dart';
-import 'package:babysitterapp/core/helper/check_user.dart';
-import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/controllers/auth_controller.dart';
+
+import 'package:babysitterapp/core/constants.dart';
+import 'package:babysitterapp/core/helpers.dart';
+import 'package:babysitterapp/core/state.dart';
+
 import 'package:babysitterapp/models/user_account.dart';
 
-import 'widgets/image_edit_button.dart';
-import 'widgets/service_history.dart';
-import 'widgets/contacts.dart';
-import 'widgets/valid_id.dart';
-import 'widgets/ratings.dart';
+import 'package:babysitterapp/views/settings.dart';
 
 /* *
     

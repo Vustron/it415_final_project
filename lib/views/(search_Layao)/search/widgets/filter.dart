@@ -1,9 +1,9 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/core/helper/goto_page.dart';
+import 'package:babysitterapp/core/helpers.dart';
 
-import 'package:babysitterapp/views/(search_Layao)/filter/view.dart';
+import 'package:babysitterapp/views/search.dart';
 
 Widget buttons(BuildContext context) => Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),

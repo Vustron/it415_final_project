@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'section.dart';
-import 'support.dart';
-import 'faq.dart';
+import 'package:babysitterapp/views/settings.dart';
 
 Widget helpSupportTab() {
   return const SingleChildScrollView(

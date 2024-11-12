@@ -2,19 +2,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/controllers/authentication_controller.dart';
-import 'package:babysitterapp/core/helper/check_user.dart';
+import 'package:babysitterapp/controllers/auth_controller.dart';
+import 'package:babysitterapp/core/helpers/check_user.dart';
 import 'package:babysitterapp/core/constants/styles.dart';
 
-import 'widgets/children_selector.dart';
-import 'widgets/continue_btn.dart';
-import 'widgets/section_title.dart';
-import 'widgets/stayin_toggle.dart';
-import 'widgets/time_pickers.dart';
-import 'widgets/date_picker.dart';
-import 'widgets/address.dart';
-import 'widgets/details.dart';
-import 'widgets/appbar.dart';
+import 'package:babysitterapp/views/booking.dart';
 
 class BookingView extends HookConsumerWidget with GlobalStyles {
   BookingView({super.key});

@@ -11,6 +11,7 @@ class FAQTile extends HookWidget {
     final ValueNotifier<bool> isExpanded = useState(false);
 
     return Card(
+      color: Colors.white,
       child: Column(
         children: <Widget>[
           ListTile(
@@ -27,14 +28,23 @@ class FAQTile extends HookWidget {
               isExpanded.value = !isExpanded.value;
             },
           ),
-          if (isExpanded.value)
-            Padding(
+          AnimatedCrossFade(
+            duration: const Duration(milliseconds: 250), // Smooth transition
+            firstChild: const SizedBox.shrink(), // Hidden state
+            secondChild: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 answer,
-                style: const TextStyle(fontSize: 14),
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
               ),
-            ),
+            ), // Expanded state
+            crossFadeState: isExpanded.value
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
+          ),
         ],
       ),
     );

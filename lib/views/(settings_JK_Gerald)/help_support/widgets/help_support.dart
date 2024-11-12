@@ -42,6 +42,7 @@ Widget helpSupportTab() {
           icon: Icons.phone,
           title: 'Call us at +1 800 123 456',
         ),
+        SizedBox(height: 40),
       ],
     ),
   );

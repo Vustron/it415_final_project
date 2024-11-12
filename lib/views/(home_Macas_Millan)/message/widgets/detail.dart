@@ -10,10 +10,15 @@ import 'package:babysitterapp/views/booking.dart';
 import 'package:babysitterapp/views/home.dart';
 
 class MessageDetailScreen extends HookWidget {
-  const MessageDetailScreen(
-      {super.key, required this.name, required this.number});
+  const MessageDetailScreen({
+    super.key,
+    required this.name,
+    required this.number,
+    required this.image,
+  });
   final String name;
   final String number;
+  final String image;
 
   @override
   Widget build(BuildContext context) {

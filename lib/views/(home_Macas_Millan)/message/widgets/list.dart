@@ -38,6 +38,7 @@ class ConversationListState extends State<ConversationList> with GlobalStyles {
           MessageDetailScreen(
             name: widget.name,
             number: widget.number,
+            image: '',
           ),
           'rightToLeftWithFade',
         );

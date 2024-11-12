@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/views/home.dart';
-
+// Sample data; replace with actual user data from your app's state
+const String userName = 'Carole Howell';
+const String userNumber = '0956-625-2536';
+const String userImage = 'assets/images/hippo.png'; // Update with actual image
 Widget babySitterCardNearby(
   BuildContext context, {
   required String networkImage,
@@ -10,6 +13,11 @@ Widget babySitterCardNearby(
   required String locationUser,
   required String starCount,
   required String userBio,
+   required String name,
+    required String number,
+     required String image,
+
+  
 }) =>
     Container(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
@@ -31,7 +39,7 @@ Widget babySitterCardNearby(
             context,
             userBio: userBio,
           ),
-          babySitterCardButton(context),
+          babySitterCardButton(context,userName,number,image)
         ],
       ),
     );

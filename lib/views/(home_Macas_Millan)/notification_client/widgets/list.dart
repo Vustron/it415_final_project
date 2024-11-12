@@ -1,3 +1,4 @@
+import 'package:babysitterapp/views/(home_Macas_Millan)/notification_babysitter/booking_details/view.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:developer';
@@ -16,6 +17,9 @@ class NotificationList extends StatefulWidget {
     required this.time,
     required this.isMessageRead,
     required this.showButtons,
+    this.onTap, // Accept onTap callback
+
+
   });
 
   final String name;
@@ -24,6 +28,8 @@ class NotificationList extends StatefulWidget {
   final DateTime time;
   final bool isMessageRead;
   final bool showButtons;
+    final VoidCallback? onTap; // Define onTap
+
 
   @override
   NotificationListState createState() => NotificationListState();
@@ -41,8 +47,10 @@ class NotificationListState extends State<NotificationList> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+            onTap: widget.onTap, // Trigger the unique onTap action here
+
       child: Container(
-        color: Colors.white,
+        color: const Color.fromARGB(255, 255, 255, 255),
         padding: const EdgeInsets.all(GlobalStyles.smallPadding),
         child: Column(
           children: <Widget>[
@@ -94,17 +102,8 @@ class NotificationListState extends State<NotificationList> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  ElevatedButton(
-                    onPressed: onConfirm,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: GlobalStyles.primaryButtonColor,
-                    ),
-                    child: const Text(
-                      'Confirm',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
+                 
+                 
                   ElevatedButton(
                     onPressed: () {
                       goToPage(
@@ -121,18 +120,9 @@ class NotificationListState extends State<NotificationList> {
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: onDecline,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey,
-                    ),
-                    child: const Text(
-                      'Decline',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
+                
+                 
+               
                 ],
               ),
           ],

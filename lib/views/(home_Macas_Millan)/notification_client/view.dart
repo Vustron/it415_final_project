@@ -11,6 +11,7 @@ import 'package:babysitterapp/core/helpers.dart';
 import 'package:babysitterapp/models/notification.dart';
 
 import 'package:babysitterapp/views/home.dart';
+import 'package:path/path.dart';
 
 class NotificationView extends HookConsumerWidget with GlobalStyles {
   NotificationView({super.key});
@@ -26,13 +27,14 @@ class NotificationView extends HookConsumerWidget with GlobalStyles {
       showButtons: true,
     ),
     NotificationUsers(
-      name: 'BabyCare',
-      messageText:
-          'Good news! A babysitter nearby has a 4.9-star rating. Book now to ensure the best care for your child!',
-      imageURL: 'assets/images/hippo.png',
-      createdAt: DateTime.now().subtract(const Duration(days: 1)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 1)),
-    ),
+        name: 'BabyCare',
+        messageText:
+            'Good news! A babysitter nearby has a 4.9-star rating. Book now to ensure the best care for your child!',
+        imageURL: 'assets/images/hippo.png',
+        createdAt: DateTime.now().subtract(const Duration(days: 1)),
+        updatedAt: DateTime.now().subtract(const Duration(days: 1)),
+    
+        ),
     NotificationUsers(
       name: 'BabyCare',
       messageText:
@@ -80,7 +82,7 @@ class NotificationView extends HookConsumerWidget with GlobalStyles {
               ),
             ),
             const SizedBox(height: 10),
-            Expanded(
+           Expanded(
               child: ListView.builder(
                 itemCount: notificationUsers.length,
                 padding: const EdgeInsets.symmetric(vertical: 17),

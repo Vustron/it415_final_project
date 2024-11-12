@@ -23,6 +23,11 @@ class Profile extends HookConsumerWidget with GlobalStyles {
 
     final Size width = MediaQuery.of(context).size;
     final ScrollController scrollController = useScrollController();
+      // Sample data; replace with actual user data from your app's state
+    const String userName = 'Carole Howell';
+    const String userNumber = '0956-625-2536';
+    const String userImage =
+        'assets/images/hippo.png'; // Update with actual image
 
     return Scaffold(
       appBar: AppBar(
@@ -55,7 +60,8 @@ class Profile extends HookConsumerWidget with GlobalStyles {
               const SizedBox(
                 height: 15,
               ),
-              messageButton(GlobalStyles.primaryButtonColor),
+              messageButton(GlobalStyles.primaryButtonColor, context, userName, //when click the button the username and usernumber and uerImage send to message
+                  userNumber, userImage),
               const SizedBox(height: 10)
             ],
           ),

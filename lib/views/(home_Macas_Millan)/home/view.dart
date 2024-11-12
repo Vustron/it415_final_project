@@ -26,7 +26,6 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
     final ValueNotifier<int> currentIndex = useState(0);
     final CarouselSliderController carouselController =
         CarouselSliderController();
-
     final List<Widget> babysitterCards = List<Widget>.generate(
       5,
       (int index) => babySitterCardNearby(
@@ -38,7 +37,7 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
         locationUser: 'Panabo City',
         starCount: '5.0',
         userBio:
-            'lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium',
+            'lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium', name: '', number: '', image: '',
       ),
     );
 

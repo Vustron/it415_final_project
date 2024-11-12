@@ -1,7 +1,7 @@
 // booking details
-export './(home_Macas_Millan)/booking_details//widgets/card_details.dart';
-export './(home_Macas_Millan)/booking_details//widgets/info_card.dart';
-export './(home_Macas_Millan)/booking_details/view.dart';
+export '(home_Macas_Millan)/notification_babysitter/booking_details/widgets/card_details.dart';
+export '(home_Macas_Millan)/notification_babysitter/booking_details/widgets/info_card.dart';
+export '(home_Macas_Millan)/notification_babysitter/booking_details/view.dart';
 
 // home
 export './(home_Macas_Millan)/home/widgets/toprated_babysitter.dart';
@@ -23,5 +23,5 @@ export './(home_Macas_Millan)/message/widgets/list.dart';
 export './(home_Macas_Millan)/message/view.dart';
 
 // notification
-export './(home_Macas_Millan)/notification/widgets/list.dart';
-export './(home_Macas_Millan)/notification/view.dart';
+export '(home_Macas_Millan)/notification_client/widgets/list.dart';
+export '(home_Macas_Millan)/notification_client/view.dart';

@@ -1,11 +1,19 @@
+import 'package:babysitterapp/core/helpers/goto_page.dart';
+import 'package:babysitterapp/views/(home_Macas_Millan)/message/widgets/detail.dart';
 import 'package:flutter/material.dart';
-
-Widget messageButton(Color colors) => Row(
+Widget messageButton(Color colors, BuildContext context, String name,
+        String number, String image) =>
+    Row(
       children: <Widget>[
         Expanded(
           flex: 3,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              goToPage(
+                  context,
+                  MessageDetailScreen(name: name, number: number, image: image),
+                  'fade');
+            },
             style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),

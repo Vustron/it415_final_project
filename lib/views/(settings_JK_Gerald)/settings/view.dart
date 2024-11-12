@@ -2,17 +2,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/controllers/authentication_controller.dart';
-import 'package:babysitterapp/core/helper/check_user.dart';
-import 'package:babysitterapp/core/constants/styles.dart';
-import 'package:babysitterapp/core/helper/goto_page.dart';
+import 'package:babysitterapp/controllers/auth_controller.dart';
 
-import 'widgets/notification_preference.dart';
-import '../transaction_history/view.dart';
-import 'widgets/option_tile.dart' as core;
-import 'widgets/logout_button.dart';
-import '../help_support/view.dart';
-import 'widgets/option_card.dart';
+import 'package:babysitterapp/core/constants.dart';
+import 'package:babysitterapp/core/helpers.dart';
+
+import 'package:babysitterapp/views/settings.dart';
 
 class SettingsView extends HookConsumerWidget with GlobalStyles {
   SettingsView({super.key});
@@ -39,7 +34,7 @@ class SettingsView extends HookConsumerWidget with GlobalStyles {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              const core.SectionTitle(title: 'GENERAL'),
+              const SettingsLabel(title: 'GENERAL'),
               const SizedBox(height: 8),
               SettingsOptionCard(
                 icon: Icons.list_alt,

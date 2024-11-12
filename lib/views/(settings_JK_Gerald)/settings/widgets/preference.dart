@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/core/constants/styles.dart';
-import 'option_tile.dart' as core;
+import 'package:babysitterapp/core/constants.dart';
+
+import 'package:babysitterapp/views/settings.dart';
 
 class NotificationPreference extends StatefulWidget {
   const NotificationPreference({super.key});
@@ -39,7 +40,7 @@ class _NotificationPreferenceState extends State<NotificationPreference> {
             children: <Widget>[
               const Align(
                 alignment: Alignment.topLeft,
-                child: core.SectionTitle(title: 'GENERAL'),
+                child: SettingsLabel(title: 'GENERAL'),
               ),
               const SizedBox(height: 14),
 

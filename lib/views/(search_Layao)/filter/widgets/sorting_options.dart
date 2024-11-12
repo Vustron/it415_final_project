@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'section_title.dart';
-import 'choice_slip.dart';
-import 'card.dart';
+import 'package:babysitterapp/views/search.dart';
 
 Widget sortingOptions() {
   return filterCard(

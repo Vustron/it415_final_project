@@ -1,4 +1,3 @@
-// flutter
 import 'package:flutter/material.dart';
 
 mixin GlobalStyles {

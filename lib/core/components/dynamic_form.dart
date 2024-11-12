@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/models/inputfield.dart';
 
-import 'package:babysitterapp/core/helper/shorten_file_name.dart';
-import 'package:babysitterapp/core/state/file_picker_state.dart';
-import 'package:babysitterapp/core/helper/validate_form.dart';
-import 'package:babysitterapp/core/helper/file_preview.dart';
-import 'package:babysitterapp/core/helper/file_picker.dart';
-import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/core/constants.dart';
+import 'package:babysitterapp/core/helpers.dart';
+import 'package:babysitterapp/core/state.dart';
 
 import 'select.dart';
 import 'input.dart';

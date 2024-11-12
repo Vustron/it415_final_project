@@ -3,11 +3,10 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/core/constants/views_list.dart';
-import 'package:babysitterapp/core/helper/get_icons.dart';
-import 'package:babysitterapp/core/helper/goto_page.dart';
+import 'package:babysitterapp/core/constants.dart';
+import 'package:babysitterapp/core/helpers.dart';
 
-import 'package:babysitterapp/views/(search_Layao)/search/view.dart';
+import 'package:babysitterapp/views/search.dart';
 
 class BottomNavbarView extends HookWidget {
   const BottomNavbarView({super.key});

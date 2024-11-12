@@ -1,9 +1,10 @@
-import 'package:babysitterapp/core/constants/styles.dart';
-import 'package:babysitterapp/core/helper/goto_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:babysitterapp/views/(home_Macas_Millan)/message/widgets/detail.dart';
+import 'package:babysitterapp/core/constants.dart';
+import 'package:babysitterapp/core/helpers.dart';
+
+import 'package:babysitterapp/views/home.dart';
 
 class ConversationList extends StatefulWidget {
   const ConversationList({

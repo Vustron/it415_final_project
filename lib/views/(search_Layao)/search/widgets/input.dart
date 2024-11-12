@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/core/components/input.dart';
+import 'package:babysitterapp/core/components.dart';
 
 Widget searchButtons(TextEditingController searchTxt) => CustomTextInput(
       controller: searchTxt,

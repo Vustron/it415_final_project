@@ -1,6 +1,6 @@
-import 'package:babysitterapp/core/constants/assets.dart';
-import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/material.dart';
+
+import 'package:babysitterapp/core/constants.dart';
 
 class ResumeUpload extends StatefulWidget {
   const ResumeUpload({super.key});
@@ -12,10 +12,7 @@ class ResumeUpload extends StatefulWidget {
 class _ResumeUploadState extends State<ResumeUpload> {
   bool _isImageListVisible = false;
 
-  final List<String> _images = <String>[
-    avatar1,
-    avatar2
-  ];
+  final List<String> _images = <String>[avatar1, avatar2];
 
   void _toggleImageList() {
     setState(() {

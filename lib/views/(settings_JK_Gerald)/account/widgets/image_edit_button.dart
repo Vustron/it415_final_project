@@ -1,9 +1,9 @@
-import 'package:babysitterapp/core/helper/goto_page.dart';
-import 'package:babysitterapp/models/user_account.dart';
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/core/constants/assets.dart';
-import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/models/user_account.dart';
+
+import 'package:babysitterapp/core/constants.dart';
+import 'package:babysitterapp/core/helpers.dart';
 
 import 'package:babysitterapp/views/(settings_JK_Gerald)/edit_account/view.dart';
 

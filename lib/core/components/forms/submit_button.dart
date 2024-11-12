@@ -16,10 +16,11 @@ Widget buildSubmitButton(
         child: ElevatedButton(
           onPressed: loading
               ? null
-              : () {
+              : () async {
                   if (formKey.currentState!.validate()) {
                     isLoading.value = true;
                     onSubmit(formData.value);
+                    isLoading.value = false;
                   }
                 },
           child: loading

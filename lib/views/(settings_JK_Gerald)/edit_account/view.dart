@@ -6,7 +6,6 @@ import 'package:babysitterapp/controllers/auth_controller.dart';
 
 import 'package:babysitterapp/core/components.dart';
 import 'package:babysitterapp/core/constants.dart';
-import 'package:babysitterapp/core/state.dart';
 
 import 'package:babysitterapp/models/user_account.dart';
 import 'package:babysitterapp/models/inputfield.dart';
@@ -62,56 +61,60 @@ class EditProfile extends HookConsumerWidget with GlobalStyles {
     Future<void> onSubmit(Map<String, String> formData) async {
       isLoading.value = true;
 
-      String? profileImgUrl;
-      if (formData['Profile Image'] != null &&
-          formData['Profile Image']!.isNotEmpty) {
-        profileImgUrl = await ref.read(authController.notifier).uploadFile(
-              'profile_images/${user.id}',
-              formData['Profile Image']!,
-            );
-      }
+      try {
+        String? profileImgUrl;
+        if (formData['Profile Image']?.isNotEmpty ?? false) {
+          profileImgUrl = await ref.read(authController.notifier).uploadFile(
+                'profile_images/${user.id}',
+                formData['Profile Image'],
+              );
+        }
 
-      final UserAccount updatedUser = UserAccount(
-        id: user.id,
-        name: formData['Name'] ?? user.name,
-        address: formData['Address'] ?? user.address,
-        phoneNumber: formData['Phone Number'] ?? user.phoneNumber,
-        email: user.email,
-        provider: user.provider,
-        profileImg: profileImgUrl ?? user.profileImg,
-        description: formData['Bio'] ?? user.description,
-        validId: formData['Valid ID'] ?? user.validId,
-        role: user.role,
-        onlineStatus: user.onlineStatus,
-        createdAt: user.createdAt,
-        updatedAt: DateTime.now(),
-      );
+        String? validIdUrl;
+        if (formData['Valid ID']?.isNotEmpty ?? false) {
+          validIdUrl = await ref.read(authController.notifier).uploadFile(
+                'valid_ids/${user.id}',
+                formData['Valid ID'],
+              );
+        }
+        final UserAccount updatedUser = UserAccount(
+          id: user.id,
+          name: formData['Name'] ?? user.name,
+          address: formData['Address'] ?? user.address,
+          phoneNumber: formData['Phone Number'] ?? user.phoneNumber,
+          email: user.email,
+          provider: user.provider,
+          profileImg: profileImgUrl ?? user.profileImg,
+          description: formData['Bio'] ?? user.description,
+          validId: validIdUrl ?? user.validId,
+          role: user.role,
+          onlineStatus: user.onlineStatus,
+          createdAt: user.createdAt,
+          updatedAt: DateTime.now(),
+        );
 
-      await ref.read(authController.notifier).updateAccount(updatedUser);
+        await ref.read(authController.notifier).updateAccount(updatedUser);
 
-      isLoading.value = false;
-
-      final AuthenticationState authState = ref.read(authController);
-
-      authState.maybeWhen(
-        authenticated: (UserAccount updatedUser) {
+        if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Profile updated successfully'),
               backgroundColor: Colors.green,
             ),
           );
-        },
-        unauthenticated: (String? message) {
+        }
+      } catch (e) {
+        if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Failed to update profile: $message'),
+              content: Text('Failed to update profile: $e'),
               backgroundColor: Colors.red,
             ),
           );
-        },
-        orElse: () {},
-      );
+        }
+      } finally {
+        isLoading.value = false;
+      }
     }
 
     return Scaffold(

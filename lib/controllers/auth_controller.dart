@@ -106,7 +106,7 @@ class AuthController extends StateNotifier<AuthenticationState> {
     );
   }
 
-  Future<String> uploadFile(String path, String filePath) async {
+  Future<String?> uploadFile(String path, String? filePath) async {
     return _dataSource.uploadFile(path, filePath);
   }
 }

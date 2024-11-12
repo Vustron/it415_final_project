@@ -1,6 +1,8 @@
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/main.dart';
+
 PageTransitionType _getPageTransitionType(String transitionType) {
   switch (transitionType) {
     case 'theme':
@@ -49,7 +51,7 @@ PageTransitionType _getPageTransitionType(String transitionType) {
 void goToPage(BuildContext context, Widget page, String transitionType,
     [Alignment? alignment]) {
   final PageTransitionType type = _getPageTransitionType(transitionType);
-  Navigator.of(context).push(
+  navigatorKey.currentState?.push(
     PageTransition<dynamic>(
       type: type,
       duration: const Duration(milliseconds: 300),

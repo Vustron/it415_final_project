@@ -6,7 +6,6 @@ import 'package:babysitterapp/controllers/auth_controller.dart';
 
 import 'package:babysitterapp/core/components.dart';
 import 'package:babysitterapp/core/constants.dart';
-import 'package:babysitterapp/core/helpers.dart';
 import 'package:babysitterapp/core/state.dart';
 
 import 'package:babysitterapp/models/user_account.dart';
@@ -19,13 +18,6 @@ class EditProfile extends HookConsumerWidget with GlobalStyles {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(authController);
-
-    useEffect(() {
-      checkUserAndRedirect(context, ref);
-      return null;
-    }, <Object?>[]);
-
     final ValueNotifier<bool> isLoading = useState(false);
 
     final List<InputFieldConfig> fields = <InputFieldConfig>[

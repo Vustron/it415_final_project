@@ -10,7 +10,6 @@ Widget babySitterCardButton(
     Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           TextButton(
             onPressed: () {
@@ -20,11 +19,10 @@ Widget babySitterCardButton(
           ),
           OutlinedButton(
             onPressed: () {
-
               goToPage(
                   context,
-                  MessageDetailScreen(
-                      name: name, number: number, image: image),'fade');
+                  MessageDetailScreen(name: name, number: number, image: image),
+                  'fade');
             },
             child: const Text('Message'),
           )

@@ -20,6 +20,7 @@ Widget babySitterCardNearby(
   
 }) =>
     Container(
+      width: MediaQuery.of(context).size.width * 0.85,
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       decoration: BoxDecoration(
         color: const Color.fromRGBO(244, 244, 244, 1),
@@ -39,7 +40,7 @@ Widget babySitterCardNearby(
             context,
             userBio: userBio,
           ),
-          babySitterCardButton(context,userName,number,image)
+          babySitterCardButton(context,userName,userNumber,userImage)
         ],
       ),
     );

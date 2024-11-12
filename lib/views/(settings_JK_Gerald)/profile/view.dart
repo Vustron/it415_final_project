@@ -2,10 +2,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/controllers/auth_controller.dart';
-
 import 'package:babysitterapp/core/constants.dart';
-import 'package:babysitterapp/core/helpers.dart';
 
 import 'package:babysitterapp/views/settings.dart';
 
@@ -14,13 +11,6 @@ class Profile extends HookConsumerWidget with GlobalStyles {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(authController);
-
-    useEffect(() {
-      checkUserAndRedirect(context, ref);
-      return null;
-    }, <Object?>[]);
-
     final Size width = MediaQuery.of(context).size;
     final ScrollController scrollController = useScrollController();
       // Sample data; replace with actual user data from your app's state

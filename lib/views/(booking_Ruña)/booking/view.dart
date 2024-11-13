@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/controllers/auth_controller.dart';
@@ -23,7 +24,10 @@ class BookingView extends HookConsumerWidget with GlobalStyles {
     final ValueNotifier<TimeOfDay?> endTime = useState<TimeOfDay?>(null);
     final ValueNotifier<bool> stayIn = useState<bool>(false);
     final ValueNotifier<String> details = useState<String>('');
-    final ValueNotifier<String> selectedAddress = useState<String>('Home');
+    final ValueNotifier<String> selectedAddress = useState('Home');
+    final ValueNotifier<String> selectedAddressText =
+        useState('Panabo city, Davao del Norte');
+    final ValueNotifier<LatLng?> selectedLocation = useState(null);
 
     return Scaffold(
       appBar: bookingAppBar(),
@@ -70,9 +74,16 @@ class BookingView extends HookConsumerWidget with GlobalStyles {
                 details.value = value;
               }),
               const SizedBox(height: 20),
-              buildAddressSection(selectedAddress.value, (String label) {
-                selectedAddress.value = label;
-              }),
+              buildAddressSection(
+                context,
+                ref,
+                selectedAddressText.value,
+                (String label, String address, LatLng? location) {
+                  selectedAddress.value = label;
+                  selectedAddressText.value = address;
+                  selectedLocation.value = location;
+                },
+              ),
               const SizedBox(height: 20),
               buildContinueButton(
                 context: context,

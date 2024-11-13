@@ -1,10 +1,28 @@
+import 'package:babysitterapp/core/helpers/get_address.dart';
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 
 import 'package:babysitterapp/core/constants.dart';
+import 'package:babysitterapp/core/helpers.dart';
 
-Widget buildAddressOption(String label, String address, String selectedAddress,
-    void Function(String) onAddressSelected) {
+import 'package:babysitterapp/models/user_account.dart';
+
+import 'package:babysitterapp/views/booking.dart';
+
+Future<Widget> buildAddressOption(
+  String label,
+  String address,
+  LatLng? location,
+  String selectedAddress,
+  void Function(String label, String address, LatLng? location)
+      onAddressSelected,
+  BuildContext context,
+  UserAccount user,
+) async {
   final bool isSelected = selectedAddress == label;
+  final String displayAddress =
+      (await getAddressFromLocation(location)) ?? address;
+
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(12),
@@ -17,7 +35,11 @@ Widget buildAddressOption(String label, String address, String selectedAddress,
           : Colors.white,
     ),
     child: InkWell(
-      onTap: () => onAddressSelected(label),
+      onTap: () async => onAddressSelected(
+        label,
+        displayAddress,
+        location,
+      ),
       borderRadius: BorderRadius.circular(12),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -26,7 +48,11 @@ Widget buildAddressOption(String label, String address, String selectedAddress,
             Radio<String>(
               value: label,
               groupValue: selectedAddress,
-              onChanged: (String? value) => onAddressSelected(value!),
+              onChanged: (String? value) async => onAddressSelected(
+                value!,
+                (await getAddressFromLocation(location)) ?? address,
+                location,
+              ),
               activeColor: GlobalStyles.primaryButtonColor,
             ),
             const SizedBox(width: 8),
@@ -44,7 +70,7 @@ Widget buildAddressOption(String label, String address, String selectedAddress,
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    address,
+                    displayAddress,
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 10,
@@ -58,7 +84,16 @@ Widget buildAddressOption(String label, String address, String selectedAddress,
             ),
             ElevatedButton.icon(
               onPressed: () {
-                // Implement see on map functionality
+                goToPage(
+                  context,
+                  MapView(
+                    onLocationSelected: (String newAddress, LatLng location) {
+                      onAddressSelected(label, newAddress, location);
+                    },
+                    user: user,
+                  ),
+                  'fade',
+                );
               },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,

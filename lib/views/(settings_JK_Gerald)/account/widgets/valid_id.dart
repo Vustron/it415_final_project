@@ -1,32 +1,21 @@
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/core/constants.dart';
 
-class ValidIdUpload extends StatefulWidget {
+class ValidIdUpload extends HookWidget {
   const ValidIdUpload({super.key});
 
   @override
-  State<ValidIdUpload> createState() => _ValidIdUploadState();
-}
-
-class _ValidIdUploadState extends State<ValidIdUpload> {
-  bool _isImageListVisible = false;
-
-  final List<String> _images = <String>[avatar1, avatar2];
-
-  void _toggleImageList() {
-    setState(() {
-      _isImageListVisible = !_isImageListVisible;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final ValueNotifier<bool> isImageListVisible = useState(false);
+    const List<String> images = <String>[avatar1, avatar2];
+
     return Column(
       children: <Widget>[
         GestureDetector(
           onTap: () {
-            _toggleImageList();
+            isImageListVisible.value = !isImageListVisible.value;
           },
           child: Container(
             padding: const EdgeInsets.all(16.0),
@@ -42,25 +31,30 @@ class _ValidIdUploadState extends State<ValidIdUpload> {
                     ),
                     SizedBox(width: 10),
                     Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Valid ID',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 18),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Valid ID',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
                           ),
-                          Text(
-                            'List of all your valid ID',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
+                        ),
+                        Text(
+                          'List of all your valid ID',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
                           ),
-                        ])
+                        ),
+                      ],
+                    ),
                   ],
                 ),
                 Icon(
                   Icons.arrow_forward_ios,
                   size: 24,
-                )
+                ),
               ],
             ),
           ),
@@ -68,16 +62,16 @@ class _ValidIdUploadState extends State<ValidIdUpload> {
         AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
-          height: _isImageListVisible ? 100 : 0,
-          child: _isImageListVisible
+          height: isImageListVisible.value ? 100 : 0,
+          child: isImageListVisible.value
               ? ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: _images.length,
+                  itemCount: images.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       margin: const EdgeInsets.all(8.0),
                       child: Image.asset(
-                        _images[index],
+                        images[index],
                         width: 80,
                         height: 80,
                         fit: BoxFit.cover,
@@ -85,7 +79,7 @@ class _ValidIdUploadState extends State<ValidIdUpload> {
                     );
                   },
                 )
-              : null, // Empty child when not visible
+              : null,
         ),
       ],
     );

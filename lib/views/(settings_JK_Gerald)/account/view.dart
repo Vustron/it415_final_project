@@ -10,12 +10,6 @@ import 'package:babysitterapp/models/user_account.dart';
 
 import 'package:babysitterapp/views/settings.dart';
 
-/* *
-    
-    TODO: either isagul ninyo tung service history ug transaction history or lahiun ninyo ang transaction history ug service history
-    
-* */
-
 class AccountView extends HookConsumerWidget with GlobalStyles {
   AccountView({super.key});
 
@@ -49,18 +43,14 @@ class AccountView extends HookConsumerWidget with GlobalStyles {
                 ),
                 const SizedBox(height: 30),
                 const Divider(color: Colors.grey, thickness: 1),
-
                 const SizedBox(height: 12),
                 const Ratings(),
                 const SizedBox(height: 12),
-
                 const Divider(color: Colors.grey, thickness: 1),
                 const ServiceHistoryUpload(),
                 const Divider(color: Colors.grey, thickness: 1),
-
                 const ValidIdUpload(),
                 const Divider(color: Colors.grey, thickness: 1),
-
                 const SizedBox(height: 12),
                 Contacts(user: user),
                 const SizedBox(height: 130),

@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:babysitterapp/views/(auth_Lara_Esco)/login/view.dart';
-import 'package:babysitterapp/views/(home_Macas_Millan)/home/widgets/bottom_navbar.dart';
+import 'package:babysitterapp/views/auth.dart';
+import 'package:babysitterapp/views/home.dart';
 
 Future<void> transitionHome(BuildContext context) async {
   await Future<void>.delayed(

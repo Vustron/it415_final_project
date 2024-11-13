@@ -8,7 +8,6 @@ import 'package:babysitterapp/core/constants.dart';
 import 'package:babysitterapp/models/notification.dart';
 
 import 'package:babysitterapp/views/home.dart';
-import 'package:path/path.dart';
 
 class NotificationView extends HookConsumerWidget with GlobalStyles {
   NotificationView({super.key});
@@ -21,21 +20,19 @@ class NotificationView extends HookConsumerWidget with GlobalStyles {
       imageURL: 'assets/images/hippo.png',
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
-      showButtons: true, 
+      showButtons: true,
       destinationScreen: BookingDetailNotification(),
     ),
     NotificationUsers(
-        name: 'BabyCare',
-        messageText:
-            'Good news! A client has expressed satisfaction with your service and has successfully processed your payment. Thank you for your excellent work and dedication!',
-        imageURL: 'assets/images/hippo.png',
-        createdAt: DateTime.now().subtract(const Duration(days: 1)),
-        updatedAt: DateTime.now().subtract(const Duration(days: 1)),
-        showButtons: true,
-       destinationScreen: PaymentConfirmationScreen(),
-
-    
-        ),
+      name: 'BabyCare',
+      messageText:
+          'Good news! A client has expressed satisfaction with your service and has successfully processed your payment. Thank you for your excellent work and dedication!',
+      imageURL: 'assets/images/hippo.png',
+      createdAt: DateTime.now().subtract(const Duration(days: 1)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 1)),
+      showButtons: true,
+      destinationScreen: PaymentConfirmationScreen(),
+    ),
     NotificationUsers(
       name: 'BabyCare',
       messageText:
@@ -43,8 +40,6 @@ class NotificationView extends HookConsumerWidget with GlobalStyles {
       imageURL: 'assets/images/hippo.png',
       createdAt: DateTime.now().subtract(const Duration(days: 2)),
       updatedAt: DateTime.now().subtract(const Duration(days: 2)),
-    
-
     ),
     // NotificationUsers(
     //   name: 'Krystina',
@@ -79,7 +74,7 @@ class NotificationView extends HookConsumerWidget with GlobalStyles {
               ),
             ),
             const SizedBox(height: 10),
-           Expanded(
+            Expanded(
               child: ListView.builder(
                 itemCount: notificationUsers.length,
                 padding: const EdgeInsets.symmetric(vertical: 17),

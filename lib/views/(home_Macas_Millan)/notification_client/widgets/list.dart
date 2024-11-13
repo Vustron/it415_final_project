@@ -97,8 +97,11 @@ class NotificationListState extends State<NotificationList> {
                     onPressed: () {
                       // ignore: unnecessary_null_comparison
                       if (widget.destinationScreen != null) {
-
-                        goToPage(context, widget.destinationScreen!,'rightToLeftWithFade');
+                        goToPage(
+                          context,
+                          widget.destinationScreen,
+                          'rightToLeftWithFade',
+                        );
                       }
                     },
                     style: ElevatedButton.styleFrom(

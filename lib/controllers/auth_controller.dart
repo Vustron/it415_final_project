@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 
 import 'package:babysitterapp/services/authentication_repository.dart';
 import 'package:babysitterapp/core/state.dart';
+
 import 'package:babysitterapp/models/user_account.dart';
 
 class AuthController extends StateNotifier<AuthenticationState> {

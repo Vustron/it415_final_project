@@ -65,7 +65,7 @@ class BookingDetailNotification extends HookConsumerWidget with GlobalStyles {
               ],
             ),
             const SizedBox(height: 16),
-      ElevatedButton(
+            ElevatedButton(
               onPressed: () async {
                 // Show confirmation dialog
                 final bool? confirm = await showDialog<bool>(
@@ -93,9 +93,10 @@ class BookingDetailNotification extends HookConsumerWidget with GlobalStyles {
                   },
                 );
 
-                // Check if the user confirmed the booking
-                // ignore: use_if_null_to_convert_nulls_to_bools
-                if (confirm == true) {
+                if (confirm ?? false) {
+                  if (!context.mounted) {
+                    return;
+                  }
                   // Show success SnackBar for confirmed booking
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -104,7 +105,10 @@ class BookingDetailNotification extends HookConsumerWidget with GlobalStyles {
                     ),
                   );
                   // Implement confirm booking functionality here
-                } else if (confirm == false) {
+                } else {
+                  if (!context.mounted) {
+                    return;
+                  }
                   // Show red SnackBar for canceled booking
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -131,7 +135,6 @@ class BookingDetailNotification extends HookConsumerWidget with GlobalStyles {
               ),
             ),
             const SizedBox(height: 16),
-      
           ],
         ),
       ),

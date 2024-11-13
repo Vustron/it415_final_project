@@ -18,7 +18,7 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget with GlobalStyles {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          login ? "Don't have an Account ? " : 'Already have an Account ? ',
+          login ? "Don't have an account ? " : 'Already have an account ? ',
         ),
         GestureDetector(
           onTap: press as void Function()?,

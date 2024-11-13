@@ -2,6 +2,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:babysitterapp/core/constants.dart';
 import 'package:babysitterapp/core/helpers.dart';
@@ -13,6 +14,15 @@ class BottomNavbarView extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    useEffect(() {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.black,
+        systemNavigationBarColor: Colors.black,
+      ));
+      return null;
+    }, <Object?>[]);
+
     final ValueNotifier<int> currentIndex = useState(0);
     final PageController pageController = usePageController();
 

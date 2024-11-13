@@ -95,15 +95,20 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
           ],
         ),
         actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              goToPage(context, BookingView(), 'rightToLeftWithFade');
-            },
-            icon: const Icon(
-              FluentIcons.person_add_16_regular,
-              color: Colors.black,
-              size: 31,
-            ),
+          authState.maybeWhen(
+            authenticated: (UserAccount user) => user.role == 'Client'
+                ? IconButton(
+                    onPressed: () {
+                      goToPage(context, BookingView(), 'rightToLeftWithFade');
+                    },
+                    icon: const Icon(
+                      FluentIcons.person_add_16_regular,
+                      color: Colors.black,
+                      size: 31,
+                    ),
+                  )
+                : const SizedBox.shrink(),
+            orElse: () => const SizedBox.shrink(),
           ),
           IconButton(
             onPressed: () {

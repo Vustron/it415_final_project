@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/core/constants.dart';
 
 Widget buildStayInToggle(bool stayIn, void Function(bool) onChanged) {
   return Card(
     elevation: 2,
+    color: Colors.white,
     child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(

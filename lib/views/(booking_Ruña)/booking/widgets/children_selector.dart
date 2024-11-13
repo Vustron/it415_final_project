@@ -1,36 +1,39 @@
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/core/constants/assets.dart';
-import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/core/constants.dart';
 
-Widget buildChildrenSelector(BuildContext context, int? numberOfChildren,
-    void Function(BuildContext) showChildrenSelectionDialog) {
-  return InkWell(
-    onTap: () => showChildrenSelectionDialog(context),
-    child: Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-      decoration: BoxDecoration(
-        color: GlobalStyles.primaryButtonColor.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: GlobalStyles.primaryButtonColor),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+Widget buildChildrenSelector(
+    BuildContext context, int? numberOfChildren, void Function(int) onChanged) {
+  return Card(
+    elevation: 2,
+    color: Colors.white,
+    child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Expanded(
-            child: Text(
-              numberOfChildren == null
-                  ? 'Choose the number of children'
-                  : '$numberOfChildren ${numberOfChildren == 1 ? 'child' : 'children'}',
-              style: const TextStyle(
-                color: GlobalStyles.primaryButtonColor,
-                fontFamily: nexaExtraLight,
-              ),
-              overflow: TextOverflow.ellipsis,
+          Text(
+            numberOfChildren == null
+                ? 'Choose the number of children'
+                : '$numberOfChildren ${numberOfChildren == 1 ? 'child' : 'children'}',
+            style: const TextStyle(
+              color: GlobalStyles.primaryButtonColor,
+              fontFamily: nexaExtraLight,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          const Icon(Icons.arrow_drop_down,
-              color: GlobalStyles.primaryButtonColor),
+          const SizedBox(height: 8),
+          Slider(
+            value: (numberOfChildren ?? 1).toDouble(),
+            min: 1,
+            max: 12,
+            divisions: 12,
+            label: numberOfChildren?.toString() ?? '1',
+            activeColor: GlobalStyles.primaryButtonColor,
+            onChanged: (double value) {
+              onChanged(value.round());
+            },
+          ),
         ],
       ),
     ),

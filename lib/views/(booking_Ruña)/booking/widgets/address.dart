@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/core/constants/assets.dart';
-import 'package:babysitterapp/core/constants/styles.dart';
+import 'package:babysitterapp/core/constants.dart';
 
-import 'option.dart';
+import 'package:babysitterapp/views/booking.dart';
 
 Widget buildAddressSection(
     String selectedAddress, void Function(String) onAddressSelected) {

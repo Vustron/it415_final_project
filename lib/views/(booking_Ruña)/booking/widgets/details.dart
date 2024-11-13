@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/core/constants/assets.dart';
+import 'package:babysitterapp/core/constants.dart';
 
-import 'section_title.dart';
+import 'package:babysitterapp/views/booking.dart';
 
 Widget buildDetailsSection(
     BuildContext context, String details, void Function(String) onChanged) {
@@ -13,6 +13,7 @@ Widget buildDetailsSection(
       const SizedBox(height: 8),
       Card(
         elevation: 2,
+        color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(

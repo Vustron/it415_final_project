@@ -1,12 +1,9 @@
-import 'package:babysitterapp/views/(home_Macas_Millan)/notification_babysitter/booking_details/view.dart';
+import 'package:babysitterapp/core/helpers/goto_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:developer';
 
 import 'package:babysitterapp/core/constants.dart';
-import 'package:babysitterapp/core/helpers.dart';
-
-import 'package:babysitterapp/views/home.dart';
 
 class NotificationList extends StatefulWidget {
   const NotificationList({
@@ -17,9 +14,7 @@ class NotificationList extends StatefulWidget {
     required this.time,
     required this.isMessageRead,
     required this.showButtons,
-    this.onTap, // Accept onTap callback
-
-
+    required this.destinationScreen, // Initialize destination screen
   });
 
   final String name;
@@ -28,8 +23,7 @@ class NotificationList extends StatefulWidget {
   final DateTime time;
   final bool isMessageRead;
   final bool showButtons;
-    final VoidCallback? onTap; // Define onTap
-
+  final Widget destinationScreen; // New field
 
   @override
   NotificationListState createState() => NotificationListState();
@@ -47,8 +41,6 @@ class NotificationListState extends State<NotificationList> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-            onTap: widget.onTap, // Trigger the unique onTap action here
-
       child: Container(
         color: const Color.fromARGB(255, 255, 255, 255),
         padding: const EdgeInsets.all(GlobalStyles.smallPadding),
@@ -97,20 +89,17 @@ class NotificationListState extends State<NotificationList> {
               ],
             ),
             const SizedBox(height: 10),
-            // Only show buttons if 'showButtons' is true
             if (widget.showButtons)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                 
-                 
                   ElevatedButton(
                     onPressed: () {
-                      goToPage(
-                        context,
-                        BookingDetailNotification(),
-                        'rightToLeftWithFade',
-                      );
+                      // ignore: unnecessary_null_comparison
+                      if (widget.destinationScreen != null) {
+
+                        goToPage(context, widget.destinationScreen!,'rightToLeftWithFade');
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: GlobalStyles.primaryButtonColor,
@@ -120,9 +109,6 @@ class NotificationListState extends State<NotificationList> {
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
-                
-                 
-               
                 ],
               ),
           ],

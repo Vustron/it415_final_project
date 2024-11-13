@@ -88,6 +88,7 @@ class BookingDetailNotification extends HookConsumerWidget with GlobalStyles {
                     return;
                   }
                   // Show success SnackBar for confirmed booking
+                  // ignore: use_build_context_synchronously
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Booking Confirmed'),
@@ -100,6 +101,7 @@ class BookingDetailNotification extends HookConsumerWidget with GlobalStyles {
                     return;
                   }
                   // Show red SnackBar for canceled booking
+                  // ignore: use_build_context_synchronously
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Booking Canceled'),

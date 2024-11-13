@@ -10,6 +10,7 @@ class CustomTextInput extends HookWidget {
     this.onClear,
     this.controller,
     this.hintText = 'Enter text...',
+    this.fieldLabel = 'Enter label...',
     this.prefixIcon,
     this.suffixIcon,
     this.fillColor,
@@ -37,6 +38,7 @@ class CustomTextInput extends HookWidget {
   final VoidCallback? onClear;
   final TextEditingController? controller;
   final String hintText;
+  final String fieldLabel;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final Color? fillColor;
@@ -119,8 +121,12 @@ class CustomTextInput extends HookWidget {
             return null;
           },
       decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: TextStyle(color: hintColor ?? Colors.grey.shade600),
+        labelText: fieldLabel, // Added labelText for the field label
+        labelStyle: TextStyle(
+          color: hintColor ?? Colors.grey.shade600,
+          fontSize: 16, // Adjust font size if needed
+        ),
+        
         prefixIcon: prefixIcon,
         suffixIcon: buildSuffixIcon(),
         filled: true,

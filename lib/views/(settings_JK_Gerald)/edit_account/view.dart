@@ -19,6 +19,7 @@ class EditProfile extends HookConsumerWidget with GlobalStyles {
   Widget build(BuildContext context, WidgetRef ref) {
     final ValueNotifier<bool> isLoading = useState(false);
 
+    // Fields definition
     final List<InputFieldConfig> fields = <InputFieldConfig>[
       InputFieldConfig(
         label: 'Profile Image',
@@ -45,18 +46,36 @@ class EditProfile extends HookConsumerWidget with GlobalStyles {
         value: user.description,
       ),
       InputFieldConfig(
-        label: 'Valid ID',
-        type: 'file',
-        hintText: 'Upload your valid ID',
-        value: user.validId,
-      ),
-      InputFieldConfig(
         label: 'Phone Number',
         type: 'text',
         hintText: 'Enter your phone number here',
         value: user.phoneNumber,
       ),
+      InputFieldConfig(
+        label: 'Valid ID',
+        type: 'file',
+        hintText: 'Upload your valid ID',
+        value: user.validId,
+      ),
     ];
+
+    double calculateProfileCompletion(UserAccount user) {
+      final List<String?> userFields = <String?>[
+        user.profileImg,
+        user.name,
+        user.address,
+        user.description,
+        user.phoneNumber,
+        user.validId,
+      ];
+
+      final int completedFields = userFields.where((String? field) => field?.isNotEmpty ?? false).length;
+      final int totalFields = userFields.length;
+
+      return (completedFields / totalFields) * 100;
+    }
+
+    final double profileCompletion = calculateProfileCompletion(user);
 
     Future<void> onSubmit(Map<String, String> formData) async {
       isLoading.value = true;
@@ -77,6 +96,7 @@ class EditProfile extends HookConsumerWidget with GlobalStyles {
                 formData['Valid ID'],
               );
         }
+        
         final UserAccount updatedUser = UserAccount(
           id: user.id,
           name: formData['Name'] ?? user.name,
@@ -118,20 +138,50 @@ class EditProfile extends HookConsumerWidget with GlobalStyles {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit Account'),
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const SizedBox(height: 18),
+                  const Text(
+                    'Edit Account',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+
+                  const SizedBox(height: 8),
+
+                  LinearProgressIndicator(
+                    value: profileCompletion / 100,
+                    backgroundColor: Colors.grey[300],
+                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+                  ),
+                  const SizedBox(height: 16),
+
+                  Text(
+                    'Profile Completion: ${profileCompletion.toStringAsFixed(0)}%',
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+
+                ],
+              ),
+
               DynamicForm(
                 fields: fields,
                 onSubmit: onSubmit,
                 isLoading: isLoading,
               ),
+
               const SizedBox(height: 50),
+
+              
             ],
           ),
         ),

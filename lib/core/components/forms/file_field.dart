@@ -50,9 +50,10 @@ Widget buildFileField(
                       label: Text(
                         fileState.value.fileName != null &&
                                 fileState.value.fileName!.isNotEmpty
-                            ? shortenFileName(fileState.value.fileName!)
+                            ? 'Uploaded ${field.label}'
                             : field.hintText,
                       ),
+
                     ),
                   ),
                   if (fileState.value.filePath != null &&

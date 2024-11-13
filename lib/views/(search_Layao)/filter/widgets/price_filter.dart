@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/core/constants.dart';
+
 import 'package:babysitterapp/views/search.dart';
 
 class PriceFilter extends StatefulWidget {
@@ -10,8 +12,7 @@ class PriceFilter extends StatefulWidget {
 }
 
 class PriceFilterState extends State<PriceFilter> {
-  String minPrice = '₱500.00';
-  String maxPrice = '₱2500.00';
+  double price = 100;
 
   @override
   Widget build(BuildContext context) {
@@ -21,38 +22,20 @@ class PriceFilterState extends State<PriceFilter> {
         children: <Widget>[
           sectionTitle('Price', Icons.attach_money),
           const SizedBox(height: 8),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: priceDropdown(
-                  value: minPrice,
-                  items: <String>[
-                    '₱500.00',
-                    '₱1000.00',
-                    '₱1500.00',
-                    '₱2000.00'
-                  ],
-                  onChanged: (String? newValue) {
-                    setState(() => minPrice = newValue!);
-                  },
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: priceDropdown(
-                  value: maxPrice,
-                  items: <String>[
-                    '₱2500.00',
-                    '₱3000.00',
-                    '₱3500.00',
-                    '₱4000.00'
-                  ],
-                  onChanged: (String? newValue) {
-                    setState(() => maxPrice = newValue!);
-                  },
-                ),
-              ),
-            ],
+          Slider(
+            value: price,
+            max: 3000,
+            divisions: 30,
+            label: price.round().toString(),
+            onChanged: (double value) {
+              setState(() => price = value);
+            },
+          ),
+          Text(
+            '₱ ${price.round()}',
+            style: TextStyle(
+              color: GlobalStyles.filterColorScheme.onBackground,
+            ),
           ),
         ],
       ),

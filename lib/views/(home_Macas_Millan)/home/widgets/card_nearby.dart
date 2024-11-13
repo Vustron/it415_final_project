@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/views/home.dart';
-// Sample data; replace with actual user data from your app's state
+
 const String userName = 'Carole Howell';
 const String userNumber = '0956-625-2536';
-const String userImage = 'assets/images/hippo.png'; // Update with actual image
+const String userImage = 'assets/images/hippo.png';
+
 Widget babySitterCardNearby(
   BuildContext context, {
   required String networkImage,
@@ -13,34 +14,45 @@ Widget babySitterCardNearby(
   required String locationUser,
   required String starCount,
   required String userBio,
-   required String name,
-    required String number,
-     required String image,
-
-  
+  required String name,
+  required String number,
+  required String image,
 }) =>
     Container(
       width: MediaQuery.of(context).size.width * 0.85,
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.28,
+      ),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: const Color.fromRGBO(244, 244, 244, 1),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          babySitterCardHeader(
-            networkImage: networkImage,
-            nameUser: nameUser,
-            ratePhp: ratePhp,
-            locationUser: locationUser,
-            starCount: starCount,
+          Expanded(
+            flex: 3,
+            child: babySitterCardHeader(
+              networkImage: networkImage,
+              nameUser: nameUser,
+              ratePhp: ratePhp,
+              locationUser: locationUser,
+              starCount: starCount,
+            ),
           ),
-          babySitterCardBio(
-            context,
-            userBio: userBio,
+          Expanded(
+            flex: 2,
+            child: babySitterCardBio(
+              context,
+              userBio: userBio,
+            ),
           ),
-          babySitterCardButton(context,userName,userNumber,userImage)
+          Expanded(
+            flex: 2,
+            child:
+                babySitterCardButton(context, userName, userNumber, userImage),
+          ),
         ],
       ),
     );

@@ -8,6 +8,7 @@ import 'package:babysitterapp/core/constants.dart';
 import 'package:babysitterapp/models/notification.dart';
 
 import 'package:babysitterapp/views/home.dart';
+import 'package:path/path.dart';
 
 class NotificationView extends HookConsumerWidget with GlobalStyles {
   NotificationView({super.key});

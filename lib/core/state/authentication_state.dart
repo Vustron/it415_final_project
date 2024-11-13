@@ -15,4 +15,9 @@ class AuthenticationState with _$AuthenticationState {
   const factory AuthenticationState.authenticated({
     required UserAccount user,
   }) = _Authenticated;
+
+  const factory AuthenticationState.error({
+    required String message,
+    StackTrace? stackTrace,
+  }) = _Error;
 }

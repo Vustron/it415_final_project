@@ -1,3 +1,4 @@
+import 'package:babysitterapp/views/(home_Macas_Millan)/notification_babysitter/receipt/view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,6 @@ import 'package:babysitterapp/core/constants.dart';
 import 'package:babysitterapp/models/notification.dart';
 
 import 'package:babysitterapp/views/home.dart';
-import 'package:path/path.dart';
 
 class NotificationView extends HookConsumerWidget with GlobalStyles {
   NotificationView({super.key});
@@ -21,16 +21,18 @@ class NotificationView extends HookConsumerWidget with GlobalStyles {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       showButtons: true,
+      destinationScreen: BookingDetailNotification(),
     ),
     NotificationUsers(
-        name: 'BabyCare',
-        messageText:
-            'Good news! A babysitter nearby has a 4.9-star rating. Book now to ensure the best care for your child!',
-        imageURL: 'assets/images/hippo.png',
-        createdAt: DateTime.now().subtract(const Duration(days: 1)),
-        updatedAt: DateTime.now().subtract(const Duration(days: 1)),
-    
-        ),
+      name: 'BabyCare',
+      messageText:
+          'Good news! A client has expressed satisfaction with your service and has successfully processed your payment. Thank you for your excellent work and dedication!',
+      imageURL: 'assets/images/hippo.png',
+      createdAt: DateTime.now().subtract(const Duration(days: 1)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 1)),
+      showButtons: true,
+      destinationScreen: PaymentConfirmationScreen(),
+    ),
     NotificationUsers(
       name: 'BabyCare',
       messageText:
@@ -39,14 +41,15 @@ class NotificationView extends HookConsumerWidget with GlobalStyles {
       createdAt: DateTime.now().subtract(const Duration(days: 2)),
       updatedAt: DateTime.now().subtract(const Duration(days: 2)),
     ),
-    NotificationUsers(
-      name: 'Krystina',
-      messageText:
-          'has just sent a request for a babysitter. Please review and respond promptly!',
-      imageURL: 'assets/images/hippo.png',
-      createdAt: DateTime.now().subtract(const Duration(days: 3)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 3)),
-    ),
+    // NotificationUsers(
+    //   name: 'Krystina',
+    //   messageText:
+    //       'has just sent a request for a babysitter. Please review and respond promptly!',
+    //   imageURL: 'assets/images/hippo.png',
+    //   createdAt: DateTime.now().subtract(const Duration(days: 3)),
+    //   updatedAt: DateTime.now().subtract(const Duration(days: 3)),
+    //         showButtons: true,
+    // ),
   ];
 
   @override
@@ -71,7 +74,7 @@ class NotificationView extends HookConsumerWidget with GlobalStyles {
               ),
             ),
             const SizedBox(height: 10),
-           Expanded(
+            Expanded(
               child: ListView.builder(
                 itemCount: notificationUsers.length,
                 padding: const EdgeInsets.symmetric(vertical: 17),
@@ -84,6 +87,8 @@ class NotificationView extends HookConsumerWidget with GlobalStyles {
                     time: user.createdAt,
                     isMessageRead: index == 0 || index == 3,
                     showButtons: user.showButtons,
+                    destinationScreen: user.destinationScreen ??
+                        Container(), // Provide default widget if null
                   );
                 },
               ),

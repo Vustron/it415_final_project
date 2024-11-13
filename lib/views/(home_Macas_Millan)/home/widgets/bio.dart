@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 Widget babySitterCardBio(BuildContext context, {required String userBio}) =>
-    Container(
-      padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 5),
+    Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
       child: Text(
         userBio,
+        maxLines: 2,
         overflow: TextOverflow.ellipsis,
-        softWrap: true,
-        maxLines: 3,
-        style: const TextStyle(fontSize: 13),
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Colors.grey[600],
+              height: 1.4,
+              fontSize: 13,
+            ),
       ),
     );

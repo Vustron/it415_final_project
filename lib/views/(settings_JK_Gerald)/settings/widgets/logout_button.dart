@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:babysitterapp/controllers/auth_controller.dart';
 
 import 'package:babysitterapp/core/constants.dart';
+import 'package:babysitterapp/core/helpers.dart';
+
+import 'package:babysitterapp/views/auth.dart';
 
 class LogoutButton extends HookConsumerWidget with GlobalStyles {
   LogoutButton({super.key});
@@ -12,6 +15,28 @@ class LogoutButton extends HookConsumerWidget with GlobalStyles {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ValueNotifier<bool> isLoading = useState(false);
+
+    Future<void> handleLogout() async {
+      try {
+        isLoading.value = true;
+        await ref.read(authController.notifier).logout();
+
+        if (context.mounted) {
+          goToPage(context, const LoginView(), 'fade');
+        }
+      } catch (e) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Error logging out: $e'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      } finally {
+        isLoading.value = false;
+      }
+    }
 
     return Center(
       child: SizedBox(
@@ -41,40 +66,8 @@ class LogoutButton extends HookConsumerWidget with GlobalStyles {
                       ) ??
                       false;
 
-                  if (!confirmed) {
-                    return;
-                  }
-
-                  try {
-                    isLoading.value = true;
-                    await ref.read(authController.notifier).logout();
-
-                    if (context.mounted) {
-                      await Future<void>.delayed(
-                        const Duration(milliseconds: 500),
-                      );
-
-                      // navigatorKey.currentState?.pushAndRemoveUntil(
-                      //   PageTransition<void>(
-                      //     type: PageTransitionType.rightToLeftWithFade,
-                      //     duration: const Duration(milliseconds: 300),
-                      //     reverseDuration: const Duration(milliseconds: 300),
-                      //     child: const LoginView(),
-                      //   ),
-                      //   (Route<dynamic> route) => false,
-                      // );
-                    }
-                  } catch (e) {
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Error logging out: $e'),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                    }
-                  } finally {
-                    isLoading.value = false;
+                  if (confirmed) {
+                    await handleLogout();
                   }
                 },
           style: TextButton.styleFrom(

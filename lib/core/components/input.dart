@@ -66,6 +66,7 @@ class CustomTextInput extends HookWidget {
           text: initialValue,
         );
     final ValueNotifier<bool> showClearButton = useState(false);
+    final ValueNotifier<bool> showPassword = useState(false);
 
     useEffect(() {
       void updateClearButtonVisibility() {
@@ -76,6 +77,30 @@ class CustomTextInput extends HookWidget {
       return () =>
           effectiveController.removeListener(updateClearButtonVisibility);
     }, <Object?>[effectiveController]);
+
+    Widget? buildSuffixIcon() {
+      if (obscureText) {
+        return IconButton(
+          icon: Icon(
+            showPassword.value ? Icons.visibility_off : Icons.visibility,
+            color: hintColor ?? Colors.grey.shade600,
+          ),
+          onPressed: () => showPassword.value = !showPassword.value,
+        );
+      }
+
+      if (showClearButton.value && onClear != null) {
+        return IconButton(
+          icon: Icon(Icons.clear, color: hintColor ?? Colors.grey.shade600),
+          onPressed: () {
+            effectiveController.clear();
+            onClear!();
+          },
+        );
+      }
+
+      return suffixIcon;
+    }
 
     return TextFormField(
       controller: effectiveController,
@@ -97,16 +122,7 @@ class CustomTextInput extends HookWidget {
         hintText: hintText,
         hintStyle: TextStyle(color: hintColor ?? Colors.grey.shade600),
         prefixIcon: prefixIcon,
-        suffixIcon: showClearButton.value && onClear != null
-            ? IconButton(
-                icon:
-                    Icon(Icons.clear, color: hintColor ?? Colors.grey.shade600),
-                onPressed: () {
-                  effectiveController.clear();
-                  onClear!();
-                },
-              )
-            : suffixIcon,
+        suffixIcon: buildSuffixIcon(),
         filled: true,
         fillColor: fillColor ?? GlobalStyles.defaultFillColor,
         contentPadding: contentPadding,
@@ -132,7 +148,7 @@ class CustomTextInput extends HookWidget {
       cursorColor: cursorColor ?? GlobalStyles.defaultFocusedBorderColor,
       textInputAction: textInputAction,
       keyboardType: keyboardType,
-      obscureText: obscureText,
+      obscureText: obscureText && !showPassword.value,
       maxLines: maxLines,
       enabled: enabled,
     );

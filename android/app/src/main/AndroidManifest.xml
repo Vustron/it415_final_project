@@ -11,6 +11,11 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     
     <application
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:label="Babysitter"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

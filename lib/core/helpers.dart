@@ -3,7 +3,7 @@ export 'helpers/transition_home.dart';
 export 'helpers/validate_form.dart';
 export 'helpers/file_preview.dart';
 export 'helpers/file_picker.dart';
-export 'helpers/check_user.dart';
+export 'helpers/auth_guard.dart';
 export 'helpers/responsive.dart';
 export 'helpers/goto_page.dart';
 export 'helpers/get_icons.dart';

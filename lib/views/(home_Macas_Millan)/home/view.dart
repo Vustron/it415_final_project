@@ -35,7 +35,10 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
         locationUser: 'Panabo City',
         starCount: '5.0',
         userBio:
-            'lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium', name: '', number: '', image: '',
+            'lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium',
+        name: '',
+        number: '',
+        image: '',
       ),
     );
 

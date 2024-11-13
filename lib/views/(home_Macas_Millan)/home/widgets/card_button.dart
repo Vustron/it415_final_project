@@ -7,83 +7,70 @@ import 'package:babysitterapp/views/settings.dart';
 import 'package:babysitterapp/views/home.dart';
 
 Widget babySitterCardButton(
-        BuildContext context, String name, String number, String image) =>
-    Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 4),
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  minimumSize: Size.zero,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                onPressed: () {
-                  goToPage(context, Profile(), 'rightToLeftWithFade');
-                },
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      FluentIcons.person_16_regular,
-                      size: 16,
-                    ),
-                    SizedBox(width: 4),
-                    Text(
-                      'View profile',
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ],
-                ),
+    BuildContext context, String name, String number, String image) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 12),
+    child: Row(
+      children: <Widget>[
+        Expanded(
+          child: ElevatedButton.icon(
+            icon: const Icon(FluentIcons.person_16_regular, size: 18),
+            label: const Text(
+              'View Profile',
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.1,
               ),
             ),
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 1),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              elevation: 0,
+              shadowColor: Colors.transparent,
+            ),
+            onPressed: () {
+              goToPage(context, Profile(), 'rightToLeftWithFade');
+            },
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 4),
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  minimumSize: Size.zero,
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                onPressed: () {
-                  goToPage(
-                    context,
-                    MessageDetailScreen(
-                      name: name,
-                      number: number,
-                      image: image,
-                    ),
-                    'fade',
-                  );
-                },
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      FluentIcons.chat_16_regular,
-                      size: 16,
-                    ),
-                    SizedBox(width: 4),
-                    Text(
-                      'Message',
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ],
-                ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: OutlinedButton.icon(
+            icon: const Icon(
+              FluentIcons.chat_16_regular,
+              size: 18,
+            ),
+            label: const Text(
+              'Message',
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.1,
               ),
             ),
+            style: OutlinedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 1),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            onPressed: () {
+              goToPage(
+                context,
+                MessageDetailScreen(
+                  name: name,
+                  number: number,
+                  image: image,
+                ),
+                'fade',
+              );
+            },
           ),
-        ],
-      ),
-    );
+        ),
+      ],
+    ),
+  );
+}

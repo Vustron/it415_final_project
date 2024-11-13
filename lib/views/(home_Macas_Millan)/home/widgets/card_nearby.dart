@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/core/helpers.dart';
+
+import 'package:babysitterapp/views/settings.dart';
 import 'package:babysitterapp/views/home.dart';
 
 const String userName = 'Carole Howell';
@@ -21,38 +24,44 @@ Widget babySitterCardNearby(
     Container(
       width: MediaQuery.of(context).size.width * 0.85,
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.28,
+        maxHeight: MediaQuery.of(context).size.height * 0.85,
       ),
-      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       decoration: BoxDecoration(
-        color: const Color.fromRGBO(244, 244, 244, 1),
-        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Expanded(
-            flex: 3,
-            child: babySitterCardHeader(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: () {
+          goToPage(context, Profile(), 'rightToLeftWithFade');
+        },
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            babySitterCardHeader(
               networkImage: networkImage,
               nameUser: nameUser,
               ratePhp: ratePhp,
               locationUser: locationUser,
               starCount: starCount,
             ),
-          ),
-          Expanded(
-            flex: 2,
-            child: babySitterCardBio(
-              context,
-              userBio: userBio,
+            Flexible(
+              child: babySitterCardBio(context, userBio: userBio),
             ),
-          ),
-          Expanded(
-            flex: 2,
-            child:
-                babySitterCardButton(context, userName, userNumber, userImage),
-          ),
-        ],
+            const Expanded(
+              child: SizedBox(),
+            ),
+            babySitterCardButton(context, nameUser, number, image),
+            const SizedBox(height: 12),
+          ],
+        ),
       ),
     );

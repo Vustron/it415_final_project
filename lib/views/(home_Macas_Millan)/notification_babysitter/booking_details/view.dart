@@ -97,6 +97,7 @@ class BookingDetailNotification extends HookConsumerWidget with GlobalStyles {
                 // ignore: use_if_null_to_convert_nulls_to_bools
                 if (confirm == true) {
                   // Show success SnackBar for confirmed booking
+                  // ignore: use_build_context_synchronously
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Booking Confirmed'),
@@ -106,6 +107,7 @@ class BookingDetailNotification extends HookConsumerWidget with GlobalStyles {
                   // Implement confirm booking functionality here
                 } else if (confirm == false) {
                   // Show red SnackBar for canceled booking
+                  // ignore: use_build_context_synchronously
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Booking Canceled'),

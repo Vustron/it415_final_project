@@ -15,6 +15,7 @@ Widget buildTextField(
   return CustomTextInput(
     controller: controllers[field.label],
     hintText: field.hintText,
+    fieldLabel: field.label,
     keyboardType: field.keyboardType ?? TextInputType.text,
     obscureText: field.obscureText,
     prefixIcon: field.prefixIcon != null ? Icon(field.prefixIcon) : null,

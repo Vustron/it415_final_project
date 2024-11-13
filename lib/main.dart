@@ -1,3 +1,4 @@
+import 'package:babysitterapp/models/user_account.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

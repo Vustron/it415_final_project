@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:babysitterapp/core/constants.dart';
 
 class ServiceHistoryUpload extends StatefulWidget {
@@ -64,26 +63,28 @@ class _ServiceHistoryUploadState extends State<ServiceHistoryUpload> {
             ),
           ),
         ),
-        if (_isImageListVisible) ...<Widget>[
-          SizedBox(
-            height: 100,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: _images.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  margin: const EdgeInsets.all(8.0),
-                  child: Image.asset(
-                    _images[index],
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.cover,
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          height: _isImageListVisible ? 100 : 0,
+          child: _isImageListVisible
+              ? ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _images.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      margin: const EdgeInsets.all(8.0),
+                      child: Image.asset(
+                        _images[index],
+                        width: 80,
+                        height: 80,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
+                )
+              : null, // Empty child when not visible
+        ),
       ],
     );
   }

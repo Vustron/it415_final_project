@@ -49,14 +49,18 @@ class AccountView extends HookConsumerWidget with GlobalStyles {
                 ),
                 const SizedBox(height: 30),
                 const Divider(color: Colors.grey, thickness: 1),
+
                 const SizedBox(height: 12),
                 const Ratings(),
                 const SizedBox(height: 12),
+
                 const Divider(color: Colors.grey, thickness: 1),
                 const ServiceHistoryUpload(),
                 const Divider(color: Colors.grey, thickness: 1),
+
                 const ValidIdUpload(),
                 const Divider(color: Colors.grey, thickness: 1),
+
                 const SizedBox(height: 12),
                 Contacts(user: user),
                 const SizedBox(height: 130),

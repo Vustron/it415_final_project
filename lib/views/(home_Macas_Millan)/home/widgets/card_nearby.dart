@@ -22,7 +22,7 @@ Widget babySitterCardNearby(
   required String image,
 }) =>
     Container(
-      width: MediaQuery.of(context).size.width * 0.85,
+      width: MediaQuery.of(context).size.width * 0.90,
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.85,
       ),
@@ -45,6 +45,7 @@ Widget babySitterCardNearby(
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             babySitterCardHeader(
               networkImage: networkImage,
@@ -56,11 +57,8 @@ Widget babySitterCardNearby(
             Flexible(
               child: babySitterCardBio(context, userBio: userBio),
             ),
-            const Expanded(
-              child: SizedBox(),
-            ),
             babySitterCardButton(context, nameUser, number, image),
-            const SizedBox(height: 12),
+            // const SizedBox(height: 12),
           ],
         ),
       ),

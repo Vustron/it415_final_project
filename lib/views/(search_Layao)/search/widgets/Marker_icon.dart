@@ -1,3 +1,5 @@
+import 'package:babysitterapp/core/helpers/goto_page.dart';
+import 'package:babysitterapp/views/(settings_JK_Gerald)/profile/view.dart';
 import 'package:flutter/material.dart';
 
 class MarkerIcon extends StatelessWidget {
@@ -9,7 +11,9 @@ class MarkerIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        goToPage(context, Profile(), 'rightToLeft');
+      },
       child: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(

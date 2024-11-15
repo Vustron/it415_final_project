@@ -19,11 +19,11 @@ class ExperienceDetails extends StatelessWidget with GlobalStyles {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
-            'Experience',
+            'No. of Transactions',
             style: labelStyle,
           ),
           Text(
-            '4 Years',
+            '5',
             style: labelStyle,
           ),
         ],

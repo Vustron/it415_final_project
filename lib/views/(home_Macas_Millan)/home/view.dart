@@ -1,3 +1,4 @@
+import 'package:babysitterapp/views/(home_Macas_Millan)/home_babysitter/views.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -49,15 +50,17 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
         toolbarHeight: 70,
         backgroundColor: Colors.white,
         leading: authState.maybeWhen(
-          authenticated: (UserAccount user) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: CircleAvatar(
-              backgroundImage:
-                  (user.profileImg != null && user.profileImg!.isNotEmpty)
-                      ? NetworkImage(user.profileImg!)
-                      : const AssetImage(avatar2) as ImageProvider,
-            ),
-          ),
+          authenticated: (UserAccount user) => user.role == 'Client'
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: CircleAvatar(
+                    backgroundImage:
+                        (user.profileImg != null && user.profileImg!.isNotEmpty)
+                            ? NetworkImage(user.profileImg!)
+                            : const AssetImage(avatar2) as ImageProvider,
+                  ),
+                )
+              : null,
           orElse: () => const Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
             child: CircleAvatar(
@@ -66,44 +69,54 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
           ),
         ),
         centerTitle: false,
-        title: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            authState.maybeWhen(
-              authenticated: (UserAccount user) => Text(
-                'Hello ${user.name}!',
-                style: headerStyle.copyWith(
-                  color: Colors.black,
-                  fontSize: 20,
-                ),
-              ),
-              loading: () => const CircularProgressIndicator(),
-              orElse: () => const Text('Hello Guest!'),
-            ),
-            authState.maybeWhen(
-              authenticated: (UserAccount user) => Text(
-                'Location: ${user.address}',
-                maxLines: 1,
-                style: const TextStyle(
-                  fontSize: 10,
-                ),
-              ),
-              loading: () => const CircularProgressIndicator(),
-              orElse: () => const Text('Hello Guest!'),
-            ),
-          ],
+        title: authState.maybeWhen(
+          authenticated: (UserAccount user) => user.role == 'Client'
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    authState.maybeWhen(
+                      authenticated: (UserAccount user) => Text(
+                        'Hello ${user.name}!',
+                        style: headerStyle.copyWith(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                      ),
+                      loading: () => const CircularProgressIndicator(),
+                      orElse: () => const Text('Hello Guest!'),
+                    ),
+                    authState.maybeWhen(
+                      authenticated: (UserAccount user) => Text(
+                        'Location: ${user.address}',
+                        maxLines: 1,
+                        style: const TextStyle(
+                          fontSize: 10,
+                        ),
+                      ),
+                      loading: () => const CircularProgressIndicator(),
+                      orElse: () => const Text('Hello Guest!'),
+                    ),
+                  ],
+                )
+              : const Text('Dashboard'),
+          orElse: () => const Text('Guest Mode'),
         ),
         actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              goToPage(context, BookingView(), 'rightToLeftWithFade');
-            },
-            icon: const Icon(
-              FluentIcons.person_add_16_regular,
-              color: Colors.black,
-              size: 31,
-            ),
+          authState.maybeWhen(
+            authenticated: (UserAccount user) => user.role == 'Client'
+                ? IconButton(
+                    onPressed: () {
+                      goToPage(context, BookingView(), 'rightToLeftWithFade');
+                    },
+                    icon: const Icon(
+                      FluentIcons.person_add_16_regular,
+                      color: Colors.black,
+                      size: 31,
+                    ),
+                  )
+                : const SizedBox.shrink(),
+            orElse: () => const SizedBox.shrink(),
           ),
           IconButton(
             onPressed: () {
@@ -118,78 +131,90 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
         ],
       ),
       backgroundColor: Colors.white,
-      body: ListView(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(GlobalStyles.defaultPadding),
-            child: Center(
-              child: Column(
+      body: authState.maybeWhen(
+        authenticated: (UserAccount user) => user.role == 'Client'
+            ? ListView(
                 children: <Widget>[
-                  titleBabySitterNearby(),
-                  //carousel
-                  //many types of carousel based on package
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.30,
-                    child: CarouselSlider(
-                      carouselController: carouselController,
-                      items: babysitterCards,
-                      options: CarouselOptions(
-                          enlargeFactor: 0.20,
-                          enableInfiniteScroll: false,
-                          enlargeCenterPage: true,
-                          onPageChanged:
-                              (int index, CarouselPageChangedReason reason) {
-                            currentIndex.value = index;
-                          }),
+                  Padding(
+                    padding: const EdgeInsets.all(GlobalStyles.defaultPadding),
+                    child: Center(
+                      child: Column(
+                        children: <Widget>[
+                          titleBabySitterNearby(),
+                          //carousel
+                          //many types of carousel based on package
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.30,
+                            child: CarouselSlider(
+                              carouselController: carouselController,
+                              items: babysitterCards,
+                              options: CarouselOptions(
+                                  enlargeFactor: 0.20,
+                                  enableInfiniteScroll: false,
+                                  enlargeCenterPage: true,
+                                  onPageChanged: (int index,
+                                      CarouselPageChangedReason reason) {
+                                    currentIndex.value = index;
+                                  }),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: babysitterCards
+                                .asMap()
+                                .entries
+                                .map((MapEntry<int, Widget> entry) {
+                              return GestureDetector(
+                                onTap: () =>
+                                    carouselController.animateToPage(entry.key),
+                                child: Container(
+                                  width: 8.0,
+                                  height: 8.0,
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 4.0),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.black.withOpacity(
+                                        currentIndex.value == entry.key
+                                            ? 0.9
+                                            : 0.4),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+
+                          titleTopRatedBabySitter(),
+                          //use .toString() if the datatype is different
+                          ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: 5,
+                            itemBuilder: (BuildContext context, int index) {
+                              return topRatedBabySitterCard(
+                                networkImage:
+                                    'https://images.unsplash.com/photo-1631947430066-48c30d57b943?q=80&w=1432&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                                nameUser: 'Ms. Kara',
+                                ratePhp: '200',
+                                starCount: '5.0',
+                                reviewsCount: '999',
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 15)
+                        ],
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: babysitterCards
-                        .asMap()
-                        .entries
-                        .map((MapEntry<int, Widget> entry) {
-                      return GestureDetector(
-                        onTap: () =>
-                            carouselController.animateToPage(entry.key),
-                        child: Container(
-                          width: 8.0,
-                          height: 8.0,
-                          margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.black.withOpacity(
-                                currentIndex.value == entry.key ? 0.9 : 0.4),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-
-                  titleTopRatedBabySitter(),
-                  //use .toString() if the datatype is different
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 5,
-                    itemBuilder: (BuildContext context, int index) {
-                      return topRatedBabySitterCard(
-                        networkImage:
-                            'https://images.unsplash.com/photo-1631947430066-48c30d57b943?q=80&w=1432&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                        nameUser: 'Ms. Kara',
-                        ratePhp: '200',
-                        starCount: '5.0',
-                        reviewsCount: '999',
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 15)
                 ],
+              )
+            : DashboardBabySitter(
+                username: user.name,
+                userImg: user.profileImg.toString(),
+                location: user.address.toString(),
               ),
-            ),
-          ),
-        ],
+        orElse: () => const CircularProgressIndicator(),
       ),
     );
   }

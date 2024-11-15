@@ -10,12 +10,6 @@ import 'package:babysitterapp/models/user_account.dart';
 
 import 'package:babysitterapp/views/settings.dart';
 
-/* *
-    
-    TODO: either isagul ninyo tung service history ug transaction history or lahiun ninyo ang transaction history ug service history
-    
-* */
-
 class AccountView extends HookConsumerWidget with GlobalStyles {
   AccountView({super.key});
 

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class PaymentConfirmationScreen extends StatelessWidget {
+  PaymentConfirmationScreen({super.key});
+
   final int children = 5;
   final DateTime date = DateTime.parse('2024-11-11');
   final String time = '12:15 AM - 4:20 AM';
@@ -23,7 +25,9 @@ class PaymentConfirmationScreen extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 50),
         child: Center(
           child: Card(
-            margin: const EdgeInsets.symmetric(horizontal: 20,),
+            margin: const EdgeInsets.symmetric(
+              horizontal: 20,
+            ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -33,7 +37,7 @@ class PaymentConfirmationScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   const CircleAvatar(
-                    backgroundColor:GlobalStyles.primaryButtonColor,
+                    backgroundColor: GlobalStyles.primaryButtonColor,
                     radius: 30,
                     child: Icon(Icons.check, color: Colors.white, size: 40),
                   ),
@@ -133,13 +137,13 @@ class PaymentConfirmationScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   _buildDetailRow('Children', '$children'),
-                  _buildDetailRow('Date', DateFormat('yyyy-MM-dd').format(date)),
+                  _buildDetailRow(
+                      'Date', DateFormat('yyyy-MM-dd').format(date)),
                   _buildDetailRow('Time', time),
                   _buildDetailRow('Stay In', stayIn ? 'Yes' : 'No'),
                   _buildDetailRow('Address', address),
                   _buildDetailRow('Details', details),
                   const SizedBox(height: 20),
-             
                 ],
               ),
             ),

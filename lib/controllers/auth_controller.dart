@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:dartz/dartz.dart';
 
-import 'package:babysitterapp/services/authentication_repository.dart';
+import 'package:babysitterapp/services/auth_repository.dart';
 import 'package:babysitterapp/core/state.dart';
 
 import 'package:babysitterapp/models/user_account.dart';

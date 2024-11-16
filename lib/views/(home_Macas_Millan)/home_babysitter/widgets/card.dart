@@ -4,7 +4,7 @@ Widget cardPageBabySitter() => Padding(
     padding: const EdgeInsets.all(20.0),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
+      children: <Widget>[
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -23,7 +23,7 @@ Widget cardPageBabySitter() => Padding(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+              children: <Widget>[
                 Icon(Icons.monetization_on),
                 Text(
                   '10',
@@ -56,7 +56,7 @@ Widget cardPageBabySitter() => Padding(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+              children: <Widget>[
                 Icon(Icons.baby_changing_station_rounded),
                 Text(
                   '10',

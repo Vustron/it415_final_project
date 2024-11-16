@@ -14,7 +14,10 @@ export './(search_Layao)/filter/widgets/card.dart';
 export './(search_Layao)/filter/view.dart';
 
 // search
+export './(search_Layao)/search/widgets/marker_icon.dart';
 export './(search_Layao)/search/widgets/map_screen.dart';
+export './(search_Layao)/search/widgets/marker.dart';
 export './(search_Layao)/search/widgets/filter.dart';
 export './(search_Layao)/search/widgets/input.dart';
+export './(search_Layao)/search/widgets/layer.dart';
 export './(search_Layao)/search/view.dart';

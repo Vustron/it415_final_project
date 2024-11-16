@@ -1,6 +1,8 @@
-import 'package:babysitterapp/core/helpers/goto_page.dart';
-import 'package:babysitterapp/views/(settings_JK_Gerald)/profile/view.dart';
 import 'package:flutter/material.dart';
+
+import 'package:babysitterapp/core/helpers.dart';
+
+import 'package:babysitterapp/views/settings.dart';
 
 class MarkerIcon extends StatelessWidget {
   const MarkerIcon({super.key, required this.images, required this.color});

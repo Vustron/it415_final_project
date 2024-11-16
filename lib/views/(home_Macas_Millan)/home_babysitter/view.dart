@@ -28,31 +28,31 @@ class _HomeBabysitterViewState extends State<HomeBabysitterView> {
   ];
 
   final List<Map<String, String>> comments = <Map<String, String>>[
-    {
+    <String, String>{
       'name': 'John Doe',
       'profileUrl': 'https://placehold.jp/150x150.png',
       'comment': 'This is a great post!',
       'time': '2h ago'
     },
-    {
+    <String, String>{
       'name': 'Jane Smith',
       'profileUrl': 'https://placehold.jp/150x150.png',
       'comment': 'I completely agree with your points.',
       'time': '3h ago'
     },
-    {
+    <String, String>{
       'name': 'Sam Wilson',
       'profileUrl': 'https://placehold.jp/150x150.png',
       'comment': 'Thanks for sharing this information.',
       'time': '5h ago'
     },
-    {
+    <String, String>{
       'name': 'Emily Davis',
       'profileUrl': 'https://placehold.jp/150x150.png',
       'comment': 'Very insightful!',
       'time': '1d ago'
     },
-    {
+    <String, String>{
       'name': 'Michael Brown',
       'profileUrl': 'https://placehold.jp/150x150.png',
       'comment': 'Can you provide more details?',

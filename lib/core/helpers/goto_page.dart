@@ -1,7 +1,6 @@
+import 'package:babysitterapp/views/root.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
-
-import 'package:babysitterapp/main.dart';
 
 PageTransitionType _getPageTransitionType(String transitionType) {
   switch (transitionType) {

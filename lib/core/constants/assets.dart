@@ -22,3 +22,4 @@ const String placeholder = 'assets/images/placeholder_logo.png';
 const String logo = 'assets/images/logo.png';
 const String networkImage1 =
     'https://images.unsplash.com/photo-1631947430066-48c30d57b943?q=80&w=1432&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+const String errorIllustration = 'assets/images/error_illustration.png';

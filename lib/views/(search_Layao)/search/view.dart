@@ -52,7 +52,9 @@ class SearchView extends HookConsumerWidget {
               backgroundColor: GlobalStyles.primaryButtonColor,
               foregroundColor: Colors.white,
               onPressed: () {
-                goToPage(context, FilterView(), 'rightToLeftWithFade');
+                if (!Navigator.of(context).canPop()) {
+                  goToPage(context, FilterView(), 'rightToLeftWithFade');
+                }
               },
               label: const Text('Filter'),
               icon: const Icon(

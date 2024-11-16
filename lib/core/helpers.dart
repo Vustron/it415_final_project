@@ -1,3 +1,4 @@
+export 'helpers/global_error_handler.dart';
 export 'helpers/shorten_file_name.dart';
 export 'helpers/transition_home.dart';
 export 'helpers/validate_form.dart';

@@ -29,8 +29,8 @@ class FAQTile extends HookWidget {
             },
           ),
           AnimatedCrossFade(
-            duration: const Duration(milliseconds: 250), // Smooth transition
-            firstChild: const SizedBox.shrink(), // Hidden state
+            duration: const Duration(milliseconds: 250),
+            firstChild: const SizedBox.shrink(),
             secondChild: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(

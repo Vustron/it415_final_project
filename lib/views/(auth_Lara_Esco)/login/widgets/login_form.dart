@@ -11,7 +11,7 @@ import 'package:babysitterapp/core/helpers.dart';
 import 'package:babysitterapp/models/user_account.dart';
 import 'package:babysitterapp/models/inputfield.dart';
 
-import 'package:babysitterapp/views/(home_Macas_Millan)/home/widgets/bottom_navbar.dart';
+import 'package:babysitterapp/views/(home_Macas_Millan)/home_client/widgets/bottom_navbar.dart';
 import 'package:babysitterapp/views/auth.dart';
 
 class LoginForm extends HookConsumerWidget with GlobalStyles {

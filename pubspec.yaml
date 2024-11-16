@@ -3,7 +3,7 @@ description: "A collaborative babysitter mobile app for the final project in it4
 
 publish_to: 'none' 
 
-version: 1.0.66+1
+version: 1.0.67+1
 
 environment:
  sdk: '>=3.4.3 <4.0.0'
@@ -44,6 +44,8 @@ dependencies:
   google_maps_flutter: ^2.9.0
   google_maps_flutter_web: ^0.5.10
   custom_info_window: ^1.0.1
+  fl_chart: ^0.69.0
+
 
 dev_dependencies:
   flutter_test:

@@ -8,6 +8,7 @@ class TransactionCard extends StatelessWidget {
     required this.amount,
     super.key,
   });
+
   final String date;
   final String sitterName;
   final String service;

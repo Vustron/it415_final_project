@@ -5,8 +5,11 @@ import 'package:babysitterapp/core/constants.dart';
 class ReviewsInfoPage extends StatelessWidget with GlobalStyles {
   ReviewsInfoPage({super.key});
 
+  final ScrollController _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -63,6 +66,40 @@ class ReviewsInfoPage extends StatelessWidget with GlobalStyles {
         ),
         const SizedBox(
           height: GlobalStyles.smallPadding,
+        ),
+        // Row(
+        //   children: [
+        //     Container(
+        //       width: 50,
+        //       height: 50,
+        //       color: Colors.red,
+        //     ),
+        //     Container(
+        //       width: 50,
+        //       height: 50,
+        //       color: Colors.red,
+        //     ),
+        //     Container(
+        //       width: 50,
+        //       height: 50,
+        //       color: Colors.red,
+        //     ),
+        //   ],
+        // ),
+
+        SizedBox(
+          height: height * 0.15,
+          child: GridView.count(
+            controller: _scrollController,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            crossAxisCount: 3,
+            children: <Widget>[
+              Image.asset(logo),
+              Image.asset(avatar1),
+              Image.asset(avatar2),
+            ],
+          ),
         ),
         const Divider(),
         const SizedBox(

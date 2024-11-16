@@ -13,7 +13,7 @@ Widget sortingOptions() {
           spacing: 8,
           children: <Widget>[
             ChoiceSlip(label: 'Rating', icon: Icons.star),
-            ChoiceSlip(label: 'Experience', icon: Icons.work),
+            ChoiceSlip(label: 'No. of Transactions', icon: Icons.work),
           ],
         ),
       ],

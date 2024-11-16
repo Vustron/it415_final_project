@@ -18,9 +18,9 @@ class HelpSupportPage extends HookConsumerWidget {
         title: const Text('Help, Support & Feedback',
             style: TextStyle(fontSize: 20)),
         bottom: TabBar(
-          indicatorColor: Colors.blue, // Set the indicator color to blue
-          labelColor: Colors.blue, // Set the selected label color to blue
-          unselectedLabelColor: Colors.grey, // Set unselected label color
+          indicatorColor: Colors.blue, 
+          labelColor: Colors.blue, 
+          unselectedLabelColor: Colors.grey, 
           controller: tabController,
           tabs: const <Widget>[
             Tab(text: 'Help & Support'),

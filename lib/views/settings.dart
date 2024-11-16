@@ -17,15 +17,8 @@ export './(settings_JK_Gerald)/availability/widgets/info.dart';
 export './(settings_JK_Gerald)/availability/view.dart';
 
 // edit account
-export './(settings_JK_Gerald)/edit_account/widgets/save_edit_button.dart';
-export './(settings_JK_Gerald)/edit_account/widgets/service_history.dart';
-export './(settings_JK_Gerald)/edit_account/widgets/experience.dart';
-export './(settings_JK_Gerald)/edit_account/widgets/valid_id.dart';
-export './(settings_JK_Gerald)/edit_account/widgets/contacts.dart';
-export './(settings_JK_Gerald)/edit_account/widgets/resume.dart';
-export './(settings_JK_Gerald)/edit_account/widgets/image.dart';
-export './(settings_JK_Gerald)/edit_account/widgets/bio.dart';
-export './(settings_JK_Gerald)/edit_account/widgets/rate.dart';
+export './(settings_JK_Gerald)/edit_account/widgets/profile_completion.dart';
+export './(settings_JK_Gerald)/edit_account/widgets/profile_form.dart';
 export './(settings_JK_Gerald)/edit_account/view.dart';
 
 // help and support

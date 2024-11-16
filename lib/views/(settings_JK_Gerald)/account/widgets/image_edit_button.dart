@@ -5,7 +5,7 @@ import 'package:babysitterapp/models/user_account.dart';
 import 'package:babysitterapp/core/constants.dart';
 import 'package:babysitterapp/core/helpers.dart';
 
-import 'package:babysitterapp/views/(settings_JK_Gerald)/edit_account/view.dart';
+import 'package:babysitterapp/views/settings.dart';
 
 class AccountImageEditButton extends StatelessWidget {
   const AccountImageEditButton({super.key, required this.user});

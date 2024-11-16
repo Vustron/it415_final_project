@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/views/(settings_JK_Gerald)/account/view.dart';
-import 'package:babysitterapp/views/(home_Macas_Millan)/notification_client/view.dart';
-import 'package:babysitterapp/views/(home_Macas_Millan)/message/view.dart';
-import 'package:babysitterapp/views/(home_Macas_Millan)/home/view.dart';
+import 'package:babysitterapp/views/settings.dart';
+import 'package:babysitterapp/views/home.dart';
 
+//required Hot reload to see changes
 final List<Widget> screens = <Widget>[
-  HomeView(),
+  HomeClientView(),
   MessageView(),
   NotificationView(),
   AccountView(),

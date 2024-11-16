@@ -13,15 +13,14 @@ class Profile extends HookConsumerWidget with GlobalStyles {
   Widget build(BuildContext context, WidgetRef ref) {
     final Size width = MediaQuery.of(context).size;
     final ScrollController scrollController = useScrollController();
-      // Sample data; replace with actual user data from your app's state
+
     const String userName = 'Carole Howell';
     const String userNumber = '0956-625-2536';
-    const String userImage =
-        'assets/images/hippo.png'; // Update with actual image
+    const String userImage = avatar1;
 
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 300,
+        toolbarHeight: 255,
         leadingWidth: width.width,
         elevation: 3,
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -50,9 +49,13 @@ class Profile extends HookConsumerWidget with GlobalStyles {
               const SizedBox(
                 height: 15,
               ),
-              messageButton(GlobalStyles.primaryButtonColor, context, userName, //when click the button the username and usernumber and uerImage send to message
-                  userNumber, userImage),
-              const SizedBox(height: 10)
+              messageButton(
+                GlobalStyles.primaryButtonColor,
+                context,
+                userName,
+                userNumber,
+                userImage,
+              ),
             ],
           ),
         ),

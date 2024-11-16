@@ -1,3 +1,6 @@
+// receipt
+export './(home_Macas_Millan)/notification_babysitter/receipt/view.dart';
+
 // booking details
 export './(home_Macas_Millan)/notification_babysitter/booking_details/widgets/card_details.dart';
 export './(home_Macas_Millan)/notification_babysitter/booking_details/widgets/info_card.dart';

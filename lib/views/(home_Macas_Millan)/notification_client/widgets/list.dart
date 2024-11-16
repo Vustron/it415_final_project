@@ -1,9 +1,9 @@
-import 'package:babysitterapp/core/helpers/goto_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:developer';
 
 import 'package:babysitterapp/core/constants.dart';
+import 'package:babysitterapp/core/helpers.dart';
 
 class NotificationList extends StatefulWidget {
   const NotificationList({
@@ -14,7 +14,7 @@ class NotificationList extends StatefulWidget {
     required this.time,
     required this.isMessageRead,
     required this.showButtons,
-    required this.destinationScreen, // Initialize destination screen
+    required this.destinationScreen,
   });
 
   final String name;
@@ -23,7 +23,7 @@ class NotificationList extends StatefulWidget {
   final DateTime time;
   final bool isMessageRead;
   final bool showButtons;
-  final Widget destinationScreen; // New field
+  final Widget destinationScreen;
 
   @override
   NotificationListState createState() => NotificationListState();
@@ -95,14 +95,11 @@ class NotificationListState extends State<NotificationList> {
                 children: <Widget>[
                   ElevatedButton(
                     onPressed: () {
-                      // ignore: unnecessary_null_comparison
-                      if (widget.destinationScreen != null) {
-                        goToPage(
-                          context,
-                          widget.destinationScreen,
-                          'rightToLeftWithFade',
-                        );
-                      }
+                      goToPage(
+                        context,
+                        widget.destinationScreen,
+                        'rightToLeftWithFade',
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: GlobalStyles.primaryButtonColor,

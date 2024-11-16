@@ -1,6 +1,7 @@
-import 'package:babysitterapp/core/constants/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import 'package:babysitterapp/core/constants/styles.dart';
 
 class PaymentConfirmationScreen extends StatelessWidget {
   PaymentConfirmationScreen({super.key});

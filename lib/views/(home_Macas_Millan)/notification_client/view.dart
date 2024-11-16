@@ -1,4 +1,3 @@
-import 'package:babysitterapp/views/(home_Macas_Millan)/notification_babysitter/receipt/view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +15,7 @@ class NotificationView extends HookConsumerWidget with GlobalStyles {
     NotificationUsers(
       name: 'Jane Russel',
       messageText:
-          'has sent a request to apply as your babysitter! Review the application and respond at your earliest convenience.',
+          'has sent a request for your service as a babysitter! Review the application and respond at your earliest convenience.',
       imageURL: 'assets/images/hippo.png',
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
@@ -33,23 +32,6 @@ class NotificationView extends HookConsumerWidget with GlobalStyles {
       showButtons: true,
       destinationScreen: PaymentConfirmationScreen(),
     ),
-    NotificationUsers(
-      name: 'BabyCare',
-      messageText:
-          "There's a babysitter nearby with a 4.5-star rating, offering her services for only 350 pesos per day. Don't miss out—book her now!",
-      imageURL: 'assets/images/hippo.png',
-      createdAt: DateTime.now().subtract(const Duration(days: 2)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 2)),
-    ),
-    // NotificationUsers(
-    //   name: 'Krystina',
-    //   messageText:
-    //       'has just sent a request for a babysitter. Please review and respond promptly!',
-    //   imageURL: 'assets/images/hippo.png',
-    //   createdAt: DateTime.now().subtract(const Duration(days: 3)),
-    //   updatedAt: DateTime.now().subtract(const Duration(days: 3)),
-    //         showButtons: true,
-    // ),
   ];
 
   @override
@@ -87,8 +69,7 @@ class NotificationView extends HookConsumerWidget with GlobalStyles {
                     time: user.createdAt,
                     isMessageRead: index == 0 || index == 3,
                     showButtons: user.showButtons,
-                    destinationScreen: user.destinationScreen ??
-                        Container(), // Provide default widget if null
+                    destinationScreen: user.destinationScreen ?? Container(),
                   );
                 },
               ),

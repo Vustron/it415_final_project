@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 Widget cardDetails(String label, String value) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 4.0),

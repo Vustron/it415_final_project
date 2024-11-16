@@ -3,7 +3,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/core/constants.dart';
+import 'package:babysitterapp/core/helpers.dart';
 
+import 'package:babysitterapp/views/booking.dart';
 import 'package:babysitterapp/views/home.dart';
 
 class BookingDetailNotification extends HookConsumerWidget with GlobalStyles {
@@ -57,7 +59,6 @@ class BookingDetailNotification extends HookConsumerWidget with GlobalStyles {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () async {
-                // Show confirmation dialog
                 final bool? confirm = await showDialog<bool>(
                   context: context,
                   builder: (BuildContext context) {
@@ -68,13 +69,17 @@ class BookingDetailNotification extends HookConsumerWidget with GlobalStyles {
                       actions: <Widget>[
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pop(false); // Cancel
+                            Navigator.of(context).pop(false);
                           },
                           child: const Text('Cancel'),
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pop(true); // Confirm
+                            goToPage(
+                              context,
+                              const CheckoutScreen(),
+                              'fade',
+                            );
                           },
                           child: const Text('Confirm'),
                         ),
@@ -87,21 +92,17 @@ class BookingDetailNotification extends HookConsumerWidget with GlobalStyles {
                   if (!context.mounted) {
                     return;
                   }
-                  // Show success SnackBar for confirmed booking
-                  // ignore: use_build_context_synchronously
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Booking Confirmed'),
                       backgroundColor: Colors.green,
                     ),
                   );
-                  // Implement confirm booking functionality here
                 } else {
                   if (!context.mounted) {
                     return;
                   }
-                  // Show red SnackBar for canceled booking
-                  // ignore: use_build_context_synchronously
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Booking Canceled'),

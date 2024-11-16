@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dartz/dartz.dart';
 import 'dart:io';
 
-import 'package:babysitterapp/core/providers/firebase_providers.dart';
+import 'package:babysitterapp/core/providers/firebase_provider.dart';
 import 'package:babysitterapp/core/constants.dart';
 import 'package:babysitterapp/core/config.dart';
 

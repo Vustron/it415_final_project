@@ -1,6 +1,6 @@
 import 'package:form_validator/form_validator.dart';
 
-import 'package:babysitterapp/models/inputfield.dart';
+import 'package:babysitterapp/models/models.dart';
 
 String? Function(String?) getValidator(InputFieldConfig field) {
   final ValidationBuilder validation = ValidationBuilder()

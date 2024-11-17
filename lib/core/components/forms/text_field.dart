@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:babysitterapp/core/components.dart';
 import 'package:babysitterapp/core/helpers.dart';
 
-import 'package:babysitterapp/models/inputfield.dart';
+import 'package:babysitterapp/models/models.dart';
 
 Widget buildTextField(
   InputFieldConfig field,

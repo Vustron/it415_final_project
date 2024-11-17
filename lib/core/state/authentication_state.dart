@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:babysitterapp/models/user_account.dart';
+
+import 'package:babysitterapp/models/models.dart';
 
 part 'authentication_state.freezed.dart';
 

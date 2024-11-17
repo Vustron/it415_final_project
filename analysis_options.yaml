@@ -1,5 +1,5 @@
 include: package:flutter_lints/flutter.yaml
-
+# dart run custom_lint
 analyzer:
   language:
     strict-casts: true
@@ -14,7 +14,16 @@ analyzer:
     - "bin/cache/**"
       # Ignore protoc generated files
     - "dev/conductor/lib/proto/*"
-
+  plugins:
+    - custom_lint
+    
+custom_lint:
+  rules:
+    # Enable one rule
+    - provider_parameters
+    # Disable another
+    - missing_provider_scope: false
+    
 linter:
   rules:
     - always_declare_return_types

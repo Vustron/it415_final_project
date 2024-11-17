@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:babysitterapp/core/helpers.dart';
 import 'package:babysitterapp/core/state.dart';
 
-import 'package:babysitterapp/models/inputfield.dart';
+import 'package:babysitterapp/models/models.dart';
 
 Widget buildFileField(
   InputFieldConfig field,
@@ -53,7 +53,6 @@ Widget buildFileField(
                             ? 'Uploaded ${field.label}'
                             : field.hintText,
                       ),
-
                     ),
                   ),
                   if (fileState.value.filePath != null &&

@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:babysitterapp/models/payment_method.dart';
+import 'package:babysitterapp/models/models.dart';
 
 final StateProvider<PaymentMethod> selectedPaymentMethodProvider =
     StateProvider<PaymentMethod>(

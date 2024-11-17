@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/models/inputfield.dart';
+import 'package:babysitterapp/models/models.dart';
 
 class FormData extends ChangeNotifier {
   FormData(List<InputFieldConfig> fields) {

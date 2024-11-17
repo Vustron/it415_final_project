@@ -10,19 +10,18 @@ import 'package:babysitterapp/core/providers/firebase_provider.dart';
 import 'package:babysitterapp/core/constants.dart';
 import 'package:babysitterapp/core/config.dart';
 
-import 'package:babysitterapp/models/user_account.dart';
+import 'package:babysitterapp/models/models.dart';
 
-final Provider<AuthenticationRepository> authenticationRepository =
-    Provider<AuthenticationRepository>(
-  (ProviderRef<AuthenticationRepository> ref) => AuthenticationRepository(
+final Provider<AuthRepository> authRepository = Provider<AuthRepository>(
+  (ProviderRef<AuthRepository> ref) => AuthRepository(
       ref.read(firebaseAuthProvider),
       ref.read(firebaseFirestoreProvider),
       ref.read(firebaseStorageProvider),
       ref),
 );
 
-class AuthenticationRepository {
-  AuthenticationRepository(
+class AuthRepository {
+  AuthRepository(
     this._firebaseAuth,
     this._firestore,
     this._storage,
@@ -41,7 +40,6 @@ class AuthenticationRepository {
     required String password,
     required String role,
   }) async {
-    // Check if any of the fields are empty
     if (name.isEmpty || email.isEmpty || password.isEmpty || role.isEmpty) {
       return left('Fields cannot be empty');
     }
@@ -198,7 +196,7 @@ class AuthenticationRepository {
 
     try {
       final File file = File(filePath);
-      if (!await file.exists()) {
+      if (!file.existsSync()) {
         return null;
       }
 

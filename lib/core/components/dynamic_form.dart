@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:babysitterapp/core/state/file_picker_state.dart';
 import 'package:babysitterapp/core/components.dart';
 
-import 'package:babysitterapp/models/inputfield.dart';
+import 'package:babysitterapp/models/models.dart';
 
 class DynamicForm extends HookWidget {
   DynamicForm({

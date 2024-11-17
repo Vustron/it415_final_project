@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:babysitterapp/services/auth_repository.dart';
 import 'package:babysitterapp/core/state.dart';
 
-import 'package:babysitterapp/models/user_account.dart';
+import 'package:babysitterapp/models/models.dart';
 
 class AuthController extends StateNotifier<AuthenticationState> {
   AuthController(this._dataSource)
@@ -12,7 +12,7 @@ class AuthController extends StateNotifier<AuthenticationState> {
     getCurrentUser();
   }
 
-  final AuthenticationRepository _dataSource;
+  final AuthRepository _dataSource;
   bool _hasInitialized = false;
 
   Future<void> login({required String email, required String password}) async {
@@ -116,6 +116,6 @@ final StateNotifierProvider<AuthController, AuthenticationState>
     authController = StateNotifierProvider<AuthController, AuthenticationState>(
   (StateNotifierProviderRef<AuthController, AuthenticationState> ref) =>
       AuthController(
-    ref.read(authenticationRepository),
+    ref.read(authRepository),
   ),
 );

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/core/state.dart';
 
-import 'package:babysitterapp/models/inputfield.dart';
+import 'package:babysitterapp/models/models.dart';
 
 Map<String, TextEditingController> useControllers(
     List<InputFieldConfig> fields) {

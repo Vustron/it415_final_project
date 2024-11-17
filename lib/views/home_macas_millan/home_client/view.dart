@@ -41,7 +41,7 @@ class HomeClientView extends HookConsumerWidget with GlobalStyles {
       ),
     );
 
-    final AuthenticationState authState = ref.watch(authController);
+    final AuthState authState = ref.watch(authController);
 
     return Scaffold(
       appBar: AppBar(

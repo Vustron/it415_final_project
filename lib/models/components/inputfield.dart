@@ -1,31 +1,22 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/material.dart';
 
-class InputFieldConfig {
-  InputFieldConfig({
-    required this.label,
-    required this.type,
-    required this.hintText,
-    this.value,
-    this.isRequired = false,
-    this.minLength,
-    this.maxLength,
-    this.options,
-    this.keyboardType,
-    this.obscureText = false,
-    this.prefixIcon,
-    this.allowedFileTypes,
-  });
+part 'inputfield.freezed.dart';
 
-  final String label;
-  final String type;
-  final String hintText;
-  final String? value;
-  final bool isRequired;
-  final int? minLength;
-  final int? maxLength;
-  final List<String>? options;
-  final TextInputType? keyboardType;
-  final bool obscureText;
-  final IconData? prefixIcon;
-  final List<String>? allowedFileTypes;
+@freezed
+class InputFieldConfig with _$InputFieldConfig {
+  const factory InputFieldConfig({
+    required String label,
+    required String type,
+    required String hintText,
+    String? value,
+    @Default(false) bool isRequired,
+    int? minLength,
+    int? maxLength,
+    List<String>? options,
+    TextInputType? keyboardType,
+    @Default(false) bool obscureText,
+    IconData? prefixIcon,
+    List<String>? allowedFileTypes,
+  }) = _InputFieldConfig;
 }

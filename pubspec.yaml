@@ -3,7 +3,7 @@ description: "A collaborative babysitter mobile app for the final project in it4
 
 publish_to: 'none' 
 
-version: 1.0.71+1
+version: 1.0.73+1
 
 environment:
  sdk: '>=3.4.3 <4.0.0'
@@ -46,8 +46,9 @@ dependencies:
   custom_info_window: ^1.0.1
   fl_chart: ^0.69.0
   custom_lint: ^0.7.0
+  
 
-# flutter pub run build_runner build --delete-conflicting-outputs
+# dart run build_runner build --delete-conflicting-outputs
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -59,6 +60,7 @@ dev_dependencies:
   dartz: ^0.10.1
   test: ^1.25.7
   freezed: ^2.5.7
+  json_serializable: ^6.7.1
     
 # dart run flutter_launcher_icons
 flutter_launcher_icons:

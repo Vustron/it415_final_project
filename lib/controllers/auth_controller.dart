@@ -6,9 +6,8 @@ import 'package:babysitterapp/core/state.dart';
 
 import 'package:babysitterapp/models/models.dart';
 
-class AuthController extends StateNotifier<AuthenticationState> {
-  AuthController(this._dataSource)
-      : super(const AuthenticationState.initial()) {
+class AuthController extends StateNotifier<AuthState> {
+  AuthController(this._dataSource) : super(const AuthState.initial()) {
     getCurrentUser();
   }
 
@@ -16,15 +15,14 @@ class AuthController extends StateNotifier<AuthenticationState> {
   bool _hasInitialized = false;
 
   Future<void> login({required String email, required String password}) async {
-    state = const AuthenticationState.loading();
+    state = const AuthState.loading();
     final Either<String, UserAccount?> response =
         await _dataSource.login(email: email, password: password);
     state = response.fold(
-      (String error) => AuthenticationState.unauthenticated(message: error),
+      (String error) => AuthState.unauthenticated(message: error),
       (UserAccount? user) => user != null
-          ? AuthenticationState.authenticated(user: user)
-          : const AuthenticationState.unauthenticated(
-              message: 'User not found'),
+          ? AuthState.authenticated(user: user)
+          : const AuthState.unauthenticated(message: 'User not found'),
     );
   }
 
@@ -34,7 +32,7 @@ class AuthController extends StateNotifier<AuthenticationState> {
     required String password,
     required String role,
   }) async {
-    state = const AuthenticationState.loading();
+    state = const AuthState.loading();
     final Either<String, UserAccount> response = await _dataSource.register(
       name: name,
       email: email,
@@ -42,24 +40,24 @@ class AuthController extends StateNotifier<AuthenticationState> {
       role: role,
     );
     state = response.fold(
-      (String error) => AuthenticationState.unauthenticated(message: error),
-      (UserAccount user) => AuthenticationState.authenticated(user: user),
+      (String error) => AuthState.unauthenticated(message: error),
+      (UserAccount user) => AuthState.authenticated(user: user),
     );
   }
 
   Future<void> continueWithGoogle() async {
-    state = const AuthenticationState.loading();
+    state = const AuthState.loading();
     final Either<String, UserAccount> response =
         await _dataSource.continueWithGoogle();
     state = response.fold(
-      (String error) => AuthenticationState.unauthenticated(message: error),
-      (UserAccount user) => AuthenticationState.authenticated(user: user),
+      (String error) => AuthState.unauthenticated(message: error),
+      (UserAccount user) => AuthState.authenticated(user: user),
     );
   }
 
   Future<void> logout() async {
     await _dataSource.logout();
-    state = const AuthenticationState.unauthenticated();
+    state = const AuthState.unauthenticated();
     _hasInitialized = false;
   }
 
@@ -73,37 +71,37 @@ class AuthController extends StateNotifier<AuthenticationState> {
     }
 
     print('Getting current user...');
-    state = const AuthenticationState.loading();
+    state = const AuthState.loading();
     final Either<String, UserAccount> response = await _dataSource.getUser();
     response.fold(
       (String error) {
         print('Error getting user: $error');
-        state = AuthenticationState.unauthenticated(message: error);
+        state = AuthState.unauthenticated(message: error);
       },
       (UserAccount user) {
         print('Got user: ${user.name}');
-        state = AuthenticationState.authenticated(user: user);
+        state = AuthState.authenticated(user: user);
       },
     );
     _hasInitialized = true;
   }
 
   Future<void> deleteAccount() async {
-    state = const AuthenticationState.loading();
+    state = const AuthState.loading();
     final Either<String, void> response = await _dataSource.deleteAccount();
     state = response.fold(
-      (String error) => AuthenticationState.unauthenticated(message: error),
-      (_) => const AuthenticationState.unauthenticated(),
+      (String error) => AuthState.unauthenticated(message: error),
+      (_) => const AuthState.unauthenticated(),
     );
   }
 
   Future<void> updateAccount(UserAccount updatedUser) async {
-    state = const AuthenticationState.loading();
+    state = const AuthState.loading();
     final Either<String, UserAccount> response =
         await _dataSource.updateAccount(updatedUser);
     state = response.fold(
-      (String error) => AuthenticationState.unauthenticated(message: error),
-      (UserAccount user) => AuthenticationState.authenticated(user: user),
+      (String error) => AuthState.unauthenticated(message: error),
+      (UserAccount user) => AuthState.authenticated(user: user),
     );
   }
 
@@ -112,10 +110,9 @@ class AuthController extends StateNotifier<AuthenticationState> {
   }
 }
 
-final StateNotifierProvider<AuthController, AuthenticationState>
-    authController = StateNotifierProvider<AuthController, AuthenticationState>(
-  (StateNotifierProviderRef<AuthController, AuthenticationState> ref) =>
-      AuthController(
+final StateNotifierProvider<AuthController, AuthState> authController =
+    StateNotifierProvider<AuthController, AuthState>(
+  (StateNotifierProviderRef<AuthController, AuthState> ref) => AuthController(
     ref.read(authRepository),
   ),
 );

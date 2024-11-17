@@ -18,14 +18,14 @@ class LoginForm extends HookConsumerWidget with GlobalStyles {
   LoginForm({super.key});
 
   final List<InputFieldConfig> loginFields = <InputFieldConfig>[
-    InputFieldConfig(
+    const InputFieldConfig(
       label: 'Email',
       type: 'email',
       hintText: 'Enter your email address',
       keyboardType: TextInputType.emailAddress,
       prefixIcon: Icons.mail,
     ),
-    InputFieldConfig(
+    const InputFieldConfig(
       label: 'Password',
       type: 'password',
       hintText: 'Enter your password',
@@ -50,8 +50,7 @@ class LoginForm extends HookConsumerWidget with GlobalStyles {
   Widget build(BuildContext context, WidgetRef ref) {
     final ValueNotifier<bool> isLoading = useState(false);
 
-    ref.listen(authController,
-        (AuthenticationState? previous, AuthenticationState next) {
+    ref.listen(authController, (AuthState? previous, AuthState next) {
       next.maybeWhen(
         orElse: () => isLoading.value = false,
         authenticated: (UserAccount user) {

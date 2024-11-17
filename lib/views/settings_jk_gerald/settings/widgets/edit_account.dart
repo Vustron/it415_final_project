@@ -11,14 +11,14 @@ class EditAccount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<InputFieldConfig> fields = <InputFieldConfig>[
-      InputFieldConfig(
+      const InputFieldConfig(
         label: 'Full Name',
         hintText: 'Enter your full name',
         value: 'Arvin Sison',
         prefixIcon: Icons.person,
         type: 'text',
       ),
-      InputFieldConfig(
+      const InputFieldConfig(
         label: 'Email',
         hintText: 'Enter your email',
         value: 'arvinsison@gmail.com',
@@ -26,7 +26,7 @@ class EditAccount extends StatelessWidget {
         keyboardType: TextInputType.emailAddress,
         type: 'email',
       ),
-      InputFieldConfig(
+      const InputFieldConfig(
         label: 'Phone Number',
         hintText: 'Enter your phone number',
         value: '09252325981',
@@ -34,14 +34,14 @@ class EditAccount extends StatelessWidget {
         keyboardType: TextInputType.phone,
         type: 'text',
       ),
-      InputFieldConfig(
+      const InputFieldConfig(
         label: 'Address',
         hintText: 'Enter your address',
         value: 'Purok Salvacion Panabo City',
         prefixIcon: Icons.location_on_sharp,
         type: 'text',
       ),
-      InputFieldConfig(
+      const InputFieldConfig(
         label: 'Password',
         hintText: 'Enter your password',
         prefixIcon: Icons.password,

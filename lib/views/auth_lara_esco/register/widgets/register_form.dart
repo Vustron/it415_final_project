@@ -21,8 +21,7 @@ class RegisterForm extends HookConsumerWidget with GlobalStyles {
     final ValueNotifier<bool> isLoading = useState(false);
     final ValueNotifier<bool> snackbarShown = useState(false);
 
-    ref.listen(authController,
-        (AuthenticationState? previous, AuthenticationState next) {
+    ref.listen(authController, (AuthState? previous, AuthState next) {
       next.maybeWhen(
         orElse: () {
           isLoading.value = false;
@@ -56,28 +55,28 @@ class RegisterForm extends HookConsumerWidget with GlobalStyles {
     });
 
     final List<InputFieldConfig> fields = <InputFieldConfig>[
-      InputFieldConfig(
+      const InputFieldConfig(
         label: 'Name',
         hintText: 'Your name',
         keyboardType: TextInputType.text,
         prefixIcon: Icons.person,
         type: 'text',
       ),
-      InputFieldConfig(
+      const InputFieldConfig(
         label: 'Email',
         hintText: 'Your email',
         keyboardType: TextInputType.emailAddress,
         prefixIcon: Icons.email,
         type: 'email',
       ),
-      InputFieldConfig(
+      const InputFieldConfig(
         label: 'Password',
         hintText: 'Your password',
         obscureText: true,
         prefixIcon: Icons.lock,
         type: 'password',
       ),
-      InputFieldConfig(
+      const InputFieldConfig(
         label: 'Type of account',
         hintText: 'Select your type of account',
         keyboardType: TextInputType.text,

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'authentication_state.dart';
+part of 'auth_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$AuthenticationState {
+mixin _$AuthState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
@@ -75,23 +75,22 @@ mixin _$AuthenticationState {
 }
 
 /// @nodoc
-abstract class $AuthenticationStateCopyWith<$Res> {
-  factory $AuthenticationStateCopyWith(
-          AuthenticationState value, $Res Function(AuthenticationState) then) =
-      _$AuthenticationStateCopyWithImpl<$Res, AuthenticationState>;
+abstract class $AuthStateCopyWith<$Res> {
+  factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
+      _$AuthStateCopyWithImpl<$Res, AuthState>;
 }
 
 /// @nodoc
-class _$AuthenticationStateCopyWithImpl<$Res, $Val extends AuthenticationState>
-    implements $AuthenticationStateCopyWith<$Res> {
-  _$AuthenticationStateCopyWithImpl(this._value, this._then);
+class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
+    implements $AuthStateCopyWith<$Res> {
+  _$AuthStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of AuthenticationState
+  /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -104,13 +103,13 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$AuthenticationStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$AuthStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of AuthenticationState
+  /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -121,7 +120,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'AuthenticationState.initial()';
+    return 'AuthState.initial()';
   }
 
   @override
@@ -214,7 +213,7 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements AuthenticationState {
+abstract class _Initial implements AuthState {
   const factory _Initial() = _$InitialImpl;
 }
 
@@ -227,13 +226,13 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$AuthenticationStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$AuthStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of AuthenticationState
+  /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -244,7 +243,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'AuthenticationState.loading()';
+    return 'AuthState.loading()';
   }
 
   @override
@@ -337,7 +336,7 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements AuthenticationState {
+abstract class _Loading implements AuthState {
   const factory _Loading() = _$LoadingImpl;
 }
 
@@ -352,13 +351,13 @@ abstract class _$$UnAuthenticationImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$UnAuthenticationImplCopyWithImpl<$Res>
-    extends _$AuthenticationStateCopyWithImpl<$Res, _$UnAuthenticationImpl>
+    extends _$AuthStateCopyWithImpl<$Res, _$UnAuthenticationImpl>
     implements _$$UnAuthenticationImplCopyWith<$Res> {
   __$$UnAuthenticationImplCopyWithImpl(_$UnAuthenticationImpl _value,
       $Res Function(_$UnAuthenticationImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of AuthenticationState
+  /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -384,7 +383,7 @@ class _$UnAuthenticationImpl implements _UnAuthentication {
 
   @override
   String toString() {
-    return 'AuthenticationState.unauthenticated(message: $message)';
+    return 'AuthState.unauthenticated(message: $message)';
   }
 
   @override
@@ -398,7 +397,7 @@ class _$UnAuthenticationImpl implements _UnAuthentication {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of AuthenticationState
+  /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -488,13 +487,13 @@ class _$UnAuthenticationImpl implements _UnAuthentication {
   }
 }
 
-abstract class _UnAuthentication implements AuthenticationState {
+abstract class _UnAuthentication implements AuthState {
   const factory _UnAuthentication({final String? message}) =
       _$UnAuthenticationImpl;
 
   String? get message;
 
-  /// Create a copy of AuthenticationState
+  /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UnAuthenticationImplCopyWith<_$UnAuthenticationImpl> get copyWith =>
@@ -508,17 +507,19 @@ abstract class _$$AuthenticatedImplCopyWith<$Res> {
       __$$AuthenticatedImplCopyWithImpl<$Res>;
   @useResult
   $Res call({UserAccount user});
+
+  $UserAccountCopyWith<$Res> get user;
 }
 
 /// @nodoc
 class __$$AuthenticatedImplCopyWithImpl<$Res>
-    extends _$AuthenticationStateCopyWithImpl<$Res, _$AuthenticatedImpl>
+    extends _$AuthStateCopyWithImpl<$Res, _$AuthenticatedImpl>
     implements _$$AuthenticatedImplCopyWith<$Res> {
   __$$AuthenticatedImplCopyWithImpl(
       _$AuthenticatedImpl _value, $Res Function(_$AuthenticatedImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of AuthenticationState
+  /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -532,6 +533,16 @@ class __$$AuthenticatedImplCopyWithImpl<$Res>
               as UserAccount,
     ));
   }
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $UserAccountCopyWith<$Res> get user {
+    return $UserAccountCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -544,7 +555,7 @@ class _$AuthenticatedImpl implements _Authenticated {
 
   @override
   String toString() {
-    return 'AuthenticationState.authenticated(user: $user)';
+    return 'AuthState.authenticated(user: $user)';
   }
 
   @override
@@ -558,7 +569,7 @@ class _$AuthenticatedImpl implements _Authenticated {
   @override
   int get hashCode => Object.hash(runtimeType, user);
 
-  /// Create a copy of AuthenticationState
+  /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -647,13 +658,13 @@ class _$AuthenticatedImpl implements _Authenticated {
   }
 }
 
-abstract class _Authenticated implements AuthenticationState {
+abstract class _Authenticated implements AuthState {
   const factory _Authenticated({required final UserAccount user}) =
       _$AuthenticatedImpl;
 
   UserAccount get user;
 
-  /// Create a copy of AuthenticationState
+  /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AuthenticatedImplCopyWith<_$AuthenticatedImpl> get copyWith =>
@@ -671,13 +682,13 @@ abstract class _$$ErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$AuthenticationStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$AuthStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of AuthenticationState
+  /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -710,7 +721,7 @@ class _$ErrorImpl implements _Error {
 
   @override
   String toString() {
-    return 'AuthenticationState.error(message: $message, stackTrace: $stackTrace)';
+    return 'AuthState.error(message: $message, stackTrace: $stackTrace)';
   }
 
   @override
@@ -726,7 +737,7 @@ class _$ErrorImpl implements _Error {
   @override
   int get hashCode => Object.hash(runtimeType, message, stackTrace);
 
-  /// Create a copy of AuthenticationState
+  /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -815,7 +826,7 @@ class _$ErrorImpl implements _Error {
   }
 }
 
-abstract class _Error implements AuthenticationState {
+abstract class _Error implements AuthState {
   const factory _Error(
       {required final String message,
       final StackTrace? stackTrace}) = _$ErrorImpl;
@@ -823,7 +834,7 @@ abstract class _Error implements AuthenticationState {
   String get message;
   StackTrace? get stackTrace;
 
-  /// Create a copy of AuthenticationState
+  /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>

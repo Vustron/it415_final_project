@@ -17,7 +17,7 @@ Widget buildAddressSection(
   String selectedAddress,
   void Function(String, String, LatLng?) onAddressSelected,
 ) {
-  final AuthenticationState authState = ref.watch(authController);
+  final AuthState authState = ref.watch(authController);
 
   return authState.maybeWhen(
     authenticated: (UserAccount user) => Column(

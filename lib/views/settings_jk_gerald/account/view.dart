@@ -15,7 +15,7 @@ class AccountView extends HookConsumerWidget with GlobalStyles {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AuthenticationState authState = ref.watch(authController);
+    final AuthState authState = ref.watch(authController);
 
     return Scaffold(
       appBar: AppBar(
@@ -58,7 +58,10 @@ class AccountView extends HookConsumerWidget with GlobalStyles {
             ),
           ),
         ),
-        orElse: () => const Center(child: CircularProgressIndicator()),
+        orElse: () => const Center(
+          child:
+              CircularProgressIndicator(color: GlobalStyles.primaryButtonColor),
+        ),
       ),
     );
   }

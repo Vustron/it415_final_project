@@ -21,7 +21,7 @@ class App extends ConsumerWidget with GlobalStyles {
     FlutterError.onError = globalErrorHandler;
   }
 
-  void _handleAuthStateChange(BuildContext context, AuthenticationState state) {
+  void _handleAuthStateChange(BuildContext context, AuthState state) {
     final NavigatorState? navigator = navigatorKey.currentState;
     if (navigator == null) {
       return;
@@ -45,9 +45,9 @@ class App extends ConsumerWidget with GlobalStyles {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen<AuthenticationState>(
+    ref.listen<AuthState>(
       authController,
-      (AuthenticationState? previous, AuthenticationState next) =>
+      (AuthState? previous, AuthState next) =>
           _handleAuthStateChange(context, next),
     );
 
@@ -63,7 +63,7 @@ class App extends ConsumerWidget with GlobalStyles {
         theme: rootThemeData(),
         home: Consumer(
           builder: (BuildContext context, WidgetRef ref, _) {
-            final AuthenticationState authState = ref.watch(authController);
+            final AuthState authState = ref.watch(authController);
 
             return authState.maybeWhen(
               authenticated: (_) => const BottomNavbarView(),
@@ -85,7 +85,7 @@ class App extends ConsumerWidget with GlobalStyles {
 
           return Consumer(
             builder: (BuildContext context, WidgetRef ref, _) {
-              final AuthenticationState authState = ref.watch(authController);
+              final AuthState authState = ref.watch(authController);
 
               return authState.maybeWhen(
                 loading: () => const Scaffold(

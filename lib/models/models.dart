@@ -4,6 +4,7 @@ export 'auth/user_account.dart';
 
 // components
 export 'components/inputfield.dart';
+export 'components/marker.dart';
 
 // transactions
 export 'transactions/payment_method.dart';

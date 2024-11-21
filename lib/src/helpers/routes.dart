@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/views.dart';
 
 class Routes {
   static const String splash = '/';
   static const String login = '/login';
   static const String register = '/register';
+  static const String dashboard = '/dashboard';
   static const String homeClient = '/home-client';
   static const String homeBabysitter = '/home-babysitter';
   static const String messages = '/messages';
@@ -29,28 +31,65 @@ class Routes {
       splash: (BuildContext context) => const SplashView(),
       login: (BuildContext context) => const LoginView(),
       register: (BuildContext context) => RegisterView(),
-      homeClient: (BuildContext context) => HomeClientView(),
-      homeBabysitter: (BuildContext context) => const HomeBabysitterView(
-            location: '',
-            username: '',
-            userImg: '',
+      // Protected routes
+      dashboard: (BuildContext context) => const AuthGuard(
+            child: BottomNavbarView(),
           ),
-      messages: (BuildContext context) => MessageView(),
-      notifications: (BuildContext context) => NotificationView(),
-      booking: (BuildContext context) => BookingView(),
-      payment: (BuildContext context) => const CheckoutScreen(),
-      bookingDetails: (BuildContext context) => BookingDetailsView(),
-      receipt: (BuildContext context) => PaymentConfirmationView(),
-      search: (BuildContext context) => const SearchView(),
-      filter: (BuildContext context) => FilterView(),
-      settings: (BuildContext context) => SettingsView(),
-      profile: (BuildContext context) => AccountView(),
-      account: (BuildContext context) => AccountView(),
-      editAccount: (BuildContext context) => EditProfileView(user: null),
-      availability: (BuildContext context) => AvailabilityView(),
-      helpSupport: (BuildContext context) => const HelpSupportView(),
-      transactionHistory: (BuildContext context) =>
-          const TransactionHistoryView(),
+      homeClient: (BuildContext context) => AuthGuard(
+            child: HomeClientView(),
+          ),
+      homeBabysitter: (BuildContext context) => const AuthGuard(
+            child: HomeBabysitterView(
+              location: '',
+              username: '',
+              userImg: '',
+            ),
+          ),
+      messages: (BuildContext context) => AuthGuard(
+            child: MessageView(),
+          ),
+      notifications: (BuildContext context) => AuthGuard(
+            child: NotificationView(),
+          ),
+      booking: (BuildContext context) => AuthGuard(
+            child: BookingView(),
+          ),
+      payment: (BuildContext context) => const AuthGuard(
+            child: CheckoutScreen(),
+          ),
+      bookingDetails: (BuildContext context) => AuthGuard(
+            child: BookingDetailsView(),
+          ),
+      receipt: (BuildContext context) => AuthGuard(
+            child: PaymentConfirmationView(),
+          ),
+      search: (BuildContext context) => const AuthGuard(
+            child: SearchView(),
+          ),
+      filter: (BuildContext context) => AuthGuard(
+            child: FilterView(),
+          ),
+      settings: (BuildContext context) => AuthGuard(
+            child: SettingsView(),
+          ),
+      profile: (BuildContext context) => AuthGuard(
+            child: AccountView(),
+          ),
+      account: (BuildContext context) => AuthGuard(
+            child: AccountView(),
+          ),
+      editAccount: (BuildContext context) => AuthGuard(
+            child: EditProfileView(user: null),
+          ),
+      availability: (BuildContext context) => AuthGuard(
+            child: AvailabilityView(),
+          ),
+      helpSupport: (BuildContext context) => const AuthGuard(
+            child: HelpSupportView(),
+          ),
+      transactionHistory: (BuildContext context) => const AuthGuard(
+            child: TransactionHistoryView(),
+          ),
     };
   }
 }

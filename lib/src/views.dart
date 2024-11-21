@@ -71,8 +71,8 @@ export 'views/message/widgets/list.dart';
 export 'views/message/view.dart';
 
 // notification
-export 'views/notification_client/widgets/list.dart';
-export 'views/notification_client/view.dart';
+export 'views/notification/widgets/list.dart';
+export 'views/notification/view.dart';
 
 // root
 export 'views/root.dart';

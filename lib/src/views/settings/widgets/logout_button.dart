@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/constants.dart';
-import 'package:babysitterapp/src/helpers.dart';
-import 'package:babysitterapp/src/views.dart';
 
 class LogoutButton extends HookConsumerWidget with GlobalStyles {
   LogoutButton({super.key});
@@ -19,10 +17,10 @@ class LogoutButton extends HookConsumerWidget with GlobalStyles {
         isLoading.value = true;
         ref.read(authControllerProvider.notifier).logout();
 
-        CustomRouter.navigateToWithTransition(
-          const LoginView(),
-          'fade',
-        );
+        // CustomRouter.navigateToWithTransition(
+        //   const LoginView(),
+        //   'fade',
+        // );
       } catch (e) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(

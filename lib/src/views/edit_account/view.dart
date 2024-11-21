@@ -1,3 +1,4 @@
+import 'package:toastification/toastification.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:babysitterapp/src/controllers.dart';
 import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/constants.dart';
+import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
 
@@ -16,31 +18,51 @@ class EditProfileView extends HookConsumerWidget with GlobalStyles {
   Widget build(BuildContext context, WidgetRef ref) {
     final ValueNotifier<bool> isLoading = useState(false);
     final double profileCompletion = calculateProfileCompletion(user!);
-    // ignore: unused_local_variable
     final AuthController authController =
         ref.watch(authControllerProvider.notifier);
 
+    ref.listen(authControllerProvider, (AuthState? previous, AuthState next) {
+      if (!next.hasShownToast && context.mounted) {
+        toastification.dismissAll();
+        if (next.error != null) {
+          ToastUtils.showToast(
+            context: context,
+            title: 'Error',
+            message: next.error!,
+            type: ToastificationType.error,
+          );
+        } else if (next.status == AuthStatus.authenticated) {
+          ToastUtils.showToast(
+            context: context,
+            title: 'Success',
+            message: 'Profile updated successfully',
+          );
+        }
+        ref.read(authControllerProvider.notifier).markToastAsShown();
+      }
+    });
+
     Future<void> onSubmit(Map<String, dynamic> formData) async {
-      isLoading.value = true;
-
       try {
-        String? profileImgUrl;
-        // if (formData['Profile Image']?.isNotEmpty ?? false) {
-        //   profileImgUrl = await authController.uploadFile(
-        //     'profile_images/${user.id}',
-        //     formData['Profile Image'],
-        //   );
-        // }
+        isLoading.value = true;
+        String? newProfileImgUrl;
+        String? newValidIdUrl;
 
-        String? validIdUrl;
-        // if (formData['Valid ID']?.isNotEmpty ?? false) {
-        //   validIdUrl = await authController.uploadFile(
-        //     'valid_ids/${user.id}',
-        //     formData['Valid ID'],
-        //   );
-        // }
+        // Handle profile image
+        if (formData['Profile Image'] != null) {
+          final dynamic imageData = formData['Profile Image'];
+          if (imageData is String) {
+            newProfileImgUrl = imageData;
+          }
+        }
 
-        // ignore: unused_local_variable
+        if (formData['Valid ID'] != null) {
+          final dynamic validIdImageData = formData['Valid ID'];
+          if (validIdImageData is String) {
+            newValidIdUrl = validIdImageData;
+          }
+        }
+
         final UserAccount updatedUser = UserAccount(
           id: user?.id ?? '',
           name: formData['Name'] as String? ?? user?.name ?? '',
@@ -49,34 +71,16 @@ class EditProfileView extends HookConsumerWidget with GlobalStyles {
               formData['Phone Number'] as String? ?? user?.phoneNumber ?? '',
           email: user?.email ?? '',
           provider: user?.provider ?? '',
-          profileImg: profileImgUrl ?? user?.profileImg ?? '',
+          profileImg: newProfileImgUrl ?? user?.profileImg ?? '',
           description: formData['Bio'] as String? ?? user?.description ?? '',
-          validId: validIdUrl ?? user?.validId ?? '',
+          validId: newValidIdUrl ?? user?.validId ?? '',
           role: user?.role ?? '',
           onlineStatus: user?.onlineStatus ?? false,
           createdAt: user?.createdAt ?? DateTime.now(),
           updatedAt: DateTime.now(),
         );
 
-        // await authController.updateAccount(updatedUser);
-
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Profile updated successfully'),
-              backgroundColor: Colors.green,
-            ),
-          );
-        }
-      } catch (e) {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Failed to update profile: $e'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
+        await authController.updateUser(updatedUser);
       } finally {
         isLoading.value = false;
       }

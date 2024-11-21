@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/src/components.dart';
+
 Widget babySitterHeader({
   required String username,
   required String networkImage,
@@ -15,10 +17,8 @@ Widget babySitterHeader({
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              CircleAvatar(
-                backgroundImage: NetworkImage(networkImage),
-                radius: 40,
-                backgroundColor: Colors.grey[200],
+              CachedAvatar(
+                imageUrl: networkImage,
               ),
               const SizedBox(height: 10),
               Text(

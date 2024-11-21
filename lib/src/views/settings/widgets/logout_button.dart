@@ -1,9 +1,11 @@
+import 'package:toastification/toastification.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/constants.dart';
+import 'package:babysitterapp/src/helpers.dart';
 
 class LogoutButton extends HookConsumerWidget with GlobalStyles {
   LogoutButton({super.key});
@@ -16,20 +18,22 @@ class LogoutButton extends HookConsumerWidget with GlobalStyles {
       try {
         isLoading.value = true;
         ref.read(authControllerProvider.notifier).logout();
-
-        // CustomRouter.navigateToWithTransition(
-        //   const LoginView(),
-        //   'fade',
-        // );
+        toastification.dismissAll();
+        ToastUtils.showToast(
+          context: context,
+          title: 'Success',
+          message: 'Logout successful',
+        );
+        ref.read(authControllerProvider.notifier).markToastAsShown();
       } catch (e) {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Error logging out: $e'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
+        toastification.dismissAll();
+        ToastUtils.showToast(
+          context: context,
+          title: 'Error',
+          message: e.toString(),
+          type: ToastificationType.error,
+        );
+        ref.read(authControllerProvider.notifier).markToastAsShown();
       } finally {
         isLoading.value = false;
       }
@@ -43,26 +47,8 @@ class LogoutButton extends HookConsumerWidget with GlobalStyles {
           onPressed: isLoading.value
               ? null
               : () async {
-                  final bool confirmed = await showDialog<bool>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: const Text('Logout'),
-                          content:
-                              const Text('Are you sure you want to logout?'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.of(context).pop(false),
-                              child: const Text('Cancel'),
-                            ),
-                            TextButton(
-                              onPressed: () => Navigator.of(context).pop(true),
-                              child: const Text('Logout'),
-                            ),
-                          ],
-                        ),
-                      ) ??
-                      false;
-
+                  final bool confirmed =
+                      (await showLogoutDialog(context)) ?? false;
                   if (confirmed) {
                     await handleLogout();
                   }

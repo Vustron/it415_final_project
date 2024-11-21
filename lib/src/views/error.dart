@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/src/constants.dart';
 import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/views.dart';
 
@@ -91,7 +92,7 @@ class ErrorView extends HookWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundColor: GlobalStyles.primaryButtonColor,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 32.0,
                       vertical: 12.0,
@@ -105,16 +106,6 @@ class ErrorView extends HookWidget {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16.0),
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text(
-                    'Go Back',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                 ),

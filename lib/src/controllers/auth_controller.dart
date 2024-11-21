@@ -2,8 +2,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dartz/dartz.dart';
 
-import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/services.dart';
+import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/models.dart';
 
 class AuthController extends StateNotifier<AuthState> {
@@ -26,7 +26,6 @@ class AuthController extends StateNotifier<AuthState> {
     state = state.copyWith(
       isLoading: true,
       status: AuthStatus.initial,
-      error: null,
       hasShownToast: false,
     );
 
@@ -123,7 +122,6 @@ class AuthController extends StateNotifier<AuthState> {
   Future<void> getUserData(String uid) async {
     state = state.copyWith(
       isLoading: true,
-      error: null,
       status: AuthStatus.initial,
     );
 
@@ -158,8 +156,7 @@ class AuthController extends StateNotifier<AuthState> {
 
     state = state.copyWith(
       isLoading: true,
-      error: null,
-      status: AuthStatus.initial,
+      status: AuthStatus.authenticated,
       hasShownToast: false,
     );
 
@@ -180,6 +177,53 @@ class AuthController extends StateNotifier<AuthState> {
           status: AuthStatus.authenticated,
           hasShownToast: false,
         ),
+      );
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+        status: AuthStatus.error,
+        hasShownToast: false,
+      );
+    }
+  }
+
+  Future<void> deleteProfileImage(
+      String userId, String imageUrl, String imageType) async {
+    if (state.isLoading) return;
+
+    state = state.copyWith(
+      isLoading: true,
+      status: AuthStatus.authenticated,
+      hasShownToast: false,
+    );
+
+    try {
+      final UserAccount currentUser = state.user!;
+      final Either<AuthFailure, void> result =
+          await authRepo.deleteProfileImage(userId, imageUrl, imageType);
+
+      result.fold(
+        (AuthFailure failure) => state = state.copyWith(
+          isLoading: false,
+          error: failure.message,
+          status: AuthStatus.error,
+          hasShownToast: false,
+        ),
+        (_) {
+          UserAccount updatedUser;
+          if (imageType == 'Profile Image') {
+            updatedUser = currentUser.copyWith(profileImg: '');
+          } else {
+            updatedUser = currentUser.copyWith(validId: '');
+          }
+          state = state.copyWith(
+            isLoading: false,
+            user: updatedUser,
+            status: AuthStatus.authenticated,
+            hasShownToast: false,
+          );
+        },
       );
     } catch (e) {
       state = state.copyWith(

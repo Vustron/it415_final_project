@@ -100,7 +100,9 @@ class HomeClientView extends HookConsumerWidget with GlobalStyles {
       ),
       backgroundColor: Colors.white,
       body: authState.user == null
-          ? const CircularProgressIndicator()
+          ? const CircularProgressIndicator(
+              color: GlobalStyles.primaryButtonColor,
+            )
           : authState.user!.role == 'Client'
               ? ListView(
                   children: <Widget>[

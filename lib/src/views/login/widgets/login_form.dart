@@ -45,7 +45,6 @@ class LoginForm extends HookConsumerWidget with GlobalStyles {
                 context: context,
                 title: 'Success',
                 message: 'Login successful',
-                type: ToastificationType.success,
               );
               ref.read(authControllerProvider.notifier).markToastAsShown();
               CustomRouter.navigateToWithTransition(

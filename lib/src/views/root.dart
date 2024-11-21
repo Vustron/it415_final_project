@@ -33,7 +33,8 @@ class App extends ConsumerWidget with GlobalStyles {
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
             child: Consumer(
-                builder: (BuildContext context, WidgetRef ref, _) => widget),
+              builder: (BuildContext context, WidgetRef ref, _) => widget,
+            ),
           );
         },
       ),

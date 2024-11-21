@@ -1,21 +1,24 @@
-import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_file_picker/form_builder_file_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/src/models.dart';
+import 'package:babysitterapp/src/components.dart';
 import 'package:babysitterapp/src/constants.dart';
 
-class DynamicForm extends HookWidget {
+import 'package:babysitterapp/src/models.dart';
+
+class DynamicForm extends HookConsumerWidget {
   DynamicForm({
     super.key,
     required this.fields,
     required this.onSubmit,
     this.isLoading,
     this.initialData,
+    this.userId,
   });
 
   final List<InputFieldConfig> fields;
@@ -23,6 +26,7 @@ class DynamicForm extends HookWidget {
   final ValueNotifier<bool>? isLoading;
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   final Map<String, dynamic>? initialData;
+  final String? userId;
 
   static const double _borderRadius = 12.0;
 
@@ -54,8 +58,22 @@ class DynamicForm extends HookWidget {
     );
   }
 
-  Widget buildFormField(InputFieldConfig field) {
+  Widget buildFormField(BuildContext context, InputFieldConfig field) {
     final dynamic initialValue = initialData?[field.label] ?? field.value;
+
+    if (field.type == 'image') {
+      return ImageField(
+        name: field.label,
+        decoration: _getInputDecoration(field),
+        userId: userId ?? '',
+        initialValue: initialValue as String?,
+        onChanged: (String? url) {
+          if (url != null) {
+            _formKey.currentState?.fields[field.label]?.didChange(url);
+          }
+        },
+      );
+    }
 
     switch (field.type) {
       case 'select':
@@ -77,7 +95,6 @@ class DynamicForm extends HookWidget {
         return FormBuilderFilePicker(
           name: field.label,
           decoration: _getInputDecoration(field),
-          initialValue: initialValue as List<PlatformFile>?,
           maxFiles: 1,
           typeSelectors: const <TypeSelector>[
             TypeSelector(
@@ -88,23 +105,6 @@ class DynamicForm extends HookWidget {
           allowedExtensions: const <String>['jpg', 'png', 'pdf'],
           onChanged: (List<PlatformFile>? val) {},
           withData: true,
-        );
-
-      case 'image':
-        return FormBuilderImagePicker(
-          name: field.label,
-          decoration: _getInputDecoration(field),
-          initialValue: initialValue as List<dynamic>?,
-          maxImages: 1,
-          previewWidth: 150,
-          previewHeight: 150,
-          validator: FormBuilderValidators.required(
-            errorText: 'Please select an image',
-          ),
-          imageQuality: 70,
-          preferredCameraDevice: CameraDevice.front,
-          bottomSheetPadding: const EdgeInsets.all(8),
-          placeholderImage: const AssetImage('assets/images/placeholder.png'),
         );
 
       case 'password':
@@ -147,47 +147,42 @@ class DynamicForm extends HookWidget {
           name: field.label,
           decoration: _getInputDecoration(field),
           initialValue: initialValue as String?,
-          validator: FormBuilderValidators.required(),
+          validator: field.isRequired ? FormBuilderValidators.required() : null,
         );
     }
   }
 
   @override
-  Widget build(BuildContext context) {
-    final ValueNotifier<bool> loading = isLoading ?? useState(false);
-
+  Widget build(BuildContext context, WidgetRef ref) {
     return FormBuilder(
       key: _formKey,
       child: Column(
         children: <Widget>[
-          const SizedBox(height: 20),
-          ...fields.map((InputFieldConfig field) => Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: buildFormField(field),
-              )),
+          const SizedBox(height: 24),
+          ...fields.map(
+            (InputFieldConfig field) => Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: buildFormField(context, field),
+            ),
+          ),
+          const SizedBox(height: 24),
           SizedBox(
             width: double.infinity,
-            height: 48,
             child: ElevatedButton(
-              onPressed: loading.value
+              onPressed: isLoading?.value ?? false
                   ? null
                   : () {
                       if (_formKey.currentState?.saveAndValidate() ?? false) {
                         onSubmit(_formKey.currentState!.value);
                       }
                     },
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(_borderRadius),
-                ),
-              ),
-              child: loading.value
+              child: isLoading?.value ?? false
                   ? const SizedBox(
-                      width: 20,
-                      height: 20,
+                      height: 10,
+                      width: 10,
                       child: CircularProgressIndicator(
                         color: GlobalStyles.primaryButtonColor,
-                        strokeWidth: 2.0,
+                        strokeWidth: 2,
                       ),
                     )
                   : const Text('Submit'),

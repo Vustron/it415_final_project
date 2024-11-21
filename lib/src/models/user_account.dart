@@ -64,4 +64,26 @@ class UserAccount {
         'createdAt': createdAt?.toIso8601String(),
         'updatedAt': updatedAt?.toIso8601String(),
       };
+
+  UserAccount copyWith({
+    String? id,
+    String? email,
+    String? name,
+    String? role,
+    String? phoneNumber,
+    String? address,
+    String? profileImg,
+    String? validId,
+  }) {
+    return UserAccount(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      name: name ?? this.name,
+      role: role ?? this.role,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      address: address ?? this.address,
+      profileImg: profileImg ?? this.profileImg,
+      validId: validId ?? this.validId,
+    );
+  }
 }

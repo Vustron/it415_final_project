@@ -19,19 +19,12 @@ class ProfileForm extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<dynamic>? profileImageValue = user.profileImg != null
-        ? <dynamic>[NetworkImage(user.profileImg!)]
-        : null;
-
-    final List<dynamic>? validIdValue =
-        user.validId != null ? <dynamic>[NetworkImage(user.validId!)] : null;
-
     final List<InputFieldConfig> fields = <InputFieldConfig>[
       InputFieldConfig(
         label: 'Profile Image',
         type: 'image',
         hintText: 'Upload your profile image',
-        value: profileImageValue,
+        value: user.profileImg,
         prefixIcon: FluentIcons.image_20_regular,
       ),
       InputFieldConfig(
@@ -66,7 +59,7 @@ class ProfileForm extends HookWidget {
         label: 'Valid ID',
         type: 'image',
         hintText: 'Upload your valid ID',
-        value: validIdValue,
+        value: user.validId,
         prefixIcon: FluentIcons.document_20_regular,
       ),
     ];
@@ -74,15 +67,16 @@ class ProfileForm extends HookWidget {
     return DynamicForm(
       fields: fields,
       initialData: <String, dynamic>{
-        'Profile Image': profileImageValue,
+        'Profile Image': user.profileImg,
         'Name': user.name,
         'Address': user.address,
         'Bio': user.description,
         'Phone Number': user.phoneNumber,
-        'Valid ID': validIdValue,
+        'Valid ID': user.validId,
       },
       onSubmit: onSubmit,
       isLoading: isLoading,
+      userId: user.id,
     );
   }
 }

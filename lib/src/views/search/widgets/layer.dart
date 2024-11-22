@@ -43,9 +43,7 @@ MarkerLayer markerLayer(double radius) {
     return distance <= (radius * 0.5);
   }).map((MarkerData markerData) {
     return markerWidget(
-      markerData.position.latitude,
-      markerData.position.longitude,
-      markerData.image,
+      markerData,
       markerData.role == 'client' ? Colors.lightBlue : Colors.pink.shade300,
     );
   }).toList();

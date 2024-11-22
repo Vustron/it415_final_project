@@ -13,34 +13,70 @@ class MapScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final double distance = ref.watch(distanceProvider);
+    final MarkerData? selectedMarker = ref.watch(selectedMarkerProvider);
+    final MarkerData clientMarker =
+        allMarkers.firstWhere((MarkerData marker) => marker.role == 'client');
 
-    return FlutterMap(
-      options: const MapOptions(
-        initialCenter: LatLng(7.3136, 125.6703),
-        initialZoom: 15,
-        minZoom: 10,
-        maxZoom: 18,
-      ),
+    return Stack(
       children: <Widget>[
-        TileLayer(
-          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName: 'com.it415bsit4c.babysitterapp',
-        ),
-        CircleLayer<Object>(
-          circles: <CircleMarker<Object>>[
-            CircleMarker<Object>(
-              point: allMarkers
-                  .firstWhere((MarkerData marker) => marker.role == 'client')
-                  .position,
-              radius: distance * 500,
-              color: Colors.lightBlue.withOpacity(0.1),
-              borderColor: Colors.lightBlue.withOpacity(0.7),
-              borderStrokeWidth: 1,
-              useRadiusInMeter: true,
+        FlutterMap(
+          options: MapOptions(
+            initialCenter: const LatLng(7.3136, 125.6703),
+            initialZoom: 15,
+            minZoom: 10,
+            maxZoom: 18,
+            onTap: (_, __) {
+              ref.read(selectedMarkerProvider.notifier).state = null;
+            },
+          ),
+          children: <Widget>[
+            TileLayer(
+              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+              userAgentPackageName: 'com.it415bsit4c.babysitterapp',
             ),
+            TweenAnimationBuilder<double>(
+              tween: Tween<double>(begin: 0, end: distance * 500),
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeOutCubic,
+              builder: (_, double animatedRadius, __) => CircleLayer<Object>(
+                circles: <CircleMarker<Object>>[
+                  CircleMarker<Object>(
+                    point: clientMarker.position,
+                    radius: animatedRadius,
+                    color: Colors.lightBlue.withOpacity(0.1),
+                    borderColor: Colors.lightBlue.withOpacity(0.7),
+                    borderStrokeWidth: 1,
+                    useRadiusInMeter: true,
+                  ),
+                ],
+              ),
+            ),
+            if (selectedMarker != null)
+              PolylineLayer<Object>(
+                polylines: <Polyline<Object>>[
+                  Polyline<Object>(
+                    points: <LatLng>[
+                      clientMarker.position,
+                      selectedMarker.position,
+                    ],
+                    color: Colors.blue,
+                    strokeWidth: 3.0,
+                  ),
+                ],
+              ),
+            markerLayer(distance),
           ],
         ),
-        markerLayer(distance),
+        if (selectedMarker != null)
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: SelectedMarkerSheet(
+              markerData: selectedMarker,
+              clientPosition: clientMarker.position,
+            ),
+          ),
       ],
     );
   }

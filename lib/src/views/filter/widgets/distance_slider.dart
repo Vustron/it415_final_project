@@ -39,6 +39,7 @@ class DistanceSliderState extends ConsumerState<DistanceSlider> {
               color: GlobalStyles.filterColorScheme.onBackground,
             ),
           ),
+          const SizedBox(height: 20),
         ],
       ),
     );

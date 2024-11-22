@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 
@@ -95,8 +96,10 @@ class MessageView extends HookConsumerWidget with GlobalStyles {
               child: CustomTextInput(
                 onChanged: (String value) {},
                 onClear: () {},
-                prefixIcon: const Icon(Icons.search,
-                    color: GlobalStyles.primaryButtonColor),
+                prefixIcon: Icon(
+                  FluentIcons.search_24_regular,
+                  color: Colors.grey[600],
+                ),
                 hintText: 'Search...',
                 fieldLabel: 'Search...',
                 cursorColor: GlobalStyles.primaryButtonColor,

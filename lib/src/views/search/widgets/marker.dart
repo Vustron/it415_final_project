@@ -1,15 +1,18 @@
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
 
-Marker markerWidget(
-    double latitude, double longitude, String image, Color color) {
+Marker markerWidget(MarkerData markerData, Color color) {
   return Marker(
-    point: LatLng(latitude, longitude),
-    width: 70,
-    height: 70,
-    child: MarkerIcon(images: image, color: color),
+    point: markerData.position,
+    height: 60, 
+    width: 60, 
+    child: MarkerIcon(
+      images: markerData.image,
+      color: color,
+      markerData: markerData,
+    ),
   );
 }

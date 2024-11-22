@@ -10,4 +10,5 @@ Widget searchButtons(TextEditingController searchTxt) => CustomTextInput(
       hintText: 'Search...',
       fieldLabel: 'Search...',
       textInputAction: TextInputAction.next,
+      fillColor: Colors.white,
     );

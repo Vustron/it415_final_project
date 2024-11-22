@@ -71,7 +71,7 @@ class HomeClientView extends StatelessWidget {
                 ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: 5,
+                  itemCount: 3,
                   itemBuilder: (BuildContext context, int index) {
                     return topRatedBabySitterCard(
                       networkImage: networkImage1,

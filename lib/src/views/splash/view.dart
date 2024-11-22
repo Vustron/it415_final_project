@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/src/providers.dart';
-import 'package:babysitterapp/src/constants.dart';
 import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
@@ -19,13 +18,10 @@ class SplashView extends HookConsumerWidget {
 
     useEffect(() {
       Future<void> initializeAuth() async {
-        // Initial splash delay
         await Future<void>.delayed(const Duration(milliseconds: 2000));
-
         final User? user = FirebaseAuth.instance.currentUser;
 
         if (user != null) {
-          // Initialize user data stream
           ref.read(authControllerProvider.notifier).getUserData(user.uid);
         } else {
           if (context.mounted) {
@@ -47,19 +43,19 @@ class SplashView extends HookConsumerWidget {
       return null;
     }, <Object?>[authState.status]);
 
-    return Scaffold(
+    return const Scaffold(
       body: Stack(
         children: <Widget>[
           const AnimatedLogo(),
-          Positioned(
-            bottom: MediaQuery.of(context).size.height * .28,
-            width: MediaQuery.of(context).size.width,
-            child: const Center(
-              child: CircularProgressIndicator(
-                color: GlobalStyles.primaryButtonColor,
-              ),
-            ),
-          ),
+          // Positioned(
+          //   bottom: MediaQuery.of(context).size.height * .28,
+          //   width: MediaQuery.of(context).size.width,
+          //   child: const Center(
+          //     child: CircularProgressIndicator(
+          //       color: GlobalStyles.primaryButtonColor,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

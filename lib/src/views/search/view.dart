@@ -3,8 +3,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/constants.dart';
-import 'package:babysitterapp/src/helpers.dart';
+import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
 
 class SearchView extends HookConsumerWidget {
@@ -13,6 +14,7 @@ class SearchView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController searchTxt = useTextEditingController();
+    final MarkerData? selectedMarker = ref.watch(selectedMarkerProvider);
 
     return Scaffold(
       body: Stack(
@@ -35,33 +37,38 @@ class SearchView extends HookConsumerWidget {
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(
-                  width: GlobalStyles.smallPadding,
-                ),
-                Expanded(
-                  child: searchButtons(searchTxt),
-                )
+                const SizedBox(width: GlobalStyles.smallPadding),
+                Expanded(child: searchButtons(searchTxt))
               ],
             ),
           ),
-          Positioned(
-            bottom: 60,
-            right: 20,
-            child: FloatingActionButton.extended(
-              backgroundColor: GlobalStyles.primaryButtonColor,
-              foregroundColor: Colors.white,
-              onPressed: () {
-                CustomRouter.navigateToWithTransition(
-                  FilterView(),
-                  'rightToLeftWithFade',
-                );
-              },
-              label: const Text('Filter'),
-              icon: const Icon(
-                FluentIcons.filter_24_regular,
+          if (selectedMarker == null)
+            Positioned(
+              bottom: 60,
+              right: 20,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  FloatingActionButton(
+                    heroTag: 'distance',
+                    backgroundColor: GlobalStyles.primaryButtonColor,
+                    onPressed: () {
+                      showModalBottomSheet<void>(
+                        context: context,
+                        backgroundColor: Colors.transparent,
+                        builder: (BuildContext context) =>
+                            const DistanceBottomSheet(),
+                      );
+                    },
+                    child: const Icon(
+                      FluentIcons.arrow_autofit_content_24_filled,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                ],
               ),
             ),
-          ),
         ],
       ),
     );

@@ -99,8 +99,10 @@ export 'views/filter/widgets/card.dart';
 export 'views/filter/view.dart';
 
 // search
+export 'views/search/widgets/selected_marker_sheet.dart';
 export 'views/search/widgets/marker_icon.dart';
 export 'views/search/widgets/map_screen.dart';
+export 'views/search/widgets/slider.dart';
 export 'views/search/widgets/marker.dart';
 export 'views/search/widgets/filter.dart';
 export 'views/search/widgets/input.dart';

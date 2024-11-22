@@ -3,7 +3,7 @@ description: "A collaborative babysitter mobile app for the final project in it4
 
 publish_to: 'none' 
 
-version: 1.0.78+1
+version: 1.0.79+1
 
 environment:
  sdk: '>=3.4.3 <4.0.0'
@@ -34,14 +34,10 @@ dependencies:
   geolocator: ^13.0.1
   permission_handler: ^11.2.1
   flutter_screenutil: ^5.9.3
-  path: ^1.9.0
   toastification: ^2.3.0
   shared_preferences: ^2.3.3
   board_datetime_picker: ^2.1.5
   geocoding: ^3.0.0
-  google_maps_flutter: ^2.9.0
-  google_maps_flutter_web: ^0.5.10
-  custom_info_window: ^1.0.1
   fl_chart: ^0.69.0
   flutter_form_builder: ^9.5.0
   form_builder_validators: ^11.0.0

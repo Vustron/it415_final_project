@@ -43,26 +43,29 @@ export 'views/booking_details/widgets/info_card.dart';
 export 'views/booking_details/view.dart';
 
 // client home
-export 'views/client/widgets/toprated_babysitter.dart';
-export 'views/client/widgets/article_carousel.dart';
-export 'views/client/widgets/bottom_navbar.dart';
-export 'views/client/widgets/toprate_card.dart';
-export 'views/client/widgets/card_button.dart';
-export 'views/client/widgets/card_header.dart';
-export 'views/client/widgets/card_nearby.dart';
-export 'views/client/widgets/toprate.dart';
-export 'views/client/widgets/nearby.dart';
-export 'views/client/widgets/bio.dart';
-export 'views/client/view.dart';
+export 'views/home/widgets/toprated_babysitter.dart';
+export 'views/home/widgets/home_client_view.dart';
+export 'views/home/widgets/article_carousel.dart';
+export 'views/home/widgets/home_view_title.dart';
+export 'views/home/widgets/bottom_navbar.dart';
+export 'views/home/widgets/toprate_card.dart';
+export 'views/home/widgets/card_button.dart';
+export 'views/home/widgets/card_header.dart';
+export 'views/home/widgets/card_nearby.dart';
+export 'views/home/widgets/toprate.dart';
+export 'views/home/widgets/nearby.dart';
+export 'views/home/widgets/bio.dart';
+export 'views/home/view.dart';
 
 // babysitter home
-export 'views/babysitter/widgets/comment_list.dart';
-export 'views/babysitter/widgets/header.dart';
-export 'views/babysitter/widgets/graph.dart';
-export 'views/babysitter/widgets/photo.dart';
-export 'views/babysitter/widgets/title.dart';
-export 'views/babysitter/widgets/card.dart';
-export 'views/babysitter/view.dart';
+export 'views/home/widgets/home_babysitter_view.dart';
+export 'views/home/widgets/babysitter_title.dart';
+export 'views/home/widgets/babysitter_card.dart';
+export 'views/home/widgets/comment_list.dart';
+export 'views/home/widgets/stats_card.dart';
+export 'views/home/widgets/header.dart';
+export 'views/home/widgets/transaction_chart.dart';
+export 'views/home/widgets/photo.dart';
 
 // message
 export 'views/message/widgets/detail.dart';
@@ -102,14 +105,12 @@ export 'views/search/widgets/layer.dart';
 export 'views/search/view.dart';
 
 // account
-export 'views/account/widgets/image_edit_button.dart';
-export 'views/account/widgets/years_experience.dart';
-export 'views/account/widgets/service_history.dart';
-export 'views/account/widgets/valid_id.dart';
-export 'views/account/widgets/contacts.dart';
-export 'views/account/widgets/ratings.dart';
-export 'views/account/widgets/resume.dart';
-export 'views/account/widgets/rate.dart';
+export 'views/account/widgets/edit_account_btn.dart';
+export 'views/account/widgets/verification_item.dart';
+export 'views/account/widgets/verification_card.dart';
+export 'views/account/widgets/contact_item.dart';
+export 'views/account/widgets/contact_info.dart';
+export 'views/account/widgets/bio_card.dart';
 export 'views/account/view.dart';
 
 // availability
@@ -120,9 +121,9 @@ export 'views/availability/widgets/info.dart';
 export 'views/availability/view.dart';
 
 // edit account
-export 'views/edit_account/widgets/profile_completion.dart';
-export 'views/edit_account/widgets/profile_form.dart';
-export 'views/edit_account/view.dart';
+export 'views/account/widgets/profile_completion.dart';
+export 'views/account/widgets/profile_form.dart';
+export 'views/account/widgets/edit_account_view.dart';
 
 // help and support
 export 'views/help_support/widgets/help_support.dart';
@@ -142,7 +143,6 @@ export 'views/profile/view.dart';
 // settings
 export 'views/settings/widgets/settings_label.dart';
 export 'views/settings/widgets/logout_button.dart';
-export 'views/settings/widgets/edit_account.dart';
 export 'views/settings/widgets/option_card.dart';
 export 'views/settings/widgets/preference.dart';
 export 'views/settings/widgets/history.dart';

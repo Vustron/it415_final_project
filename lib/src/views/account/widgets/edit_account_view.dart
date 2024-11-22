@@ -43,12 +43,12 @@ class EditAccountView extends HookConsumerWidget with GlobalStyles {
           provider: user?.provider ?? '',
           profileImg: newProfileImgUrl ?? user?.profileImg ?? '',
           description: formData['Bio'] as String? ?? user?.description ?? '',
-          validId: formData['Valid ID Type'] as String? ?? user?.validId ?? '',
           gender: formData['Gender'] as String? ?? user?.gender ?? '',
+          birthDate: formData['Birth Date'] as DateTime? ?? user?.birthDate,
           role: user?.role ?? '',
           onlineStatus: user?.onlineStatus ?? false,
           createdAt: user?.createdAt ?? DateTime.now(),
-          updatedAt: user?.updatedAt ?? DateTime.now(),
+          updatedAt: DateTime.now(),
         );
 
         await authController.updateUser(updatedUser);
@@ -106,7 +106,6 @@ class EditAccountView extends HookConsumerWidget with GlobalStyles {
                       provider: '',
                       profileImg: '',
                       description: '',
-                      validId: '',
                       gender: '',
                       role: '',
                       onlineStatus: false,

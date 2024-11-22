@@ -5,10 +5,11 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 import 'package:babysitterapp/src/components.dart';
 import 'package:babysitterapp/src/constants.dart';
-
 import 'package:babysitterapp/src/models.dart';
 
 class DynamicForm extends HookConsumerWidget {
@@ -35,6 +36,7 @@ class DynamicForm extends HookConsumerWidget {
       labelText: field.label,
       hintText: field.hintText,
       prefixIcon: Icon(field.prefixIcon),
+      labelStyle: const TextStyle(color: Colors.black),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(_borderRadius),
       ),
@@ -76,6 +78,30 @@ class DynamicForm extends HookConsumerWidget {
     }
 
     switch (field.type) {
+      case 'phone':
+        return FormBuilderTextField(
+          name: field.label,
+          decoration: _getInputDecoration(field),
+          initialValue: initialValue as String?,
+          keyboardType: TextInputType.phone,
+          validator: FormBuilderValidators.compose(<FormFieldValidator<String>>[
+            FormBuilderValidators.required(),
+            FormBuilderValidators.numeric(),
+            FormBuilderValidators.minLength(11),
+            FormBuilderValidators.maxLength(11),
+            (String? value) {
+              if (value == null || !value.startsWith('09')) {
+                return 'Phone number must start with 09';
+              }
+              return null;
+            },
+          ]),
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(11),
+          ],
+        );
+
       case 'select':
         return FormBuilderDropdown<String>(
           name: field.label,
@@ -89,6 +115,33 @@ class DynamicForm extends HookConsumerWidget {
                   .toList() ??
               <DropdownMenuItem<String>>[],
           validator: FormBuilderValidators.required(),
+        );
+
+      case 'date':
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ThemeData.light().colorScheme.copyWith(
+                  primary: GlobalStyles.primaryButtonColor,
+                  surface: Colors.white,
+                  onSurface: Colors.black87,
+                ),
+            dialogBackgroundColor: Colors.white,
+          ),
+          child: FormBuilderDateTimePicker(
+            name: field.label,
+            decoration: _getInputDecoration(field),
+            initialValue: initialValue as DateTime?,
+            inputType: InputType.date,
+            format: DateFormat('yyyy-MM-dd'),
+            validator:
+                field.isRequired ? FormBuilderValidators.required() : null,
+            firstDate: DateTime(1900),
+            lastDate: DateTime.now(),
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+            keyboardType: TextInputType.none,
+          ),
         );
 
       case 'file':
@@ -165,7 +218,7 @@ class DynamicForm extends HookConsumerWidget {
               child: buildFormField(context, field),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(

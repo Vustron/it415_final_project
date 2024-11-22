@@ -36,13 +36,14 @@ class Routes {
             child: BottomNavbarView(),
           ),
       homeClient: (BuildContext context) => AuthGuard(
-            child: HomeClientView(),
+            child: HomeView(),
           ),
       homeBabysitter: (BuildContext context) => const AuthGuard(
             child: HomeBabysitterView(
               location: '',
               username: '',
               userImg: '',
+              onlineStatus: false,
             ),
           ),
       messages: (BuildContext context) => AuthGuard(

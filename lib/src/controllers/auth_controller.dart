@@ -66,11 +66,14 @@ class AuthController extends StateNotifier<AuthState> {
           status: AuthStatus.error,
           hasShownToast: false,
         ),
-        (UserAccount user) {
+        (UserAccount user) async {
+          final UserAccount updatedUser = user.copyWith(onlineStatus: true);
+          await authRepo.updateUser(updatedUser);
+
           initUserStream(user.id!);
           state = state.copyWith(
             isLoading: false,
-            user: user,
+            user: updatedUser,
             status: AuthStatus.authenticated,
             hasShownToast: false,
           );
@@ -141,6 +144,13 @@ class AuthController extends StateNotifier<AuthState> {
 
   Future<void> logout() async {
     try {
+      if (state.user != null) {
+        final UserAccount updatedUser =
+            state.user!.copyWith(onlineStatus: false);
+        await authRepo.updateUser(updatedUser);
+      }
+
+      // Proceed with normal logout
       await userSubscription?.cancel();
       await FirebaseAuth.instance.signOut();
       state = AuthState(status: AuthStatus.unauthenticated);

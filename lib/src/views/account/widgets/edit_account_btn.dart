@@ -6,8 +6,8 @@ import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
 
-class AccountImageEditButton extends StatelessWidget {
-  const AccountImageEditButton({super.key, required this.user});
+class EditAccountButton extends StatelessWidget {
+  const EditAccountButton({super.key, required this.user});
 
   final UserAccount user;
 
@@ -20,8 +20,11 @@ class AccountImageEditButton extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
+              const SizedBox(width: 40),
               CachedAvatar(
                 imageUrl: user.profileImg,
+                showOnlineStatus: true,
+                isOnline: user.onlineStatus,
               ),
               const SizedBox(width: 16),
               Column(

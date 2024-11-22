@@ -4,7 +4,7 @@ import 'package:babysitterapp/src/views.dart';
 
 //required Hot reload to see changes
 final List<Widget> screens = <Widget>[
-  HomeClientView(),
+  HomeView(),
   MessageView(),
   NotificationView(),
   AccountView(),

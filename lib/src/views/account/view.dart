@@ -16,7 +16,15 @@ class AccountView extends HookConsumerWidget with GlobalStyles {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Account'),
+        elevation: 0,
+        title: const Text(
+          'Profile',
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: authState.user == null
           ? const Center(
@@ -25,39 +33,45 @@ class AccountView extends HookConsumerWidget with GlobalStyles {
               ),
             )
           : SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(height: 18),
-                    AccountImageEditButton(user: authState.user!),
-                    const SizedBox(height: 30),
-                    Text(
-                      authState.user!.description != null &&
-                              authState.user!.description!.isNotEmpty
-                          ? authState.user!.description!
-                          : 'No description yet',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: <Color>[
+                          Colors.white,
+                          Colors.grey.shade50,
+                        ],
                       ),
-                      textAlign: TextAlign.justify,
                     ),
-                    const SizedBox(height: 30),
-                    const Divider(color: Colors.grey, thickness: 1),
-                    const SizedBox(height: 12),
-                    const Ratings(),
-                    const SizedBox(height: 12),
-                    const Divider(color: Colors.grey, thickness: 1),
-                    const ServiceHistoryUpload(),
-                    const Divider(color: Colors.grey, thickness: 1),
-                    const ValidIdUpload(),
-                    const Divider(color: Colors.grey, thickness: 1),
-                    const SizedBox(height: 12),
-                    Contacts(user: authState.user!),
-                    const SizedBox(height: 130),
-                  ],
-                ),
+                    child: Column(
+                      children: <Widget>[
+                        EditAccountButton(user: authState.user!),
+                        if (authState.user!.description != null &&
+                            authState.user!.description!.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                              vertical: 16.0,
+                            ),
+                            child: BioCard(
+                              primaryButtonColor:
+                                  GlobalStyles.primaryButtonColor,
+                              authState: authState,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: ContactInformation(user: authState.user!),
+                  ),
+                  const SizedBox(height: 140),
+                ],
               ),
             ),
     );

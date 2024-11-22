@@ -10,11 +10,13 @@ class UserAccount {
     this.description,
     this.validId,
     this.role,
-    this.onlineStatus,
-    this.createdAt,
-    this.updatedAt,
     this.birthDate,
     this.gender,
+    this.onlineStatus,
+    this.emailVerified,
+    this.validIdVerified,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory UserAccount.fromJson(Map<String, dynamic> json) => UserAccount(
@@ -33,6 +35,16 @@ class UserAccount {
             : null,
         gender: json['gender'] as String?,
         onlineStatus: json['onlineStatus'] as bool?,
+        emailVerified: json['emailVerified'] != null &&
+                json['emailVerified'].toString().isNotEmpty &&
+                json['emailVerified'] != ''
+            ? DateTime.parse(json['emailVerified'] as String)
+            : null,
+        validIdVerified: json['validIdVerified'] != null &&
+                json['validIdVerified'].toString().isNotEmpty &&
+                json['validIdVerified'] != ''
+            ? DateTime.parse(json['validIdVerified'] as String)
+            : null,
         createdAt: json['createdAt'] != null
             ? DateTime.parse(json['createdAt'] as String)
             : null,
@@ -54,6 +66,8 @@ class UserAccount {
   final DateTime? birthDate;
   final String? gender;
   final bool? onlineStatus;
+  final DateTime? emailVerified;
+  final DateTime? validIdVerified;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -71,6 +85,8 @@ class UserAccount {
         'birthDate': birthDate?.toIso8601String(),
         'gender': gender,
         'onlineStatus': onlineStatus,
+        'emailVerified': emailVerified?.toIso8601String(),
+        'validIdVerified': validIdVerified?.toIso8601String(),
         'createdAt': createdAt?.toIso8601String(),
         'updatedAt': updatedAt?.toIso8601String(),
       };
@@ -88,9 +104,11 @@ class UserAccount {
     DateTime? birthDate,
     String? gender,
     bool? onlineStatus,
+    String? provider,
+    DateTime? emailVerified,
+    DateTime? validIdVerified,
     DateTime? createdAt,
     DateTime? updatedAt,
-    String? provider,
   }) {
     return UserAccount(
       id: id ?? this.id,
@@ -106,6 +124,8 @@ class UserAccount {
       gender: gender ?? this.gender,
       provider: provider ?? this.provider,
       onlineStatus: onlineStatus ?? this.onlineStatus,
+      emailVerified: emailVerified ?? this.emailVerified,
+      validIdVerified: validIdVerified ?? this.validIdVerified,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

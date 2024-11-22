@@ -16,7 +16,11 @@ ThemeData rootThemeData() {
     useMaterial3: true,
     fontFamily: 'Nexa-ExtraLight',
     scaffoldBackgroundColor: GlobalStyles.cardColor,
-    cardColor: GlobalStyles.cardColor,
+    cardColor: Colors.white,
+    cardTheme: const CardTheme(
+      color: Colors.white,
+      elevation: 3,
+    ),
     canvasColor: GlobalStyles.cardColor,
     dialogBackgroundColor: GlobalStyles.dialogBackgroundColor,
     textButtonTheme: TextButtonThemeData(

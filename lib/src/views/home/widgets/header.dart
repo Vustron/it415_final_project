@@ -7,6 +7,7 @@ Widget babySitterHeader({
   required String networkImage,
   required String location,
   required String starRatings,
+  required bool onlineStatus,
 }) =>
     Container(
       padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -19,6 +20,8 @@ Widget babySitterHeader({
             children: <Widget>[
               CachedAvatar(
                 imageUrl: networkImage,
+                showOnlineStatus: true,
+                isOnline: onlineStatus,
               ),
               const SizedBox(height: 10),
               Text(
@@ -29,13 +32,13 @@ Widget babySitterHeader({
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
-                location,
-                maxLines: 1,
-                style: const TextStyle(
-                  fontSize: 12,
-                ),
-              ),
+              // Text(
+              //   location,
+              //   maxLines: 1,
+              //   style: const TextStyle(
+              //     fontSize: 12,
+              //   ),
+              // ),
             ],
           ),
           Column(

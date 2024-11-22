@@ -38,8 +38,11 @@ export 'views/error.dart';
 export 'views/receipt/view.dart';
 
 // booking details
+export 'views/booking_details/widgets/confirm_dialog.dart';
 export 'views/booking_details/widgets/card_details.dart';
+export 'views/booking_details/widgets/data_details.dart';
 export 'views/booking_details/widgets/info_card.dart';
+export 'views/booking_details/widgets/data_card.dart';
 export 'views/booking_details/view.dart';
 
 // client home
@@ -59,12 +62,12 @@ export 'views/home/view.dart';
 
 // babysitter home
 export 'views/home/widgets/home_babysitter_view.dart';
+export 'views/home/widgets/transaction_chart.dart';
 export 'views/home/widgets/babysitter_title.dart';
 export 'views/home/widgets/babysitter_card.dart';
 export 'views/home/widgets/comment_list.dart';
 export 'views/home/widgets/stats_card.dart';
 export 'views/home/widgets/header.dart';
-export 'views/home/widgets/transaction_chart.dart';
 export 'views/home/widgets/photo.dart';
 
 // message

@@ -25,7 +25,7 @@ Widget cardPageBabySitter() => Padding(
             child: statsCard(
               icon: FluentIcons.person_24_regular,
               value: '10',
-              label: 'No. of BabySitting',
+              label: 'No. of Babysitted',
               gradientColors: <Color>[
                 Colors.blue.shade50,
                 Colors.blue.shade100,

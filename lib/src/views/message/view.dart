@@ -1,9 +1,9 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/components.dart';
 import 'package:babysitterapp/src/constants.dart';
+import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
 
 class MessageView extends HookConsumerWidget with GlobalStyles {
@@ -100,6 +100,7 @@ class MessageView extends HookConsumerWidget with GlobalStyles {
                 hintText: 'Search...',
                 fieldLabel: 'Search...',
                 cursorColor: GlobalStyles.primaryButtonColor,
+                fillColor: Colors.white,
               ),
             ),
             const SizedBox(height: 5),

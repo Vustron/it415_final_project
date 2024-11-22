@@ -1,7 +1,9 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/src/constants.dart';
+import 'package:babysitterapp/src/constants/styles.dart';
 import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/views.dart';
 
@@ -18,113 +20,153 @@ class BookingDetailsView extends HookConsumerWidget with GlobalStyles {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final ValueNotifier<bool> isLoading = useState(false);
+    final ValueNotifier<double> buttonScale = useState(1.0);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Booking Confirmation'),
+        title: const Text(
+          'Booking Confirmation',
+        ),
+        elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            infoCard(
-              title: 'Booking Summary',
-              children: <Widget>[
-                cardDetails('Children', children.toString()),
-                cardDetails('Date', '${date.toLocal()}'.split(' ')[0]),
-                cardDetails('Time', time),
-                cardDetails('Stay in', stayIn ? 'Yes' : 'No'),
-                const SizedBox(height: 16),
-                Text(
-                  'Total Amount: $amount',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              dataCard(
+                title: 'Booking Summary',
+                icon: FluentIcons.calendar_ltr_24_filled,
+                children: <Widget>[
+                  dataDetails(
+                    icon: FluentIcons.people_24_regular,
+                    label: 'Children',
+                    value: children.toString(),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            infoCard(
-              title: 'Address Information',
-              children: <Widget>[
-                cardDetails('Address', address),
-                cardDetails('Details', details),
-              ],
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () async {
-                final bool? confirm = await showDialog<bool>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Confirm Booking'),
-                      content: const Text(
-                          'Are you sure you want to confirm this booking?'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop(false);
-                          },
-                          child: const Text('Cancel'),
+                  dataDetails(
+                    icon: FluentIcons.calendar_24_regular,
+                    label: 'Date',
+                    value: '${date.toLocal()}'.split(' ')[0],
+                  ),
+                  dataDetails(
+                    icon: FluentIcons.clock_24_regular,
+                    label: 'Time',
+                    value: time,
+                  ),
+                  dataDetails(
+                    icon: FluentIcons.home_24_regular,
+                    label: 'Stay in',
+                    value: stayIn ? 'Yes' : 'No',
+                  ),
+                  const Divider(height: 32),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      const Text(
+                        'Total Amount',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
-                        TextButton(
-                          onPressed: () {
-                            CustomRouter.navigateToWithTransition(
-                              const CheckoutScreen(),
-                              'fade',
+                      ),
+                      Text(
+                        amount,
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: GlobalStyles.primaryButtonColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              dataCard(
+                title: 'Address Information',
+                icon: FluentIcons.location_24_filled,
+                children: <Widget>[
+                  dataDetails(
+                    icon: FluentIcons.map_24_regular,
+                    label: 'Address',
+                    value: address,
+                  ),
+                  dataDetails(
+                    icon: FluentIcons.info_24_regular,
+                    label: 'Details',
+                    value: details,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              MouseRegion(
+                onEnter: (_) => buttonScale.value = 0.98,
+                onExit: (_) => buttonScale.value = 1.0,
+                child: AnimatedScale(
+                  scale: buttonScale.value,
+                  duration: const Duration(milliseconds: 150),
+                  child: ElevatedButton(
+                    onPressed: isLoading.value
+                        ? null
+                        : () async {
+                            isLoading.value = true;
+                            final bool? confirm = await showDialog<bool>(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  confirmationDialog(context),
                             );
+                            isLoading.value = false;
+
+                            if (confirm ?? false) {
+                              if (!context.mounted) return;
+                              CustomRouter.navigateToWithTransition(
+                                const CheckoutScreen(),
+                                'fade',
+                              );
+                            }
                           },
-                          child: const Text('Confirm'),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      backgroundColor: GlobalStyles.primaryButtonColor,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        if (isLoading.value)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white.withOpacity(0.8),
+                                ),
+                              ),
+                            ),
+                          ),
+                        Text(
+                          isLoading.value ? 'Processing...' : 'Confirm Booking',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
-                    );
-                  },
-                );
-
-                if (confirm ?? false) {
-                  if (!context.mounted) {
-                    return;
-                  }
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Booking Confirmed'),
-                      backgroundColor: Colors.green,
                     ),
-                  );
-                } else {
-                  if (!context.mounted) {
-                    return;
-                  }
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Booking Canceled'),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                backgroundColor: GlobalStyles.primaryButtonColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+                  ),
                 ),
               ),
-              child: const Text(
-                'Confirm Booking',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -34,7 +34,7 @@ class _HomeBabysitterViewState extends State<HomeBabysitterView> {
               location: widget.location,
               onlineStatus: widget.onlineStatus,
             ),
-            transactionChart(colorBar: GlobalStyles.primaryButtonColor),
+            const TransactionChart(colorBar: GlobalStyles.primaryButtonColor),
             cardPageBabySitter(),
             const SizedBox(height: 120),
           ],

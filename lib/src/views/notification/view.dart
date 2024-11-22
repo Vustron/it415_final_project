@@ -1,4 +1,6 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/src/components.dart';
@@ -24,7 +26,7 @@ class NotificationView extends HookConsumerWidget with GlobalStyles {
       name: 'BabyCare',
       messageText:
           'Good news! A client has expressed satisfaction with your service and has successfully processed your payment. Thank you for your excellent work and dedication!',
-      imageURL: 'assets/images/hippo.png',
+      imageURL: logo,
       createdAt: DateTime.now().subtract(const Duration(days: 1)),
       updatedAt: DateTime.now().subtract(const Duration(days: 1)),
       showButtons: true,
@@ -34,34 +36,37 @@ class NotificationView extends HookConsumerWidget with GlobalStyles {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final ValueNotifier<String> searchQuery = useState('');
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notifications'),
         automaticallyImplyLeading: false,
+        elevation: 0,
       ),
       body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10,
-                horizontal: 10,
-              ),
+              padding: const EdgeInsets.all(16),
               child: CustomTextInput(
-                onChanged: (String value) {},
-                onClear: () {},
-                prefixIcon: const Icon(Icons.search),
-                hintText: 'Search...',
-                fieldLabel: 'Search...',
-                textInputAction: TextInputAction.next,
+                onChanged: (String value) => searchQuery.value = value,
+                onClear: () => searchQuery.value = '',
+                prefixIcon: Icon(
+                  FluentIcons.search_24_regular,
+                  color: Colors.grey[600],
+                ),
+                hintText: 'Search notifications...',
+                fieldLabel: 'Search',
+                textInputAction: TextInputAction.search,
+                fillColor: Colors.white,
               ),
             ),
-            const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
                 itemCount: notificationUsers.length,
-                padding: const EdgeInsets.symmetric(vertical: 17),
+                padding: const EdgeInsets.only(bottom: 16),
+                physics: const BouncingScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
                   final NotificationUsers user = notificationUsers[index];
                   return NotificationList(

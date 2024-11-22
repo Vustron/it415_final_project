@@ -1,15 +1,32 @@
 import 'package:toastification/toastification.dart';
 import 'package:flutter/material.dart';
 
-class ToastUtils {
-  static void showToast({
+enum ToastType { success, error, warning, info }
+
+class ToastRepository {
+  ToastificationType _getToastificationType(String type) {
+    switch (type.toLowerCase()) {
+      case 'success':
+        return ToastificationType.success;
+      case 'error':
+        return ToastificationType.error;
+      case 'warning':
+        return ToastificationType.warning;
+      case 'info':
+        return ToastificationType.info;
+      default:
+        return ToastificationType.success;
+    }
+  }
+
+  void show({
     required BuildContext context,
     required String title,
     required String message,
-    ToastificationType type = ToastificationType.success,
-    Duration duration = const Duration(seconds: 3),
-    AlignmentGeometry alignment = const Alignment(0, -0.95),
+    String type = 'success',
   }) {
+    final ToastificationType toastType = _getToastificationType(type);
+
     toastification.dismissAll();
 
     final Map<ToastificationType, Color> typeColors =
@@ -33,20 +50,20 @@ class ToastUtils {
         message,
         style: const TextStyle(fontSize: 14),
       ),
-      type: type,
+      type: toastType,
       style: ToastificationStyle.minimal,
-      autoCloseDuration: duration,
-      alignment: alignment,
-      primaryColor: typeColors[type] ?? Colors.blue,
+      autoCloseDuration: const Duration(seconds: 3),
+      alignment: const Alignment(0, -0.95),
+      primaryColor: typeColors[toastType] ?? Colors.blue,
       borderRadius: BorderRadius.circular(12),
-      icon: Icon(_getIcon(type)),
+      icon: Icon(_getIcon(toastType)),
       closeButtonShowType: CloseButtonShowType.onHover,
       closeOnClick: true,
       dragToClose: true,
     );
   }
 
-  static IconData _getIcon(ToastificationType type) {
+  IconData _getIcon(ToastificationType type) {
     switch (type) {
       case ToastificationType.success:
         return Icons.check_circle_outline;

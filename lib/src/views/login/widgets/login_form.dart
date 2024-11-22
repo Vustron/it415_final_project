@@ -1,6 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:toastification/toastification.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/src/components.dart';
@@ -33,57 +33,62 @@ class LoginForm extends HookConsumerWidget with GlobalStyles {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState authState = ref.watch(authControllerProvider);
+    final ToastRepository toastRepository = ref.watch(toastProvider);
 
-    ref.listen<AuthState>(
-      authControllerProvider,
-      (AuthState? previous, AuthState next) {
-        if (!next.hasShownToast) {
-          switch (next.status) {
-            case AuthStatus.authenticated:
-              toastification.dismissAll();
-              ToastUtils.showToast(
-                context: context,
-                title: 'Success',
-                message: 'Login successful',
-              );
-              ref.read(authControllerProvider.notifier).markToastAsShown();
-              CustomRouter.navigateToWithTransition(
-                const BottomNavbarView(),
-                'rightToLeftWithFade',
-              );
-              break;
-
-            case AuthStatus.error:
-              if (next.error != null) {
-                toastification.dismissAll();
-                ToastUtils.showToast(
-                  context: context,
-                  title: 'Error',
-                  message: next.error!,
-                  type: ToastificationType.error,
-                );
-                ref.read(authControllerProvider.notifier).markToastAsShown();
-              }
-              break;
-
-            default:
-              break;
-          }
-        }
-      },
-    );
+    useEffect(() {
+      if (authState.status == AuthStatus.authenticated) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          toastRepository.show(
+            context: context,
+            title: 'Success',
+            message: 'Login success',
+          );
+          CustomRouter.navigateToWithTransition(
+            const BottomNavbarView(),
+            'fade',
+          );
+        });
+      }
+      return null;
+    }, <Object?>[authState.status]);
 
     return Column(
       children: <Widget>[
         DynamicForm(
           fields: loginFields,
-          onSubmit: (Map<String, dynamic> formData) {
-            final String email = formData['Email'] as String? ?? '';
-            final String password = formData['Password'] as String? ?? '';
-            ref.read(authControllerProvider.notifier).login(
-                  email: email,
-                  password: password,
+          onSubmit: (Map<String, dynamic> formData) async {
+            try {
+              final String email = formData['Email'] as String? ?? '';
+              final String password = formData['Password'] as String? ?? '';
+
+              await ref.read(authControllerProvider.notifier).login(
+                    email: email,
+                    password: password,
+                  );
+
+              if (context.mounted) {
+                final AuthState updatedAuthState =
+                    ref.read(authControllerProvider);
+
+                if (updatedAuthState.error != null) {
+                  toastRepository.show(
+                    context: context,
+                    title: 'Error',
+                    message: updatedAuthState.error!,
+                    type: 'error',
+                  );
+                }
+              }
+            } catch (e) {
+              if (context.mounted) {
+                toastRepository.show(
+                  context: context,
+                  title: 'Error',
+                  message: e.toString(),
+                  type: 'error',
                 );
+              }
+            }
           },
           isLoading: ValueNotifier<bool>(authState.isLoading),
         ),

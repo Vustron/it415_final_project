@@ -1,6 +1,5 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:toastification/toastification.dart';
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/src/components.dart';
@@ -48,96 +47,56 @@ class RegisterForm extends HookConsumerWidget with GlobalStyles {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState authState = ref.watch(authControllerProvider);
-
-    ref.listen<AuthState>(
-      authControllerProvider,
-      (AuthState? previous, AuthState next) {
-        if (!next.hasShownToast) {
-          switch (next.status) {
-            case AuthStatus.authenticated:
-              toastification.dismissAll();
-              ToastUtils.showToast(
-                context: context,
-                title: 'Success',
-                message: 'Registration successful',
-                type: ToastificationType.success,
-              );
-
-              ref.read(authControllerProvider.notifier).markToastAsShown();
-              CustomRouter.navigateToWithTransition(
-                const BottomNavbarView(),
-                'rightToLeftWithFade',
-              );
-              break;
-
-            case AuthStatus.error:
-              if (next.error != null) {
-                toastification.dismissAll();
-                ToastUtils.showToast(
-                  context: context,
-                  title: 'Error',
-                  message: next.error!,
-                  type: ToastificationType.error,
-                );
-
-                ref.read(authControllerProvider.notifier).markToastAsShown();
-              }
-              break;
-
-            default:
-              break;
-          }
-        }
-      },
-    );
-
-    Future<void> showConfirmationDialog(
-        BuildContext context, Map<String, String> formData) async {
-      return showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Confirm Your Details'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text('Name: ${formData['Name']}'),
-                Text('Email: ${formData['Email']}'),
-                Text('Type of account: ${formData['Type of account']}'),
-              ],
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Edit'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  ref.read(authControllerProvider.notifier).register(
-                        name: formData['Name']!,
-                        email: formData['Email']!,
-                        password: formData['Password']!,
-                        role: formData['Type of account']!,
-                      );
-                },
-                child: const Text('Confirm'),
-              ),
-            ],
-          );
-        },
-      );
-    }
+    final ToastRepository toastRepository = ref.watch(toastProvider);
 
     return Column(
       children: <Widget>[
         DynamicForm(
           fields: fields,
-          onSubmit: (Map<String, dynamic> formData) => showConfirmationDialog(
-            context,
-            formData.cast<String, String>(),
-          ),
+          onSubmit: (Map<String, dynamic> formData) async {
+            try {
+              await ref.read(authControllerProvider.notifier).register(
+                    name: formData['Name'] as String,
+                    email: formData['Email'] as String,
+                    password: formData['Password'] as String,
+                    role: formData['Type of account'] as String,
+                  );
+
+              if (context.mounted) {
+                final AuthState updatedAuthState =
+                    ref.read(authControllerProvider);
+
+                if (updatedAuthState.error != null) {
+                  toastRepository.show(
+                    context: context,
+                    title: 'Error',
+                    message: updatedAuthState.error!,
+                    type: 'error',
+                  );
+                } else if (updatedAuthState.status ==
+                    AuthStatus.authenticated) {
+                  toastRepository.show(
+                    context: context,
+                    title: 'Success',
+                    message: 'Registered successfully',
+                  );
+                  CustomRouter.navigateToWithTransition(
+                    const BottomNavbarView(),
+                    'fade',
+                  );
+                }
+              }
+            } catch (e) {
+              if (context.mounted) {
+                toastRepository.show(
+                  context: context,
+                  title: 'Error',
+                  message: e.toString(),
+                  type: 'error',
+                );
+              }
+            }
+          },
           isLoading: ValueNotifier<bool>(authState.isLoading),
         ),
         const SizedBox(height: GlobalStyles.defaultPadding),

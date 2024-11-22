@@ -35,6 +35,18 @@ class ProfileForm extends HookWidget {
         prefixIcon: FluentIcons.person_20_regular,
       ),
       InputFieldConfig(
+        label: 'Gender',
+        type: 'select',
+        hintText: 'Select your gender',
+        value: user.gender,
+        prefixIcon: FluentIcons.person_20_regular,
+        options: const <String>[
+          'Male',
+          'Female',
+          'Prefer not to say',
+        ],
+      ),
+      InputFieldConfig(
         label: 'Address',
         type: 'text',
         hintText: 'Enter your address here',
@@ -56,11 +68,20 @@ class ProfileForm extends HookWidget {
         prefixIcon: FluentIcons.phone_20_regular,
       ),
       InputFieldConfig(
-        label: 'Valid ID',
-        type: 'image',
-        hintText: 'Upload your valid ID',
+        label: 'Valid ID Type',
+        type: 'select',
+        hintText: 'Select your valid ID type',
         value: user.validId,
         prefixIcon: FluentIcons.document_20_regular,
+        options: const <String>[
+          'National ID',
+          "Driver's License",
+          'Passport',
+          'SSS ID',
+          'PhilHealth ID',
+          'Postal ID',
+          "Voter's ID",
+        ],
       ),
     ];
 
@@ -69,10 +90,11 @@ class ProfileForm extends HookWidget {
       initialData: <String, dynamic>{
         'Profile Image': user.profileImg,
         'Name': user.name,
+        'Gender': user.gender,
         'Address': user.address,
         'Bio': user.description,
         'Phone Number': user.phoneNumber,
-        'Valid ID': user.validId,
+        'Valid ID Type': user.validId,
       },
       onSubmit: onSubmit,
       isLoading: isLoading,

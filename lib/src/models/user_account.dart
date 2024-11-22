@@ -13,6 +13,8 @@ class UserAccount {
     this.onlineStatus,
     this.createdAt,
     this.updatedAt,
+    this.birthDate,
+    this.gender,
   });
 
   factory UserAccount.fromJson(Map<String, dynamic> json) => UserAccount(
@@ -26,6 +28,10 @@ class UserAccount {
         description: json['description'] as String?,
         validId: json['validId'] as String?,
         role: json['role'] as String?,
+        birthDate: json['birthDate'] != null
+            ? DateTime.parse(json['birthDate'] as String)
+            : null,
+        gender: json['gender'] as String?,
         onlineStatus: json['onlineStatus'] as bool?,
         createdAt: json['createdAt'] != null
             ? DateTime.parse(json['createdAt'] as String)
@@ -45,6 +51,8 @@ class UserAccount {
   final String? description;
   final String? validId;
   final String? role;
+  final DateTime? birthDate;
+  final String? gender;
   final bool? onlineStatus;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -60,6 +68,8 @@ class UserAccount {
         'description': description,
         'validId': validId,
         'role': role,
+        'birthDate': birthDate?.toIso8601String(),
+        'gender': gender,
         'onlineStatus': onlineStatus,
         'createdAt': createdAt?.toIso8601String(),
         'updatedAt': updatedAt?.toIso8601String(),
@@ -73,7 +83,14 @@ class UserAccount {
     String? phoneNumber,
     String? address,
     String? profileImg,
+    String? description,
     String? validId,
+    DateTime? birthDate,
+    String? gender,
+    bool? onlineStatus,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? provider,
   }) {
     return UserAccount(
       id: id ?? this.id,
@@ -83,7 +100,14 @@ class UserAccount {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       address: address ?? this.address,
       profileImg: profileImg ?? this.profileImg,
+      description: description ?? this.description,
       validId: validId ?? this.validId,
+      birthDate: birthDate ?? this.birthDate,
+      gender: gender ?? this.gender,
+      provider: provider ?? this.provider,
+      onlineStatus: onlineStatus ?? this.onlineStatus,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 }

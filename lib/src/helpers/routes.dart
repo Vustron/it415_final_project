@@ -79,7 +79,7 @@ class Routes {
             child: AccountView(),
           ),
       editAccount: (BuildContext context) => AuthGuard(
-            child: EditProfileView(user: null),
+            child: EditAccountView(user: null),
           ),
       availability: (BuildContext context) => AuthGuard(
             child: AvailabilityView(),

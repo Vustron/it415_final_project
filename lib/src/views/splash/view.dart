@@ -4,37 +4,29 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/src/providers.dart';
+import 'package:babysitterapp/src/constants.dart';
 import 'package:babysitterapp/src/helpers.dart';
+import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
 
+// splash_view.dart
 class SplashView extends HookConsumerWidget {
   const SplashView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    useEffect(() {
-      Future<void> checkAuthAndRedirect() async {
-        await Future<void>.delayed(const Duration(milliseconds: 3000));
+    final AuthState authState = ref.watch(authControllerProvider);
 
-        if (!context.mounted) {
-          return;
-        }
+    useEffect(() {
+      Future<void> initializeAuth() async {
+        // Initial splash delay
+        await Future<void>.delayed(const Duration(milliseconds: 2000));
 
         final User? user = FirebaseAuth.instance.currentUser;
 
         if (user != null) {
-          // Get user data if authenticated
-          await ref.read(authControllerProvider.notifier).getUserData(user.uid);
-
-          if (!context.mounted) {
-            return;
-          }
-          if (context.mounted) {
-            Navigator.pushReplacementNamed(
-              context,
-              Routes.dashboard,
-            );
-          }
+          // Initialize user data stream
+          ref.read(authControllerProvider.notifier).getUserData(user.uid);
         } else {
           if (context.mounted) {
             Navigator.pushReplacementNamed(context, Routes.login);
@@ -42,21 +34,30 @@ class SplashView extends HookConsumerWidget {
         }
       }
 
-      checkAuthAndRedirect();
+      initializeAuth();
       return null;
     }, const <Object?>[]);
 
-    final Size mq = MediaQuery.of(context).size;
+    useEffect(() {
+      if (authState.status == AuthStatus.authenticated) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Navigator.pushReplacementNamed(context, Routes.dashboard);
+        });
+      }
+      return null;
+    }, <Object?>[authState.status]);
 
     return Scaffold(
       body: Stack(
         children: <Widget>[
           const AnimatedLogo(),
           Positioned(
-            bottom: mq.height * .28,
-            width: mq.width,
+            bottom: MediaQuery.of(context).size.height * .28,
+            width: MediaQuery.of(context).size.width,
             child: const Center(
-              child: Column(),
+              child: CircularProgressIndicator(
+                color: GlobalStyles.primaryButtonColor,
+              ),
             ),
           ),
         ],

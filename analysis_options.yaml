@@ -27,7 +27,7 @@ custom_lint:
 linter:
   rules:
     - always_declare_return_types
-    - always_put_control_body_on_new_line
+    # - always_put_control_body_on_new_line
     # - always_put_required_named_parameters_first # we prefer having parameters in the same order as fields https://github.com/flutter/flutter/issues/10219
     - always_specify_types
     # - always_use_package_imports # we do this commonly
@@ -52,7 +52,7 @@ linter:
     # - avoid_multiple_declarations_per_line # seems to be a stylistic choice we don't subscribe to
     - avoid_null_checks_in_equality_operators
     # - avoid_positional_boolean_parameters # would have been nice to enable this but by now there's too many places that break it
-    - avoid_print
+    # - avoid_print
     # - avoid_private_typedef_functions # we prefer having typedef (discussion in https://github.com/flutter/flutter/pull/16356)
     - avoid_redundant_argument_values
     - avoid_relative_lib_imports

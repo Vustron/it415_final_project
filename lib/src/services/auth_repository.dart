@@ -34,7 +34,9 @@ class AuthRepository {
       if (emailValidation.isLeft()) {
         return emailValidation.fold(
           (AuthFailure failure) => left(failure),
-          (_) => left(AuthFailure('')),
+          (_) => left(
+            AuthFailure(''),
+          ),
         );
       }
 
@@ -42,8 +44,10 @@ class AuthRepository {
           validatePassword(password);
       if (passwordValidation.isLeft()) {
         return passwordValidation.fold(
-          (AuthFailure failure) => left(failure),
-          (_) => left(AuthFailure('')),
+          (AuthFailure failure) => left<AuthFailure, UserAccount>(failure),
+          (_) => left(
+            AuthFailure(''),
+          ),
         );
       }
 
@@ -54,12 +58,11 @@ class AuthRepository {
       );
 
       if (userCredential.user != null) {
+        final Stream<Either<AuthFailure, UserAccount>> userDataStream =
+            getUserDataStream(userCredential.user!.uid);
         final Either<AuthFailure, UserAccount> userDataResult =
-            await getUserData(userCredential.user!.uid);
-        return userDataResult.fold(
-          (AuthFailure failure) => left(failure),
-          (UserAccount userData) => right(userData),
-        );
+            await userDataStream.first;
+        return userDataResult;
       }
       return left(AuthFailure('Login failed'));
     } on FirebaseAuthException catch (e) {
@@ -120,11 +123,15 @@ class AuthRepository {
       if (userCredential.user != null) {
         final UserAccount user = UserAccount(
           id: userCredential.user!.uid,
-          email: email,
           name: name,
-          phoneNumber: phoneNumber,
           address: address,
-          provider: 'email',
+          phoneNumber: phoneNumber,
+          email: email,
+          provider: 'emailwithpassword',
+          profileImg: '',
+          description: '',
+          validId: '',
+          gender: '',
           role: role,
           onlineStatus: true,
           createdAt: DateTime.now(),
@@ -140,39 +147,48 @@ class AuthRepository {
     }
   }
 
-  Future<Either<AuthFailure, UserAccount>> getUserData(String uid) async {
-    // Validate uid
+  Stream<Either<AuthFailure, UserAccount>> getUserDataStream(String uid) {
     if (uid.isEmpty) {
-      return left(AuthFailure('User ID cannot be empty'));
+      return Stream<Either<AuthFailure, UserAccount>>.value(
+          left(AuthFailure('User ID cannot be empty')));
     }
 
-    try {
-      final DocumentSnapshot<Map<String, dynamic>> doc =
-          await fireStore.collection('users').doc(uid).get();
+    return fireStore
+        .collection('users')
+        .doc(uid)
+        .snapshots()
+        .map<Either<AuthFailure, UserAccount>>(
+      (DocumentSnapshot<Map<String, dynamic>> snapshot) {
+        try {
+          if (!snapshot.exists) {
+            return left(AuthFailure('User not found'));
+          }
 
-      if (!doc.exists) {
-        return left(AuthFailure('User not found'));
+          final Map<String, dynamic>? data = snapshot.data();
+          if (data == null) {
+            return left(AuthFailure('User data is corrupted'));
+          }
+
+          return right(UserAccount.fromJson(data));
+        } catch (e) {
+          return left(AuthFailure('Unexpected error: $e'));
+        }
+      },
+    ).handleError((dynamic error) {
+      if (error is FirebaseException) {
+        return left<AuthFailure, UserAccount>(
+            AuthFailure('Firebase error: ${error.message}'));
       }
-
-      final Map<String, dynamic>? data = doc.data();
-      if (data == null) {
-        return left(AuthFailure('User data is corrupted'));
-      }
-
-      return right(UserAccount.fromJson(data));
-    } on FirebaseException catch (e) {
-      return left(AuthFailure('Firebase error: ${e.message}'));
-    } catch (e) {
-      return left(AuthFailure('Unexpected error: $e'));
-    }
+      return left<AuthFailure, UserAccount>(
+          AuthFailure('Unexpected error: $error'));
+    });
   }
 
   Future<Either<AuthFailure, Unit>> saveUserData(UserAccount user) async {
-    if (user.id!.isEmpty) {
-      return left(AuthFailure('User ID cannot be empty'));
-    }
-
     try {
+      if (user.id!.isEmpty) {
+        return left(AuthFailure('User ID cannot be empty'));
+      }
       await fireStore.collection('users').doc(user.id).set(user.toJson());
       return right(unit);
     } catch (e) {
@@ -192,7 +208,7 @@ class AuthRepository {
           await ref.delete();
         }
       } catch (e) {
-        // Ignore if no existing images
+        print('No images found in the folder: $e');
       }
 
       final String fileName =
@@ -205,6 +221,9 @@ class AuthRepository {
       );
 
       final UploadTask uploadTask = ref.putFile(image, metadata);
+      uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
+        print('Data transferred: ${snapshot.bytesTransferred / 1000} kb');
+      });
       final TaskSnapshot snapshot = await uploadTask;
       final String downloadUrl = await snapshot.ref.getDownloadURL();
 
@@ -227,18 +246,14 @@ class AuthRepository {
         return left(AuthFailure('User not found'));
       }
 
-      final Map<String, dynamic> currentData = doc.data() ?? {};
+      final Map<String, dynamic> currentData =
+          doc.data() ?? <String, dynamic>{};
       final Map<String, dynamic> updateData = user.toJson();
 
       if (updateData['profileImg'] == null ||
           (updateData['profileImg'] is String &&
               (updateData['profileImg'] as String).isEmpty)) {
         updateData['profileImg'] = currentData['profileImg'] ?? '';
-      }
-      if (updateData['validId'] == null ||
-          (updateData['validId'] is String &&
-              (updateData['validId'] as String).isEmpty)) {
-        updateData['validId'] = currentData['validId'] ?? '';
       }
 
       await fireStore.collection('users').doc(user.id).update(updateData);
@@ -252,20 +267,27 @@ class AuthRepository {
     }
   }
 
-  Future<Either<AuthFailure, void>> deleteProfileImage(
+  Future<Either<AuthFailure, Unit>> deleteProfileImage(
       String uid, String imageUrl, String imageType) async {
     try {
-      final Reference ref = FirebaseStorage.instance.refFromURL(imageUrl);
-      await ref.delete();
-
       final Map<String, dynamic> updateData = <String, dynamic>{
         'updatedAt': DateTime.now().toIso8601String(),
       };
 
+      if (imageUrl.isEmpty) {
+        if (imageType == 'Profile Image') {
+          updateData['profileImg'] = '';
+        }
+
+        await fireStore.collection('users').doc(uid).update(updateData);
+        return right(unit);
+      }
+
+      final Reference ref = FirebaseStorage.instance.refFromURL(imageUrl);
+      await ref.delete();
+
       if (imageType == 'Profile Image') {
         updateData['profileImg'] = '';
-      } else if (imageType == 'Valid ID') {
-        updateData['validId'] = '';
       }
 
       await fireStore.collection('users').doc(uid).update(updateData);

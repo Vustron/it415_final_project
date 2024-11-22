@@ -1,3 +1,4 @@
+import 'package:babysitterapp/src/components.dart';
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/src/constants.dart';
@@ -19,12 +20,8 @@ class AccountImageEditButton extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              CircleAvatar(
-                backgroundImage:
-                    (user.profileImg != null && user.profileImg!.isNotEmpty)
-                        ? NetworkImage(user.profileImg!)
-                        : const AssetImage(avatar2) as ImageProvider,
-                radius: 50,
+              CachedAvatar(
+                imageUrl: user.profileImg,
               ),
               const SizedBox(width: 16),
               Column(
@@ -56,7 +53,7 @@ class AccountImageEditButton extends StatelessWidget {
             child: ElevatedButton.icon(
               onPressed: () {
                 CustomRouter.navigateToWithTransition(
-                  EditProfileView(user: user),
+                  EditAccountView(user: user),
                   'rightToLeftWithFade',
                 );
               },

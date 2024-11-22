@@ -1,4 +1,3 @@
-import 'package:toastification/toastification.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +9,8 @@ import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
 
-class EditProfileView extends HookConsumerWidget with GlobalStyles {
-  EditProfileView({super.key, required this.user});
+class EditAccountView extends HookConsumerWidget with GlobalStyles {
+  EditAccountView({super.key, required this.user});
   final UserAccount? user;
 
   @override
@@ -20,46 +19,17 @@ class EditProfileView extends HookConsumerWidget with GlobalStyles {
     final double profileCompletion = calculateProfileCompletion(user!);
     final AuthController authController =
         ref.watch(authControllerProvider.notifier);
-
-    ref.listen(authControllerProvider, (AuthState? previous, AuthState next) {
-      if (!next.hasShownToast && context.mounted) {
-        toastification.dismissAll();
-        if (next.error != null) {
-          ToastUtils.showToast(
-            context: context,
-            title: 'Error',
-            message: next.error!,
-            type: ToastificationType.error,
-          );
-        } else if (next.status == AuthStatus.authenticated) {
-          ToastUtils.showToast(
-            context: context,
-            title: 'Success',
-            message: 'Profile updated successfully',
-          );
-        }
-        ref.read(authControllerProvider.notifier).markToastAsShown();
-      }
-    });
+    final ToastRepository toastRepository = ref.watch(toastProvider);
 
     Future<void> onSubmit(Map<String, dynamic> formData) async {
       try {
         isLoading.value = true;
         String? newProfileImgUrl;
-        String? newValidIdUrl;
 
-        // Handle profile image
         if (formData['Profile Image'] != null) {
           final dynamic imageData = formData['Profile Image'];
           if (imageData is String) {
             newProfileImgUrl = imageData;
-          }
-        }
-
-        if (formData['Valid ID'] != null) {
-          final dynamic validIdImageData = formData['Valid ID'];
-          if (validIdImageData is String) {
-            newValidIdUrl = validIdImageData;
           }
         }
 
@@ -73,14 +43,46 @@ class EditProfileView extends HookConsumerWidget with GlobalStyles {
           provider: user?.provider ?? '',
           profileImg: newProfileImgUrl ?? user?.profileImg ?? '',
           description: formData['Bio'] as String? ?? user?.description ?? '',
-          validId: newValidIdUrl ?? user?.validId ?? '',
+          validId: formData['Valid ID Type'] as String? ?? user?.validId ?? '',
+          gender: formData['Gender'] as String? ?? user?.gender ?? '',
           role: user?.role ?? '',
           onlineStatus: user?.onlineStatus ?? false,
           createdAt: user?.createdAt ?? DateTime.now(),
-          updatedAt: DateTime.now(),
+          updatedAt: user?.updatedAt ?? DateTime.now(),
         );
 
         await authController.updateUser(updatedUser);
+
+        if (context.mounted) {
+          final AuthState updatedAuthState = ref.read(authControllerProvider);
+
+          if (updatedAuthState.error != null) {
+            toastRepository.show(
+              context: context,
+              title: 'Error',
+              message: updatedAuthState.error!,
+              type: 'error',
+            );
+          } else {
+            toastRepository.show(
+              context: context,
+              title: 'Success',
+              message: 'Profile updated successfully',
+            );
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.pushReplacementNamed(context, Routes.dashboard);
+            });
+          }
+        }
+      } catch (e) {
+        if (context.mounted) {
+          toastRepository.show(
+            context: context,
+            title: 'Error',
+            message: e.toString(),
+            type: 'error',
+          );
+        }
       } finally {
         isLoading.value = false;
       }
@@ -105,6 +107,7 @@ class EditProfileView extends HookConsumerWidget with GlobalStyles {
                       profileImg: '',
                       description: '',
                       validId: '',
+                      gender: '',
                       role: '',
                       onlineStatus: false,
                       createdAt: DateTime.now(),

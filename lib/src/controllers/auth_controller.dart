@@ -317,4 +317,40 @@ class AuthController extends StateNotifier<AuthState> {
       );
     }
   }
+
+  Future<void> sendEmailVerification() async {
+    if (state.isLoading) return;
+
+    state = state.copyWith(
+      isLoading: true,
+      status: AuthStatus.initial,
+      hasShownToast: false,
+    );
+
+    try {
+      final Either<AuthFailure, Unit> result =
+          await authRepo.sendEmailVerification();
+
+      result.fold(
+        (AuthFailure failure) => state = state.copyWith(
+          isLoading: false,
+          error: failure.message,
+          status: AuthStatus.error,
+          hasShownToast: false,
+        ),
+        (_) => state = state.copyWith(
+          isLoading: false,
+          status: AuthStatus.authenticated,
+          hasShownToast: false,
+        ),
+      );
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+        status: AuthStatus.error,
+        hasShownToast: false,
+      );
+    }
+  }
 }

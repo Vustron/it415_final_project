@@ -108,9 +108,10 @@ export 'views/search/widgets/layer.dart';
 export 'views/search/view.dart';
 
 // account
-export 'views/account/widgets/edit_account_btn.dart';
 export 'views/account/widgets/verification_item.dart';
 export 'views/account/widgets/verification_card.dart';
+export 'views/account/widgets/edit_account_btn.dart';
+export 'views/account/widgets/verification.dart';
 export 'views/account/widgets/contact_item.dart';
 export 'views/account/widgets/contact_info.dart';
 export 'views/account/widgets/bio_card.dart';

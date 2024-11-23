@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/constants.dart';
 import 'package:babysitterapp/src/helpers.dart';
+import 'package:babysitterapp/src/models.dart';
 
 class LogoutButton extends HookConsumerWidget with GlobalStyles {
   LogoutButton({super.key});
@@ -21,8 +22,7 @@ class LogoutButton extends HookConsumerWidget with GlobalStyles {
         await ref.read(authControllerProvider.notifier).logout();
 
         if (context.mounted) {
-          // Check updated auth state
-          final updatedAuthState = ref.read(authControllerProvider);
+          final AuthState updatedAuthState = ref.read(authControllerProvider);
 
           if (updatedAuthState.error != null) {
             toastRepository.show(

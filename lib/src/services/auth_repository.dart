@@ -362,4 +362,21 @@ class AuthRepository {
       return left(AuthFailure(e.message ?? 'Firebase authentication failed'));
     }
   }
+
+  Future<Either<AuthFailure, Unit>> sendEmailVerification() async {
+    try {
+      final User? user = auth.currentUser;
+      if (user == null) {
+        return left(AuthFailure('No user logged in'));
+      }
+
+      await user.sendEmailVerification();
+      return right(unit);
+    } on FirebaseAuthException catch (e) {
+      return left(
+          AuthFailure(e.message ?? 'Failed to send verification email'));
+    } catch (e) {
+      return left(AuthFailure(e.toString()));
+    }
+  }
 }

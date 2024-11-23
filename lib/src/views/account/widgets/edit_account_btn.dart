@@ -90,10 +90,10 @@ class EditAccountButton extends StatelessWidget {
                   )
                 : ElevatedButton.icon(
                     onPressed: () {
-                      // CustomRouter.navigateToWithTransition(
-                      //   const VerificationView(),
-                      //   'rightToLeftWithFade',
-                      // );
+                      CustomRouter.navigateToWithTransition(
+                        const VerificationView(),
+                        'fade',
+                      );
                     },
                     style: ButtonStyle(
                       backgroundColor:

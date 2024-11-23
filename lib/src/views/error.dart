@@ -87,7 +87,7 @@ class ErrorView extends HookWidget {
                 ElevatedButton(
                   onPressed: () {
                     CustomRouter.navigateToWithTransition(
-                      const LoginView(),
+                      LoginView(),
                       'rightToLeftWithFade',
                     );
                   },

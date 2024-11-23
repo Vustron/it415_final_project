@@ -13,10 +13,6 @@ Widget cardPageBabySitter() => Padding(
               icon: FluentIcons.money_24_regular,
               value: '10',
               label: 'No. of transaction',
-              gradientColors: <Color>[
-                Colors.green.shade50,
-                Colors.green.shade100,
-              ],
               iconColor: Colors.green.shade700,
             ),
           ),
@@ -26,10 +22,6 @@ Widget cardPageBabySitter() => Padding(
               icon: FluentIcons.person_24_regular,
               value: '10',
               label: 'No. of Babysitted',
-              gradientColors: <Color>[
-                Colors.blue.shade50,
-                Colors.blue.shade100,
-              ],
               iconColor: Colors.blue.shade700,
             ),
           ),

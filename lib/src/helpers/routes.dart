@@ -29,7 +29,7 @@ class Routes {
   static Map<String, WidgetBuilder> getRoutes() {
     return <String, WidgetBuilder>{
       splash: (BuildContext context) => const SplashView(),
-      login: (BuildContext context) => const LoginView(),
+      login: (BuildContext context) => LoginView(),
       register: (BuildContext context) => RegisterView(),
       // Protected routes
       dashboard: (BuildContext context) => const AuthGuard(
@@ -39,12 +39,7 @@ class Routes {
             child: HomeView(),
           ),
       homeBabysitter: (BuildContext context) => const AuthGuard(
-            child: HomeBabysitterView(
-              location: '',
-              username: '',
-              userImg: '',
-              onlineStatus: false,
-            ),
+            child: HomeBabysitterView(),
           ),
       messages: (BuildContext context) => AuthGuard(
             child: MessageView(),

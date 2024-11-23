@@ -11,6 +11,9 @@ class EditAccountButton extends StatelessWidget {
 
   final UserAccount user;
 
+  bool get isVerified =>
+      user.emailVerified != null && user.validIdVerified != null;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,6 +28,8 @@ class EditAccountButton extends StatelessWidget {
                 imageUrl: user.profileImg,
                 showOnlineStatus: true,
                 isOnline: user.onlineStatus,
+                showVerificationStatus: true,
+                isVerified: isVerified,
               ),
               const SizedBox(width: 16),
               Column(
@@ -53,34 +58,65 @@ class EditAccountButton extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Center(
-            child: ElevatedButton.icon(
-              onPressed: () {
-                CustomRouter.navigateToWithTransition(
-                  EditAccountView(user: user),
-                  'rightToLeftWithFade',
-                );
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    GlobalStyles.primaryButtonColor),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+            child: isVerified
+                ? ElevatedButton.icon(
+                    onPressed: () {
+                      CustomRouter.navigateToWithTransition(
+                        EditAccountView(user: user),
+                        'rightToLeftWithFade',
+                      );
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          GlobalStyles.primaryButtonColor),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                        const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 12),
+                      ),
+                    ),
+                    icon: const Icon(Icons.edit, size: 20),
+                    label: const Text(
+                      'Edit Account',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  )
+                : ElevatedButton.icon(
+                    onPressed: () {
+                      // CustomRouter.navigateToWithTransition(
+                      //   const VerificationView(),
+                      //   'rightToLeftWithFade',
+                      // );
+                    },
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.orange),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                        const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 12),
+                      ),
+                    ),
+                    icon: const Icon(Icons.warning_amber_rounded, size: 20),
+                    label: const Text(
+                      'Verify Account',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
-                ),
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                  const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                ),
-              ),
-              icon: const Icon(Icons.edit, size: 20),
-              label: const Text(
-                'Edit Account',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            ),
           ),
         ],
       ),

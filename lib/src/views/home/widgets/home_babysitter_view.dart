@@ -1,25 +1,20 @@
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:babysitterapp/src/models.dart';
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/src/constants.dart';
 import 'package:babysitterapp/src/views.dart';
 
-class HomeBabysitterView extends StatefulWidget {
+class HomeBabysitterView extends HookWidget {
   const HomeBabysitterView({
     super.key,
-    required this.username,
-    required this.userImg,
-    required this.location,
-    required this.onlineStatus,
+    this.user,
   });
 
-  final String username, userImg, location;
-  final bool onlineStatus;
+  final UserAccount? user;
+  bool get isVerified =>
+      user?.emailVerified != null && user?.validIdVerified != null;
 
-  @override
-  State<HomeBabysitterView> createState() => _HomeBabysitterViewState();
-}
-
-class _HomeBabysitterViewState extends State<HomeBabysitterView> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -28,15 +23,16 @@ class _HomeBabysitterViewState extends State<HomeBabysitterView> {
         child: Column(
           children: <Widget>[
             babySitterHeader(
-              username: widget.username,
-              networkImage: widget.userImg,
+              username: user?.name ?? '',
+              networkImage: user?.profileImg ?? '',
               starRatings: '5.0',
-              location: widget.location,
-              onlineStatus: widget.onlineStatus,
+              location: user?.address ?? '',
+              onlineStatus: user?.onlineStatus ?? false,
+              isVerified: isVerified,
             ),
-            const TransactionChart(colorBar: GlobalStyles.primaryButtonColor),
             cardPageBabySitter(),
-            const SizedBox(height: 120),
+            const TransactionChart(colorBar: GlobalStyles.primaryButtonColor),
+            const SizedBox(height: 145),
           ],
         ),
       ),

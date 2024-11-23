@@ -46,7 +46,7 @@ class SplashView extends HookConsumerWidget {
     return const Scaffold(
       body: Stack(
         children: <Widget>[
-          const AnimatedLogo(),
+          AnimatedLogo(),
           // Positioned(
           //   bottom: MediaQuery.of(context).size.height * .28,
           //   width: MediaQuery.of(context).size.width,

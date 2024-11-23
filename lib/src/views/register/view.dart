@@ -1,15 +1,22 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:babysitterapp/src/constants.dart';
+import 'package:babysitterapp/src/providers.dart';
+import 'package:babysitterapp/src/services.dart';
+import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
 
-class RegisterView extends HookWidget with GlobalStyles {
+class RegisterView extends HookConsumerWidget with GlobalStyles {
   RegisterView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ToastRepository toastRepository = ref.watch(toastProvider);
+    final AuthState authState = ref.watch(authControllerProvider);
+
     useEffect(() {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
       SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -94,9 +101,35 @@ class RegisterView extends HookWidget with GlobalStyles {
                   children: <Widget>[
                     SocialButton(
                       icon: 'assets/icons/google.png',
-                      onPressed: () {
-                        // Implement Google login
-                      },
+                      onPressed: authState.isLoading
+                          ? null
+                          : () async {
+                              try {
+                                await ref
+                                    .read(authControllerProvider.notifier)
+                                    .loginUsingGoogle();
+
+                                if (context.mounted &&
+                                    authState.status ==
+                                        AuthStatus.authenticated) {
+                                  toastRepository.show(
+                                    context: context,
+                                    title: 'Success',
+                                    message:
+                                        'Successfully logged in with Google',
+                                  );
+                                }
+                              } catch (e) {
+                                if (context.mounted) {
+                                  toastRepository.show(
+                                    context: context,
+                                    title: 'Error',
+                                    message: e.toString(),
+                                    type: 'error',
+                                  );
+                                }
+                              }
+                            },
                       label: 'Continue with Google',
                     ),
                   ],

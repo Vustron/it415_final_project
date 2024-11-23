@@ -8,6 +8,7 @@ Widget babySitterHeader({
   required String location,
   required String starRatings,
   required bool onlineStatus,
+  required bool isVerified,
 }) =>
     Container(
       padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -22,6 +23,8 @@ Widget babySitterHeader({
                 imageUrl: networkImage,
                 showOnlineStatus: true,
                 isOnline: onlineStatus,
+                showVerificationStatus: true,
+                isVerified: isVerified,
               ),
               const SizedBox(height: 10),
               Text(
@@ -32,13 +35,6 @@ Widget babySitterHeader({
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              // Text(
-              //   location,
-              //   maxLines: 1,
-              //   style: const TextStyle(
-              //     fontSize: 12,
-              //   ),
-              // ),
             ],
           ),
           Column(

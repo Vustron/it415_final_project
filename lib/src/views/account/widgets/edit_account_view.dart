@@ -45,8 +45,14 @@ class EditAccountView extends HookConsumerWidget with GlobalStyles {
           description: formData['Bio'] as String? ?? user?.description ?? '',
           gender: formData['Gender'] as String? ?? user?.gender ?? '',
           birthDate: formData['Birth Date'] as DateTime? ?? user?.birthDate,
-          role: user?.role ?? '',
+          role: user?.provider == 'google'
+              ? formData['Role'] as String? ?? user?.role ?? ''
+              : user?.role ?? '',
           onlineStatus: user?.onlineStatus ?? false,
+          emailVerified: user?.emailVerified,
+          validIdVerified: user?.validIdVerified,
+          validIdFront: user?.validIdFront ?? '',
+          validIdBack: user?.validIdBack ?? '',
           createdAt: user?.createdAt ?? DateTime.now(),
           updatedAt: DateTime.now(),
         );
@@ -109,6 +115,10 @@ class EditAccountView extends HookConsumerWidget with GlobalStyles {
                       gender: '',
                       role: '',
                       onlineStatus: false,
+                      emailVerified: null,
+                      validIdVerified: null,
+                      validIdFront: '',
+                      validIdBack: '',
                       createdAt: DateTime.now(),
                       updatedAt: DateTime.now(),
                     ),

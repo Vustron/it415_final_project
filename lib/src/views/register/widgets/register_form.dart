@@ -104,7 +104,7 @@ class RegisterForm extends HookConsumerWidget with GlobalStyles {
           login: false,
           press: () {
             CustomRouter.navigateToWithTransition(
-              const LoginView(),
+              LoginView(),
               'leftToRightWithFade',
             );
           },

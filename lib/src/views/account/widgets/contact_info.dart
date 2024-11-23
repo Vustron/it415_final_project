@@ -62,17 +62,24 @@ class ContactInformation extends StatelessWidget {
                   const SizedBox(height: 16),
                   ContactItem(
                     icon: FluentIcons.phone_24_regular,
-                    text: user.phoneNumber ?? 'No phone number',
+                    text:
+                        (user.phoneNumber == null || user.phoneNumber!.isEmpty)
+                            ? 'No phone number'
+                            : user.phoneNumber!,
                   ),
                   const SizedBox(height: 12),
                   ContactItem(
                     icon: FluentIcons.mail_24_regular,
-                    text: user.email ?? 'No email',
+                    text: (user.email == null || user.email!.isEmpty)
+                        ? 'No email'
+                        : user.email!,
                   ),
                   const SizedBox(height: 12),
                   ContactItem(
                     icon: FluentIcons.location_24_regular,
-                    text: user.address ?? 'No address',
+                    text: (user.address == null || user.address!.isEmpty)
+                        ? 'No address'
+                        : user.address!,
                   ),
                 ],
               ),

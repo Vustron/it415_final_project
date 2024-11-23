@@ -277,4 +277,44 @@ class AuthController extends StateNotifier<AuthState> {
     userSubscription?.cancel();
     super.dispose();
   }
+
+  Future<void> loginUsingGoogle() async {
+    if (state.isLoading) return;
+
+    state = state.copyWith(
+      isLoading: true,
+      status: AuthStatus.initial,
+      hasShownToast: false,
+    );
+
+    try {
+      final Either<AuthFailure, UserAccount> result =
+          await authRepo.loginWithGoogle();
+
+      result.fold(
+        (AuthFailure failure) => state = state.copyWith(
+          isLoading: false,
+          error: failure.message,
+          status: AuthStatus.error,
+          hasShownToast: false,
+        ),
+        (UserAccount user) {
+          initUserStream(user.id!);
+          state = state.copyWith(
+            isLoading: false,
+            user: user,
+            status: AuthStatus.authenticated,
+            hasShownToast: false,
+          );
+        },
+      );
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+        status: AuthStatus.error,
+        hasShownToast: false,
+      );
+    }
+  }
 }

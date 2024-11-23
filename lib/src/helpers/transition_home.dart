@@ -29,7 +29,7 @@ Future<void> transitionHome(BuildContext context) async {
       PageTransition<void>(
         type: PageTransitionType.size,
         alignment: Alignment.bottomCenter,
-        child: user != null ? const BottomNavbarView() : const LoginView(),
+        child: user != null ? const BottomNavbarView() : LoginView(),
       ),
     );
   }

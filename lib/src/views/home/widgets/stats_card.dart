@@ -4,7 +4,6 @@ Widget statsCard({
   required IconData icon,
   required String value,
   required String label,
-  required List<Color> gradientColors,
   required Color iconColor,
 }) =>
     Container(
@@ -17,11 +16,7 @@ Widget statsCard({
         vertical: 20,
       ),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: gradientColors,
-        ),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: <BoxShadow>[
           BoxShadow(

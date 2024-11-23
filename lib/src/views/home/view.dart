@@ -83,10 +83,7 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
                   currentIndex: currentIndex,
                 )
               : HomeBabysitterView(
-                  username: authState.user!.name ?? '',
-                  userImg: authState.user!.profileImg ?? '',
-                  location: authState.user!.address ?? '',
-                  onlineStatus: authState.user!.onlineStatus ?? false,
+                  user: authState.user,
                 ),
     );
   }

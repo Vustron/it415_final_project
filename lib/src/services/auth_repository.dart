@@ -1,5 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dartz/dartz.dart';
 import 'dart:io';
@@ -134,6 +135,10 @@ class AuthRepository {
           gender: '',
           role: role,
           onlineStatus: true,
+          emailVerified: null,
+          validIdVerified: null,
+          validIdFront: '',
+          validIdBack: '',
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
         );
@@ -295,6 +300,66 @@ class AuthRepository {
       return right(unit);
     } catch (e) {
       return left(AuthFailure('Failed to delete image: $e'));
+    }
+  }
+
+  Future<Either<AuthFailure, UserAccount>> loginWithGoogle() async {
+    try {
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+
+      if (googleUser == null) {
+        return left(AuthFailure('Google sign in was cancelled'));
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final UserCredential userCredential =
+          await auth.signInWithCredential(credential);
+      final User? firebaseUser = userCredential.user;
+
+      if (firebaseUser == null) {
+        return left(AuthFailure('Failed to sign in with Google'));
+      }
+
+      final DocumentSnapshot<Map<String, dynamic>> doc =
+          await fireStore.collection('users').doc(firebaseUser.uid).get();
+
+      if (doc.exists) {
+        return right(UserAccount.fromJson(doc.data()!));
+      } else {
+        final UserAccount newUser = UserAccount(
+          id: firebaseUser.uid,
+          name: firebaseUser.displayName,
+          address: '',
+          phoneNumber: '',
+          email: firebaseUser.email,
+          provider: 'google',
+          profileImg: firebaseUser.photoURL,
+          description: '',
+          validId: '',
+          gender: '',
+          role: '',
+          onlineStatus: true,
+          emailVerified: DateTime.now(),
+          validIdVerified: null,
+          validIdFront: '',
+          validIdBack: '',
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        );
+
+        await saveUserData(newUser);
+        return right(newUser);
+      }
+    } on FirebaseAuthException catch (e) {
+      return left(AuthFailure(e.message ?? 'Firebase authentication failed'));
     }
   }
 }

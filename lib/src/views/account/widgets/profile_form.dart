@@ -84,6 +84,19 @@ class ProfileForm extends HookWidget {
       //     "Voter's ID",
       //   ],
       // ),
+      if (user.role == null || user.role!.isEmpty)
+        InputFieldConfig(
+          label: 'Role',
+          type: 'select',
+          hintText: 'Select your role',
+          value: user.role,
+          prefixIcon: FluentIcons.person_tag_20_regular,
+          options: const <String>[
+            'Parent',
+            'Babysitter',
+          ],
+          isRequired: true,
+        ),
       const InputFieldConfig(
         label: 'Birth Date',
         hintText: 'Select your birth date',
@@ -101,9 +114,10 @@ class ProfileForm extends HookWidget {
         'Address': user.address ?? '',
         'Phone Number': user.phoneNumber ?? '',
         'Bio': user.description ?? '',
-        // 'Valid ID Type': user.validId ?? '',
+        'Valid ID Type': user.validId ?? '',
         'Gender': user.gender ?? '',
         'Birth Date': user.birthDate,
+        if (user.role == null || user.role!.isEmpty) 'Role': user.role ?? '',
         'Profile Image': user.profileImg ?? '',
       },
       onSubmit: onSubmit,

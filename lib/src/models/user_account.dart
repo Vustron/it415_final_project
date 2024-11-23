@@ -15,6 +15,8 @@ class UserAccount {
     this.onlineStatus,
     this.emailVerified,
     this.validIdVerified,
+    this.validIdFront,
+    this.validIdBack,
     this.createdAt,
     this.updatedAt,
   });
@@ -45,6 +47,8 @@ class UserAccount {
                 json['validIdVerified'] != ''
             ? DateTime.parse(json['validIdVerified'] as String)
             : null,
+        validIdFront: json['validIdFront'] as String?,
+        validIdBack: json['validIdBack'] as String?,
         createdAt: json['createdAt'] != null
             ? DateTime.parse(json['createdAt'] as String)
             : null,
@@ -68,6 +72,8 @@ class UserAccount {
   final bool? onlineStatus;
   final DateTime? emailVerified;
   final DateTime? validIdVerified;
+  final String? validIdFront;
+  final String? validIdBack;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -87,6 +93,8 @@ class UserAccount {
         'onlineStatus': onlineStatus,
         'emailVerified': emailVerified?.toIso8601String(),
         'validIdVerified': validIdVerified?.toIso8601String(),
+        'validIdFront': validIdFront,
+        'validIdBack': validIdBack,
         'createdAt': createdAt?.toIso8601String(),
         'updatedAt': updatedAt?.toIso8601String(),
       };
@@ -107,6 +115,8 @@ class UserAccount {
     String? provider,
     DateTime? emailVerified,
     DateTime? validIdVerified,
+    String? validIdFront,
+    String? validIdBack,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -126,6 +136,8 @@ class UserAccount {
       onlineStatus: onlineStatus ?? this.onlineStatus,
       emailVerified: emailVerified ?? this.emailVerified,
       validIdVerified: validIdVerified ?? this.validIdVerified,
+      validIdFront: validIdFront ?? this.validIdFront,
+      validIdBack: validIdBack ?? this.validIdBack,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

@@ -10,7 +10,7 @@ class SocialButton extends HookWidget {
   });
 
   final String icon;
-  final VoidCallback onPressed;
+  final void Function()? onPressed;
   final String? label;
 
   @override

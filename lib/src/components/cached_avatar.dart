@@ -11,65 +11,88 @@ class CachedAvatar extends StatelessWidget {
     this.radius = 40,
     this.showOnlineStatus = false,
     this.isOnline,
+    this.showVerificationStatus = false,
+    this.isVerified,
   });
 
   final String? imageUrl;
   final double radius;
   final bool showOnlineStatus;
   final bool? isOnline;
+  final bool showVerificationStatus;
+  final bool? isVerified;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        if (imageUrl == null || imageUrl!.isEmpty)
-          CircleAvatar(
-            radius: radius,
-            backgroundColor: Colors.white,
-            child: Icon(
-              FluentIcons.person_32_regular,
-              size: radius * 1.2,
-              color: GlobalStyles.primaryButtonColor,
-            ),
-          )
-        else
-          CircleAvatar(
-            radius: radius,
-            backgroundColor: Colors.white,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(radius),
-              child: CachedNetworkImage(
-                imageUrl: imageUrl!,
-                fit: BoxFit.cover,
-                width: radius * 2,
-                height: radius * 2,
-                placeholder: (BuildContext context, String url) => const Center(
-                  child: CircularProgressIndicator(
+        Container(
+          decoration: showOnlineStatus && isOnline != null
+              ? BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: isOnline! ? Colors.green : Colors.grey,
+                    width: 3,
+                  ),
+                )
+              : null,
+          child: imageUrl == null || imageUrl!.isEmpty
+              ? CircleAvatar(
+                  radius: radius,
+                  backgroundColor: Colors.white,
+                  child: Icon(
+                    FluentIcons.person_32_regular,
+                    size: radius * 1.2,
                     color: GlobalStyles.primaryButtonColor,
                   ),
+                )
+              : CircleAvatar(
+                  radius: radius,
+                  backgroundColor: Colors.white,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(radius),
+                    child: CachedNetworkImage(
+                      imageUrl: imageUrl!,
+                      fit: BoxFit.cover,
+                      width: radius * 2,
+                      height: radius * 2,
+                      placeholder: (BuildContext context, String url) =>
+                          const Center(
+                        child: CircularProgressIndicator(
+                          color: GlobalStyles.primaryButtonColor,
+                        ),
+                      ),
+                      errorWidget:
+                          (BuildContext context, String url, Object error) =>
+                              Icon(
+                        FluentIcons.person_32_regular,
+                        size: radius * 1.2,
+                        color: GlobalStyles.primaryButtonColor,
+                      ),
+                    ),
+                  ),
                 ),
-                errorWidget: (BuildContext context, String url, Object error) =>
-                    Icon(
-                  FluentIcons.person_32_regular,
-                  size: radius * 1.2,
-                  color: GlobalStyles.primaryButtonColor,
-                ),
-              ),
-            ),
-          ),
-        if (showOnlineStatus && isOnline != null)
+        ),
+        if (showVerificationStatus && isVerified != null)
           Positioned(
             right: 0,
             bottom: 0,
             child: Container(
-              width: radius * 0.6,
-              height: radius * 0.6,
+              width: radius * 0.7,
+              height: radius * 0.7,
               decoration: BoxDecoration(
-                color: isOnline! ? Colors.green : Colors.grey,
+                color: isVerified! ? Colors.blue : Colors.orange,
                 shape: BoxShape.circle,
                 border: Border.all(
                   color: Colors.white,
                   width: 2,
+                ),
+              ),
+              child: Center(
+                child: Icon(
+                  isVerified! ? Icons.verified_rounded : Icons.warning_rounded,
+                  size: radius * 0.4,
+                  color: Colors.white,
                 ),
               ),
             ),

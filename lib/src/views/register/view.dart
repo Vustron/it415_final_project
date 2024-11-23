@@ -25,9 +25,10 @@ class RegisterView extends HookWidget with GlobalStyles {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const SizedBox(height: 10),
+                const SizedBox(height: 90),
                 Text(
                   'Create an Account',
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -59,6 +60,46 @@ class RegisterView extends HookWidget with GlobalStyles {
                           color: GlobalStyles.primaryButtonColor,
                         ),
                   ),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        height: 1,
+                        color: Colors.grey[300],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        'OR',
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 1,
+                        color: Colors.grey[300],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SocialButton(
+                      icon: 'assets/icons/google.png',
+                      onPressed: () {
+                        // Implement Google login
+                      },
+                      label: 'Continue with Google',
+                    ),
+                  ],
                 ),
               ],
             ),

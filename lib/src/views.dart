@@ -1,10 +1,8 @@
 // login
+export 'views/login/widgets/social_button.dart';
 export 'views/login/widgets/account_check.dart';
-export 'views/login/widgets/social_signup.dart';
-export 'views/login/widgets/social_icon.dart';
 export 'views/login/widgets/login_form.dart';
 export 'views/login/widgets/background.dart';
-export 'views/login/widgets/divider.dart';
 export 'views/login/view.dart';
 
 // register

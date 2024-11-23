@@ -14,13 +14,7 @@ class BackgroundContainer extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: SizedBox(
         width: double.infinity,
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            SafeArea(child: child),
-          ],
-        ),
+        child: child,
       ),
     );
   }

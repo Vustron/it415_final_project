@@ -160,7 +160,8 @@ class VerificationView extends HookConsumerWidget {
                                   toastRepository.show(
                                     context: context,
                                     title: 'Success',
-                                    message: 'Verification email sent',
+                                    message:
+                                        'Verification email sent. Please check your inbox.',
                                   );
                                 }
                               } catch (e) {

@@ -306,7 +306,6 @@ class AuthRepository {
   Future<Either<AuthFailure, UserAccount>> loginWithGoogle() async {
     try {
       final GoogleSignIn googleSignIn = GoogleSignIn();
-
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
       if (googleUser == null) {
@@ -371,6 +370,15 @@ class AuthRepository {
       }
 
       await user.sendEmailVerification();
+
+      user.reload();
+      if (user.emailVerified) {
+        await fireStore.collection('users').doc(user.uid).update({
+          'emailVerified': DateTime.now().toIso8601String(),
+          'updatedAt': DateTime.now().toIso8601String(),
+        });
+      }
+
       return right(unit);
     } on FirebaseAuthException catch (e) {
       return left(

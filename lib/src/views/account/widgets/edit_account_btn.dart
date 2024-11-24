@@ -1,6 +1,7 @@
-import 'package:babysitterapp/src/components.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/src/components.dart';
 import 'package:babysitterapp/src/constants.dart';
 import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/models.dart';
@@ -23,7 +24,6 @@ class EditAccountButton extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              const SizedBox(width: 40),
               CachedAvatar(
                 imageUrl: user.profileImg,
                 showOnlineStatus: true,
@@ -32,27 +32,33 @@ class EditAccountButton extends StatelessWidget {
                 isVerified: isVerified,
               ),
               const SizedBox(width: 16),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    user.name ?? 'No Name',
-                    style: const TextStyle(
-                      fontSize: 23,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      user.name ?? 'No Name',
+                      style: const TextStyle(
+                        fontSize: 23,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    user.email ?? 'No Email',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
+                    const SizedBox(height: 4),
+                    Text(
+                      user.email ?? 'No Email',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -68,7 +74,8 @@ class EditAccountButton extends StatelessWidget {
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          GlobalStyles.primaryButtonColor),
+                        GlobalStyles.primaryButtonColor,
+                      ),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -76,10 +83,15 @@ class EditAccountButton extends StatelessWidget {
                       ),
                       padding: MaterialStateProperty.all<EdgeInsets>(
                         const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 12),
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
                       ),
                     ),
-                    icon: const Icon(Icons.edit, size: 20),
+                    icon: const Icon(
+                      FluentIcons.edit_20_regular,
+                      size: 20,
+                    ),
                     label: const Text(
                       'Edit Account',
                       style: TextStyle(
@@ -96,8 +108,9 @@ class EditAccountButton extends StatelessWidget {
                       );
                     },
                     style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.orange),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        Colors.orange,
+                      ),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -105,10 +118,15 @@ class EditAccountButton extends StatelessWidget {
                       ),
                       padding: MaterialStateProperty.all<EdgeInsets>(
                         const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 12),
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
                       ),
                     ),
-                    icon: const Icon(Icons.warning_amber_rounded, size: 20),
+                    icon: const Icon(
+                      FluentIcons.warning_20_regular,
+                      size: 20,
+                    ),
                     label: const Text(
                       'Verify Account',
                       style: TextStyle(

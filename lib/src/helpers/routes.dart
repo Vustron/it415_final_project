@@ -25,6 +25,7 @@ class Routes {
   static const String availability = '/availability';
   static const String helpSupport = '/help-support';
   static const String transactionHistory = '/transaction-history';
+  static const String verification = '/verification';
 
   static Map<String, WidgetBuilder> getRoutes() {
     return <String, WidgetBuilder>{
@@ -85,6 +86,9 @@ class Routes {
           ),
       transactionHistory: (BuildContext context) => const AuthGuard(
             child: TransactionHistoryView(),
+          ),
+      verification: (BuildContext context) => const AuthGuard(
+            child: VerificationView(),
           ),
     };
   }

@@ -126,8 +126,8 @@ export 'views/availability/view.dart';
 
 // edit account
 export 'views/account/widgets/profile_completion.dart';
-export 'views/account/widgets/profile_form.dart';
 export 'views/account/widgets/edit_account_view.dart';
+export 'views/account/widgets/profile_form.dart';
 
 // help and support
 export 'views/help_support/widgets/help_support.dart';

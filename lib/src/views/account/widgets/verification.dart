@@ -13,10 +13,10 @@ class VerificationView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AuthState authState = ref.watch(authControllerProvider);
+    final AuthState authState = ref.watch(authControllerService);
     final UserAccount? user = authState.user;
     final ValueNotifier<bool> isLoading = useState(false);
-    final Toast toastRepository = ref.watch(toastProvider);
+    final Toast toastRepository = ref.watch(toastService);
 
     final List<InputFieldConfig> fields = <InputFieldConfig>[
       if (user?.role?.isEmpty ?? true)
@@ -77,7 +77,7 @@ class VerificationView extends HookConsumerWidget {
 
         if (updatedUser != null) {
           await ref
-              .read(authControllerProvider.notifier)
+              .read(authControllerService.notifier)
               .updateUser(updatedUser);
         }
 
@@ -153,7 +153,7 @@ class VerificationView extends HookConsumerWidget {
                             onPressed: () async {
                               try {
                                 await ref
-                                    .read(authControllerProvider.notifier)
+                                    .read(authControllerService.notifier)
                                     .sendEmailVerification();
 
                                 if (context.mounted) {

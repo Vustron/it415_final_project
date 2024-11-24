@@ -31,7 +31,7 @@ class ErrorView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final LoggerService logger = ref.watch(loggerProvider);
+    final LoggerService logger = ref.watch(loggerService);
 
     useEffect(() {
       logger.error('Error occurred', error, stackTrace);

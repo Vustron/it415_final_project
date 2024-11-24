@@ -15,7 +15,7 @@ class AuthGuard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AuthState authState = ref.watch(authControllerProvider);
+    final AuthState authState = ref.watch(authControllerService);
 
     if (authState.status != AuthStatus.authenticated) {
       WidgetsBinding.instance.addPostFrameCallback((_) {

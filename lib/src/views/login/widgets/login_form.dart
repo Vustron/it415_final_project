@@ -32,8 +32,8 @@ class LoginForm extends HookConsumerWidget with GlobalStyles {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AuthState authState = ref.watch(authControllerProvider);
-    final Toast toastRepository = ref.watch(toastProvider);
+    final AuthState authState = ref.watch(authControllerService);
+    final Toast toastRepository = ref.watch(toastService);
 
     useEffect(() {
       if (authState.status == AuthStatus.authenticated) {
@@ -61,14 +61,14 @@ class LoginForm extends HookConsumerWidget with GlobalStyles {
               final String email = formData['Email'] as String? ?? '';
               final String password = formData['Password'] as String? ?? '';
 
-              await ref.read(authControllerProvider.notifier).login(
+              await ref.read(authControllerService.notifier).login(
                     email: email,
                     password: password,
                   );
 
               if (context.mounted) {
                 final AuthState updatedAuthState =
-                    ref.read(authControllerProvider);
+                    ref.read(authControllerService);
 
                 if (updatedAuthState.error != null) {
                   toastRepository.show(

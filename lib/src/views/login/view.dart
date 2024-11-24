@@ -14,8 +14,8 @@ class LoginView extends HookConsumerWidget with GlobalStyles {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Toast toastRepository = ref.watch(toastProvider);
-    final AuthState authState = ref.watch(authControllerProvider);
+    final Toast toastRepository = ref.watch(toastService);
+    final AuthState authState = ref.watch(authControllerService);
 
     useEffect(() {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
@@ -101,7 +101,7 @@ class LoginView extends HookConsumerWidget with GlobalStyles {
                           : () async {
                               try {
                                 await ref
-                                    .read(authControllerProvider.notifier)
+                                    .read(authControllerService.notifier)
                                     .loginUsingGoogle();
 
                                 if (context.mounted &&

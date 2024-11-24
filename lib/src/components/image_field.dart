@@ -34,9 +34,9 @@ class ImageField extends HookConsumerWidget {
     final ValueNotifier<String?> imageUrl = useState<String?>(initialValue);
     final ValueNotifier<bool> isLoading = useState(false);
     final ValueNotifier<String?> error = useState<String?>(null);
-    final AuthRepository authRepository = ref.watch(authRepositoryProvider);
+    final AuthRepository authRepository = ref.watch(authService);
     final AuthController authController =
-        ref.watch(authControllerProvider.notifier);
+        ref.watch(authControllerService.notifier);
 
     return FormBuilderField<String>(
       name: name,

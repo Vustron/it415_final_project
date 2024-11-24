@@ -13,7 +13,7 @@ class BookingView extends HookConsumerWidget with GlobalStyles {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(authControllerProvider);
+    ref.watch(authControllerService);
 
     // Form state hooks
     final ValueNotifier<int?> numberOfChildren = useState<int?>(null);

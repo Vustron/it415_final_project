@@ -32,12 +32,12 @@ class MarkerIcon extends HookWidget {
     );
 
     return Consumer(builder: (BuildContext context, WidgetRef ref, _) {
-      final MarkerData? selectedMarker = ref.watch(selectedMarkerProvider);
+      final MarkerData? selectedMarker = ref.watch(selectedMarkerService);
       final bool isSelected = selectedMarker == markerData;
 
       return GestureDetector(
         onTap: () {
-          ref.read(selectedMarkerProvider.notifier).state =
+          ref.read(selectedMarkerService.notifier).state =
               isSelected ? null : markerData;
         },
         child: Stack(

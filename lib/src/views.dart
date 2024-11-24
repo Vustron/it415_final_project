@@ -111,6 +111,7 @@ export 'views/search/view.dart';
 export 'views/account/widgets/verification_item.dart';
 export 'views/account/widgets/verification_card.dart';
 export 'views/account/widgets/edit_account_btn.dart';
+export 'views/account/hooks/use_profile_submit.dart';
 export 'views/account/widgets/verification.dart';
 export 'views/account/widgets/contact_item.dart';
 export 'views/account/widgets/contact_info.dart';

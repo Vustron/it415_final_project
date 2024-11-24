@@ -14,7 +14,7 @@ class SearchView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController searchTxt = useTextEditingController();
-    final MarkerData? selectedMarker = ref.watch(selectedMarkerProvider);
+    final MarkerData? selectedMarker = ref.watch(selectedMarkerService);
 
     return Scaffold(
       body: Stack(

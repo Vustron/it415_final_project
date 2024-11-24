@@ -14,7 +14,7 @@ import 'package:babysitterapp/src/views.dart';
 void main() {
   Chain.capture(() async {
     final ProviderContainer container = ProviderContainer();
-    final LoggerService logger = container.read(loggerProvider);
+    final LoggerService logger = container.read(loggerService);
 
     try {
       logger.info('Initializing app...');
@@ -61,7 +61,7 @@ void main() {
     }
   }, onError: (Object error, Chain stackTrace) {
     final ProviderContainer container = ProviderContainer();
-    final LoggerService logger = container.read(loggerProvider);
+    final LoggerService logger = container.read(loggerService);
 
     logger.error(
       'Uncaught error',

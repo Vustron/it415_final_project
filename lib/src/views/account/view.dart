@@ -11,7 +11,7 @@ class AccountView extends HookConsumerWidget with GlobalStyles {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AuthState authState = ref.watch(authControllerProvider);
+    final AuthState authState = ref.watch(authControllerService);
 
     return Scaffold(
       appBar: AppBar(

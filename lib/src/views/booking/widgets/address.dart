@@ -13,7 +13,7 @@ Widget buildAddressSection(
   String selectedAddress,
   void Function(String, String, LatLng?) onAddressSelected,
 ) {
-  final AuthState authState = ref.watch(authControllerProvider);
+  final AuthState authState = ref.watch(authControllerService);
 
   if (authState.user == null) {
     return const Center(

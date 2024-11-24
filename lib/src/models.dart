@@ -16,3 +16,6 @@ export 'models/booking.dart';
 // api
 export 'models/address.dart';
 export 'models/place.dart';
+
+// location
+export 'models/location_state.dart';

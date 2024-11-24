@@ -46,8 +46,8 @@ class RegisterForm extends HookConsumerWidget with GlobalStyles {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AuthState authState = ref.watch(authControllerProvider);
-    final Toast toastRepository = ref.watch(toastProvider);
+    final AuthState authState = ref.watch(authControllerService);
+    final Toast toastRepository = ref.watch(toastService);
 
     return Column(
       children: <Widget>[
@@ -55,7 +55,7 @@ class RegisterForm extends HookConsumerWidget with GlobalStyles {
           fields: fields,
           onSubmit: (Map<String, dynamic> formData) async {
             try {
-              await ref.read(authControllerProvider.notifier).register(
+              await ref.read(authControllerService.notifier).register(
                     name: formData['Name'] as String,
                     email: formData['Email'] as String,
                     password: formData['Password'] as String,
@@ -64,7 +64,7 @@ class RegisterForm extends HookConsumerWidget with GlobalStyles {
 
               if (context.mounted) {
                 final AuthState updatedAuthState =
-                    ref.read(authControllerProvider);
+                    ref.read(authControllerService);
 
                 if (updatedAuthState.error != null) {
                   toastRepository.show(

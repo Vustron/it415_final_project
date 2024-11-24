@@ -14,7 +14,7 @@ class SplashView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AuthState authState = ref.watch(authControllerProvider);
+    final AuthState authState = ref.watch(authControllerService);
 
     useEffect(() {
       Future<void> initializeAuth() async {
@@ -22,7 +22,7 @@ class SplashView extends HookConsumerWidget {
         final User? user = FirebaseAuth.instance.currentUser;
 
         if (user != null) {
-          ref.read(authControllerProvider.notifier).getUserData(user.uid);
+          ref.read(authControllerService.notifier).getUserData(user.uid);
         } else {
           if (context.mounted) {
             Navigator.pushReplacementNamed(context, Routes.login);

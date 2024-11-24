@@ -10,7 +10,7 @@ class DistanceBottomSheet extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final double distance = ref.watch(distanceProvider);
+    final double distance = ref.watch(distanceService);
 
     return Material(
       color: Colors.transparent,
@@ -100,7 +100,7 @@ class DistanceBottomSheet extends HookConsumerWidget {
                         GlobalStyles.primaryButtonColor.withOpacity(0.2),
                     label: distance.toStringAsFixed(1),
                     onChanged: (double value) {
-                      ref.read(distanceProvider.notifier).state = value;
+                      ref.read(distanceService.notifier).state = value;
                     },
                   ),
                 ],

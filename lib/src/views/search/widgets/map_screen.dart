@@ -12,8 +12,8 @@ class MapScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final double distance = ref.watch(distanceProvider);
-    final MarkerData? selectedMarker = ref.watch(selectedMarkerProvider);
+    final double distance = ref.watch(distanceService);
+    final MarkerData? selectedMarker = ref.watch(selectedMarkerService);
     final MarkerData clientMarker =
         allMarkers.firstWhere((MarkerData marker) => marker.role == 'client');
 
@@ -26,7 +26,7 @@ class MapScreen extends HookConsumerWidget {
             minZoom: 10,
             maxZoom: 18,
             onTap: (_, __) {
-              ref.read(selectedMarkerProvider.notifier).state = null;
+              ref.read(selectedMarkerService.notifier).state = null;
             },
           ),
           children: <Widget>[

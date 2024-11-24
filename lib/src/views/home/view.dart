@@ -15,7 +15,7 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AuthState authState = ref.watch(authControllerProvider);
+    final AuthState authState = ref.watch(authControllerService);
     final ValueNotifier<int> currentIndex = useState(0);
     final CarouselSliderController carouselController =
         CarouselSliderController();
@@ -43,7 +43,9 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         centerTitle: false,
-        title: homeViewTitle(authState.user),
+        title: authState.user?.role == 'Client'
+            ? homeViewTitle(authState.user)
+            : const Text('Dashboard', style: TextStyle(fontSize: 30)),
         actions: <Widget>[
           if (authState.user?.role == 'Client')
             IconButton(

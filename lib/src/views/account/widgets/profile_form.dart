@@ -68,22 +68,6 @@ class ProfileForm extends HookWidget {
         prefixIcon: FluentIcons.phone_20_regular,
         isRequired: true,
       ),
-      // InputFieldConfig(
-      //   label: 'Valid ID Type',
-      //   type: 'select',
-      //   hintText: 'Select your valid ID type',
-      //   value: user.validId,
-      //   prefixIcon: FluentIcons.document_20_regular,
-      //   options: const <String>[
-      //     'National ID',
-      //     "Driver's License",
-      //     'Passport',
-      //     'SSS ID',
-      //     'PhilHealth ID',
-      //     'Postal ID',
-      //     "Voter's ID",
-      //   ],
-      // ),
       if (user.role == null || user.role!.isEmpty)
         InputFieldConfig(
           label: 'Role',
@@ -119,6 +103,9 @@ class ProfileForm extends HookWidget {
         'Birth Date': user.birthDate,
         if (user.role == null || user.role!.isEmpty) 'Role': user.role ?? '',
         'Profile Image': user.profileImg ?? '',
+        'Valid ID': user.validId ?? '',
+        'Valid ID Front': user.validIdFront ?? '',
+        'Valid ID Back': user.validIdBack ?? '',
       },
       onSubmit: onSubmit,
       isLoading: isLoading,

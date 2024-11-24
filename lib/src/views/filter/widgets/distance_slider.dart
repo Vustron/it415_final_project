@@ -15,7 +15,7 @@ class DistanceSlider extends ConsumerStatefulWidget {
 class DistanceSliderState extends ConsumerState<DistanceSlider> {
   @override
   Widget build(BuildContext context) {
-    final double distance = ref.watch(distanceProvider);
+    final double distance = ref.watch(distanceService);
 
     return filterCard(
       child: Column(
@@ -30,7 +30,7 @@ class DistanceSliderState extends ConsumerState<DistanceSlider> {
             divisions: 49,
             label: distance.toStringAsFixed(1),
             onChanged: (double value) {
-              ref.read(distanceProvider.notifier).state = value;
+              ref.read(distanceService.notifier).state = value;
             },
           ),
           Text(

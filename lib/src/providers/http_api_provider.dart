@@ -6,6 +6,6 @@ import 'package:babysitterapp/src/services.dart';
 
 final Provider<HttpApiService> httpApiServiceProvider =
     Provider<HttpApiService>((ProviderRef<HttpApiService> ref) {
-  final LoggerService logger = ref.watch(loggerProvider);
+  final LoggerService logger = ref.watch(loggerService);
   return HttpApiService(Dio(), logger);
 });

@@ -26,7 +26,7 @@ class CheckoutScreen extends HookConsumerWidget {
     ];
 
     final PaymentMethod selectedMethod =
-        ref.watch(selectedPaymentMethodProvider);
+        ref.watch(selectedPaymentMethodService);
     final double totalAmount = ref.watch(totalAmountProvider);
 
     return Scaffold(
@@ -54,7 +54,7 @@ class CheckoutScreen extends HookConsumerWidget {
                             method: method,
                             isSelected: selectedMethod == method.method,
                             onTap: () => ref
-                                .read(selectedPaymentMethodProvider.notifier)
+                                .read(selectedPaymentMethodService.notifier)
                                 .state = method.method,
                           )),
                   const SizedBox(height: 24),

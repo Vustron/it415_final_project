@@ -13,16 +13,16 @@ class LogoutButton extends HookConsumerWidget with GlobalStyles {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ValueNotifier<bool> isLoading = useState(false);
-    final Toast toastRepository = ref.watch(toastProvider);
+    final Toast toastRepository = ref.watch(toastService);
 
     Future<void> handleLogout() async {
       try {
         isLoading.value = true;
 
-        await ref.read(authControllerProvider.notifier).logout();
+        await ref.read(authControllerService.notifier).logout();
 
         if (context.mounted) {
-          final AuthState updatedAuthState = ref.read(authControllerProvider);
+          final AuthState updatedAuthState = ref.read(authControllerService);
 
           if (updatedAuthState.error != null) {
             toastRepository.show(

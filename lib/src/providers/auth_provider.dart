@@ -8,12 +8,12 @@ import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/services.dart';
 import 'package:babysitterapp/src/models.dart';
 
-final Provider<AuthRepository> authRepositoryProvider =
+final Provider<AuthRepository> authService =
     Provider<AuthRepository>((ProviderRef<AuthRepository> ref) {
-  final FirebaseAuth auth = ref.watch(firebaseAuthProvider);
-  final FirebaseFirestore firestore = ref.watch(firebaseFirestoreProvider);
-  final FirebaseStorage storage = ref.watch(firebaseStorageProvider);
-  final LoggerService logger = ref.watch(loggerProvider);
+  final FirebaseAuth auth = ref.watch(firebaseAuthService);
+  final FirebaseFirestore firestore = ref.watch(firebaseFirestoreService);
+  final FirebaseStorage storage = ref.watch(firebaseStorageService);
+  final LoggerService logger = ref.watch(loggerService);
 
   return AuthRepository(
     firebaseAuth: auth,
@@ -23,10 +23,10 @@ final Provider<AuthRepository> authRepositoryProvider =
   );
 });
 
-final StateNotifierProvider<AuthController, AuthState> authControllerProvider =
+final StateNotifierProvider<AuthController, AuthState> authControllerService =
     StateNotifierProvider<AuthController, AuthState>(
         (StateNotifierProviderRef<AuthController, AuthState> ref) {
-  final AuthRepository authRepo = ref.watch(authRepositoryProvider);
-  final LoggerService logger = ref.watch(loggerProvider);
+  final AuthRepository authRepo = ref.watch(authService);
+  final LoggerService logger = ref.watch(loggerService);
   return AuthController(authRepo, logger);
 });

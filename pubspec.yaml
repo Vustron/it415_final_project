@@ -3,7 +3,7 @@ description: "A collaborative babysitter mobile app for the final project in it4
 
 publish_to: 'none' 
 
-version: 1.0.86+1
+version: 1.0.87+1
 
 environment:
  sdk: '>=3.4.3 <4.0.0'
@@ -46,6 +46,7 @@ dependencies:
   form_builder_phone_field: ^2.0.1
   cached_network_image: ^3.4.1
   image_picker: ^1.1.2
+  dio: ^5.7.0
 
 # dart run build_runner build --delete-conflicting-outputs
 dev_dependencies:

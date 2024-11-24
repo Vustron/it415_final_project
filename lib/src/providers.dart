@@ -1,4 +1,5 @@
 export 'providers/selected_marker_provider.dart';
+export 'providers/http_api_provider.dart';
 export 'providers/firebase_provider.dart';
 export 'providers/distance_provider.dart';
 export 'providers/payment_provider.dart';

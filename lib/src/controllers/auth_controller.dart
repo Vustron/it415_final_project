@@ -8,31 +8,40 @@ import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/models.dart';
 
 class AuthController extends StateNotifier<AuthState> {
-  AuthController(this.authRepo) : super(AuthState());
+  AuthController(this.authRepo, this.logger) : super(AuthState());
 
   final AuthRepository authRepo;
+  final LoggerService logger;
   StreamSubscription<Either<AuthFailure, UserAccount>>? userSubscription;
 
   void initUserStream(String uid) {
+    logger.debug('Initializing user stream for uid: $uid');
     userSubscription?.cancel();
     userSubscription = authRepo.getUserDataStream(uid).listen(
       (Either<AuthFailure, UserAccount> result) {
         result.fold(
-          (AuthFailure failure) => state = state.copyWith(
-            isLoading: false,
-            error: failure.message,
-            status: AuthStatus.error,
-            hasShownToast: false,
-          ),
-          (UserAccount user) => state = state.copyWith(
-            isLoading: false,
-            user: user,
-            status: AuthStatus.authenticated,
-            hasShownToast: false,
-          ),
+          (AuthFailure failure) {
+            logger.error('User stream error', failure.message);
+            state = state.copyWith(
+              isLoading: false,
+              error: failure.message,
+              status: AuthStatus.error,
+              hasShownToast: false,
+            );
+          },
+          (UserAccount user) {
+            logger.info('User stream updated: ${user.id}');
+            state = state.copyWith(
+              isLoading: false,
+              user: user,
+              status: AuthStatus.authenticated,
+              hasShownToast: false,
+            );
+          },
         );
       },
-      onError: (dynamic error) {
+      onError: (dynamic error, StackTrace stackTrace) {
+        logger.error('User stream error', error, stackTrace);
         state = state.copyWith(
           isLoading: false,
           error: error.toString(),
@@ -47,8 +56,12 @@ class AuthController extends StateNotifier<AuthState> {
     required String email,
     required String password,
   }) async {
-    if (state.isLoading) return;
+    if (state.isLoading) {
+      logger.debug('Login skipped - already loading');
+      return;
+    }
 
+    logger.info('Attempting login for email: $email');
     state = state.copyWith(
       isLoading: true,
       status: AuthStatus.initial,
@@ -60,13 +73,17 @@ class AuthController extends StateNotifier<AuthState> {
           await authRepo.login(email: email, password: password);
 
       result.fold(
-        (AuthFailure failure) => state = state.copyWith(
-          isLoading: false,
-          error: failure.message,
-          status: AuthStatus.error,
-          hasShownToast: false,
-        ),
+        (AuthFailure failure) {
+          logger.error('Login failed', failure.message);
+          state = state.copyWith(
+            isLoading: false,
+            error: failure.message,
+            status: AuthStatus.error,
+            hasShownToast: false,
+          );
+        },
         (UserAccount user) async {
+          logger.info('Login successful for user: ${user.id}');
           final UserAccount updatedUser = user.copyWith(onlineStatus: true);
           await authRepo.updateUser(updatedUser);
 
@@ -79,7 +96,8 @@ class AuthController extends StateNotifier<AuthState> {
           );
         },
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
+      logger.error('Login error', e, stackTrace);
       state = state.copyWith(
         isLoading: false,
         error: e.toString(),
@@ -97,8 +115,12 @@ class AuthController extends StateNotifier<AuthState> {
     String? phoneNumber,
     String? address,
   }) async {
-    if (state.isLoading) return;
+    if (state.isLoading) {
+      logger.debug('Registration skipped - already loading');
+      return;
+    }
 
+    logger.info('Attempting registration for email: $email');
     state = state.copyWith(
       isLoading: true,
       status: AuthStatus.initial,
@@ -116,13 +138,17 @@ class AuthController extends StateNotifier<AuthState> {
       );
 
       result.fold(
-        (AuthFailure failure) => state = state.copyWith(
-          isLoading: false,
-          error: failure.message,
-          status: AuthStatus.error,
-          hasShownToast: false,
-        ),
+        (AuthFailure failure) {
+          logger.error('Registration failed', failure.message);
+          state = state.copyWith(
+            isLoading: false,
+            error: failure.message,
+            status: AuthStatus.error,
+            hasShownToast: false,
+          );
+        },
         (UserAccount user) {
+          logger.info('Registration successful for user: ${user.id}');
           initUserStream(user.id!);
           state = state.copyWith(
             isLoading: false,
@@ -132,7 +158,8 @@ class AuthController extends StateNotifier<AuthState> {
           );
         },
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
+      logger.error('Registration error', e, stackTrace);
       state = state.copyWith(
         isLoading: false,
         error: e.toString(),
@@ -143,19 +170,22 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   Future<void> logout() async {
+    logger.info('Attempting logout');
     try {
       if (state.user != null) {
         final UserAccount updatedUser =
             state.user!.copyWith(onlineStatus: false);
         await authRepo.updateUser(updatedUser);
+        logger.debug('Updated user online status to offline');
       }
 
-      // Proceed with normal logout
       await userSubscription?.cancel();
       await FirebaseAuth.instance.signOut();
+      logger.info('Logout successful');
       state = AuthState(status: AuthStatus.unauthenticated);
       CustomRouter.pushNamedAndRemoveUntil(Routes.login);
-    } catch (e) {
+    } catch (e, stackTrace) {
+      logger.error('Logout error', e, stackTrace);
       state = state.copyWith(
         error: e.toString(),
         status: AuthStatus.error,
@@ -166,6 +196,7 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   Future<void> getUserData(String uid) async {
+    logger.debug('Fetching user data for uid: $uid');
     try {
       state = state.copyWith(
         isLoading: true,
@@ -174,7 +205,8 @@ class AuthController extends StateNotifier<AuthState> {
       );
 
       initUserStream(uid);
-    } catch (e) {
+    } catch (e, stackTrace) {
+      logger.error('Error fetching user data', e, stackTrace);
       state = state.copyWith(
         isLoading: false,
         error: e.toString(),
@@ -185,8 +217,12 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   Future<void> updateUser(UserAccount user) async {
-    if (state.isLoading) return;
+    if (state.isLoading) {
+      logger.debug('Update skipped - already loading');
+      return;
+    }
 
+    logger.info('Updating user: ${user.id}');
     state = state.copyWith(
       isLoading: true,
       status: AuthStatus.authenticated,
@@ -198,13 +234,17 @@ class AuthController extends StateNotifier<AuthState> {
           await authRepo.updateUser(user);
 
       result.fold(
-        (AuthFailure failure) => state = state.copyWith(
-          isLoading: false,
-          error: failure.message,
-          status: AuthStatus.error,
-          hasShownToast: false,
-        ),
+        (AuthFailure failure) {
+          logger.error('Update failed', failure.message);
+          state = state.copyWith(
+            isLoading: false,
+            error: failure.message,
+            status: AuthStatus.error,
+            hasShownToast: false,
+          );
+        },
         (UserAccount updatedUser) {
+          logger.info('User updated successfully: ${updatedUser.id}');
           initUserStream(updatedUser.id!);
           state = state.copyWith(
             isLoading: false,
@@ -214,7 +254,8 @@ class AuthController extends StateNotifier<AuthState> {
           );
         },
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
+      logger.error('Update error', e, stackTrace);
       state = state.copyWith(
         isLoading: false,
         error: e.toString(),
@@ -229,8 +270,12 @@ class AuthController extends StateNotifier<AuthState> {
     String imageUrl,
     String imageType,
   ) async {
-    if (state.isLoading) return;
+    if (state.isLoading) {
+      logger.debug('Delete image skipped - already loading');
+      return;
+    }
 
+    logger.info('Deleting profile image for user: $userId');
     state = state.copyWith(
       isLoading: true,
       status: AuthStatus.authenticated,
@@ -243,13 +288,17 @@ class AuthController extends StateNotifier<AuthState> {
           await authRepo.deleteProfileImage(userId, imageUrl, imageType);
 
       result.fold(
-        (AuthFailure failure) => state = state.copyWith(
-          isLoading: false,
-          error: failure.message,
-          status: AuthStatus.error,
-          hasShownToast: false,
-        ),
+        (AuthFailure failure) {
+          logger.error('Delete image failed', failure.message);
+          state = state.copyWith(
+            isLoading: false,
+            error: failure.message,
+            status: AuthStatus.error,
+            hasShownToast: false,
+          );
+        },
         (_) {
+          logger.info('Profile image deleted successfully');
           final UserAccount updatedUser = imageType == 'Profile Image'
               ? currentUser.copyWith(profileImg: '')
               : currentUser;
@@ -262,7 +311,8 @@ class AuthController extends StateNotifier<AuthState> {
           );
         },
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
+      logger.error('Delete image error', e, stackTrace);
       state = state.copyWith(
         isLoading: false,
         error: e.toString(),
@@ -274,13 +324,18 @@ class AuthController extends StateNotifier<AuthState> {
 
   @override
   void dispose() {
+    logger.debug('Disposing AuthController');
     userSubscription?.cancel();
     super.dispose();
   }
 
   Future<void> loginUsingGoogle() async {
-    if (state.isLoading) return;
+    if (state.isLoading) {
+      logger.debug('Google login skipped - already loading');
+      return;
+    }
 
+    logger.info('Attempting Google login');
     state = state.copyWith(
       isLoading: true,
       status: AuthStatus.initial,
@@ -292,13 +347,17 @@ class AuthController extends StateNotifier<AuthState> {
           await authRepo.loginWithGoogle();
 
       result.fold(
-        (AuthFailure failure) => state = state.copyWith(
-          isLoading: false,
-          error: failure.message,
-          status: AuthStatus.error,
-          hasShownToast: false,
-        ),
+        (AuthFailure failure) {
+          logger.error('Google login failed', failure.message);
+          state = state.copyWith(
+            isLoading: false,
+            error: failure.message,
+            status: AuthStatus.error,
+            hasShownToast: false,
+          );
+        },
         (UserAccount user) {
+          logger.info('Google login successful for user: ${user.id}');
           initUserStream(user.id!);
           state = state.copyWith(
             isLoading: false,
@@ -308,7 +367,8 @@ class AuthController extends StateNotifier<AuthState> {
           );
         },
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
+      logger.error('Google login error', e, stackTrace);
       state = state.copyWith(
         isLoading: false,
         error: e.toString(),
@@ -319,8 +379,12 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   Future<void> sendEmailVerification() async {
-    if (state.isLoading) return;
+    if (state.isLoading) {
+      logger.debug('Email verification skipped - already loading');
+      return;
+    }
 
+    logger.info('Sending email verification');
     state = state.copyWith(
       isLoading: true,
       status: AuthStatus.initial,
@@ -332,19 +396,26 @@ class AuthController extends StateNotifier<AuthState> {
           await authRepo.sendEmailVerification();
 
       result.fold(
-        (AuthFailure failure) => state = state.copyWith(
-          isLoading: false,
-          error: failure.message,
-          status: AuthStatus.error,
-          hasShownToast: false,
-        ),
-        (_) => state = state.copyWith(
-          isLoading: false,
-          status: AuthStatus.authenticated,
-          hasShownToast: false,
-        ),
+        (AuthFailure failure) {
+          logger.error('Email verification failed', failure.message);
+          state = state.copyWith(
+            isLoading: false,
+            error: failure.message,
+            status: AuthStatus.error,
+            hasShownToast: false,
+          );
+        },
+        (_) {
+          logger.info('Email verification sent successfully');
+          state = state.copyWith(
+            isLoading: false,
+            status: AuthStatus.authenticated,
+            hasShownToast: false,
+          );
+        },
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
+      logger.error('Email verification error', e, stackTrace);
       state = state.copyWith(
         isLoading: false,
         error: e.toString(),

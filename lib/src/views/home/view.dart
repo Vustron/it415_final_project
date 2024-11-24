@@ -77,7 +77,6 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
             )
           : authState.user!.role == 'Client'
               ? HomeClientView(
-                  defaultPadding: GlobalStyles.defaultPadding,
                   carouselController: carouselController,
                   babysitterCards: babysitterCards,
                   currentIndex: currentIndex,

@@ -19,7 +19,7 @@ class EditAccountView extends HookConsumerWidget with GlobalStyles {
     final double profileCompletion = calculateProfileCompletion(user!);
     final AuthController authController =
         ref.watch(authControllerProvider.notifier);
-    final ToastRepository toastRepository = ref.watch(toastProvider);
+    final Toast toastRepository = ref.watch(toastProvider);
 
     Future<void> onSubmit(Map<String, dynamic> formData) async {
       try {

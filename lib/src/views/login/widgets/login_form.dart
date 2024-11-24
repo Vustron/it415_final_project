@@ -33,7 +33,7 @@ class LoginForm extends HookConsumerWidget with GlobalStyles {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState authState = ref.watch(authControllerProvider);
-    final ToastRepository toastRepository = ref.watch(toastProvider);
+    final Toast toastRepository = ref.watch(toastProvider);
 
     useEffect(() {
       if (authState.status == AuthStatus.authenticated) {

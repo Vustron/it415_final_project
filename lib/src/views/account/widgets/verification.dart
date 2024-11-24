@@ -16,7 +16,7 @@ class VerificationView extends HookConsumerWidget {
     final AuthState authState = ref.watch(authControllerProvider);
     final UserAccount? user = authState.user;
     final ValueNotifier<bool> isLoading = useState(false);
-    final ToastRepository toastRepository = ref.watch(toastProvider);
+    final Toast toastRepository = ref.watch(toastProvider);
 
     final List<InputFieldConfig> fields = <InputFieldConfig>[
       if (user?.role?.isEmpty ?? true)
@@ -33,7 +33,7 @@ class VerificationView extends HookConsumerWidget {
         label: 'Valid Id Type',
         type: 'select',
         hintText: 'Select valid ID type',
-        value: user?.role,
+        value: user?.validId,
         prefixIcon: FluentIcons.document_20_regular,
         options: const <String>[
           'National ID',

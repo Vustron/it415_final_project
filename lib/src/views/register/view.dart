@@ -14,7 +14,7 @@ class RegisterView extends HookConsumerWidget with GlobalStyles {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ToastRepository toastRepository = ref.watch(toastProvider);
+    final Toast toastRepository = ref.watch(toastProvider);
     final AuthState authState = ref.watch(authControllerProvider);
 
     useEffect(() {

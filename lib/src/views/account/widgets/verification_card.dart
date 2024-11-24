@@ -44,18 +44,16 @@ class VerificationCard extends StatelessWidget with GlobalStyles {
                   user.email != '',
               verifiedDate: user.emailVerified,
             ),
-            if (user.role == 'Babysitter') ...<Widget>[
-              const SizedBox(height: 12),
-              VerificationItem(
-                icon: FluentIcons.document_24_regular,
-                title: 'ID Verification',
-                isVerified: user.validIdVerified != null &&
-                    user.validId != null &&
-                    user.validId!.isNotEmpty &&
-                    user.validId != '',
-                verifiedDate: user.validIdVerified,
-              ),
-            ],
+            const SizedBox(height: 12),
+            VerificationItem(
+              icon: FluentIcons.document_24_regular,
+              title: 'ID Verification',
+              isVerified: user.validIdVerified != null &&
+                  user.validId != null &&
+                  user.validId!.isNotEmpty &&
+                  user.validId != '',
+              verifiedDate: user.validIdVerified,
+            ),
           ],
         ),
       ),

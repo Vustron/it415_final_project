@@ -1,14 +1,17 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:stack_trace/stack_trace.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/constants.dart';
+import 'package:babysitterapp/src/services.dart';
 import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/views.dart';
 
-class ErrorView extends HookWidget {
+class ErrorView extends HookConsumerWidget {
   const ErrorView({
     super.key,
     required this.error,
@@ -27,15 +30,20 @@ class ErrorView extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final LoggerService logger = ref.watch(loggerProvider);
+
     useEffect(() {
+      logger.error('Error occurred', error, stackTrace);
+
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
       SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.black,
         systemNavigationBarColor: Colors.black,
       ));
+
       return null;
-    }, <Object?>[]);
+    }, const <Object?>[]);
 
     return Scaffold(
       body: SafeArea(
@@ -86,6 +94,7 @@ class ErrorView extends HookWidget {
                 const SizedBox(height: 24.0),
                 ElevatedButton(
                   onPressed: () {
+                    logger.info('Attempting to navigate back to login');
                     CustomRouter.navigateToWithTransition(
                       LoginView(),
                       'rightToLeftWithFade',

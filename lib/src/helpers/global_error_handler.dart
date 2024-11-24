@@ -1,9 +1,8 @@
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 
-import 'package:babysitterapp/src/helpers/router.dart';
-
-import 'package:babysitterapp/src/views/error.dart';
+import 'package:babysitterapp/src/helpers.dart';
+import 'package:babysitterapp/src/views.dart';
 
 void globalErrorHandler(FlutterErrorDetails details) {
   FlutterError.presentError(details);

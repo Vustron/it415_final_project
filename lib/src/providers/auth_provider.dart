@@ -13,16 +13,20 @@ final Provider<AuthRepository> authRepositoryProvider =
   final FirebaseAuth auth = ref.watch(firebaseAuthProvider);
   final FirebaseFirestore firestore = ref.watch(firebaseFirestoreProvider);
   final FirebaseStorage storage = ref.watch(firebaseStorageProvider);
+  final LoggerService logger = ref.watch(loggerProvider);
+
   return AuthRepository(
     firebaseAuth: auth,
     firestore: firestore,
     storage: storage,
+    logger: logger,
   );
 });
 
 final StateNotifierProvider<AuthController, AuthState> authControllerProvider =
     StateNotifierProvider<AuthController, AuthState>(
         (StateNotifierProviderRef<AuthController, AuthState> ref) {
-  final AuthRepository authRepository = ref.watch(authRepositoryProvider);
-  return AuthController(authRepository);
+  final AuthRepository authRepo = ref.watch(authRepositoryProvider);
+  final LoggerService logger = ref.watch(loggerProvider);
+  return AuthController(authRepo, logger);
 });

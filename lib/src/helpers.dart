@@ -9,5 +9,5 @@ export 'helpers/auth_guard.dart';
 export 'helpers/get_icons.dart';
 export 'helpers/routes.dart';
 export 'helpers/router.dart';
-export 'services/toast_repository.dart';
+export 'services/toast.dart';
 export 'helpers/nanoid.dart';

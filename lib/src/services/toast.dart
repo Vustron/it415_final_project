@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 enum ToastType { success, error, warning, info }
 
-class ToastRepository {
+class Toast {
   ToastificationType _getToastificationType(String type) {
     switch (type.toLowerCase()) {
       case 'success':

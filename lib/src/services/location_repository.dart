@@ -1,26 +1,25 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-// ignore: implementation_imports
-import 'package:flutter/src/widgets/async.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
 import 'dart:async';
 
-import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/services.dart';
+import 'package:babysitterapp/src/models.dart';
 
 class LocationRepository {
-  LocationRepository(this._logger);
+  LocationRepository(this.logger, this.httpApi);
 
-  final LoggerService _logger;
+  final LoggerService logger;
+  final HttpApiService httpApi;
 
-  Future<bool> _handlePermission() async {
+  Future<bool> handlePermission() async {
     bool serviceEnabled;
     LocationPermission permission;
 
     try {
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
-        _logger.error('Location services are disabled');
+        logger.error('Location services are disabled');
         return false;
       }
 
@@ -28,42 +27,42 @@ class LocationRepository {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          _logger.error('Location permissions are denied');
+          logger.error('Location permissions are denied');
           return false;
         }
       }
 
       if (permission == LocationPermission.deniedForever) {
-        _logger.error('Location permissions are permanently denied');
+        logger.error('Location permissions are permanently denied');
         return false;
       }
 
-      _logger.info('Location permissions granted');
+      logger.info('Location permissions granted');
       return true;
     } catch (e, stackTrace) {
-      _logger.error('Error handling location permission', e, stackTrace);
+      logger.error('Error handling location permission', e, stackTrace);
       return false;
     }
   }
 
   Future<Position?> getCurrentLocation() async {
     try {
-      final bool hasPermission = await _handlePermission();
+      final bool hasPermission = await handlePermission();
       if (!hasPermission) return null;
 
-      _logger.info('Getting current location...');
+      logger.info('Getting current location...');
       final Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
 
-      _logger.info('Location obtained', <String, double>{
+      logger.info('Location obtained', <String, double>{
         'latitude': position.latitude,
         'longitude': position.longitude,
       });
 
       return position;
     } catch (e, stackTrace) {
-      _logger.error('Error getting current location', e, stackTrace);
+      logger.error('Error getting current location', e, stackTrace);
       return null;
     }
   }
@@ -76,38 +75,55 @@ class LocationRepository {
       ),
     );
   }
-}
 
-Position? useLocationUpdates(WidgetRef ref) {
-  final StreamController<Position> streamController =
-      useStreamController<Position>();
-  final LoggerService logger = ref.watch(loggerService);
-  final LocationRepository locationService =
-      ref.watch(locationRepositoryProvider);
+  Future<String> getAddressFromCoordinates(LatLng? location) async {
+    if (location == null) return 'Unknown Location';
 
-  useEffect(() {
-    logger.info('Starting location updates stream');
+    final String? apiUrl = dotenv.env['MAP_API_URL'];
 
-    final StreamSubscription<Position> subscription =
-        locationService.getLocationStream().listen(
-      (Position position) {
-        logger.debug(
-          'Location update received',
-          <String, double>{'lat': position.latitude, 'lng': position.longitude},
-        );
-        streamController.add(position);
-      },
-      onError: (dynamic error, dynamic stackTrace) {
-        logger.error('Location stream error', error, stackTrace as StackTrace?);
-      },
+    final Uri uri = Uri.parse(
+      '$apiUrl/reverse?lat=${location.latitude}&lon=${location.longitude}&format=json&addressdetails=1',
     );
 
-    return () {
-      logger.info('Disposing location updates stream');
-      subscription.cancel();
-    };
-  }, <Object?>[]);
+    try {
+      final Map<String, dynamic> response =
+          await httpApi.get<Map<String, dynamic>>(uri.toString());
+      final NominatimAPI placeData = NominatimAPI.fromJson(response);
+      final Address address = placeData.address;
 
-  final AsyncSnapshot<Position> snapshot = useStream(streamController.stream);
-  return snapshot.data;
+      final List<String> addressParts = <String>[];
+
+      if (address.amenity != null) {
+        addressParts.add(address.amenity!);
+      }
+
+      if (address.road != null) {
+        addressParts.add(address.road!);
+      }
+
+      if (address.neighbourhood != null) {
+        addressParts.add('Brgy. ${address.neighbourhood}');
+      } else if (address.suburb != null) {
+        addressParts.add('Brgy. ${address.suburb}');
+      }
+
+      if (address.city != null) {
+        addressParts.add('${address.city} City');
+      }
+
+      if (address.state != null) {
+        addressParts.add(address.state!);
+      }
+
+      if (addressParts.isEmpty) {
+        logger.info('No address components found in response');
+        return 'Unknown Location';
+      }
+
+      return addressParts.join(', ');
+    } catch (e, stackTrace) {
+      logger.error('Error fetching address', e, stackTrace);
+      return 'Unknown Location';
+    }
+  }
 }

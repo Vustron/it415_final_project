@@ -14,8 +14,7 @@ export 'models/notification.dart';
 export 'models/booking.dart';
 
 // api
-export 'models/address.dart';
-export 'models/place.dart';
+export 'models/nominatim_api.dart';
 
 // location
 export 'models/location_state.dart';

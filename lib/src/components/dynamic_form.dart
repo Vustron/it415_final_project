@@ -77,6 +77,14 @@ class DynamicForm extends HookConsumerWidget {
       );
     }
 
+    if (field.type == 'address') {
+      return AddressField(
+        name: field.label,
+        decoration: _getInputDecoration(field),
+        initialValue: initialValue as String?,
+      );
+    }
+
     switch (field.type) {
       case 'phone':
         return FormBuilderTextField(

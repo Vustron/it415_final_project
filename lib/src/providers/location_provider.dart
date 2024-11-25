@@ -8,11 +8,13 @@ import 'package:babysitterapp/src/models.dart';
 final Provider<LocationRepository> locationRepositoryProvider =
     Provider<LocationRepository>((ProviderRef<LocationRepository> ref) {
   final LoggerService logger = ref.watch(loggerService);
-  return LocationRepository(logger);
+  final HttpApiService httpApi = ref.watch(httpApiServiceProvider);
+  return LocationRepository(logger, httpApi);
 });
 
 final StateNotifierProvider<LocationController, LocationState>
-    locationProvider = StateNotifierProvider<LocationController, LocationState>(
+    locationControllerProvider =
+    StateNotifierProvider<LocationController, LocationState>(
         (StateNotifierProviderRef<LocationController, LocationState> ref) {
   final LocationRepository locationService =
       ref.watch(locationRepositoryProvider);

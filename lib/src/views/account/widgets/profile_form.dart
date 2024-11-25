@@ -48,7 +48,7 @@ class ProfileForm extends HookWidget {
       ),
       InputFieldConfig(
         label: 'Address',
-        type: 'text',
+        type: 'address',
         hintText: 'Enter your address here',
         value: user.address ?? '',
         prefixIcon: FluentIcons.location_20_regular,

@@ -11,15 +11,7 @@ export 'views/register/widgets/register_form.dart';
 export 'views/register/view.dart';
 
 // booking
-export 'views/booking/widgets/children_selector.dart';
-export 'views/booking/widgets/section_title.dart';
-export 'views/booking/widgets/stayin_toggle.dart';
-export 'views/booking/widgets/continue_btn.dart';
-export 'views/booking/widgets/address_map.dart';
-export 'views/booking/widgets/details.dart';
-export 'views/booking/widgets/address.dart';
 export 'views/booking/widgets/appbar.dart';
-export 'views/booking/widgets/option.dart';
 export 'views/booking/view.dart';
 
 // payment

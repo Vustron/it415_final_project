@@ -2,12 +2,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/src/widgets/async.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
 import 'dart:async';
 
+import 'package:babysitterapp/src/constants.dart';
 import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/services.dart';
 import 'package:babysitterapp/src/models.dart';
-import 'package:latlong2/latlong.dart';
 
 class LocationController extends StateNotifier<LocationState> {
   LocationController(this.locationService) : super(const LocationState());
@@ -18,20 +19,26 @@ class LocationController extends StateNotifier<LocationState> {
     state = state.copyWith(isLoading: true, error: null);
 
     try {
-      final bool hasPermission = await locationService.handlePermission();
-      if (!hasPermission) {
-        state = state.copyWith(
-          error: 'Location permission denied',
-          isLoading: false,
-        );
-      } else {
-        state = state.copyWith(isLoading: false);
-      }
-    } catch (e) {
+      await locationService.handlePermission();
+      state = state.copyWith(isLoading: false);
+    } on LocationServiceException catch (e) {
       state = state.copyWith(
-        error: e.toString(),
+        error: e.message,
         isLoading: false,
       );
+      rethrow;
+    } on LocationPermissionException catch (e) {
+      state = state.copyWith(
+        error: e.message,
+        isLoading: false,
+      );
+      rethrow;
+    } catch (e) {
+      state = state.copyWith(
+        error: 'Unexpected error occurred while getting location permission',
+        isLoading: false,
+      );
+      rethrow;
     }
   }
 
@@ -39,6 +46,8 @@ class LocationController extends StateNotifier<LocationState> {
     state = state.copyWith(isLoading: true, error: null);
 
     try {
+      await handlePermission();
+
       final Position? position = await locationService.getCurrentLocation();
       if (position != null) {
         state = state.copyWith(
@@ -46,9 +55,20 @@ class LocationController extends StateNotifier<LocationState> {
           isLoading: false,
         );
         return position;
-      } else {
-        throw Exception('Failed to get current location');
       }
+      throw Exception('Failed to get current location');
+    } on LocationServiceException catch (e) {
+      state = state.copyWith(
+        error: e.message,
+        isLoading: false,
+      );
+      rethrow;
+    } on LocationPermissionException catch (e) {
+      state = state.copyWith(
+        error: e.message,
+        isLoading: false,
+      );
+      rethrow;
     } catch (e) {
       state = state.copyWith(
         error: e.toString(),

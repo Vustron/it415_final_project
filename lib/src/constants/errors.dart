@@ -33,3 +33,13 @@ String handleFirebaseAuthException(FirebaseAuthException e) {
       return e.message ?? AuthError.unknownError;
   }
 }
+
+class LocationServiceException implements Exception {
+  const LocationServiceException(this.message);
+  final String message;
+}
+
+class LocationPermissionException implements Exception {
+  const LocationPermissionException(this.message);
+  final String message;
+}

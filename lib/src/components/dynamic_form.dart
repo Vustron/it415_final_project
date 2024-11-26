@@ -203,6 +203,61 @@ class DynamicForm extends HookConsumerWidget {
           ]),
         );
 
+      case 'slider':
+        return FormBuilderSliderField(
+          name: field.label,
+          decoration: _getInputDecoration(field),
+          min: field.min ?? 0,
+          max: field.max ?? 100,
+          initialValue: (initialValue as num?)?.toDouble(),
+          divisions: field.divisions,
+          validator: field.isRequired
+              ? FormBuilderValidators.compose(<FormFieldValidator<double>>[
+                  FormBuilderValidators.required(),
+                  (double? value) {
+                    if (value == null) return 'Required';
+                    if (value < field.min!) return 'Too low';
+                    if (value > field.max!) return 'Too high';
+                    return null;
+                  },
+                ])
+              : null,
+        );
+
+      case 'switch':
+        return FormBuilderSwitchField(
+          name: field.label,
+          decoration: _getInputDecoration(field),
+          initialValue: initialValue as bool? ?? false,
+          subtitle: Text(field.hintText),
+          validator: field.isRequired
+              ? FormBuilderValidators.compose(<FormFieldValidator<bool>>[
+                  FormBuilderValidators.required(),
+                  (bool? value) {
+                    if (value == null) return 'Required';
+                    return null;
+                  },
+                ])
+              : null,
+        );
+
+      case 'time':
+        return FormBuilderTimeField(
+          name: field.label,
+          decoration: _getInputDecoration(field),
+          initialValue: initialValue as TimeOfDay?,
+          use24HourFormat: field.use24HourFormat ?? false,
+          validator: field.isRequired
+              ? FormBuilderValidators.compose([
+                  FormBuilderValidators.required(),
+                  (value) {
+                    if (value == null) return 'Required';
+                    return null;
+                  },
+                ])
+              : null,
+        );
+
       default:
         return FormBuilderTextField(
           name: field.label,

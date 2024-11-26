@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'dart:async';
 
+import 'package:babysitterapp/src/constants.dart';
 import 'package:babysitterapp/src/services.dart';
 import 'package:babysitterapp/src/models.dart';
 
@@ -13,35 +14,34 @@ class LocationRepository {
   final HttpApiService httpApi;
 
   Future<bool> handlePermission() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
     try {
-      serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      final bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         logger.error('Location services are disabled');
-        return false;
+        throw const LocationServiceException(
+            'Location services are disabled. Please enable GPS.');
       }
 
-      permission = await Geolocator.checkPermission();
+      LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
           logger.error('Location permissions are denied');
-          return false;
+          throw const LocationPermissionException('Location permission denied');
         }
       }
 
       if (permission == LocationPermission.deniedForever) {
         logger.error('Location permissions are permanently denied');
-        return false;
+        throw const LocationPermissionException(
+            'Location permissions are permanently denied. Please enable in settings.');
       }
 
       logger.info('Location permissions granted');
       return true;
     } catch (e, stackTrace) {
       logger.error('Error handling location permission', e, stackTrace);
-      return false;
+      rethrow;
     }
   }
 

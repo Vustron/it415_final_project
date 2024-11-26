@@ -14,6 +14,12 @@ class InputFieldConfig {
     this.obscureText = false,
     this.prefixIcon,
     this.allowedFileTypes,
+    this.min,
+    this.max,
+    this.initialValue,
+    this.divisions,
+    this.isInteger,
+    this.use24HourFormat,
   });
 
   final String label;
@@ -28,6 +34,12 @@ class InputFieldConfig {
   final bool obscureText;
   final IconData? prefixIcon;
   final List<String>? allowedFileTypes;
+  final double? min;
+  final double? max;
+  final double? initialValue;
+  final int? divisions;
+  final bool? isInteger;
+  final bool? use24HourFormat;
 
   InputFieldConfig copyWith({
     String? label,
@@ -42,6 +54,12 @@ class InputFieldConfig {
     bool? obscureText,
     IconData? prefixIcon,
     List<String>? allowedFileTypes,
+    double? min,
+    double? max,
+    double? initialValue,
+    int? divisions,
+    bool? isInteger,
+    bool? use24HourFormat,
   }) {
     return InputFieldConfig(
       label: label ?? this.label,
@@ -56,6 +74,12 @@ class InputFieldConfig {
       obscureText: obscureText ?? this.obscureText,
       prefixIcon: prefixIcon ?? this.prefixIcon,
       allowedFileTypes: allowedFileTypes ?? this.allowedFileTypes,
+      min: min ?? this.min,
+      max: max ?? this.max,
+      initialValue: initialValue ?? this.initialValue,
+      divisions: divisions ?? this.divisions,
+      isInteger: isInteger ?? this.isInteger,
+      use24HourFormat: use24HourFormat ?? this.use24HourFormat,
     );
   }
 }

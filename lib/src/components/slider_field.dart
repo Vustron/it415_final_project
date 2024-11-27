@@ -18,6 +18,8 @@ class FormBuilderSliderField extends HookWidget {
     this.activeColor = GlobalStyles.primaryButtonColor,
     this.showLabels = true,
     this.isInteger = false,
+    this.displayAsInteger = true,
+    this.decimalPlaces = 1,
   });
 
   final String name;
@@ -31,6 +33,8 @@ class FormBuilderSliderField extends HookWidget {
   final Color activeColor;
   final bool showLabels;
   final bool isInteger;
+  final bool displayAsInteger;
+  final int decimalPlaces;
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +52,10 @@ class FormBuilderSliderField extends HookWidget {
     }
 
     String formatValue(double value) {
-      if (isInteger) {
+      if (displayAsInteger) {
         return value.round().toString();
       }
-      return value.toStringAsFixed(1);
+      return value.toStringAsFixed(decimalPlaces);
     }
 
     return FormBuilderField<double>(

@@ -241,21 +241,102 @@ class DynamicForm extends HookConsumerWidget {
               : null,
         );
 
-      case 'time':
-        return FormBuilderTimeField(
-          name: field.label,
-          decoration: _getInputDecoration(field),
-          initialValue: initialValue as TimeOfDay?,
-          use24HourFormat: field.use24HourFormat ?? false,
-          validator: field.isRequired
-              ? FormBuilderValidators.compose([
-                  FormBuilderValidators.required(),
-                  (value) {
-                    if (value == null) return 'Required';
-                    return null;
-                  },
-                ])
-              : null,
+      case 'timeRange':
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(field.label, style: const TextStyle(fontSize: 14)),
+            const SizedBox(height: 8),
+            TimeRangePicker(
+              startFieldName: '${field.label}_start',
+              endFieldName: '${field.label}_end',
+              initialStartTime: initialValue is Map
+                  ? TimeOfDay(
+                      hour: (initialValue['start'] as DateTime?)?.hour ?? 7,
+                      minute: (initialValue['start'] as DateTime?)?.minute ?? 0)
+                  : null,
+              initialEndTime: initialValue is Map
+                  ? TimeOfDay(
+                      hour: (initialValue['end'] as DateTime?)?.hour ?? 17,
+                      minute: (initialValue['end'] as DateTime?)?.minute ?? 0)
+                  : null,
+            ),
+          ],
+        );
+
+      case 'textarea':
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            FormBuilderTextField(
+              name: field.label,
+              decoration: _getInputDecoration(field).copyWith(
+                alignLabelWithHint: true,
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical:
+                      field.minLines != null ? field.minLines! * 12.0 : 20,
+                ),
+                // Remove default counter
+                counter: const SizedBox.shrink(),
+              ),
+              initialValue: initialValue as String?,
+              maxLines: field.maxLines ?? 4,
+              minLines: field.minLines ?? 3,
+              keyboardType: TextInputType.multiline,
+              textInputAction: TextInputAction.newline,
+              validator: field.isRequired
+                  ? FormBuilderValidators.compose(<FormFieldValidator<String>>[
+                      FormBuilderValidators.required(),
+                      if (field.maxLength != null)
+                        FormBuilderValidators.maxLength(field.maxLength!),
+                      if (field.minLength != null)
+                        FormBuilderValidators.minLength(field.minLength!),
+                    ])
+                  : null,
+              maxLength: field.maxLength,
+            ),
+            // Custom counter and error container
+            Builder(
+              builder: (BuildContext context) {
+                final FormBuilderFieldState<FormBuilderField<dynamic>, dynamic>?
+                    fieldState = FormBuilder.of(context)?.fields[field.label];
+                final int currentLength =
+                    (fieldState?.value as String?)?.length ?? 0;
+
+                return Padding(
+                  padding: const EdgeInsets.only(top: 4, left: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      if (fieldState?.hasError ?? false)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: Text(
+                            fieldState?.errorText ?? '',
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      if (field.maxLength != null)
+                        Text(
+                          '$currentLength/${field.maxLength}',
+                          style: TextStyle(
+                            color: currentLength >=
+                                    (field.maxLength ?? double.infinity)
+                                ? Colors.red
+                                : Colors.grey[600],
+                            fontSize: 12,
+                          ),
+                        ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
         );
 
       default:

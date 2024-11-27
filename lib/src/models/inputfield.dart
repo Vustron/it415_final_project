@@ -20,6 +20,8 @@ class InputFieldConfig {
     this.divisions,
     this.isInteger,
     this.use24HourFormat,
+    this.maxLines,
+    this.minLines,
   });
 
   final String label;
@@ -40,6 +42,8 @@ class InputFieldConfig {
   final int? divisions;
   final bool? isInteger;
   final bool? use24HourFormat;
+  final int? maxLines;
+  final int? minLines;
 
   InputFieldConfig copyWith({
     String? label,
@@ -60,6 +64,8 @@ class InputFieldConfig {
     int? divisions,
     bool? isInteger,
     bool? use24HourFormat,
+    int? maxLines,
+    int? minLines,
   }) {
     return InputFieldConfig(
       label: label ?? this.label,
@@ -80,6 +86,8 @@ class InputFieldConfig {
       divisions: divisions ?? this.divisions,
       isInteger: isInteger ?? this.isInteger,
       use24HourFormat: use24HourFormat ?? this.use24HourFormat,
+      maxLines: maxLines ?? this.maxLines,
+      minLines: minLines ?? this.minLines,
     );
   }
 }

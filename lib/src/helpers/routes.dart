@@ -48,7 +48,7 @@ class Routes {
       notifications: (BuildContext context) => AuthGuard(
             child: NotificationView(),
           ),
-      booking: (BuildContext context) => AuthGuard(
+      booking: (BuildContext context) => const AuthGuard(
             child: BookingView(),
           ),
       payment: (BuildContext context) => const AuthGuard(

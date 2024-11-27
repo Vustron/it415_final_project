@@ -50,7 +50,7 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
           if (authState.user?.role == 'Client')
             IconButton(
               onPressed: () => CustomRouter.navigateToWithTransition(
-                BookingView(),
+                const BookingView(),
                 'rightToLeftWithFade',
               ),
               icon: const Icon(

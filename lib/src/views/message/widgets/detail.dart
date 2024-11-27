@@ -84,7 +84,7 @@ class MessageDetailScreen extends HookWidget {
                 IconButton(
                   onPressed: () {
                     CustomRouter.navigateToWithTransition(
-                      BookingView(),
+                      const BookingView(),
                       'rightToLeftWithFade',
                     );
                   },

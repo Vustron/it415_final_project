@@ -86,8 +86,8 @@ class BookingView extends HookConsumerWidget {
         Booking details:
         Children: ${formData['Number of Children']}
         Stay In: ${formData['Stay In']}
-        Start Time: ${formData['Start Time']?.format(context)}
-        End Time: ${formData['End Time']?.format(context)}
+        Start Time: ${(formData['Start Time'] as TimeOfDay?)?.format(context)}
+        End Time: ${(formData['End Time'] as TimeOfDay?)?.format(context)}
         Address: ${formData['Address']}
         Details: ${formData['Additional Details']}
       ''';

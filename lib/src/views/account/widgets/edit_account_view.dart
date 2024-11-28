@@ -35,6 +35,8 @@ class EditAccountView extends HookConsumerWidget with GlobalStyles {
                       id: '',
                       name: '',
                       address: '',
+                      addressLatitude: '',
+                      addressLongitude: '',
                       phoneNumber: '',
                       email: '',
                       provider: '',

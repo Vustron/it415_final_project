@@ -54,6 +54,20 @@ class ProfileForm extends HookWidget {
         prefixIcon: FluentIcons.location_20_regular,
       ),
       InputFieldConfig(
+        label: 'Address Latitude',
+        type: 'readonly',
+        hintText: 'Latitude',
+        value: user.addressLatitude ?? '',
+        prefixIcon: FluentIcons.location_20_regular,
+      ),
+      InputFieldConfig(
+        label: 'Address Longitude',
+        type: 'readonly',
+        hintText: 'Longitude',
+        value: user.addressLongitude ?? '',
+        prefixIcon: FluentIcons.location_20_regular,
+      ),
+      InputFieldConfig(
         label: 'Bio',
         type: 'text',
         hintText: 'Enter your bio here',
@@ -96,6 +110,8 @@ class ProfileForm extends HookWidget {
       initialData: <String, dynamic>{
         'Name': user.name ?? '',
         'Address': user.address ?? '',
+        'Address Latitude': user.addressLatitude ?? '',
+        'Address Longitude': user.addressLongitude ?? '',
         'Phone Number': user.phoneNumber ?? '',
         'Bio': user.description ?? '',
         'Valid ID Type': user.validId ?? '',

@@ -126,4 +126,25 @@ class LocationRepository {
       return 'Unknown Location';
     }
   }
+
+  Future<Object> getLongitudeAndLatitude(LatLng? location) async {
+    if (location == null) return 'Unknown Location';
+
+    final String? apiUrl = dotenv.env['MAP_API_URL'];
+
+    final Uri uri = Uri.parse(
+      '$apiUrl/reverse?lat=${location.latitude}&lon=${location.longitude}&format=json&addressdetails=1',
+    );
+
+    try {
+      final Map<String, dynamic> response =
+          await httpApi.get<Map<String, dynamic>>(uri.toString());
+      final NominatimAPI placeData = NominatimAPI.fromJson(response);
+
+      return placeData;
+    } catch (e, stackTrace) {
+      logger.error('Error fetching address', e, stackTrace);
+      return 'Unknown Location';
+    }
+  }
 }

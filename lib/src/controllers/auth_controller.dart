@@ -424,4 +424,19 @@ class AuthController extends StateNotifier<AuthState> {
       );
     }
   }
+
+  Stream<List<UserAccount>> getBabysittersStream() {
+    logger.debug('Starting babysitters stream');
+
+    return authRepo
+        .getUsersStream(role: 'Babysitter')
+        .map((List<UserAccount> users) {
+      logger.info('Received ${users.length} babysitters from stream');
+      return users;
+    }).handleError((dynamic error, StackTrace stackTrace) {
+      logger.error(
+          'Stream error in getUsersStream', error, stackTrace as StackTrace?);
+      throw Exception('Stream error in getUsersStream: $error');
+    });
+  }
 }

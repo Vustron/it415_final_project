@@ -3,6 +3,7 @@ import 'package:babysitterapp/src/models.dart';
 class AuthState {
   AuthState({
     this.user,
+    this.users = const <UserAccount>[],
     this.isLoading = false,
     this.error,
     this.status = AuthStatus.initial,
@@ -10,6 +11,7 @@ class AuthState {
   });
 
   final UserAccount? user;
+  final List<UserAccount> users;
   final bool isLoading;
   final String? error;
   final AuthStatus status;
@@ -17,6 +19,7 @@ class AuthState {
 
   AuthState copyWith({
     UserAccount? user,
+    List<UserAccount>? users,
     bool? isLoading,
     String? error,
     AuthStatus? status,
@@ -24,6 +27,7 @@ class AuthState {
   }) {
     return AuthState(
       user: user ?? this.user,
+      users: users ?? this.users,
       isLoading: isLoading ?? this.isLoading,
       error: error,
       status: status ?? this.status,

@@ -63,6 +63,27 @@ class DynamicForm extends HookConsumerWidget {
   Widget buildFormField(BuildContext context, InputFieldConfig field) {
     final dynamic initialValue = initialData?[field.label] ?? field.value;
 
+    if (field.type == 'readonly') {
+      return FormBuilderTextField(
+        name: field.label,
+        decoration: _getInputDecoration(field),
+        initialValue: initialValue as String? ?? '',
+        readOnly: true,
+      );
+    }
+
+    if (field.type == 'hidden') {
+      return FormBuilderTextField(
+        name: field.label,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.zero,
+        ),
+        initialValue: initialValue as String? ?? '',
+        enabled: false,
+        style: const TextStyle(height: 0),
+      );
+    }
+
     if (field.type == 'image') {
       return ImageField(
         name: field.label,
@@ -229,7 +250,7 @@ class DynamicForm extends HookConsumerWidget {
           name: field.label,
           decoration: _getInputDecoration(field),
           initialValue: initialValue as bool? ?? false,
-          subtitle: Text(field.hintText),
+          subtitle: Text(field.hintText ?? ''),
           validator: field.isRequired
               ? FormBuilderValidators.compose(<FormFieldValidator<bool>>[
                   FormBuilderValidators.required(),

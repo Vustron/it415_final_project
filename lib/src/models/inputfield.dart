@@ -4,7 +4,7 @@ class InputFieldConfig {
   const InputFieldConfig({
     required this.label,
     required this.type,
-    required this.hintText,
+    this.hintText,
     this.value,
     this.isRequired = false,
     this.minLength,
@@ -22,11 +22,13 @@ class InputFieldConfig {
     this.use24HourFormat,
     this.maxLines,
     this.minLines,
+    this.isReadOnly,
+    this.hidden,
   });
 
   final String label;
   final String type;
-  final String hintText;
+  final String? hintText;
   final dynamic value;
   final bool isRequired;
   final int? minLength;
@@ -44,6 +46,8 @@ class InputFieldConfig {
   final bool? use24HourFormat;
   final int? maxLines;
   final int? minLines;
+  final bool? isReadOnly;
+  final bool? hidden;
 
   InputFieldConfig copyWith({
     String? label,
@@ -66,6 +70,8 @@ class InputFieldConfig {
     bool? use24HourFormat,
     int? maxLines,
     int? minLines,
+    bool? isReadOnly,
+    bool? hidden,
   }) {
     return InputFieldConfig(
       label: label ?? this.label,
@@ -88,6 +94,8 @@ class InputFieldConfig {
       use24HourFormat: use24HourFormat ?? this.use24HourFormat,
       maxLines: maxLines ?? this.maxLines,
       minLines: minLines ?? this.minLines,
+      isReadOnly: isReadOnly ?? this.isReadOnly,
+      hidden: hidden ?? this.hidden,
     );
   }
 }

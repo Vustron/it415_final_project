@@ -33,6 +33,12 @@ Future<void> Function(Map<String, dynamic>) useProfileSubmit({
         id: user?.id ?? '',
         name: formData['Name'] as String? ?? user?.name ?? '',
         address: formData['Address'] as String? ?? user?.address ?? '',
+        addressLatitude: formData['Address Latitude'] as String? ??
+            user?.addressLatitude ??
+            '',
+        addressLongitude: formData['Address Longitude'] as String? ??
+            user?.addressLongitude ??
+            '',
         phoneNumber:
             formData['Phone Number'] as String? ?? user?.phoneNumber ?? '',
         email: user?.email ?? '',

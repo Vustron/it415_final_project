@@ -395,6 +395,8 @@ class AuthRepository {
           id: firebaseUser.uid,
           name: firebaseUser.displayName,
           address: '',
+          addressLatitude: '',
+          addressLongitude: '',
           phoneNumber: '',
           email: firebaseUser.email,
           provider: 'google',
@@ -454,5 +456,50 @@ class AuthRepository {
       _logger.error('Unexpected error during email verification', e, stack);
       return left(AuthFailure(e.toString()));
     }
+  }
+
+  Stream<List<UserAccount>> getUsersStream({required String role}) {
+    _logger.debug('Starting stream for users with role: $role');
+
+    return fireStore
+        .collection('users')
+        .where('role', isEqualTo: role)
+        .snapshots()
+        .map((QuerySnapshot<Map<String, dynamic>> snapshot) {
+      try {
+        _logger.debug('Processing ${snapshot.docs.length} users from snapshot');
+
+        final List<UserAccount> users = snapshot.docs
+            .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+          try {
+            _logger.debug('Processing user document: ${doc.id}');
+            return UserAccount.fromJson(<String, dynamic>{
+              ...doc.data(),
+              'id': doc.id,
+            });
+          } catch (e, stack) {
+            _logger.error(
+                'Error processing user document: ${doc.id}', e, stack);
+            rethrow;
+          }
+        }).toList();
+
+        if (users.isEmpty) {
+          _logger.warning('No users found with role: $role');
+        } else {
+          _logger.info(
+              'Successfully fetched ${users.length} users with role: $role');
+        }
+
+        return users;
+      } catch (e, stack) {
+        _logger.error('Error processing users snapshot', e, stack);
+        rethrow;
+      }
+    }).handleError((dynamic error, StackTrace stack) {
+      _logger.error(
+          'Stream error in getUsersStream', error, stack as StackTrace?);
+      throw Exception('Stream error in getUsersStream: $error');
+    });
   }
 }

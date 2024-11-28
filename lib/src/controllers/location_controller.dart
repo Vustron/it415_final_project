@@ -129,6 +129,34 @@ class LocationController extends StateNotifier<LocationState> {
     stopLocationUpdates();
     super.dispose();
   }
+
+  Future<NominatimAPI?> getLongitudeAndLatitude(LatLng location) async {
+    state = state.copyWith(isLoading: true, error: null);
+
+    try {
+      final Object result =
+          await locationService.getLongitudeAndLatitude(location);
+
+      if (result is NominatimAPI) {
+        state = state.copyWith(
+          isLoading: false,
+        );
+        return result;
+      } else {
+        state = state.copyWith(
+          error: 'Failed to get location data',
+          isLoading: false,
+        );
+        return null;
+      }
+    } catch (e) {
+      state = state.copyWith(
+        error: e.toString(),
+        isLoading: false,
+      );
+      return null;
+    }
+  }
 }
 
 Position? useLocationUpdates(WidgetRef ref) {

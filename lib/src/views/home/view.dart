@@ -1,9 +1,8 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/src/controllers.dart';
 import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/constants.dart';
 import 'package:babysitterapp/src/helpers.dart';
@@ -15,27 +14,9 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AuthController authController =
+        ref.watch(authControllerService.notifier);
     final AuthState authState = ref.watch(authControllerService);
-    final ValueNotifier<int> currentIndex = useState(0);
-    final CarouselSliderController carouselController =
-        CarouselSliderController();
-
-    final List<Widget> babysitterCards = List<Widget>.generate(
-      5,
-      (int index) => babySitterCardNearby(
-        context,
-        networkImage: networkImage1,
-        nameUser: 'Ms. Kara',
-        ratePhp: '200',
-        locationUser: 'Panabo City',
-        starCount: '5.0',
-        userBio:
-            'lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium lorem ispium',
-        name: '',
-        number: '',
-        image: '',
-      ),
-    );
 
     return Scaffold(
       appBar: AppBar(
@@ -74,18 +55,17 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
       ),
       backgroundColor: Colors.white,
       body: authState.user == null
-          ? const CircularProgressIndicator(
-              color: GlobalStyles.primaryButtonColor,
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: GlobalStyles.primaryButtonColor,
+              ),
             )
           : authState.user!.role == 'Client'
-              ? HomeClientView(
-                  carouselController: carouselController,
-                  babysitterCards: babysitterCards,
-                  currentIndex: currentIndex,
+              ? NearbyBabysitters(
+                  authController: authController,
+                  primaryButtonColor: GlobalStyles.primaryButtonColor,
                 )
-              : HomeBabysitterView(
-                  user: authState.user,
-                ),
+              : HomeBabysitterView(user: authState.user),
     );
   }
 }

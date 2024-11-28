@@ -6,3 +6,4 @@ export 'providers/payment_provider.dart';
 export 'providers/logger_provider.dart';
 export 'providers/toast_provider.dart';
 export 'providers/auth_provider.dart';
+export 'providers/initializer.dart';

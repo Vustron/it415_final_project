@@ -3,6 +3,8 @@ class UserAccount {
     this.id,
     this.name,
     this.address,
+    this.addressLatitude,
+    this.addressLongitude,
     this.phoneNumber,
     this.email,
     this.provider,
@@ -25,6 +27,8 @@ class UserAccount {
         id: json['id'] as String?,
         name: json['name'] as String?,
         address: json['address'] as String?,
+        addressLatitude: json['address_latitude'] as String?,
+        addressLongitude: json['address_longitude'] as String?,
         phoneNumber: json['phoneNumber'] as String?,
         email: json['email'] as String?,
         provider: json['provider'] as String?,
@@ -60,6 +64,8 @@ class UserAccount {
   final String? id;
   final String? name;
   final String? address;
+  final String? addressLatitude;
+  final String? addressLongitude;
   final String? phoneNumber;
   final String? email;
   final String? provider;
@@ -81,6 +87,8 @@ class UserAccount {
         'id': id,
         'name': name,
         'address': address,
+        'addressLatitude': addressLatitude,
+        'addressLongitude': addressLongitude,
         'phoneNumber': phoneNumber,
         'email': email,
         'provider': provider,
@@ -106,6 +114,8 @@ class UserAccount {
     String? role,
     String? phoneNumber,
     String? address,
+    String? addressLatitude,
+    String? addressLongitude,
     String? profileImg,
     String? description,
     String? validId,
@@ -127,6 +137,8 @@ class UserAccount {
       role: role ?? this.role,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       address: address ?? this.address,
+      addressLatitude: addressLatitude ?? this.addressLatitude,
+      addressLongitude: addressLongitude ?? this.addressLongitude,
       profileImg: profileImg ?? this.profileImg,
       description: description ?? this.description,
       validId: validId ?? this.validId,

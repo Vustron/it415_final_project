@@ -26,6 +26,7 @@ class Routes {
   static const String helpSupport = '/help-support';
   static const String transactionHistory = '/transaction-history';
   static const String verification = '/verification';
+  static const String allBabysittersView = '/all-babysitters';
 
   static Map<String, WidgetBuilder> getRoutes() {
     return <String, WidgetBuilder>{
@@ -35,9 +36,6 @@ class Routes {
       // Protected routes
       dashboard: (BuildContext context) => const AuthGuard(
             child: BottomNavbarView(),
-          ),
-      homeClient: (BuildContext context) => AuthGuard(
-            child: HomeClientView(),
           ),
       homeBabysitter: (BuildContext context) => const AuthGuard(
             child: HomeBabysitterView(),
@@ -89,6 +87,9 @@ class Routes {
           ),
       verification: (BuildContext context) => const AuthGuard(
             child: VerificationView(),
+          ),
+      allBabysittersView: (BuildContext context) => const AuthGuard(
+            child: AllBabysittersView(),
           ),
     };
   }

@@ -36,29 +36,18 @@ export 'views/booking_details/widgets/data_card.dart';
 export 'views/booking_details/view.dart';
 
 // client home
-export 'views/home/widgets/toprated_babysitter.dart';
-export 'views/home/widgets/home_client_view.dart';
-export 'views/home/widgets/article_carousel.dart';
+export 'views/home/widgets/nearby_babysitters.dart';
 export 'views/home/widgets/home_view_title.dart';
+export 'views/home/widgets/all_babysitters.dart';
 export 'views/home/widgets/bottom_navbar.dart';
-export 'views/home/widgets/toprate_card.dart';
-export 'views/home/widgets/card_button.dart';
-export 'views/home/widgets/card_header.dart';
-export 'views/home/widgets/card_nearby.dart';
-export 'views/home/widgets/toprate.dart';
-export 'views/home/widgets/nearby.dart';
-export 'views/home/widgets/bio.dart';
 export 'views/home/view.dart';
 
 // babysitter home
 export 'views/home/widgets/home_babysitter_view.dart';
+export 'views/home/widgets/header_babysitter.dart';
 export 'views/home/widgets/transaction_chart.dart';
-export 'views/home/widgets/babysitter_title.dart';
 export 'views/home/widgets/babysitter_card.dart';
-export 'views/home/widgets/comment_list.dart';
 export 'views/home/widgets/stats_card.dart';
-export 'views/home/widgets/header.dart';
-export 'views/home/widgets/photo.dart';
 
 // message
 export 'views/message/widgets/detail.dart';

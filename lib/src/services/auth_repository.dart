@@ -435,16 +435,14 @@ class AuthRepository {
       await user.sendEmailVerification();
 
       user.reload();
-      if (user.emailVerified) {
-        _logger.debug('Updating email verification status');
-        await fireStore
-            .collection('users')
-            .doc(user.uid)
-            .update(<Object, Object?>{
-          'emailVerified': DateTime.now().toIso8601String(),
-          'updatedAt': DateTime.now().toIso8601String(),
-        });
-      }
+      _logger.debug('Updating email verification status');
+      await fireStore
+          .collection('users')
+          .doc(user.uid)
+          .update(<Object, Object?>{
+        'emailVerified': DateTime.now().toIso8601String(),
+        'updatedAt': DateTime.now().toIso8601String(),
+      });
 
       _logger.info('Email verification sent successfully');
       return right(unit);

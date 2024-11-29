@@ -9,8 +9,40 @@ import 'package:babysitterapp/src/components.dart';
 import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/constants.dart';
 import 'package:babysitterapp/src/services.dart';
+import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
+
+final StateNotifierProvider<MessageListCacheNotifier,
+        Map<String, List<Message>>> messagesCacheProvider =
+    StateNotifierProvider<MessageListCacheNotifier, Map<String, List<Message>>>(
+        (StateNotifierProviderRef<MessageListCacheNotifier,
+                Map<String, List<Message>>>
+            ref) {
+  return MessageListCacheNotifier();
+});
+
+class MessageListCacheNotifier
+    extends StateNotifier<Map<String, List<Message>>> {
+  MessageListCacheNotifier() : super(<String, List<Message>>{});
+
+  void updateMessages(String chatId, List<Message> messages) {
+    final List<Message> existing = state[chatId] ?? <Message>[];
+    final List<Message> newMessages = messages
+        .where((Message msg) =>
+            !existing.any((Message cached) => cached.id == msg.id))
+        .toList();
+
+    if (newMessages.isNotEmpty) {
+      state = <String, List<Message>>{
+        ...state,
+        chatId: <Message>[...existing, ...newMessages]..sort(
+            (Message a, Message b) => (b.createdAt ?? DateTime.now())
+                .compareTo(a.createdAt ?? DateTime.now())),
+      };
+    }
+  }
+}
 
 class MessageView extends HookConsumerWidget with GlobalStyles {
   MessageView({super.key});
@@ -21,6 +53,7 @@ class MessageView extends HookConsumerWidget with GlobalStyles {
     final MessageController messageController =
         ref.watch(messageControllerService.notifier);
     final ValueNotifier<String> searchQuery = useState('');
+    ref.watch(messagesCacheProvider);
 
     final Stream<List<Message>> messagesStream = useMemoized(
       () => messageController.getMessagesStream(
@@ -32,26 +65,41 @@ class MessageView extends HookConsumerWidget with GlobalStyles {
 
     final AsyncSnapshot<List<Message>> messagesSnapshot =
         useStream(messagesStream);
-    final Map<String, Message> latestMessages = useMemoized(() {
+
+    final UserAccount? currentUser = authState.user;
+    final Map<String, Message> groupedMessages = useMemoized(() {
       if (!messagesSnapshot.hasData) return <String, Message>{};
 
       final List<Message> messages = messagesSnapshot.data!;
-      final Map<String, Message> latest = <String, Message>{};
+      final Map<String, Message> grouped = <String, Message>{};
 
       for (final Message message in messages) {
-        final String otherId = message.senderId == authState.user?.id
+        final String otherId = message.senderId == currentUser?.id
             ? message.receiverId
             : message.senderId;
 
-        if (!latest.containsKey(otherId) ||
-            (message.createdAt?.isAfter(latest[otherId]!.createdAt!) ??
-                false)) {
-          latest[otherId] = message;
+        if (!grouped.containsKey(otherId) ||
+            (message.senderId != currentUser?.id &&
+                !grouped[otherId]!.isRead) ||
+            message.createdAt!.isAfter(grouped[otherId]!.createdAt!)) {
+          grouped[otherId] = message;
         }
       }
 
-      return latest;
+      return grouped;
     }, <Object?>[messagesSnapshot.data]);
+
+    final List<Message> filteredMessages = useMemoized(() {
+      if (!messagesSnapshot.hasData) return <Message>[];
+
+      final List<Message> messages = groupedMessages.values.toList()
+        ..sort((Message a, Message b) => (b.createdAt ?? DateTime.now())
+            .compareTo(a.createdAt ?? DateTime.now()));
+
+      if (searchQuery.value.isEmpty) return messages;
+
+      return messages;
+    }, <Object?>[groupedMessages, searchQuery.value]);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -128,62 +176,69 @@ class MessageView extends HookConsumerWidget with GlobalStyles {
                     );
                   }
 
-                  if (latestMessages.isEmpty) {
+                  if (filteredMessages.isEmpty) {
                     return const Center(
                       child: Text('No messages yet'),
                     );
                   }
 
                   return ListView.builder(
-                    itemCount: latestMessages.length,
+                    itemCount: filteredMessages.length,
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     itemBuilder: (BuildContext context, int index) {
-                      final Message message =
-                          latestMessages.values.elementAt(index);
+                      final Message message = filteredMessages[index];
                       final String otherUserId =
                           message.senderId == authState.user?.id
                               ? message.receiverId
                               : message.senderId;
 
-                      final Stream<Either<AuthFailure, UserAccount>>
-                          userDataStream = useMemoized(
-                        () => ref
+                      return StreamBuilder<Either<AuthFailure, UserAccount>>(
+                        stream: ref
                             .read(authControllerService.notifier)
                             .getUserDataStream(otherUserId),
-                        <Object?>[otherUserId],
-                      );
-
-                      final AsyncSnapshot<Either<AuthFailure, UserAccount>>
-                          userSnapshot = useStream(userDataStream);
-
-                      if (!userSnapshot.hasData) {
-                        return const SizedBox.shrink();
-                      }
-
-                      return userSnapshot.data!.fold(
-                        (AuthFailure failure) => const SizedBox.shrink(),
-                        (UserAccount otherUser) {
-                          if (searchQuery.value.isNotEmpty &&
-                              !otherUser.name!
-                                  .toLowerCase()
-                                  .contains(searchQuery.value.toLowerCase())) {
+                        builder: (BuildContext context,
+                            AsyncSnapshot<Either<AuthFailure, UserAccount>>
+                                snapshot) {
+                          if (!snapshot.hasData) {
                             return const SizedBox.shrink();
                           }
 
-                          return ConversationList(
-                            name: otherUser.name ?? 'No Name',
-                            messageText: message.content,
-                            number: otherUser.phoneNumber ?? '',
-                            imageUrl: otherUser.profileImg ?? '',
-                            time: message.createdAt ?? DateTime.now(),
-                            isMessageRead: message.isRead,
-                            recipientId: otherUserId, // Add this
-                            // onTap: () {
-                            //   CustomRouter.navigateToWithTransition(
-                            //     ChatView(recipientId: otherUserId),
-                            //     'rightToLeftWithFade',
-                            //   );
-                            // },
+                          return snapshot.data!.fold(
+                            (AuthFailure failure) => const SizedBox.shrink(),
+                            (UserAccount otherUser) {
+                              if (searchQuery.value.isNotEmpty &&
+                                  !otherUser.name!.toLowerCase().contains(
+                                      searchQuery.value.toLowerCase())) {
+                                return const SizedBox.shrink();
+                              }
+
+                              // In MessageView, update the ConversationList creation:
+                              return ConversationList(
+                                name: otherUser.name ?? 'No Name',
+                                messageText: message.content,
+                                number: otherUser.phoneNumber ?? '',
+                                imageUrl: otherUser.profileImg ?? '',
+                                time: message.createdAt ?? DateTime.now(),
+                                isMessageRead: message.isRead,
+                                recipientId: otherUserId,
+                                isSender:
+                                    message.senderId == authState.user?.id,
+                                isOnline: otherUser.onlineStatus ?? false,
+                                isVerified: otherUser.emailVerified != null &&
+                                    otherUser.validIdVerified != null,
+                                onTap: () {
+                                  CustomRouter.navigateToWithTransition(
+                                    MessageDetailScreen(
+                                      name: otherUser.name ?? 'No Name',
+                                      number: otherUser.phoneNumber ?? '',
+                                      image: otherUser.profileImg ?? '',
+                                      recipientId: otherUserId,
+                                    ),
+                                    'rightToLeftWithFade',
+                                  );
+                                },
+                              );
+                            },
                           );
                         },
                       );

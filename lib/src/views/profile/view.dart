@@ -13,9 +13,9 @@ class Profile extends HookConsumerWidget with GlobalStyles {
     final Size width = MediaQuery.of(context).size;
     final ScrollController scrollController = useScrollController();
 
-    const String userName = 'Carole Howell';
-    const String userNumber = '0956-625-2536';
-    const String userImage = avatar1;
+    // const String userName = 'Carole Howell';
+    // const String userNumber = '0956-625-2536';
+    // const String userImage = avatar1;
 
     return Scaffold(
       appBar: AppBar(

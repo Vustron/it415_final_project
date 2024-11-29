@@ -33,12 +33,12 @@ class LoginForm extends HookConsumerWidget with GlobalStyles {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState authState = ref.watch(authControllerService);
-    final Toast toastRepository = ref.watch(toastService);
+    final Toast toast = ref.watch(toastService);
 
     useEffect(() {
       if (authState.status == AuthStatus.authenticated) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          toastRepository.show(
+          toast.show(
             context: context,
             title: 'Success',
             message: 'Login success',
@@ -71,7 +71,7 @@ class LoginForm extends HookConsumerWidget with GlobalStyles {
                     ref.read(authControllerService);
 
                 if (updatedAuthState.error != null) {
-                  toastRepository.show(
+                  toast.show(
                     context: context,
                     title: 'Error',
                     message: updatedAuthState.error!,
@@ -81,7 +81,7 @@ class LoginForm extends HookConsumerWidget with GlobalStyles {
               }
             } catch (e) {
               if (context.mounted) {
-                toastRepository.show(
+                toast.show(
                   context: context,
                   title: 'Error',
                   message: e.toString(),

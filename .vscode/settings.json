@@ -32,7 +32,5 @@
 		"todos",
 		"unfocus",
 		"vsync"
-	],
-	"cmake.sourceDirectory": "D:/flutterprojects/it415_final_project/linux",
-	"cmake.ignoreCMakeListsMissing": true
+	]
 }

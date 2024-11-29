@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -63,6 +64,7 @@ class MessageBubble extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Text(
                         DateFormat('hh:mm a').format(
@@ -78,12 +80,22 @@ class MessageBubble extends StatelessWidget {
                       if (isSender) ...<Widget>[
                         const SizedBox(width: 4),
                         Icon(
-                          message.isRead ? Icons.done_all : Icons.done,
+                          message.isRead
+                              ? FluentIcons.checkmark_circle_16_filled
+                              : FluentIcons.checkmark_16_regular,
                           size: 14,
                           color: message.isRead
                               ? Colors.white
                               : Colors.white.withOpacity(0.7),
                         ),
+                        if (message.isRead) ...<Widget>[
+                          const SizedBox(width: 2),
+                          const Icon(
+                            FluentIcons.checkmark_16_filled,
+                            size: 14,
+                            color: Colors.white,
+                          ),
+                        ],
                       ],
                     ],
                   ),

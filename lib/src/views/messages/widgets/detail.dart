@@ -2,14 +2,73 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
+import 'package:dartz/dartz.dart';
 import 'dart:developer';
 
 import 'package:babysitterapp/src/components.dart';
 import 'package:babysitterapp/src/constants.dart';
 import 'package:babysitterapp/src/providers.dart';
+import 'package:babysitterapp/src/services.dart';
 import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
+
+final StateNotifierProvider<MessageCacheNotifier, Map<String, List<Message>>>
+    messageCacheProvider =
+    StateNotifierProvider<MessageCacheNotifier, Map<String, List<Message>>>(
+        (StateNotifierProviderRef<MessageCacheNotifier,
+                Map<String, List<Message>>>
+            ref) {
+  return MessageCacheNotifier();
+});
+
+class MessageCacheNotifier extends StateNotifier<Map<String, List<Message>>> {
+  MessageCacheNotifier() : super(<String, List<Message>>{});
+
+  void updateMessages(String chatId, List<Message> messages) {
+    final List<Message> existing = state[chatId] ?? <Message>[];
+    final List<Message> newMessages = messages
+        .where((Message msg) =>
+            !existing.any((Message cached) => cached.id == msg.id))
+        .toList();
+
+    if (newMessages.isNotEmpty) {
+      state = <String, List<Message>>{
+        ...state,
+        chatId: <Message>[...existing, ...newMessages],
+      };
+    }
+  }
+
+  void addMessage(String chatId, Message message) {
+    final List<Message> existing = state[chatId] ?? <Message>[];
+    state = <String, List<Message>>{
+      ...state,
+      chatId: <Message>[...existing, message],
+    };
+  }
+}
+
+final StreamProviderFamily<List<Message>, String> messagesStreamProvider =
+    StreamProvider.family<List<Message>, String>(
+        (StreamProviderRef<List<Message>> ref, String recipientId) {
+  final UserAccount? currentUser = ref.watch(authControllerService).user;
+  ref.watch(messageCacheProvider);
+
+  return ref
+      .read(messageControllerService.notifier)
+      .getMessagesStream(
+        currentUserId: currentUser?.id ?? '',
+        otherUserId: recipientId,
+      )
+      .map((List<Message> messages) {
+    ref.read(messageCacheProvider.notifier).updateMessages(
+          recipientId,
+          messages,
+        );
+    return messages;
+  });
+});
 
 class MessageDetailScreen extends HookConsumerWidget {
   const MessageDetailScreen({
@@ -28,19 +87,68 @@ class MessageDetailScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController messageController = useTextEditingController();
-    final ValueNotifier<List<Message>> messages =
-        useState<List<Message>>(<Message>[]);
     final ScrollController scrollController = useScrollController();
     final UserAccount? currentUser = ref.watch(authControllerService).user;
+    final AsyncValue<List<Message>> messages =
+        ref.watch(messagesStreamProvider(recipientId));
+    final Map<String, List<Message>> messageCache =
+        ref.watch(messageCacheProvider);
+    final Toast toast = ref.watch(toastService);
+
+    void scrollToBottom() {
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    }
+
+    Future<void> handleSendMessage() async {
+      if (messageController.text.trim().isNotEmpty) {
+        try {
+          final Message newMessage = Message(
+            senderId: currentUser?.id ?? '',
+            receiverId: recipientId,
+            content: messageController.text.trim(),
+            createdAt: DateTime.now(),
+            isRead: false,
+          );
+
+          ref.read(messageCacheProvider.notifier).addMessage(
+                recipientId,
+                newMessage,
+              );
+
+          await ref.read(messageControllerService.notifier).sendMessage(
+                senderId: newMessage.senderId,
+                receiverId: newMessage.receiverId,
+                content: newMessage.content,
+              );
+
+          messageController.clear();
+          scrollToBottom();
+        } catch (e) {
+          if (context.mounted) {
+            toast.show(
+              context: context,
+              title: 'Error',
+              message: 'Failed to send message: $e',
+              type: 'error',
+            );
+          }
+        }
+      }
+    }
 
     useEffect(() {
-      if (messages.value.isNotEmpty) {
+      if (currentUser?.onlineStatus ?? false) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          scrollController.animateTo(
-            scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeOut,
-          );
+          ref.read(messageControllerService.notifier).markMessagesAsRead(
+                currentUserId: currentUser?.id ?? '',
+                senderId: recipientId,
+              );
         });
       }
       return null;
@@ -64,13 +172,28 @@ class MessageDetailScreen extends HookConsumerWidget {
                   ),
                 ),
                 const SizedBox(width: 2),
-                CachedAvatar(
-                  imageUrl: image,
-                  radius: 20,
-                  showOnlineStatus: true,
-                  isOnline: true,
-                  showVerificationStatus: true,
-                  isVerified: true,
+                StreamBuilder<Either<AuthFailure, UserAccount>>(
+                  stream: ref
+                      .read(authControllerService.notifier)
+                      .getUserDataStream(recipientId),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<Either<AuthFailure, UserAccount>>
+                          snapshot) {
+                    final bool isOnline = snapshot.data?.fold(
+                          (AuthFailure failure) => false,
+                          (UserAccount user) => user.onlineStatus ?? false,
+                        ) ??
+                        false;
+
+                    return CachedAvatar(
+                      imageUrl: image,
+                      radius: 20,
+                      showOnlineStatus: true,
+                      isOnline: isOnline,
+                      showVerificationStatus: true,
+                      isVerified: true,
+                    );
+                  },
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -87,12 +210,30 @@ class MessageDetailScreen extends HookConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      const Text(
-                        'Online',
-                        style: TextStyle(
-                          color: Color(0xFF00C853),
-                          fontSize: 13,
-                        ),
+                      StreamBuilder<Either<AuthFailure, UserAccount>>(
+                        stream: ref
+                            .read(authControllerService.notifier)
+                            .getUserDataStream(recipientId),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<Either<AuthFailure, UserAccount>>
+                                snapshot) {
+                          final bool isOnline = snapshot.data?.fold(
+                                (AuthFailure failure) => false,
+                                (UserAccount user) =>
+                                    user.onlineStatus ?? false,
+                              ) ??
+                              false;
+
+                          return Text(
+                            isOnline ? 'Online' : 'Offline',
+                            style: TextStyle(
+                              color: isOnline
+                                  ? const Color(0xFF00C853)
+                                  : Colors.grey,
+                              fontSize: 13,
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -128,20 +269,43 @@ class MessageDetailScreen extends HookConsumerWidget {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: ListView.builder(
-              controller: scrollController,
-              padding: const EdgeInsets.symmetric(
-                horizontal: GlobalStyles.defaultPadding,
-                vertical: GlobalStyles.defaultPadding,
-              ),
-              itemCount: messages.value.length,
-              itemBuilder: (BuildContext context, int index) {
-                final Message message = messages.value[index];
-                return MessageBubble(
-                  message: message,
-                  isSender: message.senderId == currentUser?.id,
+            child: messages.when(
+              data: (List<Message> messagesList) {
+                final List<Message> displayMessages =
+                    messageCache[recipientId] ?? messagesList;
+
+                if (displayMessages.isEmpty) {
+                  return const Center(child: Text('No messages yet'));
+                }
+
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  scrollToBottom();
+                });
+
+                return ListView.builder(
+                  controller: scrollController,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: GlobalStyles.defaultPadding,
+                    vertical: GlobalStyles.defaultPadding,
+                  ),
+                  itemCount: displayMessages.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final Message message = displayMessages[index];
+                    return MessageBubble(
+                      message: message,
+                      isSender: message.senderId == currentUser?.id,
+                    );
+                  },
                 );
               },
+              loading: () => const Center(
+                child: CircularProgressIndicator(
+                  color: GlobalStyles.primaryButtonColor,
+                ),
+              ),
+              error: (Object error, StackTrace stack) => Center(
+                child: Text('Error: $error'),
+              ),
             ),
           ),
           Container(
@@ -162,25 +326,7 @@ class MessageDetailScreen extends HookConsumerWidget {
             child: SafeArea(
               child: Row(
                 children: <Widget>[
-                  Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      color: GlobalStyles.primaryButtonColor,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: IconButton(
-                      onPressed: () {
-                        // TODO: Add attachment handling
-                      },
-                      icon: const Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 20),
                   Expanded(
                     child: TextField(
                       controller: messageController,
@@ -191,27 +337,13 @@ class MessageDetailScreen extends HookConsumerWidget {
                         hintStyle: TextStyle(color: Colors.black54),
                         border: InputBorder.none,
                       ),
+                      onSubmitted: (_) => handleSendMessage(),
                     ),
                   ),
                   const SizedBox(width: 10),
                   FloatingActionButton(
                     mini: true,
-                    onPressed: () {
-                      if (messageController.text.trim().isNotEmpty) {
-                        final Message newMessage = Message(
-                          senderId: currentUser?.id ?? '',
-                          receiverId: recipientId,
-                          content: messageController.text.trim(),
-                          createdAt: DateTime.now(),
-                          isRead: false,
-                        );
-                        messages.value = <Message>[
-                          ...messages.value,
-                          newMessage
-                        ];
-                        messageController.clear();
-                      }
-                    },
+                    onPressed: handleSendMessage,
                     backgroundColor: GlobalStyles.primaryButtonColor,
                     elevation: 0,
                     child: const Icon(

@@ -1,5 +1,5 @@
-import 'package:dartz/dartz.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:dartz/dartz.dart';
 import 'dart:async';
 
 import 'package:babysitterapp/src/services.dart';
@@ -56,7 +56,7 @@ class MessageController extends StateNotifier<MessageState> {
         receiverId: receiverId,
         content: content,
         createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
+        isRead: false,
       );
 
       final Either<AuthFailure, Message> result =
@@ -81,17 +81,17 @@ class MessageController extends StateNotifier<MessageState> {
     }
   }
 
-  Future<void> markAsRead(String messageId) async {
+  Future<void> markMessagesAsRead({
+    required String currentUserId,
+    required String senderId,
+  }) async {
     try {
-      final Either<AuthFailure, Unit> result =
-          await messageRepo.markMessageAsRead(messageId);
-      result.fold(
-        (AuthFailure failure) =>
-            logger.error('Mark as read failed', failure.message),
-        (_) => logger.debug('Message marked as read: $messageId'),
+      await messageRepo.markMessagesAsRead(
+        currentUserId: currentUserId,
+        senderId: senderId,
       );
     } catch (e, stack) {
-      logger.error('Mark as read error', e, stack);
+      logger.error('Failed to mark messages as read', e, stack);
     }
   }
 

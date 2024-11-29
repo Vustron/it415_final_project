@@ -17,9 +17,13 @@ class ConversationList extends HookWidget with GlobalStyles {
     required this.isMessageRead,
     required this.number,
     required this.recipientId,
+    required this.isOnline,
+    required this.isVerified,
+    required this.isSender,
     this.onTap,
   });
 
+  final bool isSender;
   final String name;
   final String messageText;
   final String imageUrl;
@@ -27,10 +31,17 @@ class ConversationList extends HookWidget with GlobalStyles {
   final bool isMessageRead;
   final String number;
   final String recipientId;
+  final bool isOnline;
+  final bool isVerified;
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
+    String getMessagePreview() {
+      if (messageText.isEmpty) return '';
+      return isSender ? "You: $messageText" : messageText;
+    }
+
     return Material(
       color: Colors.white,
       child: InkWell(
@@ -57,9 +68,9 @@ class ConversationList extends HookWidget with GlobalStyles {
                 imageUrl: imageUrl,
                 radius: 25,
                 showOnlineStatus: true,
-                isOnline: true,
+                isOnline: isOnline,
                 showVerificationStatus: true,
-                isVerified: true,
+                isVerified: isVerified,
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -84,7 +95,8 @@ class ConversationList extends HookWidget with GlobalStyles {
                           ),
                         ),
                         Text(
-                          DateFormat('hh:mm a').format(time),
+                          DateFormat('MMM d, hh:mm a')
+                              .format(time), // Updated date format
                           style: TextStyle(
                             color: isMessageRead
                                 ? Colors.grey[600]
@@ -102,7 +114,7 @@ class ConversationList extends HookWidget with GlobalStyles {
                       children: <Widget>[
                         Expanded(
                           child: Text(
-                            messageText,
+                            getMessagePreview(), // Use helper function
                             style: TextStyle(
                               fontSize: 14,
                               color: isMessageRead

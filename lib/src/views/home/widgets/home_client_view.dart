@@ -40,7 +40,7 @@ class HomeClientView extends HookWidget with GlobalStyles {
     },
     <String, dynamic>{
       'title': 'Stay Connected',
-      'description': 'Keep parents updated about their child\'s activities',
+      'description': "Keep parents updated about their child's activities",
       'icon': Icons.message,
     },
     <String, dynamic>{
@@ -183,14 +183,27 @@ class HomeClientView extends HookWidget with GlobalStyles {
                           color: GlobalStyles.primaryButtonColor,
                         ),
                         onPressed: () {
-                          // CustomRouter.navigateToWithTransition(
-                          //   ChatView(recipientId: user.id ?? ''),
-                          //   'rightToLeftWithFade',
-                          // );
+                          CustomRouter.navigateToWithTransition(
+                            MessageDetailScreen(
+                              name: user.name ?? 'No Name',
+                              number: user.phoneNumber ?? '',
+                              image: user.profileImg ?? '',
+                              recipientId: user.id ?? '',
+                            ),
+                            'rightToLeftWithFade',
+                          );
                         },
                       ),
                       onTap: () {
-                        // Handle selection
+                        CustomRouter.navigateToWithTransition(
+                          MessageDetailScreen(
+                            name: user.name ?? 'No Name',
+                            number: user.phoneNumber ?? '',
+                            image: user.profileImg ?? '',
+                            recipientId: user.id ?? '',
+                          ),
+                          'rightToLeftWithFade',
+                        );
                       },
                     ),
                   ),

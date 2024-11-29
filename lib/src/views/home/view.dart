@@ -61,7 +61,7 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
               ),
             )
           : authState.user!.role == 'Client'
-              ? NearbyBabysitters(
+              ? HomeClientView(
                   authController: authController,
                   primaryButtonColor: GlobalStyles.primaryButtonColor,
                 )

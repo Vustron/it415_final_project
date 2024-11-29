@@ -50,13 +50,14 @@ class Profile extends HookConsumerWidget with GlobalStyles {
               const SizedBox(
                 height: 15,
               ),
-              messageButton(
-                GlobalStyles.primaryButtonColor,
-                context,
-                userName,
-                userNumber,
-                userImage,
-              ),
+              // messageButton(
+              //   GlobalStyles.primaryButtonColor,
+              //   context,
+              //   userName,
+              //   userNumber,
+              //   userImage,
+              //   recipientId: '1',
+              // ),
             ],
           ),
         ),

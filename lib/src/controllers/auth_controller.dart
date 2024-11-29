@@ -439,4 +439,14 @@ class AuthController extends StateNotifier<AuthState> {
       throw Exception('Stream error in getUsersStream: $error');
     });
   }
+
+  Stream<Either<AuthFailure, UserAccount>> getUserDataStream(String uid) {
+    logger.debug('Getting user data stream for: $uid');
+    return authRepo
+        .getUserDataStream(uid)
+        .handleError((dynamic error, StackTrace stack) {
+      logger.error('Error in user data stream', error, stack);
+      throw Exception('Stream error in getUserDataStream: $error');
+    });
+  }
 }

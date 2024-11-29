@@ -131,7 +131,6 @@ class AllBabysittersView extends HookConsumerWidget {
           final List<UserAccount> paginatedUsers =
               filteredUsers.take(pageSize.value).toList();
 
-          // Update hasMoreData based on remaining items
           WidgetsBinding.instance.addPostFrameCallback((_) {
             hasMoreData.value = paginatedUsers.length < filteredUsers.length;
           });

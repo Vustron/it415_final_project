@@ -36,7 +36,7 @@ export 'views/booking_details/widgets/data_card.dart';
 export 'views/booking_details/view.dart';
 
 // client home
-export 'views/home/widgets/nearby_babysitters.dart';
+export 'views/home/widgets/home_client_view.dart';
 export 'views/home/widgets/home_view_title.dart';
 export 'views/home/widgets/all_babysitters.dart';
 export 'views/home/widgets/bottom_navbar.dart';
@@ -50,10 +50,10 @@ export 'views/home/widgets/babysitter_card.dart';
 export 'views/home/widgets/stats_card.dart';
 
 // message
-export 'views/message/widgets/detail.dart';
-export 'views/message/widgets/bubble.dart';
-export 'views/message/widgets/list.dart';
-export 'views/message/view.dart';
+export 'views/messages/widgets/detail.dart';
+export 'views/messages/widgets/bubble.dart';
+export 'views/messages/widgets/list.dart';
+export 'views/messages/view.dart';
 
 // notification
 export 'views/notification/widgets/list.dart';

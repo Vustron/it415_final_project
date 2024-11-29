@@ -4,7 +4,7 @@ import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/views.dart';
 
 Widget messageButton(Color colors, BuildContext context, String name,
-        String number, String image) =>
+        String number, String image, String recipientId) =>
     Row(
       children: <Widget>[
         Expanded(
@@ -16,6 +16,7 @@ Widget messageButton(Color colors, BuildContext context, String name,
                   name: name,
                   number: number,
                   image: image,
+                  recipientId: recipientId,
                 ),
                 'fade',
               );

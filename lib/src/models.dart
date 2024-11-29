@@ -3,6 +3,10 @@ export 'models/user_account.dart';
 export 'models/auth_state.dart';
 export 'models/chatuser.dart';
 
+// message
+export 'models/message_state.dart';
+export 'models/message.dart';
+
 // components
 export 'models/inputfield.dart';
 export 'models/marker.dart';

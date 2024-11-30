@@ -36,13 +36,13 @@ class AccountView extends HookConsumerWidget with GlobalStyles {
               child: Column(
                 children: <Widget>[
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: <Color>[
                           Colors.white,
-                          Colors.grey.shade50,
+                          Colors.white,
                         ],
                       ),
                     ),

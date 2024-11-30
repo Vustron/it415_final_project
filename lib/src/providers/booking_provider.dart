@@ -9,7 +9,7 @@ final StateNotifierProvider<BookingController, BookingState>
     bookingControllerService =
     StateNotifierProvider<BookingController, BookingState>(
         (StateNotifierProviderRef<BookingController, BookingState> ref) {
-  return BookingController(ref.watch(bookingService));
+  return BookingController(ref.watch(bookingService), ref.watch(authService));
 });
 
 final Provider<BookingRepository> bookingService =

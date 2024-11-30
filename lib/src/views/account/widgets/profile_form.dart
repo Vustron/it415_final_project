@@ -104,17 +104,18 @@ class ProfileForm extends HookWidget {
         isRequired: true,
         value: user.birthDate,
       ),
-      InputFieldConfig(
-        type: 'number',
-        label: 'Hourly Rate',
-        hintText: 'Enter your hourly rate',
-        prefixIcon: FluentIcons.money_24_regular,
-        isRequired: true,
-        min: 0,
-        max: 10000,
-        isCurrency: true,
-        value: user.hourlyRate,
-      ),
+      if (user.role == 'Babysitter')
+        InputFieldConfig(
+          type: 'number',
+          label: 'Hourly Rate',
+          hintText: 'Enter your hourly rate',
+          prefixIcon: FluentIcons.money_24_regular,
+          isRequired: true,
+          min: 0,
+          max: 10000,
+          isCurrency: true,
+          value: user.hourlyRate,
+        ),
     ];
 
     return DynamicForm(
@@ -129,7 +130,7 @@ class ProfileForm extends HookWidget {
         'Valid ID Type': user.validId ?? '',
         'Gender': user.gender ?? '',
         'Birth Date': user.birthDate,
-        'Hourly Rate': user.hourlyRate,
+        if (user.role == 'Babysitter') 'Hourly Rate': user.hourlyRate,
         if (user.role == null || user.role!.isEmpty) 'Role': user.role ?? '',
         'Profile Image': user.profileImg ?? '',
         'Valid ID': user.validId ?? '',

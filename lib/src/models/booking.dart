@@ -12,6 +12,7 @@ class Booking {
     required this.startTime,
     required this.endTime,
     required this.details,
+    required this.totalCost,
     this.status = 'pending',
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -32,6 +33,7 @@ class Booking {
       startTime: json['startTime'] as String,
       endTime: json['endTime'] as String,
       details: json['details'] as String,
+      totalCost: json['totalCost'] as String,
       status: json['status'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
@@ -50,6 +52,7 @@ class Booking {
   final String startTime;
   final String endTime;
   final String details;
+  final String totalCost;
   final String status;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -68,6 +71,7 @@ class Booking {
     String? startTime,
     String? endTime,
     String? details,
+    String? totalCost,
     String? status,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -85,6 +89,7 @@ class Booking {
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
       details: details ?? this.details,
+      totalCost: totalCost ?? this.totalCost,
       status: status ?? this.status,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -105,6 +110,7 @@ class Booking {
       'startTime': startTime,
       'endTime': endTime,
       'details': details,
+      'totalCost': totalCost,
       'status': status,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),

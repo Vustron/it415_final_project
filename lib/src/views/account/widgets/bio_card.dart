@@ -30,7 +30,7 @@ class BioCard extends HookWidget with GlobalStyles {
     ).format(num.tryParse(authState.user?.hourlyRate.toString() ?? '0') ?? 0);
 
     return Card(
-      elevation: 0,
+      elevation: 3,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(color: Colors.grey.shade200),
@@ -99,36 +99,38 @@ class BioCard extends HookWidget with GlobalStyles {
                 ),
               ),
             ],
-            const SizedBox(height: 16),
-            Divider(color: Colors.grey.shade200),
-            const SizedBox(height: 16),
-            // Hourly Rate section
-            Row(
-              children: <Widget>[
-                const Icon(
-                  FluentIcons.money_24_regular,
-                  size: 20,
-                  color: GlobalStyles.primaryButtonColor,
-                ),
-                const SizedBox(width: 8),
-                const Text(
-                  'Hourly Rate',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Spacer(),
-                Text(
-                  '$hourlyRate/hr',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+
+            if (authState.user!.role == 'Babysitter') ...<Widget>[
+              const SizedBox(height: 16),
+              Divider(color: Colors.grey.shade200),
+              const SizedBox(height: 16),
+              Row(
+                children: <Widget>[
+                  const Icon(
+                    FluentIcons.money_24_regular,
+                    size: 20,
                     color: GlobalStyles.primaryButtonColor,
                   ),
-                ),
-              ],
-            ),
+                  const SizedBox(width: 8),
+                  const Text(
+                    'Hourly Rate',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    '$hourlyRate/hr',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: GlobalStyles.primaryButtonColor,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ],
         ),
       ),

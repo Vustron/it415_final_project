@@ -33,3 +33,22 @@ Either<AuthFailure, String> validateName(String name) {
   }
   return right(name);
 }
+
+DateTime parseTimeString(String timeStr) {
+  timeStr = timeStr.trim();
+
+  final bool isPM = timeStr.toLowerCase().contains('pm');
+  timeStr = timeStr.toLowerCase().replaceAll(RegExp(r'[ap]m'), '').trim();
+
+  final List<String> parts = timeStr.split(':');
+  int hours = int.parse(parts[0]);
+  final int minutes = int.parse(parts[1]);
+
+  if (isPM && hours != 12) {
+    hours += 12;
+  } else if (!isPM && hours == 12) {
+    hours = 0;
+  }
+
+  return DateTime(2024, 1, 1, hours, minutes);
+}

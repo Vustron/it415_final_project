@@ -96,6 +96,15 @@ class BookingDetailsView extends HookConsumerWidget {
                   ),
                   const Divider(height: 32),
                   dataDetails(
+                    icon: FluentIcons.money_24_regular,
+                    label: 'Total Cost',
+                    value: NumberFormat.currency(
+                      symbol: '₱',
+                      decimalDigits: 2,
+                    ).format(double.tryParse(booking?.totalCost ?? '0') ?? 0),
+                  ),
+                  const Divider(height: 32),
+                  dataDetails(
                     icon: FluentIcons.calendar_clock_24_regular,
                     label: 'Created',
                     value: DateFormat('MMM dd, yyyy HH:mm')

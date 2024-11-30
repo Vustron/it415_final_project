@@ -2,12 +2,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:dartz/dartz.dart';
 
 import 'package:babysitterapp/src/services.dart';
+import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/models.dart';
 
 class BookingController extends StateNotifier<BookingState> {
-  BookingController(this.bookingRepo) : super(BookingState());
+  BookingController(this.bookingRepo, this.userRepo) : super(BookingState());
 
   final BookingRepository bookingRepo;
+  final AuthRepository userRepo;
 
   Future<void> createBooking(
     String parentId,
@@ -15,10 +17,31 @@ class BookingController extends StateNotifier<BookingState> {
     Map<String, dynamic> formData,
   ) async {
     if (state.isLoading) return;
-
     state = state.copyWith(isLoading: true);
 
     try {
+      final UserAccount? babysitter = await userRepo.getUser(babysitterId);
+      if (babysitter == null) throw Exception('Babysitter not found');
+
+      final String startTime = formData['Start Time'] as String;
+      final String endTime = formData['End Time'] as String;
+
+      final DateTime start = parseTimeString(startTime);
+      DateTime end = parseTimeString(endTime);
+
+      if (end.isBefore(start)) {
+        end = end.add(const Duration(days: 1));
+      }
+
+      final double durationHours = end.difference(start).inMinutes / 60;
+      if (durationHours <= 0) {
+        throw Exception('Invalid time range');
+      }
+
+      final double hourlyRate =
+          double.tryParse(babysitter.hourlyRate ?? '0') ?? 0;
+      final String totalCost = (durationHours * hourlyRate).toStringAsFixed(2);
+
       final Booking booking = Booking(
         parentId: parentId,
         babysitterId: babysitterId,
@@ -28,9 +51,10 @@ class BookingController extends StateNotifier<BookingState> {
         address: formData['Address'] as String,
         addressLatitude: formData['AddressLatitude'] as String,
         addressLongitude: formData['AddressLongitude'] as String,
-        startTime: formData['Start Time'] as String,
-        endTime: formData['End Time'] as String,
+        startTime: startTime,
+        endTime: endTime,
         details: formData['Additional details'] as String,
+        totalCost: totalCost,
       );
 
       final Either<BookingFailure, Booking> result =

@@ -128,7 +128,7 @@ export 'views/profile/view.dart';
 
 // settings
 export 'views/settings/widgets/settings_label.dart';
-export 'views/settings/widgets/logout_button.dart';
+export 'views/account/widgets/logout_button.dart';
 export 'views/settings/widgets/option_card.dart';
 export 'views/settings/widgets/preference.dart';
 export 'views/settings/widgets/history.dart';

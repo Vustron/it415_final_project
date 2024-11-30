@@ -506,4 +506,29 @@ class AuthRepository {
       throw Exception('Stream error in getUsersStream: $error');
     });
   }
+
+  Future<UserAccount?> getUser(String uid) async {
+    _logger.debug('Fetching user data for uid: $uid');
+    try {
+      final DocumentSnapshot<Map<String, dynamic>> doc =
+          await fireStore.collection('users').doc(uid).get();
+
+      if (!doc.exists) {
+        _logger.warning('User not found: $uid');
+        return null;
+      }
+
+      final Map<String, dynamic>? data = doc.data();
+      if (data == null) {
+        _logger.error('Corrupted user data for uid: $uid');
+        return null;
+      }
+
+      _logger.debug('User data retrieved successfully');
+      return UserAccount.fromJson(data);
+    } catch (e, stack) {
+      _logger.error('Error fetching user data', e, stack);
+      return null;
+    }
+  }
 }

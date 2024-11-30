@@ -7,8 +7,8 @@ import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
 
-class MapScreen extends HookConsumerWidget {
-  const MapScreen({super.key});
+class SearchMapScreen extends HookConsumerWidget {
+  const SearchMapScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

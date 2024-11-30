@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 
 class InputFieldConfig {
-  const InputFieldConfig({
-    required this.label,
-    required this.type,
-    this.hintText,
-    this.value,
-    this.isRequired = false,
-    this.minLength,
-    this.maxLength,
-    this.options,
-    this.keyboardType,
-    this.obscureText = false,
-    this.prefixIcon,
-    this.allowedFileTypes,
-    this.min,
-    this.max,
-    this.initialValue,
-    this.divisions,
-    this.isInteger,
-    this.use24HourFormat,
-    this.maxLines,
-    this.minLines,
-    this.isReadOnly,
-    this.hidden,
-  });
+  const InputFieldConfig(
+      {required this.label,
+      required this.type,
+      this.hintText,
+      this.value,
+      this.isRequired = false,
+      this.minLength,
+      this.maxLength,
+      this.options,
+      this.keyboardType,
+      this.obscureText = false,
+      this.prefixIcon,
+      this.allowedFileTypes,
+      this.min,
+      this.max,
+      this.initialValue,
+      this.divisions,
+      this.isInteger,
+      this.use24HourFormat,
+      this.maxLines,
+      this.minLines,
+      this.isReadOnly,
+      this.hidden,
+      this.isCurrency});
 
   final String label;
   final String type;
@@ -48,31 +48,32 @@ class InputFieldConfig {
   final int? minLines;
   final bool? isReadOnly;
   final bool? hidden;
+  final bool? isCurrency;
 
-  InputFieldConfig copyWith({
-    String? label,
-    String? type,
-    String? hintText,
-    String? value,
-    bool? isRequired,
-    int? minLength,
-    int? maxLength,
-    List<String>? options,
-    TextInputType? keyboardType,
-    bool? obscureText,
-    IconData? prefixIcon,
-    List<String>? allowedFileTypes,
-    double? min,
-    double? max,
-    double? initialValue,
-    int? divisions,
-    bool? isInteger,
-    bool? use24HourFormat,
-    int? maxLines,
-    int? minLines,
-    bool? isReadOnly,
-    bool? hidden,
-  }) {
+  InputFieldConfig copyWith(
+      {String? label,
+      String? type,
+      String? hintText,
+      String? value,
+      bool? isRequired,
+      int? minLength,
+      int? maxLength,
+      List<String>? options,
+      TextInputType? keyboardType,
+      bool? obscureText,
+      IconData? prefixIcon,
+      List<String>? allowedFileTypes,
+      double? min,
+      double? max,
+      double? initialValue,
+      int? divisions,
+      bool? isInteger,
+      bool? use24HourFormat,
+      int? maxLines,
+      int? minLines,
+      bool? isReadOnly,
+      bool? hidden,
+      bool? isCurrency}) {
     return InputFieldConfig(
       label: label ?? this.label,
       type: type ?? this.type,
@@ -96,6 +97,7 @@ class InputFieldConfig {
       minLines: minLines ?? this.minLines,
       isReadOnly: isReadOnly ?? this.isReadOnly,
       hidden: hidden ?? this.hidden,
+      isCurrency: isCurrency ?? this.isCurrency,
     );
   }
 }

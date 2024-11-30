@@ -1,3 +1,4 @@
+import 'package:babysitterapp/src/helpers.dart';
 import 'package:form_builder_file_picker/form_builder_file_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -293,17 +294,15 @@ class DynamicForm extends HookConsumerWidget {
               name: field.label,
               decoration: _getInputDecoration(field).copyWith(
                 alignLabelWithHint: true,
-                contentPadding: EdgeInsets.symmetric(
+                contentPadding: const EdgeInsets.symmetric(
                   horizontal: 16,
-                  vertical:
-                      field.minLines != null ? field.minLines! * 12.0 : 20,
+                  vertical: 12,
                 ),
-                // Remove default counter
                 counter: const SizedBox.shrink(),
               ),
               initialValue: initialValue as String?,
-              maxLines: field.maxLines ?? 4,
-              minLines: field.minLines ?? 3,
+              maxLines: field.maxLines,
+              minLines: 1,
               keyboardType: TextInputType.multiline,
               textInputAction: TextInputAction.newline,
               validator: field.isRequired
@@ -316,14 +315,16 @@ class DynamicForm extends HookConsumerWidget {
                     ])
                   : null,
               maxLength: field.maxLength,
+              onChanged: (String? value) {
+                FormBuilder.of(context)?.fields[field.label]?.didChange(value);
+              },
             ),
-            // Custom counter and error container
             Builder(
               builder: (BuildContext context) {
                 final FormBuilderFieldState<FormBuilderField<dynamic>, dynamic>?
                     fieldState = FormBuilder.of(context)?.fields[field.label];
-                final int currentLength =
-                    (fieldState?.value as String?)?.length ?? 0;
+                final String currentText = (fieldState?.value as String?) ?? '';
+                final int currentLength = currentText.length;
 
                 return Padding(
                   padding: const EdgeInsets.only(top: 4, left: 16),
@@ -358,6 +359,69 @@ class DynamicForm extends HookConsumerWidget {
               },
             ),
           ],
+        );
+
+      case 'number':
+        return FormBuilderTextField(
+          name: field.label,
+          decoration: _getInputDecoration(field),
+          initialValue: field.isCurrency ?? true && initialValue != null
+              ? CurrencyInputFormatter()
+                  .formatEditUpdate(
+                    TextEditingValue.empty,
+                    TextEditingValue(text: initialValue.toString()),
+                  )
+                  .text
+              : initialValue?.toString(),
+          keyboardType: const TextInputType.numberWithOptions(
+            decimal: true,
+            signed: false,
+          ),
+          inputFormatters: <TextInputFormatter>[
+            if (field.isCurrency ?? true)
+              CurrencyInputFormatter()
+            else
+              FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
+          ],
+          validator: field.isRequired
+              ? FormBuilderValidators.compose(<FormFieldValidator<String>>[
+                  FormBuilderValidators.required(),
+                  (String? value) {
+                    if (value == null || value.isEmpty) return null;
+
+                    String numStr = value;
+                    if (field.isCurrency ?? true) {
+                      numStr =
+                          value.replaceAll('₱', '').replaceAll(',', '').trim();
+                    }
+
+                    final num? number = num.tryParse(numStr);
+                    if (number == null) return 'Invalid number';
+
+                    if (field.min != null && number < field.min!) {
+                      return 'Must be at least ${field.min}';
+                    }
+                    if (field.max != null && number > field.max!) {
+                      return 'Must be at most ${field.max}';
+                    }
+
+                    if (field.isInteger ??
+                        true && number.truncateToDouble() != number) {
+                      return 'Must be a whole number';
+                    }
+
+                    return null;
+                  },
+                ])
+              : null,
+          onChanged: (String? value) {
+            if (value != null && value.isNotEmpty) {
+              // Store the formatted string value directly
+              FormBuilder.of(context)?.fields[field.label]?.didChange(value);
+            } else {
+              FormBuilder.of(context)?.fields[field.label]?.didChange(null);
+            }
+          },
         );
 
       default:

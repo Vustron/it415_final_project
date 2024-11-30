@@ -43,7 +43,7 @@ class Routes {
       messages: (BuildContext context) => AuthGuard(
             child: MessageView(),
           ),
-      notifications: (BuildContext context) => AuthGuard(
+      notifications: (BuildContext context) => const AuthGuard(
             child: NotificationView(),
           ),
       booking: (BuildContext context) => const AuthGuard(
@@ -52,7 +52,7 @@ class Routes {
       payment: (BuildContext context) => const AuthGuard(
             child: CheckoutScreen(),
           ),
-      bookingDetails: (BuildContext context) => AuthGuard(
+      bookingDetails: (BuildContext context) => const AuthGuard(
             child: BookingDetailsView(),
           ),
       receipt: (BuildContext context) => AuthGuard(

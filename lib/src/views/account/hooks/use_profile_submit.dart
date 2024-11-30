@@ -47,6 +47,12 @@ Future<void> Function(Map<String, dynamic>) useProfileSubmit({
         description: formData['Bio'] as String? ?? user?.description ?? '',
         gender: formData['Gender'] as String? ?? user?.gender ?? '',
         birthDate: formData['Birth Date'] as DateTime? ?? user?.birthDate,
+        hourlyRate: formData['Hourly Rate'] != null
+            ? (formData['Hourly Rate'] as String)
+                .replaceAll('₱', '')
+                .replaceAll(',', '')
+                .trim()
+            : user?.hourlyRate ?? '',
         role: user?.provider == 'google'
             ? formData['Role'] as String? ?? user?.role ?? ''
             : user?.role ?? '',

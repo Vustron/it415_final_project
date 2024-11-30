@@ -356,8 +356,10 @@ class AuthController extends StateNotifier<AuthState> {
             hasShownToast: false,
           );
         },
-        (UserAccount user) {
+        (UserAccount user) async {
           logger.info('Google login successful for user: ${user.id}');
+          final UserAccount updatedUser = user.copyWith(onlineStatus: true);
+          await authRepo.updateUser(updatedUser);
           initUserStream(user.id!);
           state = state.copyWith(
             isLoading: false,

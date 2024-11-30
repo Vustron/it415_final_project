@@ -65,73 +65,87 @@ class EditAccountButton extends StatelessWidget {
           const SizedBox(height: 16),
           Center(
             child: isVerified
-                ? ElevatedButton.icon(
-                    onPressed: () {
-                      CustomRouter.navigateToWithTransition(
-                        EditAccountView(user: user),
-                        'rightToLeftWithFade',
-                      );
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                        GlobalStyles.primaryButtonColor,
-                      ),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                ? SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          CustomRouter.navigateToWithTransition(
+                            EditAccountView(user: user),
+                            'rightToLeftWithFade',
+                          );
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            GlobalStyles.primaryButtonColor,
+                          ),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                            const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 12,
+                            ),
+                          ),
                         ),
-                      ),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                        const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 12,
+                        icon: const Icon(
+                          FluentIcons.edit_20_regular,
+                          size: 20,
                         ),
-                      ),
-                    ),
-                    icon: const Icon(
-                      FluentIcons.edit_20_regular,
-                      size: 20,
-                    ),
-                    label: const Text(
-                      'Edit Account',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        label: const Text(
+                          'Edit Account',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
                     ),
                   )
-                : ElevatedButton.icon(
-                    onPressed: () {
-                      CustomRouter.navigateToWithTransition(
-                        const VerificationView(),
-                        'fade',
-                      );
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                        Colors.orange,
-                      ),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                : SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          CustomRouter.navigateToWithTransition(
+                            const VerificationView(),
+                            'fade',
+                          );
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            Colors.orange,
+                          ),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                            const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 12,
+                            ),
+                          ),
                         ),
-                      ),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                        const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 12,
+                        icon: const Icon(
+                          FluentIcons.warning_20_regular,
+                          size: 20,
                         ),
-                      ),
-                    ),
-                    icon: const Icon(
-                      FluentIcons.warning_20_regular,
-                      size: 20,
-                    ),
-                    label: const Text(
-                      'Verify Account',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        label: const Text(
+                          'Verify Account',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
                     ),
                   ),

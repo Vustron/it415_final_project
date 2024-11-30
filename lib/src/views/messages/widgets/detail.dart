@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,44 +17,70 @@ import 'package:babysitterapp/src/views.dart';
 final StateNotifierProvider<MessageCacheNotifier, Map<String, List<Message>>>
     messageCacheProvider =
     StateNotifierProvider<MessageCacheNotifier, Map<String, List<Message>>>(
-        (StateNotifierProviderRef<MessageCacheNotifier,
-                Map<String, List<Message>>>
-            ref) {
-  return MessageCacheNotifier();
-});
+  (StateNotifierProviderRef<MessageCacheNotifier, Map<String, List<Message>>>
+          ref) =>
+      MessageCacheNotifier(),
+);
 
 class MessageCacheNotifier extends StateNotifier<Map<String, List<Message>>> {
   MessageCacheNotifier() : super(<String, List<Message>>{});
 
   void updateMessages(String chatId, List<Message> messages) {
     final List<Message> existing = state[chatId] ?? <Message>[];
-    final List<Message> newMessages = messages
-        .where((Message msg) =>
-            !existing.any((Message cached) => cached.id == msg.id))
-        .toList();
+    final Message? lastMessage = existing.isEmpty ? null : existing.last;
+    final Message? latestMessage = messages.isEmpty ? null : messages.last;
 
-    if (newMessages.isNotEmpty) {
-      state = <String, List<Message>>{
-        ...state,
-        chatId: <Message>[...existing, ...newMessages],
-      };
+    if (lastMessage?.id != latestMessage?.id ||
+        lastMessage?.createdAt != latestMessage?.createdAt) {
+      final List<Message> newMessages = messages
+          .where((Message msg) =>
+              !existing.any((Message cached) => cached.id == msg.id))
+          .toList();
+
+      if (newMessages.isNotEmpty) {
+        state = <String, List<Message>>{
+          ...state,
+          chatId: <Message>[...existing, ...newMessages]..sort(
+              (Message a, Message b) => (a.createdAt ?? DateTime.now())
+                  .compareTo(b.createdAt ?? DateTime.now())),
+        };
+      }
     }
   }
 
   void addMessage(String chatId, Message message) {
     final List<Message> existing = state[chatId] ?? <Message>[];
-    state = <String, List<Message>>{
-      ...state,
-      chatId: <Message>[...existing, message],
-    };
+    if (!existing.any((Message m) => m.id == message.id)) {
+      state = <String, List<Message>>{
+        ...state,
+        chatId: <Message>[...existing, message]..sort((Message a, Message b) =>
+            (a.createdAt ?? DateTime.now())
+                .compareTo(b.createdAt ?? DateTime.now())),
+      };
+    }
   }
 }
+
+final StreamProviderFamily<UserAccount?, String> recipientDataProvider =
+    StreamProvider.family<UserAccount?, String>(
+        (StreamProviderRef<UserAccount?> ref, String recipientId) {
+  return ref
+      .read(authControllerService.notifier)
+      .getUserDataStream(recipientId)
+      .map(
+        (Either<AuthFailure, UserAccount> either) => either.fold(
+          (AuthFailure failure) => null,
+          (UserAccount user) => user,
+        ),
+      );
+});
 
 final StreamProviderFamily<List<Message>, String> messagesStreamProvider =
     StreamProvider.family<List<Message>, String>(
         (StreamProviderRef<List<Message>> ref, String recipientId) {
   final UserAccount? currentUser = ref.watch(authControllerService).user;
-  ref.watch(messageCacheProvider);
+  final Map<String, List<Message>> cache = ref.watch(messageCacheProvider);
+  final List<Message> cachedMessages = cache[recipientId] ?? <Message>[];
 
   return ref
       .read(messageControllerService.notifier)
@@ -61,11 +88,14 @@ final StreamProviderFamily<List<Message>, String> messagesStreamProvider =
         currentUserId: currentUser?.id ?? '',
         otherUserId: recipientId,
       )
+      .distinct()
       .map((List<Message> messages) {
-    ref.read(messageCacheProvider.notifier).updateMessages(
-          recipientId,
-          messages,
-        );
+    if (messages.length != cachedMessages.length ||
+        messages.any((Message msg) => !cachedMessages.contains(msg))) {
+      ref
+          .read(messageCacheProvider.notifier)
+          .updateMessages(recipientId, messages);
+    }
     return messages;
   });
 });
@@ -89,11 +119,16 @@ class MessageDetailScreen extends HookConsumerWidget {
     final TextEditingController messageController = useTextEditingController();
     final ScrollController scrollController = useScrollController();
     final UserAccount? currentUser = ref.watch(authControllerService).user;
+    final Toast toast = ref.watch(toastService);
+
+    final AsyncValue<UserAccount?> recipientData =
+        ref.watch(recipientDataProvider(recipientId));
     final AsyncValue<List<Message>> messages =
         ref.watch(messagesStreamProvider(recipientId));
     final Map<String, List<Message>> messageCache =
         ref.watch(messageCacheProvider);
-    final Toast toast = ref.watch(toastService);
+
+    final bool isOnline = recipientData.value?.onlineStatus ?? false;
 
     void scrollToBottom() {
       if (scrollController.hasClients) {
@@ -116,10 +151,9 @@ class MessageDetailScreen extends HookConsumerWidget {
             isRead: false,
           );
 
-          ref.read(messageCacheProvider.notifier).addMessage(
-                recipientId,
-                newMessage,
-              );
+          ref
+              .read(messageCacheProvider.notifier)
+              .addMessage(recipientId, newMessage);
 
           await ref.read(messageControllerService.notifier).sendMessage(
                 senderId: newMessage.senderId,
@@ -167,33 +201,18 @@ class MessageDetailScreen extends HookConsumerWidget {
                 IconButton(
                   onPressed: () => Navigator.pop(context),
                   icon: const Icon(
-                    Icons.arrow_back,
+                    FluentIcons.arrow_left_24_regular,
                     color: GlobalStyles.appBarIconColor,
                   ),
                 ),
                 const SizedBox(width: 2),
-                StreamBuilder<Either<AuthFailure, UserAccount>>(
-                  stream: ref
-                      .read(authControllerService.notifier)
-                      .getUserDataStream(recipientId),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<Either<AuthFailure, UserAccount>>
-                          snapshot) {
-                    final bool isOnline = snapshot.data?.fold(
-                          (AuthFailure failure) => false,
-                          (UserAccount user) => user.onlineStatus ?? false,
-                        ) ??
-                        false;
-
-                    return CachedAvatar(
-                      imageUrl: image,
-                      radius: 20,
-                      showOnlineStatus: true,
-                      isOnline: isOnline,
-                      showVerificationStatus: true,
-                      isVerified: true,
-                    );
-                  },
+                CachedAvatar(
+                  imageUrl: image,
+                  radius: 20,
+                  showOnlineStatus: true,
+                  isOnline: isOnline,
+                  showVerificationStatus: true,
+                  isVerified: true,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -210,30 +229,13 @@ class MessageDetailScreen extends HookConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      StreamBuilder<Either<AuthFailure, UserAccount>>(
-                        stream: ref
-                            .read(authControllerService.notifier)
-                            .getUserDataStream(recipientId),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<Either<AuthFailure, UserAccount>>
-                                snapshot) {
-                          final bool isOnline = snapshot.data?.fold(
-                                (AuthFailure failure) => false,
-                                (UserAccount user) =>
-                                    user.onlineStatus ?? false,
-                              ) ??
-                              false;
-
-                          return Text(
-                            isOnline ? 'Online' : 'Offline',
-                            style: TextStyle(
-                              color: isOnline
-                                  ? const Color(0xFF00C853)
-                                  : Colors.grey,
-                              fontSize: 13,
-                            ),
-                          );
-                        },
+                      Text(
+                        isOnline ? 'Online' : 'Offline',
+                        style: TextStyle(
+                          color:
+                              isOnline ? const Color(0xFF00C853) : Colors.grey,
+                          fontSize: 13,
+                        ),
                       ),
                     ],
                   ),
@@ -247,20 +249,24 @@ class MessageDetailScreen extends HookConsumerWidget {
                       log('Cannot launch phone URL');
                     }
                   },
-                  icon: const Icon(Icons.phone, color: Colors.black54),
-                ),
-                IconButton(
-                  onPressed: () {
-                    CustomRouter.navigateToWithTransition(
-                      const BookingView(),
-                      'rightToLeftWithFade',
-                    );
-                  },
                   icon: const Icon(
-                    Icons.request_page_rounded,
+                    FluentIcons.call_add_24_regular,
                     color: Colors.black54,
                   ),
                 ),
+                if (currentUser?.role == 'Client')
+                  IconButton(
+                    onPressed: () {
+                      CustomRouter.navigateToWithTransition(
+                        BookingView(babysitterId: recipientId),
+                        'rightToLeftWithFade',
+                      );
+                    },
+                    icon: const Icon(
+                      FluentIcons.guest_add_24_regular,
+                      color: Colors.black54,
+                    ),
+                  ),
               ],
             ),
           ),
@@ -347,7 +353,7 @@ class MessageDetailScreen extends HookConsumerWidget {
                     backgroundColor: GlobalStyles.primaryButtonColor,
                     elevation: 0,
                     child: const Icon(
-                      Icons.send,
+                      FluentIcons.send_24_filled,
                       color: Colors.white,
                       size: 20,
                     ),

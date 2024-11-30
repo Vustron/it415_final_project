@@ -5,7 +5,7 @@ import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/services.dart';
 import 'package:babysitterapp/src/models.dart';
 
-final Provider<MessageRepository> messageRepositoryService =
+final Provider<MessageRepository> messageService =
     Provider<MessageRepository>((ProviderRef<MessageRepository> ref) {
   return MessageRepository(
     firestore: ref.watch(firebaseFirestoreService),
@@ -18,7 +18,7 @@ final StateNotifierProvider<MessageController, MessageState>
     StateNotifierProvider<MessageController, MessageState>(
         (StateNotifierProviderRef<MessageController, MessageState> ref) {
   return MessageController(
-    ref.watch(messageRepositoryService),
+    ref.watch(messageService),
     ref.watch(loggerService),
   );
 });

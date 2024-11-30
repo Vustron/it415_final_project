@@ -43,6 +43,8 @@ class EditAccountView extends HookConsumerWidget with GlobalStyles {
                       profileImg: '',
                       description: '',
                       gender: '',
+                      birthDate: null,
+                      hourlyRate: '',
                       role: '',
                       onlineStatus: false,
                       emailVerified: null,

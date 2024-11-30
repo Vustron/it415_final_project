@@ -4,10 +4,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/src/controllers.dart';
 import 'package:babysitterapp/src/components.dart';
 import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/services.dart';
-import 'package:babysitterapp/src/controllers.dart';
 import 'package:babysitterapp/src/models.dart';
 
 class AddressField extends HookConsumerWidget {
@@ -16,20 +16,35 @@ class AddressField extends HookConsumerWidget {
     required this.name,
     required this.decoration,
     this.initialValue,
+    this.initialLatitude,
+    this.initialLongitude,
   });
 
   final String name;
   final InputDecoration decoration;
   final String? initialValue;
+  final String? initialLatitude;
+  final String? initialLongitude;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController controller =
         useTextEditingController(text: initialValue);
-    final LocationRepository locationService =
-        ref.watch(locationRepositoryProvider);
+    final LocationRepository location = ref.watch(locationService);
     final LocationController locationController =
-        ref.watch(locationControllerProvider.notifier);
+        ref.watch(locationControllerService.notifier);
+
+    // Set initial values for latitude and longitude
+    useEffect(() {
+      if (initialLatitude != null && initialLongitude != null) {
+        final FormBuilderState? form = FormBuilder.of(context);
+        if (form?.mounted ?? false) {
+          form?.fields['Address Latitude']?.didChange(initialLatitude);
+          form?.fields['Address Longitude']?.didChange(initialLongitude);
+        }
+      }
+      return null;
+    }, const <Object?>[]);
 
     return Row(
       children: <Widget>[
@@ -38,6 +53,13 @@ class AddressField extends HookConsumerWidget {
             name: name,
             controller: controller,
             decoration: decoration,
+            onChanged: (String? value) {
+              final FormBuilderState? form = FormBuilder.of(context);
+              if (form?.mounted ?? false) {
+                form?.fields['Address Latitude']?.didChange('');
+                form?.fields['Address Longitude']?.didChange('');
+              }
+            },
           ),
         ),
         IconButton(
@@ -51,21 +73,22 @@ class AddressField extends HookConsumerWidget {
             );
 
             if (selectedLocation != null) {
-              final String address = await locationService
-                  .getAddressFromCoordinates(selectedLocation);
+              final String address =
+                  await location.getAddressFromCoordinates(selectedLocation);
 
               final NominatimAPI? locationData = await locationController
                   .getLongitudeAndLatitude(selectedLocation);
 
+              if (!context.mounted) return;
+
               controller.text = address;
 
-              if (context.mounted && locationData != null) {
-                final FormBuilderState? form = FormBuilder.of(context);
-
+              final FormBuilderState? form = FormBuilder.of(context);
+              if (form?.mounted ?? false) {
                 form?.save();
                 form?.fields[name]?.didChange(address);
-                form?.fields['Address Latitude']?.didChange(locationData.lat);
-                form?.fields['Address Longitude']?.didChange(locationData.lon);
+                form?.fields['Address Latitude']?.didChange(locationData?.lat);
+                form?.fields['Address Longitude']?.didChange(locationData?.lon);
               }
             }
           },

@@ -1,15 +1,17 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/src/components.dart';
+import 'package:babysitterapp/src/providers.dart';
+import 'package:babysitterapp/src/services.dart';
 import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
 
 class BookingView extends HookConsumerWidget {
-  const BookingView({super.key});
+  const BookingView({super.key, this.babysitterId});
+  final String? babysitterId;
 
   List<InputFieldConfig> _buildFormFields(
       TimeOfDay? startTime, TimeOfDay? endTime) {
@@ -35,15 +37,8 @@ class BookingView extends HookConsumerWidget {
       ),
       const InputFieldConfig(
         type: 'date',
-        label: 'Start Date',
+        label: 'Working Date',
         hintText: 'Select start date',
-        prefixIcon: FluentIcons.calendar_24_regular,
-        isRequired: true,
-      ),
-      const InputFieldConfig(
-        type: 'date',
-        label: 'End Date',
-        hintText: 'Select end date',
         prefixIcon: FluentIcons.calendar_24_regular,
         isRequired: true,
       ),
@@ -53,6 +48,20 @@ class BookingView extends HookConsumerWidget {
         hintText: 'Select your address',
         prefixIcon: FluentIcons.location_24_regular,
         isRequired: true,
+      ),
+      const InputFieldConfig(
+        label: 'Address Latitude',
+        type: 'readonly',
+        hintText: 'Latitude',
+        value: '',
+        prefixIcon: FluentIcons.location_20_regular,
+      ),
+      const InputFieldConfig(
+        label: 'Address Longitude',
+        type: 'readonly',
+        hintText: 'Longitude',
+        value: '',
+        prefixIcon: FluentIcons.location_20_regular,
       ),
       const InputFieldConfig(
         label: 'Working Hours',
@@ -80,24 +89,99 @@ class BookingView extends HookConsumerWidget {
     final ValueNotifier<bool> isLoading = useState(false);
     final ValueNotifier<TimeOfDay?> startTime = useState<TimeOfDay?>(null);
     final ValueNotifier<TimeOfDay?> endTime = useState<TimeOfDay?>(null);
+    final Toast toast = ref.watch(toastService);
+    final UserAccount? currentUser = ref.watch(authControllerService).user;
+    final LoggerService logger = ref.watch(loggerService);
 
-    void onSubmit(Map<String, dynamic> formData) {
-      final String bookingDetails = '''
-        Booking details:
-        Children: ${formData['Number of Children']}
-        Stay In: ${formData['Stay In']}
-        Start Time: ${(formData['Start Time'] as TimeOfDay?)?.format(context)}
-        End Time: ${(formData['End Time'] as TimeOfDay?)?.format(context)}
-        Address: ${formData['Address']}
-        Details: ${formData['Additional Details']}
-      ''';
+    Future<void> onSubmit(Map<String, dynamic> formData) async {
+      if (currentUser == null) {
+        toast.show(
+          context: context,
+          title: 'Error',
+          message: 'You must be logged in to book a babysitter',
+          type: 'error',
+        );
+        return;
+      }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(bookingDetails),
-          backgroundColor: Colors.green,
-        ),
-      );
+      isLoading.value = true;
+
+      try {
+        String address;
+        String latitude;
+        String longitude;
+
+        final DateTime? startDateTime =
+            formData['Working Hours_start'] as DateTime?;
+        final DateTime? endDateTime =
+            formData['Working Hours_end'] as DateTime?;
+
+        final String? startTimeStr = startDateTime != null
+            ? TimeOfDay.fromDateTime(startDateTime).format(context)
+            : null;
+        final String? endTimeStr = endDateTime != null
+            ? TimeOfDay.fromDateTime(endDateTime).format(context)
+            : null;
+
+        final dynamic addressData = formData['Address'];
+        final dynamic latitudeData = formData['Address Latitude'];
+        final dynamic longitudeData = formData['Address Longitude'];
+
+        if (addressData != null) {
+          address = addressData.toString();
+          latitude = (latitudeData ?? '0.0').toString();
+          longitude = (longitudeData ?? '0.0').toString();
+        } else {
+          address = 'No address provided';
+          latitude = '0.0';
+          longitude = '0.0';
+        }
+
+        final Map<String, Object?> bookingData = <String, Object?>{
+          'parentId': currentUser.id,
+          'babysitterId': babysitterId,
+          'Number of Children':
+              (formData['Number of Children'] as double).toInt(),
+          'Stay In': formData['Stay In'] as bool,
+          'Working Date': formData['Working Date'] as DateTime,
+          'Address': address,
+          'AddressLatitude': latitude,
+          'AddressLongitude': longitude,
+          'Start Time': startTimeStr,
+          'End Time': endTimeStr,
+          'Additional details': formData['Additional details'] as String,
+        };
+
+        // logger.debug('Creating booking: $bookingData');
+
+        await ref.read(bookingControllerService.notifier).createBooking(
+              currentUser.id!,
+              babysitterId!,
+              bookingData,
+            );
+
+        if (context.mounted) {
+          toast.show(
+            context: context,
+            title: 'Success',
+            message: 'Booking created successfully',
+            type: 'success',
+          );
+          Navigator.of(context).pop();
+        }
+      } catch (e) {
+        logger.error('Error creating booking: $e');
+        if (context.mounted) {
+          toast.show(
+            context: context,
+            title: 'Error',
+            message: 'Failed to create booking',
+            type: 'error',
+          );
+        }
+      } finally {
+        isLoading.value = false;
+      }
     }
 
     return Scaffold(

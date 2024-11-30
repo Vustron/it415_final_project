@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:babysitterapp/src/constants.dart';
 import 'package:babysitterapp/src/models.dart';
@@ -23,6 +24,10 @@ class BioCard extends HookWidget with GlobalStyles {
 
     final String description = authState.user!.description!;
     final bool isLongText = description.length > kCharacterLimit;
+    final String hourlyRate = NumberFormat.currency(
+      symbol: '₱',
+      decimalDigits: 2,
+    ).format(num.tryParse(authState.user?.hourlyRate.toString() ?? '0') ?? 0);
 
     return Card(
       elevation: 0,
@@ -35,6 +40,7 @@ class BioCard extends HookWidget with GlobalStyles {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            // Bio section
             const Row(
               children: <Widget>[
                 Icon(
@@ -93,6 +99,36 @@ class BioCard extends HookWidget with GlobalStyles {
                 ),
               ),
             ],
+            const SizedBox(height: 16),
+            Divider(color: Colors.grey.shade200),
+            const SizedBox(height: 16),
+            // Hourly Rate section
+            Row(
+              children: <Widget>[
+                const Icon(
+                  FluentIcons.money_24_regular,
+                  size: 20,
+                  color: GlobalStyles.primaryButtonColor,
+                ),
+                const SizedBox(width: 8),
+                const Text(
+                  'Hourly Rate',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  '$hourlyRate/hr',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: GlobalStyles.primaryButtonColor,
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),

@@ -70,6 +70,10 @@ class AccountView extends HookConsumerWidget with GlobalStyles {
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: ContactInformation(user: authState.user!),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: LogoutButton(),
+                  ),
                   const SizedBox(height: 140),
                 ],
               ),

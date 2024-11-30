@@ -19,7 +19,7 @@ class SearchView extends HookConsumerWidget {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          const MapScreen(),
+          const SearchMapScreen(),
           Container(
             margin: const EdgeInsets.only(top: 30),
             color: const Color.fromARGB(0, 143, 43, 43),

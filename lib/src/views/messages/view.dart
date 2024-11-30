@@ -212,7 +212,6 @@ class MessageView extends HookConsumerWidget with GlobalStyles {
                                 return const SizedBox.shrink();
                               }
 
-                              // In MessageView, update the ConversationList creation:
                               return ConversationList(
                                 name: otherUser.name ?? 'No Name',
                                 messageText: message.content,

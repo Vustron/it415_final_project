@@ -19,6 +19,7 @@ class UserAccount {
     this.validIdVerified,
     this.validIdFront,
     this.validIdBack,
+    this.hourlyRate,
     this.createdAt,
     this.updatedAt,
   });
@@ -27,8 +28,8 @@ class UserAccount {
         id: json['id'] as String?,
         name: json['name'] as String?,
         address: json['address'] as String?,
-        addressLatitude: json['address_latitude'] as String?,
-        addressLongitude: json['address_longitude'] as String?,
+        addressLatitude: json['addressLatitude'] as String?,
+        addressLongitude: json['addressLongitude'] as String?,
         phoneNumber: json['phoneNumber'] as String?,
         email: json['email'] as String?,
         provider: json['provider'] as String?,
@@ -53,6 +54,7 @@ class UserAccount {
             : null,
         validIdFront: json['validIdFront'] as String?,
         validIdBack: json['validIdBack'] as String?,
+        hourlyRate: json['hourlyRate'] as String?,
         createdAt: json['createdAt'] != null
             ? DateTime.parse(json['createdAt'] as String)
             : null,
@@ -80,6 +82,7 @@ class UserAccount {
   final DateTime? validIdVerified;
   final String? validIdFront;
   final String? validIdBack;
+  final String? hourlyRate;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -103,6 +106,7 @@ class UserAccount {
         'validIdVerified': validIdVerified?.toIso8601String(),
         'validIdFront': validIdFront,
         'validIdBack': validIdBack,
+        'hourlyRate': hourlyRate,
         'createdAt': createdAt?.toIso8601String(),
         'updatedAt': updatedAt?.toIso8601String(),
       };
@@ -127,6 +131,7 @@ class UserAccount {
     DateTime? validIdVerified,
     String? validIdFront,
     String? validIdBack,
+    String? hourlyRate,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -150,6 +155,7 @@ class UserAccount {
       validIdVerified: validIdVerified ?? this.validIdVerified,
       validIdFront: validIdFront ?? this.validIdFront,
       validIdBack: validIdBack ?? this.validIdBack,
+      hourlyRate: hourlyRate ?? this.hourlyRate,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

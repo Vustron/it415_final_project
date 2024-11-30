@@ -62,7 +62,7 @@ class SettingsView extends HookConsumerWidget with GlobalStyles {
                 style: optionTextStyle,
               ),
               const SizedBox(height: 20),
-              LogoutButton(),
+        
               const SizedBox(height: 50),
             ],
           ),

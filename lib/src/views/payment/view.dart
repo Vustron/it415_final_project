@@ -27,7 +27,7 @@ class CheckoutScreen extends HookConsumerWidget {
 
     final PaymentMethod selectedMethod =
         ref.watch(selectedPaymentMethodService);
-    final double totalAmount = ref.watch(totalAmountProvider);
+    final double totalAmount = ref.watch(totalAmountService);
 
     return Scaffold(
       appBar: AppBar(

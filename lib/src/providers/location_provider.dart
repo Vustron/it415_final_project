@@ -5,20 +5,19 @@ import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/services.dart';
 import 'package:babysitterapp/src/models.dart';
 
-final Provider<LocationRepository> locationRepositoryProvider =
+final Provider<LocationRepository> locationService =
     Provider<LocationRepository>((ProviderRef<LocationRepository> ref) {
   final LoggerService logger = ref.watch(loggerService);
-  final HttpApiService httpApi = ref.watch(httpApiServiceProvider);
+  final HttpApiService httpApi = ref.watch(httpApiService);
   return LocationRepository(logger, httpApi);
 });
 
 final StateNotifierProvider<LocationController, LocationState>
-    locationControllerProvider =
+    locationControllerService =
     StateNotifierProvider<LocationController, LocationState>(
         (StateNotifierProviderRef<LocationController, LocationState> ref) {
-  final LocationRepository locationService =
-      ref.watch(locationRepositoryProvider);
-  return LocationController(locationService);
+  final LocationRepository locationRepository = ref.watch(locationService);
+  return LocationController(locationRepository);
 });
 
 final StateProvider<double> distanceService =

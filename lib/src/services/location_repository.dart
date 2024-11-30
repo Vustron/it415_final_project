@@ -127,23 +127,38 @@ class LocationRepository {
     }
   }
 
-  Future<Object> getLongitudeAndLatitude(LatLng? location) async {
-    if (location == null) return 'Unknown Location';
-
+  Future<Object> getLongitudeAndLatitude(LatLng? location,
+      {String? address}) async {
     final String? apiUrl = dotenv.env['MAP_API_URL'];
 
-    final Uri uri = Uri.parse(
-      '$apiUrl/reverse?lat=${location.latitude}&lon=${location.longitude}&format=json&addressdetails=1',
-    );
+    Uri uri;
+    if (address != null) {
+      final String encodedAddress = Uri.encodeComponent(address);
+      uri = Uri.parse(
+          '$apiUrl/search?q=$encodedAddress&format=json&addressdetails=1');
+    } else if (location != null) {
+      uri = Uri.parse(
+        '$apiUrl/reverse?lat=${location.latitude}&lon=${location.longitude}&format=json&addressdetails=1',
+      );
+    } else {
+      throw ArgumentError('Either location or address must be provided');
+    }
 
     try {
       final Map<String, dynamic> response =
           await httpApi.get<Map<String, dynamic>>(uri.toString());
-      final NominatimAPI placeData = NominatimAPI.fromJson(response);
 
-      return placeData;
+      if (address != null) {
+        final List<dynamic> results = response as List<dynamic>;
+        if (results.isNotEmpty) {
+          return NominatimAPI.fromJson(results.first as Map<String, dynamic>);
+        }
+        throw Exception('No results found for address');
+      }
+
+      return NominatimAPI.fromJson(response);
     } catch (e, stackTrace) {
-      logger.error('Error fetching address', e, stackTrace);
+      logger.error('Error fetching location data', e, stackTrace);
       return 'Unknown Location';
     }
   }

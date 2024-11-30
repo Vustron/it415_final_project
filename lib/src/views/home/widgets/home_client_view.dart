@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,23 @@ import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
 
-class HomeClientView extends HookWidget with GlobalStyles {
+final StateNotifierProvider<BabysittersCacheNotifier, List<UserAccount>>
+    babysittersCacheProvider =
+    StateNotifierProvider<BabysittersCacheNotifier, List<UserAccount>>(
+        (StateNotifierProviderRef<BabysittersCacheNotifier, List<UserAccount>>
+            ref) {
+  return BabysittersCacheNotifier();
+});
+
+class BabysittersCacheNotifier extends StateNotifier<List<UserAccount>> {
+  BabysittersCacheNotifier() : super(<UserAccount>[]);
+
+  void updateBabysitters(List<UserAccount> babysitters) {
+    state = <UserAccount>[...babysitters];
+  }
+}
+
+class HomeClientView extends HookConsumerWidget with GlobalStyles {
   HomeClientView({
     super.key,
     required this.authController,
@@ -51,7 +68,7 @@ class HomeClientView extends HookWidget with GlobalStyles {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final ValueNotifier<int> currentIndex = useState(0);
     final ValueNotifier<int> adviceIndex = useState(0);
     final CarouselSliderController carouselController =
@@ -59,12 +76,25 @@ class HomeClientView extends HookWidget with GlobalStyles {
     final CarouselSliderController adviceController =
         useMemoized(() => CarouselSliderController());
 
-    final Stream<List<UserAccount>> babysittersStream =
-        useMemoized(() => authController.getBabysittersStream());
+    final List<UserAccount> cachedBabysitters =
+        ref.watch(babysittersCacheProvider);
+
+    final Stream<List<UserAccount>> babysittersStream = useMemoized(
+      () => authController
+          .getBabysittersStream()
+          .map((List<UserAccount> babysitters) {
+        ref
+            .read(babysittersCacheProvider.notifier)
+            .updateBabysitters(babysitters);
+        return babysitters;
+      }),
+      <Object?>[],
+    );
     final AsyncSnapshot<List<UserAccount>> snapshot =
         useStream(babysittersStream);
 
-    if (snapshot.connectionState == ConnectionState.waiting) {
+    if (snapshot.connectionState == ConnectionState.waiting &&
+        cachedBabysitters.isEmpty) {
       return const Center(
         child: CircularProgressIndicator(
           color: GlobalStyles.primaryButtonColor,
@@ -78,7 +108,7 @@ class HomeClientView extends HookWidget with GlobalStyles {
       );
     }
 
-    final List<UserAccount> users = snapshot.data ?? <UserAccount>[];
+    final List<UserAccount> users = snapshot.data ?? cachedBabysitters;
     if (users.isEmpty) {
       return const Center(
         child: Text('No babysitters found'),
@@ -194,17 +224,6 @@ class HomeClientView extends HookWidget with GlobalStyles {
                           );
                         },
                       ),
-                      onTap: () {
-                        CustomRouter.navigateToWithTransition(
-                          MessageDetailScreen(
-                            name: user.name ?? 'No Name',
-                            number: user.phoneNumber ?? '',
-                            image: user.profileImg ?? '',
-                            recipientId: user.id ?? '',
-                          ),
-                          'rightToLeftWithFade',
-                        );
-                      },
                     ),
                   ),
                 ),

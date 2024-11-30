@@ -39,7 +39,7 @@ class ConversationList extends HookWidget with GlobalStyles {
   Widget build(BuildContext context) {
     String getMessagePreview() {
       if (messageText.isEmpty) return '';
-      return isSender ? "You: $messageText" : messageText;
+      return isSender ? 'You: $messageText' : messageText;
     }
 
     return Material(
@@ -95,8 +95,7 @@ class ConversationList extends HookWidget with GlobalStyles {
                           ),
                         ),
                         Text(
-                          DateFormat('MMM d, hh:mm a')
-                              .format(time), // Updated date format
+                          DateFormat('MMM d, hh:mm a').format(time),
                           style: TextStyle(
                             color: isMessageRead
                                 ? Colors.grey[600]
@@ -114,7 +113,7 @@ class ConversationList extends HookWidget with GlobalStyles {
                       children: <Widget>[
                         Expanded(
                           child: Text(
-                            getMessagePreview(), // Use helper function
+                            getMessagePreview(),
                             style: TextStyle(
                               fontSize: 14,
                               color: isMessageRead

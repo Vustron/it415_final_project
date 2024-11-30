@@ -1,12 +1,10 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:flutter/widgets.dart';
 import 'dart:async';
 
 import 'package:babysitterapp/src/constants.dart';
-import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/services.dart';
 import 'package:babysitterapp/src/models.dart';
 
@@ -130,17 +128,16 @@ class LocationController extends StateNotifier<LocationState> {
     super.dispose();
   }
 
-  Future<NominatimAPI?> getLongitudeAndLatitude(LatLng location) async {
+  Future<NominatimAPI?> getLongitudeAndLatitude(LatLng? location,
+      {String? address}) async {
     state = state.copyWith(isLoading: true, error: null);
 
     try {
-      final Object result =
-          await locationService.getLongitudeAndLatitude(location);
+      final Object result = await locationService
+          .getLongitudeAndLatitude(location, address: address);
 
       if (result is NominatimAPI) {
-        state = state.copyWith(
-          isLoading: false,
-        );
+        state = state.copyWith(isLoading: false);
         return result;
       } else {
         state = state.copyWith(
@@ -159,36 +156,35 @@ class LocationController extends StateNotifier<LocationState> {
   }
 }
 
-Position? useLocationUpdates(WidgetRef ref) {
-  final StreamController<Position> streamController =
-      useStreamController<Position>();
-  final LoggerService logger = ref.watch(loggerService);
-  final LocationRepository locationService =
-      ref.watch(locationRepositoryProvider);
+// Position? useLocationUpdates(WidgetRef ref) {
+//   final StreamController<Position> streamController =
+//       useStreamController<Position>();
+//   final LoggerService logger = ref.watch(loggerService);
+//   final LocationRepository locationService = ref.watch(locationService);
 
-  useEffect(() {
-    logger.info('Starting location updates stream');
+//   useEffect(() {
+//     logger.info('Starting location updates stream');
 
-    final StreamSubscription<Position> subscription =
-        locationService.getLocationStream().listen(
-      (Position position) {
-        logger.debug(
-          'Location update received',
-          <String, double>{'lat': position.latitude, 'lng': position.longitude},
-        );
-        streamController.add(position);
-      },
-      onError: (dynamic error, dynamic stackTrace) {
-        logger.error('Location stream error', error, stackTrace as StackTrace?);
-      },
-    );
+//     final StreamSubscription<Position> subscription =
+//         locationService.getLocationStream().listen(
+//       (Position position) {
+//         logger.debug(
+//           'Location update received',
+//           <String, double>{'lat': position.latitude, 'lng': position.longitude},
+//         );
+//         streamController.add(position);
+//       },
+//       onError: (dynamic error, dynamic stackTrace) {
+//         logger.error('Location stream error', error, stackTrace as StackTrace?);
+//       },
+//     );
 
-    return () {
-      logger.info('Disposing location updates stream');
-      subscription.cancel();
-    };
-  }, <Object?>[]);
+//     return () {
+//       logger.info('Disposing location updates stream');
+//       subscription.cancel();
+//     };
+//   }, <Object?>[]);
 
-  final AsyncSnapshot<Position> snapshot = useStream(streamController.stream);
-  return snapshot.data;
-}
+//   final AsyncSnapshot<Position> snapshot = useStream(streamController.stream);
+//   return snapshot.data;
+// }

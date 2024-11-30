@@ -62,7 +62,6 @@ class VerificationView extends HookConsumerWidget {
       ),
     ];
 
-    // TODO(Vustron): implement a checker on the submitted ids
     Future<void> onSubmit(Map<String, dynamic> data) async {
       try {
         isLoading.value = true;

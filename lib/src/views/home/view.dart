@@ -31,26 +31,15 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
           if (authState.user?.role == 'Client')
             IconButton(
               onPressed: () => CustomRouter.navigateToWithTransition(
-                const BookingView(),
+                SettingsView(),
                 'rightToLeftWithFade',
               ),
               icon: const Icon(
-                FluentIcons.person_add_16_regular,
+                FluentIcons.settings_16_filled,
                 color: Colors.black,
                 size: 31,
               ),
-            ),
-          IconButton(
-            onPressed: () => CustomRouter.navigateToWithTransition(
-              SettingsView(),
-              'rightToLeftWithFade',
-            ),
-            icon: const Icon(
-              FluentIcons.settings_16_filled,
-              color: Colors.black,
-              size: 31,
-            ),
-          )
+            )
         ],
       ),
       backgroundColor: Colors.white,

@@ -424,6 +424,26 @@ class DynamicForm extends HookConsumerWidget {
           },
         );
 
+      case 'badges':
+        return FormBuilderBadgeField(
+          name: field.label,
+          decoration: _getInputDecoration(field),
+          options: field.options ?? <String>[],
+          initialValue: initialValue as List<String>? ?? <String>[],
+          isMultiSelect: field.isMultiSelect ?? false,
+          isCancellable: field.isCancellable ?? true,
+          validator: field.isRequired
+              ? FormBuilderValidators
+                  .compose(<FormFieldValidator<List<String>>>[
+                  FormBuilderValidators.required(),
+                  (List<String>? value) {
+                    if (value == null || value.isEmpty) return 'Required';
+                    return null;
+                  },
+                ])
+              : null,
+        );
+
       default:
         return FormBuilderTextField(
           name: field.label,

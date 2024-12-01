@@ -15,10 +15,12 @@ class MapScreen extends HookConsumerWidget {
     super.key,
     this.initialLocation,
     this.isReadOnly = false,
+    this.hideTitle = false,
   });
 
   final LatLng? initialLocation;
   final bool isReadOnly;
+  final bool hideTitle;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -110,16 +112,18 @@ class MapScreen extends HookConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(isReadOnly ? 'Location' : 'Select Location'),
-        actions: <Widget>[
-          if (!isReadOnly)
-            IconButton(
-              icon: const Icon(Icons.my_location),
-              onPressed: retryLocation,
+      appBar: hideTitle
+          ? null
+          : AppBar(
+              title: Text(isReadOnly ? 'Location' : 'Select Location'),
+              actions: <Widget>[
+                if (!isReadOnly)
+                  IconButton(
+                    icon: const Icon(Icons.my_location),
+                    onPressed: retryLocation,
+                  ),
+              ],
             ),
-        ],
-      ),
       body: Stack(
         children: <Widget>[
           FlutterMap(

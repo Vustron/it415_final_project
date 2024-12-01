@@ -20,6 +20,15 @@ class UserAccount {
     this.validIdFront,
     this.validIdBack,
     this.hourlyRate,
+    this.babysittingExperience,
+    this.experienceWithAges,
+    this.hasDrivingLicense,
+    this.hasCar,
+    this.hasChildren,
+    this.isSmoker,
+    this.preferredBabysittingLocation,
+    this.languagesSpeak,
+    this.comfortableWith,
     this.createdAt,
     this.updatedAt,
   });
@@ -55,6 +64,24 @@ class UserAccount {
         validIdFront: json['validIdFront'] as String?,
         validIdBack: json['validIdBack'] as String?,
         hourlyRate: json['hourlyRate'] as String?,
+        babysittingExperience: json['babysittingExperience'] as String?,
+        experienceWithAges: (json['experienceWithAges'] as List<dynamic>?)
+            ?.map((dynamic e) => e as String)
+            .toList(),
+        hasDrivingLicense: json['hasDrivingLicense'] as bool?,
+        hasCar: json['hasCar'] as bool?,
+        hasChildren: json['hasChildren'] as bool?,
+        isSmoker: json['isSmoker'] as bool?,
+        preferredBabysittingLocation:
+            (json['preferredBabysittingLocation'] as List<dynamic>?)
+                ?.map((dynamic e) => e as String)
+                .toList(),
+        languagesSpeak: (json['languagesSpeak'] as List<dynamic>?)
+            ?.map((dynamic e) => e as String)
+            .toList(),
+        comfortableWith: (json['comfortableWith'] as List<dynamic>?)
+            ?.map((dynamic e) => e as String)
+            .toList(),
         createdAt: json['createdAt'] != null
             ? DateTime.parse(json['createdAt'] as String)
             : null,
@@ -83,6 +110,15 @@ class UserAccount {
   final String? validIdFront;
   final String? validIdBack;
   final String? hourlyRate;
+  final String? babysittingExperience;
+  final List<String>? experienceWithAges;
+  final bool? hasDrivingLicense;
+  final bool? hasCar;
+  final bool? hasChildren;
+  final bool? isSmoker;
+  final List<String>? preferredBabysittingLocation;
+  final List<String>? languagesSpeak;
+  final List<String>? comfortableWith;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -107,6 +143,15 @@ class UserAccount {
         'validIdFront': validIdFront,
         'validIdBack': validIdBack,
         'hourlyRate': hourlyRate,
+        'babysittingExperience': babysittingExperience,
+        'experienceWithAges': experienceWithAges,
+        'hasDrivingLicense': hasDrivingLicense,
+        'hasCar': hasCar,
+        'hasChildren': hasChildren,
+        'isSmoker': isSmoker,
+        'preferredBabysittingLocation': preferredBabysittingLocation,
+        'languagesSpeak': languagesSpeak,
+        'comfortableWith': comfortableWith,
         'createdAt': createdAt?.toIso8601String(),
         'updatedAt': updatedAt?.toIso8601String(),
       };
@@ -132,6 +177,15 @@ class UserAccount {
     String? validIdFront,
     String? validIdBack,
     String? hourlyRate,
+    String? babysittingExperience,
+    List<String>? experienceWithAges,
+    bool? hasDrivingLicense,
+    bool? hasCar,
+    bool? hasChildren,
+    bool? isSmoker,
+    List<String>? preferredBabysittingLocation,
+    List<String>? languagesSpeak,
+    List<String>? comfortableWith,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -156,6 +210,17 @@ class UserAccount {
       validIdFront: validIdFront ?? this.validIdFront,
       validIdBack: validIdBack ?? this.validIdBack,
       hourlyRate: hourlyRate ?? this.hourlyRate,
+      babysittingExperience:
+          babysittingExperience ?? this.babysittingExperience,
+      experienceWithAges: experienceWithAges ?? this.experienceWithAges,
+      hasDrivingLicense: hasDrivingLicense ?? this.hasDrivingLicense,
+      hasCar: hasCar ?? this.hasCar,
+      hasChildren: hasChildren ?? this.hasChildren,
+      isSmoker: isSmoker ?? this.isSmoker,
+      preferredBabysittingLocation:
+          preferredBabysittingLocation ?? this.preferredBabysittingLocation,
+      languagesSpeak: languagesSpeak ?? this.languagesSpeak,
+      comfortableWith: comfortableWith ?? this.comfortableWith,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

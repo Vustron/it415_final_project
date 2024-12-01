@@ -62,8 +62,32 @@ Future<void> Function(Map<String, dynamic>) useProfileSubmit({
         validIdVerified: user?.validIdVerified,
         validIdFront: user?.validIdFront ?? '',
         validIdBack: user?.validIdBack ?? '',
+        babysittingExperience: formData['Babysitting Experience'] as String? ??
+            user?.babysittingExperience ??
+            '',
+        experienceWithAges:
+            (formData['Experience with Ages'] as List<String>?) ??
+                user?.experienceWithAges ??
+                <String>[],
+        hasDrivingLicense: formData['Has Driving License'] as bool? ??
+            user?.hasDrivingLicense ??
+            false,
+        hasCar: formData['Has Car'] as bool? ?? user?.hasCar ?? false,
+        hasChildren:
+            formData['Has Children'] as bool? ?? user?.hasChildren ?? false,
+        isSmoker: formData['Is Smoker'] as bool? ?? user?.isSmoker ?? false,
+        preferredBabysittingLocation:
+            (formData['Preferred Locations'] as List<String>?) ??
+                user?.preferredBabysittingLocation ??
+                <String>[],
+        languagesSpeak: (formData['Languages'] as List<String>?) ??
+            user?.languagesSpeak ??
+            <String>[],
+        comfortableWith: (formData['Comfortable With'] as List<String>?) ??
+            user?.comfortableWith ??
+            <String>[],
         createdAt: user?.createdAt ?? DateTime.now(),
-        updatedAt: DateTime.now(),
+        updatedAt: user?.updatedAt ?? DateTime.now(),
       );
 
       await authController.updateUser(updatedUser);

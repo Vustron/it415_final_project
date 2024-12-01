@@ -11,6 +11,11 @@ class ContactInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool hasLocation = user.addressLatitude != null &&
+        user.addressLongitude != null &&
+        user.addressLatitude!.isNotEmpty &&
+        user.addressLongitude!.isNotEmpty;
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,6 +85,17 @@ class ContactInformation extends StatelessWidget {
                         ? 'No address'
                         : user.address!,
                   ),
+                  const SizedBox(height: 12),
+                  if (hasLocation) ...<Widget>[
+                    Divider(color: Colors.grey.shade200),
+                    const SizedBox(height: 12),
+                    LocationPreview(
+                      latitude: double.parse(user.addressLatitude!),
+                      longitude: double.parse(user.addressLongitude!),
+                      hideTitle: true,
+                    ),
+                    const SizedBox(height: 12),
+                  ],
                 ],
               ),
             ),

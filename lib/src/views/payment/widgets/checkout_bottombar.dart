@@ -7,10 +7,12 @@ class CheckoutBottomBar extends StatelessWidget {
     super.key,
     required this.totalAmount,
     required this.onCheckout,
+    this.isLoading = false,
   });
 
   final double totalAmount;
   final VoidCallback onCheckout;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,7 @@ class CheckoutBottomBar extends StatelessWidget {
             ),
             Expanded(
               child: ElevatedButton(
-                onPressed: onCheckout,
+                onPressed: isLoading ? null : onCheckout,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: GlobalStyles.primaryButtonColor,
                   foregroundColor: Colors.white,
@@ -62,13 +64,23 @@ class CheckoutBottomBar extends StatelessWidget {
                   ),
                   elevation: 0,
                 ),
-                child: const Text(
-                  'Confirm Payment',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                child: isLoading
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      )
+                    : const Text(
+                        'Confirm Payment',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
               ),
             )
           ],

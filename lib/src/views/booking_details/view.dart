@@ -57,10 +57,22 @@ class BookingDetailsView extends HookConsumerWidget {
     }
 
     Widget buildStatusBadge() {
+      if (booking?.status == 'completed') {
+        return StatusBadge(
+          status: booking?.status ?? '',
+        );
+      }
+
       if (currentUser?.role == 'Babysitter') {
         return CustomSelect<String>(
           value: booking?.status,
-          items: const <String>['pending', 'accepted', 'rejected', 'completed'],
+          items: const <String>[
+            'pending',
+            'accepted',
+            'ongoing',
+            'rejected',
+            'completed'
+          ],
           onChanged: (String? value) {
             if (value != null && value != booking?.status) {
               handleStatusUpdate(value);
@@ -102,6 +114,34 @@ class BookingDetailsView extends HookConsumerWidget {
 
       return StatusBadge(
         status: booking?.status ?? '',
+      );
+    }
+
+    Widget buildPaymentSection() {
+      return dataCard(
+        title: 'Payment Details',
+        icon: FluentIcons.payment_24_filled,
+        children: <Widget>[
+          dataDetails(
+            icon: FluentIcons.money_24_regular,
+            label: 'Payment Status',
+            value: booking?.paymentStatus.toUpperCase() ?? 'PENDING',
+          ),
+          if (booking?.paymentMethod != null)
+            dataDetails(
+              icon: FluentIcons.wallet_24_regular,
+              label: 'Payment Method',
+              value: booking?.paymentMethod?.toUpperCase() ?? '-',
+            ),
+          dataDetails(
+            icon: FluentIcons.money_hand_24_regular,
+            label: 'Total Amount',
+            value: NumberFormat.currency(
+              symbol: '₱',
+              decimalDigits: 2,
+            ).format(double.tryParse(booking?.totalCost ?? '0') ?? 0),
+          ),
+        ],
       );
     }
 
@@ -185,6 +225,8 @@ class BookingDetailsView extends HookConsumerWidget {
                 ],
               ),
               const SizedBox(height: 16),
+              buildPaymentSection(),
+              const SizedBox(height: 16),
               dataCard(
                 title: 'Additional Information',
                 icon: FluentIcons.info_24_filled,
@@ -219,7 +261,7 @@ class BookingDetailsView extends HookConsumerWidget {
                               if (confirm ?? false) {
                                 if (!context.mounted) return;
                                 CustomRouter.navigateToWithTransition(
-                                  const CheckoutScreen(),
+                                  CheckoutScreen(booking: booking),
                                   'fade',
                                 );
                               }

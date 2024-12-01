@@ -6,6 +6,8 @@ Color getStatusColor(String status) {
       return Colors.orange;
     case 'accepted':
       return Colors.green;
+    case 'ongoing':
+      return Colors.yellow;
     case 'rejected':
       return Colors.red;
     case 'completed':

@@ -20,6 +20,8 @@ class NotificationView extends HookConsumerWidget {
         return Colors.orange;
       case 'accepted':
         return Colors.green;
+      case 'ongoing':
+        return Colors.yellow;
       case 'rejected':
         return Colors.red;
       case 'completed':
@@ -39,6 +41,10 @@ class NotificationView extends HookConsumerWidget {
         return isParent
             ? 'Booking confirmed! The babysitter accepted.'
             : 'You accepted this booking.';
+      case 'ongoing':
+        return isParent
+            ? 'Babysitter is currently working'
+            : 'You are currently working.';
       case 'rejected':
         return isParent
             ? 'Booking declined by babysitter'

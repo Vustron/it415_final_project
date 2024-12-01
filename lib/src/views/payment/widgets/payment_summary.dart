@@ -26,18 +26,11 @@ class PaymentSummary extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                const Text('Subtotal'),
-                Text('₱${(totalAmount * 0.9).toStringAsFixed(2)}'),
+                const Text('Babysitting Service'),
+                Text('₱${totalAmount.toStringAsFixed(2)}'),
               ],
             ),
             const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Tax (10%)'),
-                Text('₱${(totalAmount * 0.1).toStringAsFixed(2)}'),
-              ],
-            ),
             const Divider(height: 24),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,4 +1,7 @@
+import 'package:babysitterapp/src/controllers/booking_controller.dart';
+import 'package:babysitterapp/src/services/toast.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/src/providers.dart';
@@ -6,10 +9,20 @@ import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
 
 class CheckoutScreen extends HookConsumerWidget {
-  const CheckoutScreen({super.key});
+  const CheckoutScreen({
+    super.key,
+    this.booking,
+  });
+
+  final Booking? booking;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final ValueNotifier<bool> isLoading = useState(false);
+    final BookingController bookingController =
+        ref.watch(bookingControllerService.notifier);
+    final Toast toast = ref.watch(toastService);
+
     final List<PaymentMethodOption> paymentMethods = <PaymentMethodOption>[
       PaymentMethodOption(
         title: 'Cash on Service',
@@ -27,7 +40,65 @@ class CheckoutScreen extends HookConsumerWidget {
 
     final PaymentMethod selectedMethod =
         ref.watch(selectedPaymentMethodService);
-    final double totalAmount = ref.watch(totalAmountService);
+
+    final double totalAmount = useMemoized(() {
+      debugPrint('Calculating total amount...');
+      debugPrint('Booking: $booking');
+      debugPrint('Booking totalCost: ${booking?.totalCost}');
+
+      if (booking == null) {
+        debugPrint('Booking is null');
+        return 0.0;
+      }
+
+      try {
+        final double amount = double.parse(booking!.totalCost);
+        debugPrint('Parsed amount: $amount');
+        return amount;
+      } catch (e) {
+        debugPrint('Error parsing totalCost: $e');
+        return 0.0;
+      }
+    }, [booking]);
+
+    Future<void> handlePayment(PaymentMethod method) async {
+      try {
+        isLoading.value = true;
+
+        final String paymentMethod =
+            method == PaymentMethod.cashOnService ? 'cash' : 'gpay';
+
+        if (booking != null) {
+          await bookingController.updateBookingStatus(
+            bookingId: booking!.id!,
+            paymentStatus: 'completed',
+            paymentMethod: paymentMethod,
+          );
+        }
+
+        if (context.mounted) {
+          toast.show(
+            context: context,
+            title: 'Success',
+            message: 'Payment completed successfully',
+            type: 'success',
+          );
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        }
+      } catch (e) {
+        if (context.mounted) {
+          toast.show(
+            context: context,
+            title: 'Error',
+            message: 'Payment failed: $e',
+            type: 'error',
+          );
+        }
+      } finally {
+        isLoading.value = false;
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -67,24 +138,25 @@ class CheckoutScreen extends HookConsumerWidget {
       ),
       bottomNavigationBar: CheckoutBottomBar(
         totalAmount: totalAmount,
-        onCheckout: () => _handleCheckout(context, selectedMethod),
+        isLoading: isLoading.value,
+        onCheckout: () => handlePayment(selectedMethod),
       ),
     );
   }
+}
 
-  void _handleCheckout(BuildContext context, PaymentMethod method) {
-    if (method == PaymentMethod.gPay) {
-      showModalBottomSheet<void>(
-        context: context,
-        builder: (BuildContext context) => const GPayBottomSheet(),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Payed successfully!'),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-    }
+void _handleCheckout(BuildContext context, PaymentMethod method) {
+  if (method == PaymentMethod.gPay) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) => const GPayBottomSheet(),
+    );
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Payed successfully!'),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 }

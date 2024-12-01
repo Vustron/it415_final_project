@@ -8,7 +8,7 @@ Widget dataCard({
   required List<Widget> children,
 }) {
   return Card(
-    elevation: 0,
+    elevation: 3,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(16),
       side: BorderSide(color: Colors.grey.shade200),

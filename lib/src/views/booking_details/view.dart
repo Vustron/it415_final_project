@@ -6,10 +6,10 @@ import 'package:intl/intl.dart';
 
 import 'package:babysitterapp/src/components.dart';
 import 'package:babysitterapp/src/constants.dart';
+import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
-import 'package:latlong2/latlong.dart';
 
 class BookingDetailsView extends HookConsumerWidget {
   const BookingDetailsView({
@@ -19,25 +19,91 @@ class BookingDetailsView extends HookConsumerWidget {
 
   final Booking? booking;
 
-  Color _getStatusColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'pending':
-        return Colors.orange;
-      case 'accepted':
-        return Colors.green;
-      case 'rejected':
-        return Colors.red;
-      case 'completed':
-        return Colors.blue;
-      default:
-        return Colors.grey;
-    }
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ValueNotifier<bool> isLoading = useState(false);
     final ValueNotifier<double> buttonScale = useState(1.0);
+    final UserAccount? currentUser = ref.watch(authControllerService).user;
+    final Toast toast = ref.watch(toastService);
+
+    Future<void> handleStatusUpdate(String newStatus) async {
+      try {
+        isLoading.value = true;
+        await ref.read(bookingControllerService.notifier).updateBookingStatus(
+              bookingId: booking?.id ?? '',
+              status: newStatus,
+            );
+        if (context.mounted) {
+          toast.show(
+            context: context,
+            title: 'Success',
+            message: 'Booking status updated successfully',
+            type: 'success',
+          );
+          Navigator.of(context).pop();
+        }
+      } catch (e) {
+        if (context.mounted) {
+          toast.show(
+            context: context,
+            title: 'Error',
+            message: 'Failed to update booking status: $e',
+            type: 'error',
+          );
+        }
+      } finally {
+        isLoading.value = false;
+      }
+    }
+
+    Widget buildStatusBadge() {
+      if (currentUser?.role == 'Babysitter') {
+        return CustomSelect<String>(
+          value: booking?.status,
+          items: const <String>['pending', 'accepted', 'rejected', 'completed'],
+          onChanged: (String? value) {
+            if (value != null && value != booking?.status) {
+              handleStatusUpdate(value);
+            }
+          },
+          borderRadius: 12,
+          isDense: true,
+          isRequired: true,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 8,
+          ),
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+              FluentIcons.clock_24_filled,
+              color: getStatusColor(booking?.status ?? ''),
+              size: 20,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: getStatusColor(booking?.status ?? '').withOpacity(0.3),
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: getStatusColor(booking?.status ?? '').withOpacity(0.3),
+              ),
+            ),
+          ),
+          style: TextStyle(
+            color: getStatusColor(booking?.status ?? ''),
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+          ),
+        );
+      }
+
+      return StatusBadge(
+        status: booking?.status ?? '',
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -51,22 +117,7 @@ class BookingDetailsView extends HookConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color:
-                      _getStatusColor(booking?.status ?? '').withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  booking?.status.toUpperCase() ?? '',
-                  style: TextStyle(
-                    color: _getStatusColor(booking?.status ?? ''),
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+              buildStatusBadge(),
               const SizedBox(height: 16),
               dataCard(
                 title: 'Booking Summary',
@@ -103,20 +154,6 @@ class BookingDetailsView extends HookConsumerWidget {
                       decimalDigits: 2,
                     ).format(double.tryParse(booking?.totalCost ?? '0') ?? 0),
                   ),
-                  const Divider(height: 32),
-                  dataDetails(
-                    icon: FluentIcons.calendar_clock_24_regular,
-                    label: 'Created',
-                    value: DateFormat('MMM dd, yyyy HH:mm')
-                        .format(booking?.createdAt ?? DateTime.now()),
-                  ),
-                  if (booking?.updatedAt != booking?.createdAt)
-                    dataDetails(
-                      icon: FluentIcons.history_24_regular,
-                      label: 'Last Updated',
-                      value: DateFormat('MMM dd, yyyy HH:mm')
-                          .format(booking?.updatedAt ?? DateTime.now()),
-                    ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -137,53 +174,12 @@ class BookingDetailsView extends HookConsumerWidget {
                   ),
                   if (booking?.addressLatitude != null &&
                       booking?.addressLongitude != null) ...<Widget>[
+                    Divider(color: Colors.grey[300]),
                     const SizedBox(height: 16),
-                    SizedBox(
-                      width: double.infinity, // Makes button take full width
-                      child: MouseRegion(
-                        onEnter: (_) => buttonScale.value = 0.98,
-                        onExit: (_) => buttonScale.value = 1.0,
-                        child: AnimatedScale(
-                          scale: buttonScale.value,
-                          duration: const Duration(milliseconds: 150),
-                          child: OutlinedButton.icon(
-                            onPressed: () {
-                              final double lat =
-                                  double.tryParse(booking!.addressLatitude) ??
-                                      0;
-                              final double lon =
-                                  double.tryParse(booking!.addressLongitude) ??
-                                      0;
-
-                              CustomRouter.navigateToWithTransition(
-                                MapScreen(
-                                  initialLocation: LatLng(lat, lon),
-                                  isReadOnly: true,
-                                ),
-                                'fade',
-                              );
-                            },
-                            icon: const Icon(
-                              FluentIcons.map_24_regular,
-                              size: 20,
-                            ),
-                            label: const Text('View on Map'),
-                            style: OutlinedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 24,
-                                vertical: 12,
-                              ),
-                              side: BorderSide(
-                                color: GlobalStyles.primaryButtonColor
-                                    .withOpacity(0.5),
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                    LocationPreview(
+                      latitude: double.parse(booking!.addressLatitude),
+                      longitude: double.parse(booking!.addressLongitude),
+                      hideTitle: true,
                     ),
                   ],
                 ],

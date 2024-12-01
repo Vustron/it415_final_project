@@ -86,13 +86,23 @@ class BookingController extends StateNotifier<BookingState> {
     );
   }
 
-  Future<void> updateBookingStatus(String bookingId, String status) async {
+  Future<void> updateBookingStatus({
+    required String bookingId,
+    String? status,
+    String? paymentStatus,
+    String? paymentMethod,
+  }) async {
     if (state.isLoading) return;
 
     state = state.copyWith(isLoading: true);
 
     final Either<BookingFailure, Unit> result =
-        await bookingRepo.updateBookingStatus(bookingId, status);
+        await bookingRepo.updateBookingStatus(
+      bookingId: bookingId,
+      status: status,
+      paymentStatus: paymentStatus,
+      paymentMethod: paymentMethod,
+    );
 
     result.fold(
       (BookingFailure failure) => state = state.copyWith(

@@ -4,6 +4,7 @@ export 'helpers/calculate_distance.dart';
 export 'helpers/shorten_file_name.dart';
 export 'helpers/transition_home.dart';
 export 'helpers/logout_dialog.dart';
+export 'helpers/status_color.dart';
 export 'helpers/use_debounce.dart';
 export 'helpers/get_address.dart';
 export 'helpers/api_helpers.dart';

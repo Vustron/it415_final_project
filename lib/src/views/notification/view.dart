@@ -65,7 +65,7 @@ class NotificationView extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bookings'),
+        title: const Text('Notifications'),
         automaticallyImplyLeading: false,
         elevation: 0,
       ),
@@ -81,8 +81,8 @@ class NotificationView extends HookConsumerWidget {
                   FluentIcons.search_24_regular,
                   color: Colors.grey[600],
                 ),
-                hintText: 'Search bookings...',
-                fieldLabel: 'Search',
+                hintText: 'Search notifications...',
+                fieldLabel: 'Search notifications...',
                 textInputAction: TextInputAction.search,
                 fillColor: Colors.white,
               ),
@@ -112,7 +112,7 @@ class NotificationView extends HookConsumerWidget {
 
                   if (bookings.isEmpty) {
                     return const Center(
-                      child: Text('No bookings found'),
+                      child: Text('No notifications found'),
                     );
                   }
 

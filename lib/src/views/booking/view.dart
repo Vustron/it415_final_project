@@ -152,8 +152,6 @@ class BookingView extends HookConsumerWidget {
           'Additional details': formData['Additional details'] as String,
         };
 
-        // logger.debug('Creating booking: $bookingData');
-
         await ref.read(bookingControllerService.notifier).createBooking(
               currentUser.id!,
               babysitterId!,

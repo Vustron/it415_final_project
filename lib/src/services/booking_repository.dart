@@ -56,18 +56,23 @@ class BookingRepository {
             .toList());
   }
 
-  Future<Either<BookingFailure, Unit>> updateBookingStatus(
-    String bookingId,
-    String status,
-  ) async {
+  Future<Either<BookingFailure, Unit>> updateBookingStatus({
+    required String bookingId,
+    String? status,
+    String? paymentStatus,
+    String? paymentMethod,
+  }) async {
     try {
-      await _firestore
-          .collection('bookings')
-          .doc(bookingId)
-          .update(<Object, Object?>{
-        'status': status,
+      final Map<String, dynamic> updates = <String, dynamic>{
         'updatedAt': DateTime.now().toIso8601String(),
-      });
+      };
+
+      if (status != null) updates['status'] = status;
+      if (paymentStatus != null) updates['paymentStatus'] = paymentStatus;
+      if (paymentMethod != null) updates['paymentMethod'] = paymentMethod;
+
+      await _firestore.collection('bookings').doc(bookingId).update(updates);
+
       return right(unit);
     } catch (e, stack) {
       _logger.error('Failed to update booking status', e, stack);

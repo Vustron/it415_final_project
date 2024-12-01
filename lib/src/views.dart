@@ -11,6 +11,7 @@ export 'views/register/widgets/register_form.dart';
 export 'views/register/view.dart';
 
 // booking
+export 'views/booking_details/widgets/status_badge.dart';
 export 'views/booking/widgets/appbar.dart';
 export 'views/booking/view.dart';
 

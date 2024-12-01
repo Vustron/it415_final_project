@@ -14,6 +14,8 @@ class Booking {
     required this.details,
     required this.totalCost,
     this.status = 'pending',
+    this.paymentStatus = 'pending',
+    this.paymentMethod,
     DateTime? createdAt,
     DateTime? updatedAt,
   })  : createdAt = createdAt ?? DateTime.now(),
@@ -35,6 +37,8 @@ class Booking {
       details: json['details'] as String,
       totalCost: json['totalCost'] as String,
       status: json['status'] as String,
+      paymentStatus: json['paymentStatus'] as String,
+      paymentMethod: json['paymentMethod'] as String?,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
     );
@@ -54,6 +58,8 @@ class Booking {
   final String details;
   final String totalCost;
   final String status;
+  final String paymentStatus;
+  final String? paymentMethod;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -73,6 +79,8 @@ class Booking {
     String? details,
     String? totalCost,
     String? status,
+    String? paymentStatus,
+    String? paymentMethod,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -91,6 +99,8 @@ class Booking {
       details: details ?? this.details,
       totalCost: totalCost ?? this.totalCost,
       status: status ?? this.status,
+      paymentStatus: paymentStatus ?? this.paymentStatus,
+      paymentMethod: paymentMethod ?? this.paymentMethod,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -112,6 +122,8 @@ class Booking {
       'details': details,
       'totalCost': totalCost,
       'status': status,
+      'paymentStatus': paymentStatus,
+      'paymentMethod': paymentMethod,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
     };

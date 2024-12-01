@@ -148,7 +148,7 @@ class MessageDetailScreen extends HookConsumerWidget {
             receiverId: recipientId,
             content: messageController.text.trim(),
             createdAt: DateTime.now(),
-            isRead: false,
+            // isRead: false,
           );
 
           ref
@@ -176,17 +176,17 @@ class MessageDetailScreen extends HookConsumerWidget {
       }
     }
 
-    useEffect(() {
-      if (currentUser?.onlineStatus ?? false) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          ref.read(messageControllerService.notifier).markMessagesAsRead(
-                currentUserId: currentUser?.id ?? '',
-                senderId: recipientId,
-              );
-        });
-      }
-      return null;
-    }, <Object?>[messages.value]);
+    // useEffect(() {
+    //   if (currentUser?.onlineStatus ?? false) {
+    //     WidgetsBinding.instance.addPostFrameCallback((_) {
+    //       ref.read(messageControllerService.notifier).markMessagesAsRead(
+    //             currentUserId: currentUser?.id ?? '',
+    //             senderId: recipientId,
+    //           );
+    //     });
+    //   }
+    //   return null;
+    // }, <Object?>[messages.value]);
 
     return Scaffold(
       appBar: AppBar(

@@ -29,6 +29,18 @@ Future<void> Function(Map<String, dynamic>) useProfileSubmit({
         }
       }
 
+      List<String> convertedAvailability = <String>[];
+      if (formData['Availability'] is Map<String, List<String>>) {
+        final Map<String, List<String>> availabilityMap =
+            formData['Availability'] as Map<String, List<String>>;
+        convertedAvailability = availabilityMap.entries
+            .where((MapEntry<String, List<String>> entry) =>
+                entry.value.isNotEmpty)
+            .map((MapEntry<String, List<String>> entry) =>
+                '${entry.key}: ${entry.value.join(", ")}')
+            .toList();
+      }
+
       final UserAccount updatedUser = UserAccount(
         id: user?.id ?? '',
         name: formData['Name'] as String? ?? user?.name ?? '',
@@ -86,6 +98,7 @@ Future<void> Function(Map<String, dynamic>) useProfileSubmit({
         comfortableWith: (formData['Comfortable With'] as List<String>?) ??
             user?.comfortableWith ??
             <String>[],
+        availability: convertedAvailability,
         createdAt: user?.createdAt ?? DateTime.now(),
         updatedAt: user?.updatedAt ?? DateTime.now(),
       );

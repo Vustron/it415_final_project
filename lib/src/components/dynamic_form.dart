@@ -1,4 +1,3 @@
-import 'package:babysitterapp/src/helpers.dart';
 import 'package:form_builder_file_picker/form_builder_file_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -11,6 +10,7 @@ import 'package:intl/intl.dart';
 
 import 'package:babysitterapp/src/components.dart';
 import 'package:babysitterapp/src/constants.dart';
+import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/models.dart';
 
 class DynamicForm extends HookConsumerWidget {
@@ -438,6 +438,27 @@ class DynamicForm extends HookConsumerWidget {
                   FormBuilderValidators.required(),
                   (List<String>? value) {
                     if (value == null || value.isEmpty) return 'Required';
+                    return null;
+                  },
+                ])
+              : null,
+        );
+
+      case 'availability':
+        return FormBuilderAvailabilityField(
+          name: field.label,
+          decoration: _getInputDecoration(field),
+          initialValue: convertAvailabilityToMap(initialValue),
+          validator: field.isRequired
+              ? FormBuilderValidators
+                  .compose(<FormFieldValidator<Map<String, List<String>>>>[
+                  FormBuilderValidators.required(),
+                  (Map<String, List<String>>? value) {
+                    if (value == null) return 'Please select your availability';
+                    if (value.values
+                        .every((List<String> periods) => periods.isEmpty)) {
+                      return 'Please select at least one time slot';
+                    }
                     return null;
                   },
                 ])

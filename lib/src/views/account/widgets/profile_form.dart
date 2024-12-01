@@ -216,6 +216,12 @@ class ProfileForm extends HookWidget {
         isMultiSelect: true,
         value: user.comfortableWith,
       ),
+      const InputFieldConfig(
+        type: 'availability',
+        label: 'Availability',
+        isRequired: true,
+        prefixIcon: FluentIcons.calendar_24_regular,
+      )
     ];
 
     return DynamicForm(
@@ -246,6 +252,7 @@ class ProfileForm extends HookWidget {
           'Preferred Locations': user.preferredBabysittingLocation,
           'Languages': user.languagesSpeak,
           'Comfortable With': user.comfortableWith,
+          'Availability': user.availability,
         },
       },
       onSubmit: onSubmit,

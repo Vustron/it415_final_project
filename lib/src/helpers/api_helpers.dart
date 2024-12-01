@@ -52,3 +52,35 @@ DateTime parseTimeString(String timeStr) {
 
   return DateTime(2024, 1, 1, hours, minutes);
 }
+
+Map<String, List<String>>? convertAvailabilityToMap(dynamic value) {
+  if (value == null) return null;
+
+  if (value is Map<String, List<String>>) {
+    return value;
+  }
+
+  if (value is List<String>) {
+    final Map<String, List<String>> result = <String, List<String>>{
+      'Mo': <String>[],
+      'Tu': <String>[],
+      'We': <String>[],
+      'Th': <String>[],
+      'Fr': <String>[],
+      'Sa': <String>[],
+      'Su': <String>[]
+    };
+
+    for (final String slot in value) {
+      final List<String> parts = slot.split(': ');
+      if (parts.length == 2) {
+        final String day = parts[0];
+        final List<String> periods = parts[1].split(', ');
+        result[day] = periods;
+      }
+    }
+    return result;
+  }
+
+  return null;
+}

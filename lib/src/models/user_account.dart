@@ -29,6 +29,7 @@ class UserAccount {
     this.preferredBabysittingLocation,
     this.languagesSpeak,
     this.comfortableWith,
+    this.availability,
     this.createdAt,
     this.updatedAt,
   });
@@ -82,6 +83,9 @@ class UserAccount {
         comfortableWith: (json['comfortableWith'] as List<dynamic>?)
             ?.map((dynamic e) => e as String)
             .toList(),
+        availability: (json['availability'] as List<dynamic>?)
+            ?.map((dynamic e) => e as String)
+            .toList(),
         createdAt: json['createdAt'] != null
             ? DateTime.parse(json['createdAt'] as String)
             : null,
@@ -119,6 +123,7 @@ class UserAccount {
   final List<String>? preferredBabysittingLocation;
   final List<String>? languagesSpeak;
   final List<String>? comfortableWith;
+  final List<String>? availability;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -152,6 +157,7 @@ class UserAccount {
         'preferredBabysittingLocation': preferredBabysittingLocation,
         'languagesSpeak': languagesSpeak,
         'comfortableWith': comfortableWith,
+        'availability': availability,
         'createdAt': createdAt?.toIso8601String(),
         'updatedAt': updatedAt?.toIso8601String(),
       };
@@ -186,6 +192,7 @@ class UserAccount {
     List<String>? preferredBabysittingLocation,
     List<String>? languagesSpeak,
     List<String>? comfortableWith,
+    List<String>? availability,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -221,6 +228,7 @@ class UserAccount {
           preferredBabysittingLocation ?? this.preferredBabysittingLocation,
       languagesSpeak: languagesSpeak ?? this.languagesSpeak,
       comfortableWith: comfortableWith ?? this.comfortableWith,
+      availability: availability ?? this.availability,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

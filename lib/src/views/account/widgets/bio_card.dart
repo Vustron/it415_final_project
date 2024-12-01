@@ -97,6 +97,85 @@ class BioCard extends HookWidget with GlobalStyles {
     );
   }
 
+  Widget _buildDayBadge(String day) {
+    return Container(
+      margin: const EdgeInsets.only(right: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: GlobalStyles.primaryButtonColor.withOpacity(0.1),
+      ),
+      child: Text(
+        day,
+        style: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+          color: GlobalStyles.primaryButtonColor,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAvailabilitySection(List<String>? availability) {
+    if (availability == null || availability.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final Map<String, List<String>> availabilityMap = <String, List<String>>{
+      'Morning': <String>[],
+      'Afternoon': <String>[],
+      'Evening': <String>[],
+    };
+
+    for (final String slot in availability) {
+      final List<String> parts = slot.split(': ');
+      if (parts.length == 2) {
+        final String day = parts[0];
+        final List<String> periods = parts[1].split(', ');
+        for (final String period in periods) {
+          availabilityMap[period]?.add(day);
+        }
+      }
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const SizedBox(height: 16),
+        Divider(color: Colors.grey.shade200),
+        const SizedBox(height: 16),
+        _buildSectionTitle('Availability', FluentIcons.calendar_24_regular),
+        const SizedBox(height: 12),
+        ...availabilityMap.entries.map((MapEntry<String, List<String>> entry) {
+          if (entry.value.isEmpty) return const SizedBox.shrink();
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  entry.key,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 4,
+                  runSpacing: 4,
+                  children: entry.value
+                      .map((String day) => _buildDayBadge(day))
+                      .toList(),
+                ),
+              ],
+            ),
+          );
+        }),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final ValueNotifier<bool> isExpanded = useState(false);
@@ -242,6 +321,8 @@ class BioCard extends HookWidget with GlobalStyles {
                   'Preferred Locations',
                   user.preferredBabysittingLocation!.join(', '),
                 ),
+              if (user.availability?.isNotEmpty ?? false)
+                _buildAvailabilitySection(user.availability),
               const SizedBox(height: 16),
               Divider(color: Colors.grey.shade200),
               const SizedBox(height: 16),

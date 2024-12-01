@@ -61,6 +61,7 @@ class EditAccountView extends HookConsumerWidget with GlobalStyles {
                       preferredBabysittingLocation: <String>[],
                       languagesSpeak: <String>[],
                       comfortableWith: <String>[],
+                      availability: <String>[],
                       createdAt: DateTime.now(),
                       updatedAt: DateTime.now(),
                     ),

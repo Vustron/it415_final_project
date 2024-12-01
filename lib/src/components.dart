@@ -1,3 +1,4 @@
+export 'components/availability_field.dart';
 export 'components/date_time_picker.dart';
 export 'components/time_range_field.dart';
 export 'components/cached_avatar.dart';

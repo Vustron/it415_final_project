@@ -59,7 +59,7 @@ class CheckoutScreen extends HookConsumerWidget {
         debugPrint('Error parsing totalCost: $e');
         return 0.0;
       }
-    }, [booking]);
+    }, <Object?>[booking]);
 
     Future<void> handlePayment(PaymentMethod method) async {
       try {
@@ -140,22 +140,6 @@ class CheckoutScreen extends HookConsumerWidget {
         totalAmount: totalAmount,
         isLoading: isLoading.value,
         onCheckout: () => handlePayment(selectedMethod),
-      ),
-    );
-  }
-}
-
-void _handleCheckout(BuildContext context, PaymentMethod method) {
-  if (method == PaymentMethod.gPay) {
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (BuildContext context) => const GPayBottomSheet(),
-    );
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Payed successfully!'),
-        behavior: SnackBarBehavior.floating,
       ),
     );
   }

@@ -145,6 +145,244 @@ class BookingDetailsView extends HookConsumerWidget {
       );
     }
 
+    Future<void> showRatingBottomSheet(BuildContext context) async {
+      return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (BuildContext context) => RatingBottomSheet(
+          onSubmit: (double rating, String comment) async {
+            try {
+              await ref.read(ratingControllerService.notifier).createRating(
+                    parentId: currentUser?.id ?? '',
+                    babysitterId: booking?.babysitterId ?? '',
+                    rating: rating,
+                    comment: comment,
+                  );
+
+              if (context.mounted) {
+                Navigator.pop(context);
+                toast.show(
+                  context: context,
+                  title: 'Success',
+                  message: 'Rating submitted successfully',
+                  type: 'success',
+                );
+              }
+            } catch (e) {
+              if (context.mounted) {
+                toast.show(
+                  context: context,
+                  title: 'Error',
+                  message: 'Failed to submit rating: $e',
+                  type: 'error',
+                );
+              }
+            }
+          },
+        ),
+      );
+    }
+
+    Widget buildRatingSection() {
+      if (booking?.status != 'completed' || currentUser?.role != 'Client') {
+        return const SizedBox.shrink();
+      }
+
+      return StreamBuilder<List<Rating>>(
+        stream:
+            ref.watch(ratingControllerService.notifier).getRatingsForBooking(
+                  parentId: currentUser?.id ?? '',
+                  babysitterId: booking?.babysitterId ?? '',
+                ),
+        builder: (BuildContext context, AsyncSnapshot<List<Rating>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final bool hasRated = snapshot.hasData && snapshot.data!.isNotEmpty;
+          final Rating? userRating = hasRated ? snapshot.data!.first : null;
+
+          return Column(
+            children: <Widget>[
+              const SizedBox(height: 16),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: hasRated
+                        ? <Color>[Colors.green.withOpacity(0.1), Colors.white]
+                        : <Color>[Colors.amber.withOpacity(0.1), Colors.white],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: hasRated
+                        ? Colors.green.withOpacity(0.3)
+                        : Colors.amber.withOpacity(0.3),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: hasRated
+                        ? <Widget>[
+                            const Row(
+                              children: <Widget>[
+                                Icon(
+                                  FluentIcons.checkmark_circle_24_filled,
+                                  color: Colors.green,
+                                  size: 28,
+                                ),
+                                SizedBox(width: 12),
+                                Text(
+                                  'You have already rated',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            Row(
+                              children: <Widget>[
+                                ...List<Widget>.generate(
+                                  5,
+                                  (int index) => Icon(
+                                    index < (userRating!.rating ?? 0).toInt()
+                                        ? FluentIcons.star_24_filled
+                                        : FluentIcons.star_24_regular,
+                                    color: Colors.amber,
+                                    size: 24,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  '${userRating!.rating}/5',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            if (userRating.comment != null &&
+                                userRating.comment!.isNotEmpty) ...<Widget>[
+                              const SizedBox(height: 16),
+                              Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[50],
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: Colors.grey[200]!,
+                                  ),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    const Text(
+                                      'Your Review',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      userRating.comment!,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ]
+                        : <Widget>[
+                            // Existing "Add Rating" UI
+                            const Row(
+                              children: <Widget>[
+                                Icon(
+                                  FluentIcons.star_24_filled,
+                                  color: Colors.amber,
+                                  size: 28,
+                                ),
+                                SizedBox(width: 12),
+                                Text(
+                                  'Rate Your Experience',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Share your feedback about the babysitting service to help other parents make informed decisions.',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[600],
+                                height: 1.5,
+                              ),
+                            ),
+                            const SizedBox(height: 24),
+                            Center(
+                              child: MouseRegion(
+                                onEnter: (_) => buttonScale.value = 0.98,
+                                onExit: (_) => buttonScale.value = 1.0,
+                                child: AnimatedScale(
+                                  scale: buttonScale.value,
+                                  duration: const Duration(milliseconds: 150),
+                                  child: ElevatedButton.icon(
+                                    onPressed: isLoading.value
+                                        ? null
+                                        : () async {
+                                            await showRatingBottomSheet(
+                                                context);
+                                          },
+                                    icon: const Icon(
+                                      FluentIcons.star_add_24_filled,
+                                      size: 20,
+                                    ),
+                                    label: const Text(
+                                      'Add Your Rating',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 24,
+                                        vertical: 16,
+                                      ),
+                                      backgroundColor: Colors.amber,
+                                      foregroundColor: Colors.white,
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Booking Details'),
@@ -306,6 +544,7 @@ class BookingDetailsView extends HookConsumerWidget {
                   ),
                 ),
               ],
+              buildRatingSection(),
               const SizedBox(height: 50),
             ],
           ),

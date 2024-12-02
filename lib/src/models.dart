@@ -23,3 +23,7 @@ export 'models/nominatim_api.dart';
 
 // location
 export 'models/location_state.dart';
+
+// rating
+export 'models/rating_state.dart';
+export 'models/rating.dart';

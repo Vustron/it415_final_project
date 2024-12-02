@@ -1,6 +1,7 @@
 export 'services/location_repository.dart';
 export 'services/booking_repository.dart';
 export 'services/message_repository.dart';
+export 'services/rating_repository.dart';
 export 'services/auth_repository.dart';
 export 'services/http_api.dart';
 export 'services/logger.dart';

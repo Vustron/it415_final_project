@@ -49,6 +49,7 @@ export 'views/home/widgets/header_babysitter.dart';
 export 'views/home/widgets/transaction_chart.dart';
 export 'views/home/widgets/babysitter_card.dart';
 export 'views/home/widgets/stats_card.dart';
+export 'views/booking_details/widgets/rating_bottomsheet.dart';
 
 // message
 export 'views/messages/widgets/detail.dart';

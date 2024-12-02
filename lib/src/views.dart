@@ -25,9 +25,6 @@ export 'views/payment/view.dart';
 // error handlers
 export 'views/error.dart';
 
-// receipt
-export 'views/receipt/view.dart';
-
 // booking details
 export 'views/booking_details/widgets/confirm_dialog.dart';
 export 'views/booking_details/widgets/card_details.dart';

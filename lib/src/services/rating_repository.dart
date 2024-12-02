@@ -40,14 +40,19 @@ class RatingRepository {
   }
 
   Stream<List<Rating>> getRatingsStream(String babysitterId) {
+    _logger.info('Repository querying ratings for babysitter: $babysitterId');
+
     return _firestore
         .collection('ratings')
         .where('babysitterId', isEqualTo: babysitterId)
         .orderBy('createdAt', descending: true)
         .snapshots()
-        .map((QuerySnapshot<Map<String, dynamic>> snapshot) => snapshot.docs
-            .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) =>
-                Rating.fromJson(<String, dynamic>{...doc.data(), 'id': doc.id}))
-            .toList());
+        .map((QuerySnapshot<Map<String, dynamic>> snapshot) {
+      _logger.info('Got ${snapshot.docs.length} ratings from Firestore');
+      return snapshot.docs
+          .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) =>
+              Rating.fromJson(<String, dynamic>{...doc.data(), 'id': doc.id}))
+          .toList();
+    });
   }
 }

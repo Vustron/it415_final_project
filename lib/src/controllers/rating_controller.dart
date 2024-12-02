@@ -58,4 +58,8 @@ class RatingController extends StateNotifier<RatingState> {
             .where((Rating rating) => rating.parentId == parentId)
             .toList());
   }
+
+  Stream<List<Rating>> getRatingsStream(String babysitterId) {
+    return ratingRepo.getRatingsStream(babysitterId);
+  }
 }

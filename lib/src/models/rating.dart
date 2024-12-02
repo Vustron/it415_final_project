@@ -9,19 +9,32 @@ class Rating {
     this.updatedAt,
   });
 
-  factory Rating.fromJson(Map<String, dynamic> json) => Rating(
-        id: json['id'] as String?,
-        parentId: json['parentId'] as String,
-        babysitterId: json['babysitterId'] as String,
-        rating: json['rating'] as double,
-        comment: json['comment'] as String?,
-        createdAt: json['createdAt'] != null
-            ? DateTime.parse(json['createdAt'] as String)
-            : null,
-        updatedAt: json['updatedAt'] != null
-            ? DateTime.parse(json['updatedAt'] as String)
-            : null,
-      );
+  factory Rating.fromJson(Map<String, dynamic> json) {
+    final dynamic rawRating = json['rating'];
+    double? parsedRating;
+
+    if (rawRating != null) {
+      if (rawRating is int) {
+        parsedRating = rawRating.toDouble();
+      } else if (rawRating is double) {
+        parsedRating = rawRating;
+      }
+    }
+
+    return Rating(
+      id: json['id'] as String?,
+      parentId: json['parentId'] as String,
+      babysitterId: json['babysitterId'] as String,
+      rating: parsedRating,
+      comment: json['comment'] as String?,
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'] as String)
+          : null,
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.parse(json['updatedAt'] as String)
+          : null,
+    );
+  }
 
   final String? id;
   final String? parentId;

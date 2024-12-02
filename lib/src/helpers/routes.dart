@@ -15,7 +15,6 @@ class Routes {
   static const String booking = '/booking';
   static const String payment = '/payment';
   static const String bookingDetails = '/booking-details';
-  static const String receipt = '/receipt';
   static const String search = '/search';
   static const String filter = '/filter';
   static const String settings = '/settings';
@@ -54,9 +53,6 @@ class Routes {
           ),
       bookingDetails: (BuildContext context) => const AuthGuard(
             child: BookingDetailsView(),
-          ),
-      receipt: (BuildContext context) => AuthGuard(
-            child: PaymentConfirmationView(),
           ),
       search: (BuildContext context) => const AuthGuard(
             child: SearchView(),

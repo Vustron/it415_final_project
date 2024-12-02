@@ -15,15 +15,14 @@ class Routes {
   static const String booking = '/booking';
   static const String payment = '/payment';
   static const String bookingDetails = '/booking-details';
+  static const String receipt = '/receipt';
   static const String search = '/search';
   static const String filter = '/filter';
   static const String settings = '/settings';
   static const String profile = '/profile';
   static const String account = '/account';
   static const String editAccount = '/edit-account';
-  static const String availability = '/availability';
   static const String helpSupport = '/help-support';
-  static const String transactionHistory = '/transaction-history';
   static const String verification = '/verification';
   static const String allBabysittersView = '/all-babysitters';
 
@@ -72,15 +71,10 @@ class Routes {
       editAccount: (BuildContext context) => AuthGuard(
             child: EditAccountView(user: null),
           ),
-      availability: (BuildContext context) => AuthGuard(
-            child: AvailabilityView(),
-          ),
       helpSupport: (BuildContext context) => const AuthGuard(
             child: HelpSupportView(),
           ),
-      transactionHistory: (BuildContext context) => const AuthGuard(
-            child: TransactionHistoryView(),
-          ),
+
       verification: (BuildContext context) => const AuthGuard(
             child: VerificationView(),
           ),

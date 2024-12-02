@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:babysitterapp/src/components.dart';
 import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/services.dart';
+import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
 
@@ -185,18 +186,21 @@ class BookingView extends HookConsumerWidget {
     return Scaffold(
       appBar: bookingAppBar(),
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: DynamicForm(
-                fields: _buildFormFields(startTime.value, endTime.value),
-                onSubmit: onSubmit,
-                isLoading: isLoading,
+        child: VerificationGuard(
+          user: currentUser,
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: DynamicForm(
+                  fields: _buildFormFields(startTime.value, endTime.value),
+                  onSubmit: onSubmit,
+                  isLoading: isLoading,
+                ),
               ),
-            ),
-            const SizedBox(height: 50.0),
-          ],
+              const SizedBox(height: 50.0),
+            ],
+          ),
         ),
       ),
     );

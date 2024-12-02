@@ -97,15 +97,7 @@ export 'views/account/widgets/verification.dart';
 export 'views/account/widgets/contact_item.dart';
 export 'views/account/widgets/contact_info.dart';
 export 'views/account/widgets/bio_card.dart';
-
 export 'views/account/view.dart';
-
-// availability
-export 'views/availability/widgets/experience_details.dart';
-export 'views/availability/widgets/review_info.dart';
-export 'views/availability/widgets/reviews.dart';
-export 'views/availability/widgets/info.dart';
-export 'views/availability/view.dart';
 
 // edit account
 export 'views/account/widgets/profile_completion.dart';
@@ -120,13 +112,6 @@ export 'views/help_support/widgets/support.dart';
 export 'views/help_support/widgets/faq.dart';
 export 'views/help_support/view.dart';
 
-// profile
-export 'views/profile/widgets/profile_header.dart';
-export 'views/profile/widgets/section_label.dart';
-export 'views/profile/widgets/descriptions.dart';
-export 'views/profile/widgets/input.dart';
-export 'views/profile/view.dart';
-
 // settings
 export 'views/settings/widgets/settings_label.dart';
 export 'views/account/widgets/logout_button.dart';
@@ -134,10 +119,6 @@ export 'views/settings/widgets/option_card.dart';
 export 'views/settings/widgets/preference.dart';
 export 'views/settings/widgets/history.dart';
 export 'views/settings/view.dart';
-
-// transaction history
-export 'views/transaction_history/widgets/transaction_card.dart';
-export 'views/transaction_history/view.dart';
 
 // splash screen
 export 'views/splash/widgets/logo.dart';

@@ -1,6 +1,7 @@
 export 'helpers/currency_input_formatter.dart';
 export 'helpers/global_error_handler.dart';
 export 'helpers/calculate_distance.dart';
+export 'helpers/verification_guard.dart';
 export 'helpers/shorten_file_name.dart';
 export 'helpers/transition_home.dart';
 export 'helpers/logout_dialog.dart';

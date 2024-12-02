@@ -2,6 +2,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
+import 'package:babysitterapp/src/providers.dart';
+import 'package:babysitterapp/src/helpers.dart';
+import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
 
 class HelpSupportView extends HookConsumerWidget {
@@ -12,6 +15,7 @@ class HelpSupportView extends HookConsumerWidget {
     final TabController tabController = useTabController(initialLength: 2);
     final ValueNotifier<double> rating = useState(0.0);
     const double starSize = 30.0;
+    final UserAccount? currentUser = ref.watch(authControllerService).user;
 
     return Scaffold(
       appBar: AppBar(
@@ -28,12 +32,15 @@ class HelpSupportView extends HookConsumerWidget {
           ],
         ),
       ),
-      body: TabBarView(
-        controller: tabController,
-        children: <Widget>[
-          helpSupportTab(),
-          feedbackTab(rating, starSize),
-        ],
+      body: VerificationGuard(
+        user: currentUser,
+        child: TabBarView(
+          controller: tabController,
+          children: <Widget>[
+            helpSupportTab(),
+            feedbackTab(rating, starSize),
+          ],
+        ),
       ),
     );
   }

@@ -75,211 +75,216 @@ class NotificationView extends HookConsumerWidget {
         automaticallyImplyLeading: false,
         elevation: 0,
       ),
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: CustomTextInput(
-                onChanged: (String value) => searchQuery.value = value,
-                onClear: () => searchQuery.value = '',
-                prefixIcon: Icon(
-                  FluentIcons.search_24_regular,
-                  color: Colors.grey[600],
+      body: VerificationGuard(
+        user: currentUser,
+        child: SafeArea(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: CustomTextInput(
+                  onChanged: (String value) => searchQuery.value = value,
+                  onClear: () => searchQuery.value = '',
+                  prefixIcon: Icon(
+                    FluentIcons.search_24_regular,
+                    color: Colors.grey[600],
+                  ),
+                  hintText: 'Search notifications...',
+                  fieldLabel: 'Search notifications...',
+                  textInputAction: TextInputAction.search,
+                  fillColor: Colors.white,
                 ),
-                hintText: 'Search notifications...',
-                fieldLabel: 'Search notifications...',
-                textInputAction: TextInputAction.search,
-                fillColor: Colors.white,
               ),
-            ),
-            Expanded(
-              child: StreamBuilder<List<Booking>>(
-                stream: ref
-                    .watch(bookingControllerService.notifier)
-                    .getBookingsStream(currentUser),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<Booking>> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: GlobalStyles.primaryButtonColor,
-                      ),
-                    );
-                  }
-
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Error: ${snapshot.error}'),
-                    );
-                  }
-
-                  final List<Booking> bookings = snapshot.data ?? <Booking>[];
-
-                  if (bookings.isEmpty) {
-                    return const Center(
-                      child: Text('No notifications found'),
-                    );
-                  }
-
-                  final List<Booking> filteredBookings = bookings
-                      .where((Booking booking) => booking
-                          .toString()
-                          .toLowerCase()
-                          .contains(searchQuery.value.toLowerCase()))
-                      .toList();
-
-                  return ListView.builder(
-                    itemCount: filteredBookings.length,
-                    padding: const EdgeInsets.only(bottom: 16),
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) {
-                      final Booking booking = filteredBookings[index];
-                      final bool isParent = currentUser.role == 'Client';
-
-                      return Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.1),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
+              Expanded(
+                child: StreamBuilder<List<Booking>>(
+                  stream: ref
+                      .watch(bookingControllerService.notifier)
+                      .getBookingsStream(currentUser),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Booking>> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: GlobalStyles.primaryButtonColor,
                         ),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
+                      );
+                    }
+
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text('Error: ${snapshot.error}'),
+                      );
+                    }
+
+                    final List<Booking> bookings = snapshot.data ?? <Booking>[];
+
+                    if (bookings.isEmpty) {
+                      return const Center(
+                        child: Text('No notifications found'),
+                      );
+                    }
+
+                    final List<Booking> filteredBookings = bookings
+                        .where((Booking booking) => booking
+                            .toString()
+                            .toLowerCase()
+                            .contains(searchQuery.value.toLowerCase()))
+                        .toList();
+
+                    return ListView.builder(
+                      itemCount: filteredBookings.length,
+                      padding: const EdgeInsets.only(bottom: 16),
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        final Booking booking = filteredBookings[index];
+                        final bool isParent = currentUser.role == 'Client';
+
+                        return Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(12),
-                            onTap: () {
-                              CustomRouter.navigateToWithTransition(
-                                BookingDetailsView(booking: booking),
-                                'rightToLeftWithFade',
-                              );
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text(
-                                        DateFormat('MMM dd, yyyy')
-                                            .format(booking.workingDate),
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 8,
-                                          vertical: 4,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: _getStatusColor(booking.status)
-                                              .withOpacity(0.1),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: Text(
-                                          booking.status.toUpperCase(),
-                                          style: TextStyle(
-                                            color:
-                                                _getStatusColor(booking.status),
-                                            fontSize: 12,
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.1),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(12),
+                              onTap: () {
+                                CustomRouter.navigateToWithTransition(
+                                  BookingDetailsView(booking: booking),
+                                  'rightToLeftWithFade',
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(
+                                          DateFormat('MMM dd, yyyy')
+                                              .format(booking.workingDate),
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.bold,
+                                            fontSize: 16,
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 12),
-                                  Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        FluentIcons.clock_24_regular,
-                                        size: 16,
-                                        color: Colors.grey[600],
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        '${booking.startTime} - ${booking.endTime}',
-                                        style: TextStyle(
-                                          color: Colors.grey[600],
-                                          fontSize: 14,
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                            vertical: 4,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color:
+                                                _getStatusColor(booking.status)
+                                                    .withOpacity(0.1),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          child: Text(
+                                            booking.status.toUpperCase(),
+                                            style: TextStyle(
+                                              color: _getStatusColor(
+                                                  booking.status),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        FluentIcons.location_24_regular,
-                                        size: 16,
-                                        color: Colors.grey[600],
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Expanded(
-                                        child: Text(
-                                          booking.address,
+                                      ],
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Row(
+                                      children: <Widget>[
+                                        Icon(
+                                          FluentIcons.clock_24_regular,
+                                          size: 16,
+                                          color: Colors.grey[600],
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          '${booking.startTime} - ${booking.endTime}',
                                           style: TextStyle(
                                             color: Colors.grey[600],
                                             fontSize: 14,
                                           ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        FluentIcons.people_24_regular,
-                                        size: 16,
-                                        color: Colors.grey[600],
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        '${booking.numberOfChildren} children',
-                                        style: TextStyle(
-                                          color: Colors.grey[600],
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 12),
-                                  Text(
-                                    _getStatusMessage(booking.status, isParent),
-                                    style: TextStyle(
-                                      color: _getStatusColor(booking.status),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
+                                      ],
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      children: <Widget>[
+                                        Icon(
+                                          FluentIcons.location_24_regular,
+                                          size: 16,
+                                          color: Colors.grey[600],
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: Text(
+                                            booking.address,
+                                            style: TextStyle(
+                                              color: Colors.grey[600],
+                                              fontSize: 14,
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      children: <Widget>[
+                                        Icon(
+                                          FluentIcons.people_24_regular,
+                                          size: 16,
+                                          color: Colors.grey[600],
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          '${booking.numberOfChildren} children',
+                                          style: TextStyle(
+                                            color: Colors.grey[600],
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Text(
+                                      _getStatusMessage(
+                                          booking.status, isParent),
+                                      style: TextStyle(
+                                        color: _getStatusColor(booking.status),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/src/providers.dart';
 import 'package:babysitterapp/src/constants.dart';
+import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/models.dart';
 import 'package:babysitterapp/src/views.dart';
 
@@ -17,59 +18,62 @@ class SearchView extends HookConsumerWidget {
     final MarkerData? selectedMarker = ref.watch(selectedMarkerService);
 
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          const SearchMapScreen(),
-          Container(
-            margin: const EdgeInsets.only(top: 30),
-            color: const Color.fromARGB(0, 143, 43, 43),
-            padding: GlobalStyles.defaultContentPadding,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    FluentIcons.arrow_left_24_regular,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(width: GlobalStyles.smallPadding),
-                Expanded(child: searchButtons(searchTxt))
-              ],
-            ),
-          ),
-          if (selectedMarker == null)
-            Positioned(
-              bottom: 60,
-              right: 20,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+      body: VerificationGuard(
+        user: ref.watch(authControllerService).user,
+        child: Stack(
+          children: <Widget>[
+            const SearchMapScreen(),
+            Container(
+              margin: const EdgeInsets.only(top: 30),
+              color: const Color.fromARGB(0, 143, 43, 43),
+              padding: GlobalStyles.defaultContentPadding,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  FloatingActionButton(
-                    heroTag: 'distance',
-                    backgroundColor: GlobalStyles.primaryButtonColor,
+                  IconButton(
                     onPressed: () {
-                      showModalBottomSheet<void>(
-                        context: context,
-                        backgroundColor: Colors.transparent,
-                        builder: (BuildContext context) =>
-                            const DistanceBottomSheet(),
-                      );
+                      Navigator.pop(context);
                     },
-                    child: const Icon(
-                      FluentIcons.arrow_autofit_content_24_filled,
-                      color: Colors.white,
+                    icon: const Icon(
+                      FluentIcons.arrow_left_24_regular,
+                      color: Colors.black,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(width: GlobalStyles.smallPadding),
+                  Expanded(child: searchButtons(searchTxt))
                 ],
               ),
             ),
-        ],
+            if (selectedMarker == null)
+              Positioned(
+                bottom: 60,
+                right: 20,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    FloatingActionButton(
+                      heroTag: 'distance',
+                      backgroundColor: GlobalStyles.primaryButtonColor,
+                      onPressed: () {
+                        showModalBottomSheet<void>(
+                          context: context,
+                          backgroundColor: Colors.transparent,
+                          builder: (BuildContext context) =>
+                              const DistanceBottomSheet(),
+                        );
+                      },
+                      child: const Icon(
+                        FluentIcons.arrow_autofit_content_24_filled,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

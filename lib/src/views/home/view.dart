@@ -16,7 +16,7 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthController authController =
         ref.watch(authControllerService.notifier);
-    final AuthState authState = ref.watch(authControllerService);
+    final AuthState currentUser = ref.watch(authControllerService);
 
     return Scaffold(
       appBar: AppBar(
@@ -24,11 +24,11 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         centerTitle: false,
-        title: authState.user?.role == 'Client'
-            ? homeViewTitle(authState.user)
+        title: currentUser.user?.role == 'Client'
+            ? homeViewTitle(currentUser.user)
             : const Text('Dashboard', style: TextStyle(fontSize: 30)),
         actions: <Widget>[
-          if (authState.user?.role == 'Client')
+          if (currentUser.user?.role == 'Client')
             IconButton(
               onPressed: () => CustomRouter.navigateToWithTransition(
                 SettingsView(),
@@ -43,18 +43,26 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
         ],
       ),
       backgroundColor: Colors.white,
-      body: authState.user == null
+      body: currentUser.user == null
           ? const Center(
               child: CircularProgressIndicator(
                 color: GlobalStyles.primaryButtonColor,
               ),
             )
-          : authState.user!.role == 'Client'
-              ? HomeClientView(
-                  authController: authController,
-                  primaryButtonColor: GlobalStyles.primaryButtonColor,
+          : currentUser.user!.role == 'Client'
+              ? VerificationGuard(
+                  user: currentUser.user,
+                  child: HomeClientView(
+                    authController: authController,
+                    primaryButtonColor: GlobalStyles.primaryButtonColor,
+                  ),
                 )
-              : HomeBabysitterView(user: authState.user),
+              : VerificationGuard(
+                  user: currentUser.user,
+                  child: HomeBabysitterView(
+                    user: currentUser.user,
+                  ),
+                ),
     );
   }
 }

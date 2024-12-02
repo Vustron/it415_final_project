@@ -116,137 +116,140 @@ class MessageView extends HookConsumerWidget with GlobalStyles {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 4,
-                    offset: const Offset(0, 1),
+      body: VerificationGuard(
+        user: currentUser,
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 4,
+                      offset: const Offset(0, 1),
+                    ),
+                  ],
+                ),
+                child: CustomTextInput(
+                  onChanged: (String value) => searchQuery.value = value,
+                  onClear: () => searchQuery.value = '',
+                  prefixIcon: Icon(
+                    FluentIcons.search_24_regular,
+                    color: Colors.grey[600],
+                    size: 20,
                   ),
-                ],
-              ),
-              child: CustomTextInput(
-                onChanged: (String value) => searchQuery.value = value,
-                onClear: () => searchQuery.value = '',
-                prefixIcon: Icon(
-                  FluentIcons.search_24_regular,
-                  color: Colors.grey[600],
-                  size: 20,
+                  hintText: 'Search messages...',
+                  fieldLabel: 'Search messages...',
+                  cursorColor: GlobalStyles.primaryButtonColor,
+                  fillColor: Colors.white,
+                  textColor: Colors.black87,
+                  hintColor: Colors.grey[600],
+                  borderColor: Colors.grey[300],
+                  focusedBorderColor: GlobalStyles.primaryButtonColor,
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
+                  borderRadius: 12,
                 ),
-                hintText: 'Search messages...',
-                fieldLabel: 'Search messages...',
-                cursorColor: GlobalStyles.primaryButtonColor,
-                fillColor: Colors.white,
-                textColor: Colors.black87,
-                hintColor: Colors.grey[600],
-                borderColor: Colors.grey[300],
-                focusedBorderColor: GlobalStyles.primaryButtonColor,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-                borderRadius: 12,
               ),
-            ),
-            const SizedBox(height: 5),
-            Expanded(
-              child: Builder(
-                builder: (BuildContext context) {
-                  if (messagesSnapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: GlobalStyles.primaryButtonColor,
-                      ),
-                    );
-                  }
-
-                  if (messagesSnapshot.hasError) {
-                    return Center(
-                      child: Text('Error: ${messagesSnapshot.error}'),
-                    );
-                  }
-
-                  if (filteredMessages.isEmpty) {
-                    return const Center(
-                      child: Text('No messages yet'),
-                    );
-                  }
-
-                  return ListView.builder(
-                    itemCount: filteredMessages.length,
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    itemBuilder: (BuildContext context, int index) {
-                      final Message message = filteredMessages[index];
-                      final String otherUserId =
-                          message.senderId == authState.user?.id
-                              ? message.receiverId
-                              : message.senderId;
-
-                      return StreamBuilder<Either<AuthFailure, UserAccount>>(
-                        stream: ref
-                            .read(authControllerService.notifier)
-                            .getUserDataStream(otherUserId),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<Either<AuthFailure, UserAccount>>
-                                snapshot) {
-                          if (!snapshot.hasData) {
-                            return const SizedBox.shrink();
-                          }
-
-                          return snapshot.data!.fold(
-                            (AuthFailure failure) => const SizedBox.shrink(),
-                            (UserAccount otherUser) {
-                              if (searchQuery.value.isNotEmpty &&
-                                  !otherUser.name!.toLowerCase().contains(
-                                      searchQuery.value.toLowerCase())) {
-                                return const SizedBox.shrink();
-                              }
-
-                              return ConversationList(
-                                name: otherUser.name ?? 'No Name',
-                                messageText: message.content,
-                                number: otherUser.phoneNumber ?? '',
-                                imageUrl: otherUser.profileImg ?? '',
-                                time: message.createdAt ?? DateTime.now(),
-                                isMessageRead: message.isRead,
-                                recipientId: otherUserId,
-                                isSender:
-                                    message.senderId == authState.user?.id,
-                                isOnline: otherUser.onlineStatus ?? false,
-                                isVerified: otherUser.emailVerified != null &&
-                                    otherUser.validIdVerified != null,
-                                onTap: () {
-                                  CustomRouter.navigateToWithTransition(
-                                    MessageDetailScreen(
-                                      name: otherUser.name ?? 'No Name',
-                                      number: otherUser.phoneNumber ?? '',
-                                      image: otherUser.profileImg ?? '',
-                                      recipientId: otherUserId,
-                                    ),
-                                    'rightToLeftWithFade',
-                                  );
-                                },
-                              );
-                            },
-                          );
-                        },
+              const SizedBox(height: 5),
+              Expanded(
+                child: Builder(
+                  builder: (BuildContext context) {
+                    if (messagesSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: GlobalStyles.primaryButtonColor,
+                        ),
                       );
-                    },
-                  );
-                },
+                    }
+
+                    if (messagesSnapshot.hasError) {
+                      return Center(
+                        child: Text('Error: ${messagesSnapshot.error}'),
+                      );
+                    }
+
+                    if (filteredMessages.isEmpty) {
+                      return const Center(
+                        child: Text('No messages yet'),
+                      );
+                    }
+
+                    return ListView.builder(
+                      itemCount: filteredMessages.length,
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      itemBuilder: (BuildContext context, int index) {
+                        final Message message = filteredMessages[index];
+                        final String otherUserId =
+                            message.senderId == authState.user?.id
+                                ? message.receiverId
+                                : message.senderId;
+
+                        return StreamBuilder<Either<AuthFailure, UserAccount>>(
+                          stream: ref
+                              .read(authControllerService.notifier)
+                              .getUserDataStream(otherUserId),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<Either<AuthFailure, UserAccount>>
+                                  snapshot) {
+                            if (!snapshot.hasData) {
+                              return const SizedBox.shrink();
+                            }
+
+                            return snapshot.data!.fold(
+                              (AuthFailure failure) => const SizedBox.shrink(),
+                              (UserAccount otherUser) {
+                                if (searchQuery.value.isNotEmpty &&
+                                    !otherUser.name!.toLowerCase().contains(
+                                        searchQuery.value.toLowerCase())) {
+                                  return const SizedBox.shrink();
+                                }
+
+                                return ConversationList(
+                                  name: otherUser.name ?? 'No Name',
+                                  messageText: message.content,
+                                  number: otherUser.phoneNumber ?? '',
+                                  imageUrl: otherUser.profileImg ?? '',
+                                  time: message.createdAt ?? DateTime.now(),
+                                  isMessageRead: message.isRead,
+                                  recipientId: otherUserId,
+                                  isSender:
+                                      message.senderId == authState.user?.id,
+                                  isOnline: otherUser.onlineStatus ?? false,
+                                  isVerified: otherUser.emailVerified != null &&
+                                      otherUser.validIdVerified != null,
+                                  onTap: () {
+                                    CustomRouter.navigateToWithTransition(
+                                      MessageDetailScreen(
+                                        name: otherUser.name ?? 'No Name',
+                                        number: otherUser.phoneNumber ?? '',
+                                        image: otherUser.profileImg ?? '',
+                                        recipientId: otherUserId,
+                                      ),
+                                      'rightToLeftWithFade',
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -14,7 +14,6 @@ export 'models/marker.dart';
 export 'models/booking_state.dart';
 export 'models/booking.dart';
 
-export 'models/babysitter_ratings.dart';
 export 'models/payment_method.dart';
 export 'models/notification.dart';
 

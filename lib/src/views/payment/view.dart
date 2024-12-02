@@ -1,4 +1,5 @@
 import 'package:babysitterapp/src/controllers/booking_controller.dart';
+import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/services/toast.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -105,35 +106,38 @@ class CheckoutScreen extends HookConsumerWidget {
         title: const Text('Checkout'),
         centerTitle: true,
       ),
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverPadding(
-              padding: const EdgeInsets.all(16.0),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(<Widget>[
-                  const Text(
-                    'Payment Method',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+      body: VerificationGuard(
+        user: ref.watch(authControllerService).user,
+        child: SafeArea(
+          child: CustomScrollView(
+            slivers: <Widget>[
+              SliverPadding(
+                padding: const EdgeInsets.all(16.0),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate(<Widget>[
+                    const Text(
+                      'Payment Method',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  ...paymentMethods
-                      .map((PaymentMethodOption method) => PaymentMethodCard(
-                            method: method,
-                            isSelected: selectedMethod == method.method,
-                            onTap: () => ref
-                                .read(selectedPaymentMethodService.notifier)
-                                .state = method.method,
-                          )),
-                  const SizedBox(height: 24),
-                  PaymentSummary(totalAmount: totalAmount),
-                ]),
+                    const SizedBox(height: 16),
+                    ...paymentMethods
+                        .map((PaymentMethodOption method) => PaymentMethodCard(
+                              method: method,
+                              isSelected: selectedMethod == method.method,
+                              onTap: () => ref
+                                  .read(selectedPaymentMethodService.notifier)
+                                  .state = method.method,
+                            )),
+                    const SizedBox(height: 24),
+                    PaymentSummary(totalAmount: totalAmount),
+                  ]),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: CheckoutBottomBar(

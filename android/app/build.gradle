@@ -5,12 +5,12 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
-// TODO(Vustron): Uncomment if the app is signed and has keystore
-// def keystoreProperties = new Properties()
-// def keystorePropertiesFile = rootProject.file("key.properties")
-// if (keystorePropertiesFile.exists()) {
-//     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-// }
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 android {
     namespace = "com.it415bsit4c.babysitterapp"
@@ -34,22 +34,24 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
-
-    // TODO(Vustron): Add signing config for the release build.
-    buildTypes {
-        // release {
-        //     keyAlias keystoreProperties['keyAlias']
-        //     keyPassword keystoreProperties['keyPassword']
-        //     storeFile file(keystoreProperties['storeFile'])
-        //     storePassword keystoreProperties['storePassword']
-        // }
+    
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
         
-        // debug {
-        //     keyAlias keystoreProperties['keyAliasDebug']
-        //     keyPassword keystoreProperties['keyPasswordDebug']
-        //     storeFile file(keystoreProperties['storeFileDebug'])
-        //     storePassword keystoreProperties['storePasswordDebug']
-        // }
+        debug {
+            keyAlias keystoreProperties['keyAliasDebug']
+            keyPassword keystoreProperties['keyPasswordDebug']
+            storeFile file(keystoreProperties['storeFileDebug'])
+            storePassword keystoreProperties['storePasswordDebug']
+        }
+    }
+
+    buildTypes {
         release {
             signingConfig = signingConfigs.debug
         }

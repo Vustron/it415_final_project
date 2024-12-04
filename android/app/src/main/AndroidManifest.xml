@@ -19,7 +19,7 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:label="Babysitter"
+        android:label="Babycare"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -28,7 +28,6 @@ class HomeView extends HookConsumerWidget with GlobalStyles {
             ? homeViewTitle(currentUser.user)
             : const Text('Dashboard', style: TextStyle(fontSize: 30)),
         actions: <Widget>[
-          if (currentUser.user?.role == 'Client')
             IconButton(
               onPressed: () => CustomRouter.navigateToWithTransition(
                 SettingsView(),

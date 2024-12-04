@@ -1,14 +1,24 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 
 import 'package:babysitterapp/src/components.dart';
 
-Widget searchButtons(TextEditingController searchTxt) => CustomTextInput(
+final StateProvider<String> searchQueryProvider =
+    StateProvider<String>((StateProviderRef<String> ref) => '');
+
+Widget searchButtons(TextEditingController searchTxt, WidgetRef ref) =>
+    CustomTextInput(
       controller: searchTxt,
-      onChanged: (String value) {},
-      onClear: () {},
+      onChanged: (String value) {
+        ref.read(searchQueryProvider.notifier).state = value.toLowerCase();
+      },
+      onClear: () {
+        searchTxt.clear();
+        ref.read(searchQueryProvider.notifier).state = '';
+      },
       prefixIcon: const Icon(Icons.search),
-      hintText: 'Search...',
+      hintText: 'Search babysitter name...',
       fieldLabel: 'Search...',
-      textInputAction: TextInputAction.next,
+      textInputAction: TextInputAction.search,
       fillColor: Colors.white,
     );

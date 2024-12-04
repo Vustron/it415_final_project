@@ -8,12 +8,10 @@ import 'package:babysitterapp/src/providers.dart';
 class MarkerIcon extends HookWidget {
   const MarkerIcon({
     super.key,
-    required this.images,
     required this.color,
     required this.markerData,
   });
 
-  final String images;
   final Color color;
   final MarkerData markerData;
 
@@ -37,6 +35,7 @@ class MarkerIcon extends HookWidget {
 
       return GestureDetector(
         onTap: () {
+          if (markerData.role == 'client') return;
           ref.read(selectedMarkerService.notifier).state =
               isSelected ? null : markerData;
         },
@@ -72,24 +71,19 @@ class MarkerIcon extends HookWidget {
                 color: isSelected ? Colors.blue : color,
                 shape: BoxShape.circle,
                 border: isSelected
-                    ? Border.all(
-                        color: Colors.white,
-                        width: 2,
-                      )
+                    ? Border.all(color: Colors.white, width: 2)
                     : null,
               ),
               child: ClipOval(
-                child: Container(
-                  width: 20,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: AssetImage(images),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
+                child: markerData.user.profileImg != null
+                    ? Image.network(
+                        markerData.user.profileImg!,
+                        fit: BoxFit.cover,
+                        errorBuilder: (BuildContext context, Object error,
+                                StackTrace? stackTrace) =>
+                            const Icon(Icons.person),
+                      )
+                    : const Icon(Icons.person),
               ),
             ),
           ],

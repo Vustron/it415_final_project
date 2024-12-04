@@ -7,10 +7,9 @@ import 'package:babysitterapp/src/views.dart';
 Marker markerWidget(MarkerData markerData, Color color) {
   return Marker(
     point: markerData.position,
-    height: 60, 
-    width: 60, 
+    height: 60,
+    width: 60,
     child: MarkerIcon(
-      images: markerData.image,
       color: color,
       markerData: markerData,
     ),

@@ -7,6 +7,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:babysitterapp/src/constants.dart';
 import 'package:babysitterapp/src/helpers.dart';
 import 'package:babysitterapp/src/models.dart';
+import 'package:babysitterapp/src/views.dart';
 
 class SelectedMarkerSheet extends HookConsumerWidget with GlobalStyles {
   SelectedMarkerSheet({
@@ -49,6 +50,58 @@ class SelectedMarkerSheet extends HookConsumerWidget with GlobalStyles {
       return null;
     }, <Object?>[]);
 
+    Widget buildInfoRow(String label, String? value) {
+      if (value == null) return const SizedBox.shrink();
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              width: 100,
+              child: Text(
+                label,
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Text(
+                value,
+                style: const TextStyle(fontWeight: FontWeight.w500),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    Widget buildChipList(String label, List<String>? items) {
+      if (items == null || items.isEmpty) return const SizedBox.shrink();
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            label,
+            style: const TextStyle(
+              color: Colors.grey,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children:
+                items.map((String item) => Chip(label: Text(item))).toList(),
+          ),
+          const SizedBox(height: 16),
+        ],
+      );
+    }
+
     return Transform.translate(
       offset: Offset(0, 200 * (1 - slideAnimation)),
       child: FadeTransition(
@@ -80,21 +133,29 @@ class SelectedMarkerSheet extends HookConsumerWidget with GlobalStyles {
               AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.easeInOut,
-                height: isExpanded.value ? 400 : 200,
+                height: isExpanded.value ? 600 : 200,
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(20),
                   physics: const BouncingScrollPhysics(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+                      // Profile Section
                       Row(
                         children: <Widget>[
                           Hero(
-                            tag: 'marker_${markerData.image}',
+                            tag: 'marker_${markerData.user.profileImg}',
                             child: CircleAvatar(
                               radius: 30,
-                              backgroundImage: AssetImage(markerData.image),
                               backgroundColor: Colors.grey[200],
+                              backgroundImage: markerData.user.profileImg !=
+                                      null
+                                  ? NetworkImage(markerData.user.profileImg!)
+                                  : null,
+                              child: markerData.user.profileImg == null
+                                  ? const Icon(Icons.person,
+                                      size: 30, color: Colors.grey)
+                                  : null,
                             ),
                           ),
                           const SizedBox(width: 16),
@@ -102,37 +163,30 @@ class SelectedMarkerSheet extends HookConsumerWidget with GlobalStyles {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                const Text(
-                                  'Jane Doe',
-                                  style: TextStyle(
+                                Text(
+                                  markerData.user.name ?? 'Anonymous',
+                                  style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Row(
-                                  children: <Widget>[
-                                    const Icon(
-                                      FluentIcons.star_24_filled,
-                                      size: 16,
-                                      color: Colors.amber,
+                                if (markerData.user.hourlyRate != null)
+                                  Text(
+                                    '₱${markerData.user.hourlyRate}/hr',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: GlobalStyles.primaryButtonColor,
+                                      fontWeight: FontWeight.w600,
                                     ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      '4.8',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey[600],
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
                               ],
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 20),
+
+                      // Location Info
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
@@ -160,78 +214,155 @@ class SelectedMarkerSheet extends HookConsumerWidget with GlobalStyles {
                           ],
                         ),
                       ),
+
                       if (isExpanded.value) ...<Widget>[
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 24),
+
                         const Text(
-                          'About',
+                          'Basic Information',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Experienced babysitter with 5 years of experience caring for children of all ages. CPR certified and first aid trained.',
+                        const SizedBox(height: 16),
+                        buildInfoRow('Experience',
+                            markerData.user.babysittingExperience),
+                        buildInfoRow('Gender', markerData.user.gender),
+                        buildInfoRow('Languages',
+                            markerData.user.languagesSpeak?.join(', ')),
+
+                        const SizedBox(height: 24),
+
+                        // Experience Section
+                        const Text(
+                          'Experience & Preferences',
                           style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[600],
-                            height: 1.5,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 16),
+                        buildChipList(
+                            'Age Groups', markerData.user.experienceWithAges),
+                        buildChipList('Comfortable With',
+                            markerData.user.comfortableWith),
+                        buildChipList('Preferred Locations',
+                            markerData.user.preferredBabysittingLocation),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'Availability',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        buildChipList(
+                            'Available On', markerData.user.availability),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'Additional Information',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        buildInfoRow(
+                            "Has Driver's License",
+                            markerData.user.hasDrivingLicense ?? true
+                                ? 'Yes'
+                                : 'No'),
+                        buildInfoRow('Has Car',
+                            markerData.user.hasCar ?? true ? 'Yes' : 'No'),
+                        buildInfoRow('Has Children',
+                            markerData.user.hasChildren ?? true ? 'Yes' : 'No'),
+                        buildInfoRow('Smoker',
+                            markerData.user.isSmoker ?? true ? 'Yes' : 'No'),
+                      ],
+
+                      const SizedBox(height: 20),
+
+                      if (!isExpanded.value) ...<Widget>[
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            _buildStat(
-                              FluentIcons.heart_24_regular,
-                              '50+',
-                              'Happy Clients',
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () => isExpanded.value = true,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      GlobalStyles.primaryButtonColor,
+                                  foregroundColor: Colors.white,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                ),
+                                child: const Text('View Profile'),
+                              ),
                             ),
-                            _buildStat(
-                              FluentIcons.clock_24_regular,
-                              '200+',
-                              'Hours',
+                          ],
+                        ),
+                      ] else ...<Widget>[
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: OutlinedButton(
+                                onPressed: () => isExpanded.value = false,
+                                style: OutlinedButton.styleFrom(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                ),
+                                child: const Text('Show Less'),
+                              ),
                             ),
-                            _buildStat(
-                              FluentIcons.calendar_24_regular,
-                              '2 yrs',
-                              'Experience',
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  final String phoneNumber =
+                                      markerData.user.phoneNumber ?? '';
+                                  final String name =
+                                      markerData.user.name ?? 'Anonymous';
+                                  final String image =
+                                      markerData.user.profileImg ?? '';
+                                  final String userId =
+                                      markerData.user.id ?? '';
+
+                                  if (userId.isEmpty) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content:
+                                            Text('Cannot message this user'),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                    return;
+                                  }
+
+                                  CustomRouter.navigateToWithTransition(
+                                    MessageDetailScreen(
+                                      name: name,
+                                      number: phoneNumber,
+                                      image: image,
+                                      recipientId: userId,
+                                    ),
+                                    'fade',
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      GlobalStyles.primaryButtonColor,
+                                  foregroundColor: Colors.white,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                ),
+                                child: const Text('Message'),
+                              ),
                             ),
                           ],
                         ),
                       ],
-                      const SizedBox(height: 20),
-                      Center(
-                        child: TextButton(
-                          onPressed: () => isExpanded.value = !isExpanded.value,
-                          style: TextButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Text(
-                                isExpanded.value ? 'Show less' : 'Show more',
-                                style: const TextStyle(
-                                  color: GlobalStyles.primaryButtonColor,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              const SizedBox(width: 4),
-                              Icon(
-                                isExpanded.value
-                                    ? FluentIcons.chevron_up_24_regular
-                                    : FluentIcons.chevron_down_24_regular,
-                                color: GlobalStyles.primaryButtonColor,
-                                size: 20,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      const SizedBox(height: 50),
                     ],
                   ),
                 ),
@@ -240,29 +371,6 @@ class SelectedMarkerSheet extends HookConsumerWidget with GlobalStyles {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildStat(IconData icon, String value, String label) {
-    return Column(
-      children: <Widget>[
-        Icon(icon, color: GlobalStyles.primaryButtonColor),
-        const SizedBox(height: 4),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[600],
-          ),
-        ),
-      ],
     );
   }
 }

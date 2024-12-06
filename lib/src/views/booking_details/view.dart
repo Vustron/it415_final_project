@@ -26,6 +26,25 @@ class BookingDetailsView extends HookConsumerWidget {
     final UserAccount? currentUser = ref.watch(authControllerService).user;
     final Toast toast = ref.watch(toastService);
 
+    Future<void> handleRefresh() async {
+      try {
+        await ref
+            .read(bookingControllerService.notifier)
+            .getBooking(booking?.id ?? '');
+
+        await Future<void>.delayed(const Duration(milliseconds: 500));
+      } catch (e) {
+        if (context.mounted) {
+          toast.show(
+            context: context,
+            title: 'Error',
+            message: 'Failed to refresh: $e',
+            type: 'error',
+          );
+        }
+      }
+    }
+
     Future<void> handleStatusUpdate(String newStatus) async {
       try {
         isLoading.value = true;
@@ -156,6 +175,7 @@ class BookingDetailsView extends HookConsumerWidget {
               await ref.read(ratingControllerService.notifier).createRating(
                     parentId: currentUser?.id ?? '',
                     babysitterId: booking?.babysitterId ?? '',
+                    bookingId: booking?.id ?? '',
                     rating: rating,
                     comment: comment,
                   );
@@ -194,6 +214,7 @@ class BookingDetailsView extends HookConsumerWidget {
             ref.watch(ratingControllerService.notifier).getRatingsForBooking(
                   parentId: currentUser?.id ?? '',
                   babysitterId: booking?.babysitterId ?? '',
+                  bookingId: booking?.id ?? '',
                 ),
         builder: (BuildContext context, AsyncSnapshot<List<Rating>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -390,165 +411,171 @@ class BookingDetailsView extends HookConsumerWidget {
       ),
       body: VerificationGuard(
         user: currentUser,
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                buildStatusBadge(),
-                const SizedBox(height: 16),
-                dataCard(
-                  title: 'Booking Summary',
-                  icon: FluentIcons.calendar_ltr_24_filled,
-                  children: <Widget>[
-                    dataDetails(
-                      icon: FluentIcons.people_24_regular,
-                      label: 'Children',
-                      value: booking?.numberOfChildren.toString() ?? '',
-                    ),
-                    dataDetails(
-                      icon: FluentIcons.calendar_24_regular,
-                      label: 'Date',
-                      value: DateFormat('MMM dd, yyyy')
-                          .format(booking?.workingDate ?? DateTime.now()),
-                    ),
-                    dataDetails(
-                      icon: FluentIcons.clock_24_regular,
-                      label: 'Time',
-                      value:
-                          '${booking?.startTime ?? ''} - ${booking?.endTime ?? ''}',
-                    ),
-                    dataDetails(
-                      icon: FluentIcons.home_24_regular,
-                      label: 'Stay in',
-                      value: booking?.stayIn ?? true ? 'Yes' : 'No',
-                    ),
-                    const Divider(height: 32),
-                    dataDetails(
-                      icon: FluentIcons.money_24_regular,
-                      label: 'Total Cost',
-                      value: NumberFormat.currency(
-                        symbol: '₱',
-                        decimalDigits: 2,
-                      ).format(double.tryParse(booking?.totalCost ?? '0') ?? 0),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                dataCard(
-                  title: 'Location Details',
-                  icon: FluentIcons.location_24_filled,
-                  children: <Widget>[
-                    dataDetails(
-                      icon: FluentIcons.map_24_regular,
-                      label: 'Address',
-                      value: booking?.address ?? '',
-                    ),
-                    dataDetails(
-                      icon: FluentIcons.location_24_regular,
-                      label: 'Coordinates',
-                      value:
-                          '${booking?.addressLatitude ?? ''}, ${booking?.addressLongitude ?? ''}',
-                    ),
-                    if (booking?.addressLatitude != null &&
-                        booking?.addressLongitude != null) ...<Widget>[
-                      Divider(color: Colors.grey[300]),
-                      const SizedBox(height: 16),
-                      LocationPreview(
-                        latitude: double.parse(booking!.addressLatitude),
-                        longitude: double.parse(booking!.addressLongitude),
-                        hideTitle: true,
+        child: RefreshIndicator(
+          onRefresh: handleRefresh,
+          color: GlobalStyles.primaryButtonColor,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  buildStatusBadge(),
+                  const SizedBox(height: 16),
+                  dataCard(
+                    title: 'Booking Summary',
+                    icon: FluentIcons.calendar_ltr_24_filled,
+                    children: <Widget>[
+                      dataDetails(
+                        icon: FluentIcons.people_24_regular,
+                        label: 'Children',
+                        value: booking?.numberOfChildren.toString() ?? '',
+                      ),
+                      dataDetails(
+                        icon: FluentIcons.calendar_24_regular,
+                        label: 'Date',
+                        value: DateFormat('MMM dd, yyyy')
+                            .format(booking?.workingDate ?? DateTime.now()),
+                      ),
+                      dataDetails(
+                        icon: FluentIcons.clock_24_regular,
+                        label: 'Time',
+                        value:
+                            '${booking?.startTime ?? ''} - ${booking?.endTime ?? ''}',
+                      ),
+                      dataDetails(
+                        icon: FluentIcons.home_24_regular,
+                        label: 'Stay in',
+                        value: booking?.stayIn ?? true ? 'Yes' : 'No',
+                      ),
+                      const Divider(height: 32),
+                      dataDetails(
+                        icon: FluentIcons.money_24_regular,
+                        label: 'Total Cost',
+                        value: NumberFormat.currency(
+                          symbol: '₱',
+                          decimalDigits: 2,
+                        ).format(
+                            double.tryParse(booking?.totalCost ?? '0') ?? 0),
                       ),
                     ],
-                  ],
-                ),
-                const SizedBox(height: 16),
-                buildPaymentSection(),
-                const SizedBox(height: 16),
-                dataCard(
-                  title: 'Additional Information',
-                  icon: FluentIcons.info_24_filled,
-                  children: <Widget>[
-                    dataDetails(
-                      icon: FluentIcons.text_description_24_regular,
-                      label: 'Details',
-                      value: booking?.details ?? '',
-                    ),
-                  ],
-                ),
-                if (booking?.status == 'pending') ...<Widget>[
-                  const SizedBox(height: 24),
-                  MouseRegion(
-                    onEnter: (_) => buttonScale.value = 0.98,
-                    onExit: (_) => buttonScale.value = 1.0,
-                    child: AnimatedScale(
-                      scale: buttonScale.value,
-                      duration: const Duration(milliseconds: 150),
-                      child: ElevatedButton(
-                        onPressed: isLoading.value
-                            ? null
-                            : () async {
-                                isLoading.value = true;
-                                final bool? confirm = await showDialog<bool>(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      confirmationDialog(context),
-                                );
-                                isLoading.value = false;
-
-                                if (confirm ?? false) {
-                                  if (!context.mounted) return;
-                                  CustomRouter.navigateToWithTransition(
-                                    CheckoutScreen(booking: booking),
-                                    'fade',
-                                  );
-                                }
-                              },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          backgroundColor: GlobalStyles.primaryButtonColor,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
+                  ),
+                  const SizedBox(height: 16),
+                  dataCard(
+                    title: 'Location Details',
+                    icon: FluentIcons.location_24_filled,
+                    children: <Widget>[
+                      dataDetails(
+                        icon: FluentIcons.map_24_regular,
+                        label: 'Address',
+                        value: booking?.address ?? '',
+                      ),
+                      dataDetails(
+                        icon: FluentIcons.location_24_regular,
+                        label: 'Coordinates',
+                        value:
+                            '${booking?.addressLatitude ?? ''}, ${booking?.addressLongitude ?? ''}',
+                      ),
+                      if (booking?.addressLatitude != null &&
+                          booking?.addressLongitude != null) ...<Widget>[
+                        Divider(color: Colors.grey[300]),
+                        const SizedBox(height: 16),
+                        LocationPreview(
+                          latitude: double.parse(booking!.addressLatitude),
+                          longitude: double.parse(booking!.addressLongitude),
+                          hideTitle: true,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            if (isLoading.value)
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.white.withOpacity(0.8),
+                      ],
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  buildPaymentSection(),
+                  const SizedBox(height: 16),
+                  dataCard(
+                    title: 'Additional Information',
+                    icon: FluentIcons.info_24_filled,
+                    children: <Widget>[
+                      dataDetails(
+                        icon: FluentIcons.text_description_24_regular,
+                        label: 'Details',
+                        value: booking?.details ?? '',
+                      ),
+                    ],
+                  ),
+                  if (booking?.status == 'pending' &&
+                      currentUser?.role == 'Client') ...<Widget>[
+                    const SizedBox(height: 24),
+                    MouseRegion(
+                      onEnter: (_) => buttonScale.value = 0.98,
+                      onExit: (_) => buttonScale.value = 1.0,
+                      child: AnimatedScale(
+                        scale: buttonScale.value,
+                        duration: const Duration(milliseconds: 150),
+                        child: ElevatedButton(
+                          onPressed: isLoading.value
+                              ? null
+                              : () async {
+                                  isLoading.value = true;
+                                  final bool? confirm = await showDialog<bool>(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        confirmationDialog(context),
+                                  );
+                                  isLoading.value = false;
+
+                                  if (confirm ?? false) {
+                                    if (!context.mounted) return;
+                                    CustomRouter.navigateToWithTransition(
+                                      CheckoutScreen(booking: booking),
+                                      'fade',
+                                    );
+                                  }
+                                },
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            backgroundColor: GlobalStyles.primaryButtonColor,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              if (isLoading.value)
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white.withOpacity(0.8),
+                                      ),
                                     ),
                                   ),
                                 ),
+                              Text(
+                                isLoading.value
+                                    ? 'Processing...'
+                                    : 'Confirm Booking',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            Text(
-                              isLoading.value
-                                  ? 'Processing...'
-                                  : 'Confirm Booking',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
+                  buildRatingSection(),
+                  const SizedBox(height: 50),
                 ],
-                buildRatingSection(),
-                const SizedBox(height: 50),
-              ],
+              ),
             ),
           ),
         ),

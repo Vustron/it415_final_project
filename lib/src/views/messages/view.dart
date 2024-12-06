@@ -101,6 +101,12 @@ class MessageView extends HookConsumerWidget with GlobalStyles {
       return messages;
     }, <Object?>[groupedMessages, searchQuery.value]);
 
+    Future<void> handleRefresh() async {
+      ref.read(messagesCacheProvider.notifier).updateMessages('', <Message>[]);
+      messageController.refreshMessages();
+      await Future<void>.delayed(const Duration(milliseconds: 500));
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -161,91 +167,98 @@ class MessageView extends HookConsumerWidget with GlobalStyles {
               ),
               const SizedBox(height: 5),
               Expanded(
-                child: Builder(
-                  builder: (BuildContext context) {
-                    if (messagesSnapshot.connectionState ==
-                        ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: GlobalStyles.primaryButtonColor,
-                        ),
-                      );
-                    }
-
-                    if (messagesSnapshot.hasError) {
-                      return Center(
-                        child: Text('Error: ${messagesSnapshot.error}'),
-                      );
-                    }
-
-                    if (filteredMessages.isEmpty) {
-                      return const Center(
-                        child: Text('No messages yet'),
-                      );
-                    }
-
-                    return ListView.builder(
-                      itemCount: filteredMessages.length,
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      itemBuilder: (BuildContext context, int index) {
-                        final Message message = filteredMessages[index];
-                        final String otherUserId =
-                            message.senderId == authState.user?.id
-                                ? message.receiverId
-                                : message.senderId;
-
-                        return StreamBuilder<Either<AuthFailure, UserAccount>>(
-                          stream: ref
-                              .read(authControllerService.notifier)
-                              .getUserDataStream(otherUserId),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<Either<AuthFailure, UserAccount>>
-                                  snapshot) {
-                            if (!snapshot.hasData) {
-                              return const SizedBox.shrink();
-                            }
-
-                            return snapshot.data!.fold(
-                              (AuthFailure failure) => const SizedBox.shrink(),
-                              (UserAccount otherUser) {
-                                if (searchQuery.value.isNotEmpty &&
-                                    !otherUser.name!.toLowerCase().contains(
-                                        searchQuery.value.toLowerCase())) {
-                                  return const SizedBox.shrink();
-                                }
-
-                                return ConversationList(
-                                  name: otherUser.name ?? 'No Name',
-                                  messageText: message.content,
-                                  number: otherUser.phoneNumber ?? '',
-                                  imageUrl: otherUser.profileImg ?? '',
-                                  time: message.createdAt ?? DateTime.now(),
-                                  isMessageRead: message.isRead,
-                                  recipientId: otherUserId,
-                                  isSender:
-                                      message.senderId == authState.user?.id,
-                                  isOnline: otherUser.onlineStatus ?? false,
-                                  isVerified: otherUser.emailVerified != null &&
-                                      otherUser.validIdVerified != null,
-                                  onTap: () {
-                                    CustomRouter.navigateToWithTransition(
-                                      MessageDetailScreen(
-                                        name: otherUser.name ?? 'No Name',
-                                        number: otherUser.phoneNumber ?? '',
-                                        image: otherUser.profileImg ?? '',
-                                        recipientId: otherUserId,
-                                      ),
-                                      'rightToLeftWithFade',
-                                    );
-                                  },
-                                );
-                              },
-                            );
-                          },
+                child: RefreshIndicator(
+                  onRefresh: handleRefresh,
+                  color: GlobalStyles.primaryButtonColor,
+                  child: Builder(
+                    builder: (BuildContext context) {
+                      if (messagesSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: GlobalStyles.primaryButtonColor,
+                          ),
                         );
-                      },
-                    );
-                  },
+                      }
+
+                      if (messagesSnapshot.hasError) {
+                        return Center(
+                          child: Text('Error: ${messagesSnapshot.error}'),
+                        );
+                      }
+
+                      if (filteredMessages.isEmpty) {
+                        return const Center(
+                          child: Text('No messages yet'),
+                        );
+                      }
+
+                      return ListView.builder(
+                        itemCount: filteredMessages.length,
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        itemBuilder: (BuildContext context, int index) {
+                          final Message message = filteredMessages[index];
+                          final String otherUserId =
+                              message.senderId == authState.user?.id
+                                  ? message.receiverId
+                                  : message.senderId;
+
+                          return StreamBuilder<
+                              Either<AuthFailure, UserAccount>>(
+                            stream: ref
+                                .read(authControllerService.notifier)
+                                .getUserDataStream(otherUserId),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<Either<AuthFailure, UserAccount>>
+                                    snapshot) {
+                              if (!snapshot.hasData) {
+                                return const SizedBox.shrink();
+                              }
+
+                              return snapshot.data!.fold(
+                                (AuthFailure failure) =>
+                                    const SizedBox.shrink(),
+                                (UserAccount otherUser) {
+                                  if (searchQuery.value.isNotEmpty &&
+                                      !otherUser.name!.toLowerCase().contains(
+                                          searchQuery.value.toLowerCase())) {
+                                    return const SizedBox.shrink();
+                                  }
+
+                                  return ConversationList(
+                                    name: otherUser.name ?? 'No Name',
+                                    messageText: message.content,
+                                    number: otherUser.phoneNumber ?? '',
+                                    imageUrl: otherUser.profileImg ?? '',
+                                    time: message.createdAt ?? DateTime.now(),
+                                    isMessageRead: message.isRead,
+                                    recipientId: otherUserId,
+                                    isSender:
+                                        message.senderId == authState.user?.id,
+                                    isOnline: otherUser.onlineStatus ?? false,
+                                    isVerified:
+                                        otherUser.emailVerified != null &&
+                                            otherUser.validIdVerified != null,
+                                    onTap: () {
+                                      CustomRouter.navigateToWithTransition(
+                                        MessageDetailScreen(
+                                          name: otherUser.name ?? 'No Name',
+                                          number: otherUser.phoneNumber ?? '',
+                                          image: otherUser.profileImg ?? '',
+                                          recipientId: otherUserId,
+                                        ),
+                                        'rightToLeftWithFade',
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
               ),
             ],

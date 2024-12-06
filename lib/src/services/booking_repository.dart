@@ -79,4 +79,23 @@ class BookingRepository {
       return left(BookingFailure('Failed to update booking status: $e'));
     }
   }
+
+  Future<Either<BookingFailure, Booking>> getBooking(String bookingId) async {
+    try {
+      _logger.info('Fetching booking: $bookingId');
+
+      final DocumentSnapshot<Map<String, dynamic>> doc =
+          await _firestore.collection('bookings').doc(bookingId).get();
+
+      if (!doc.exists) {
+        return left(BookingFailure('Booking not found'));
+      }
+
+      return right(
+          Booking.fromJson(<String, dynamic>{...doc.data()!, 'id': doc.id}));
+    } catch (e, stack) {
+      _logger.error('Failed to fetch booking', e, stack);
+      return left(BookingFailure('Failed to fetch booking: $e'));
+    }
+  }
 }

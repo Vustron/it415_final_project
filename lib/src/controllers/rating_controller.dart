@@ -12,6 +12,7 @@ class RatingController extends StateNotifier<RatingState> {
   Future<void> createRating({
     required String parentId,
     required String babysitterId,
+    required String bookingId,
     required double rating,
     String? comment,
   }) async {
@@ -22,6 +23,7 @@ class RatingController extends StateNotifier<RatingState> {
       final Rating newRating = Rating(
         parentId: parentId,
         babysitterId: babysitterId,
+        bookingId: bookingId,
         rating: rating,
         comment: comment,
         createdAt: DateTime.now(),
@@ -52,11 +54,14 @@ class RatingController extends StateNotifier<RatingState> {
   Stream<List<Rating>> getRatingsForBooking({
     required String parentId,
     required String babysitterId,
+    required String bookingId,
   }) {
-    return ratingRepo.getRatingsStream(babysitterId).map(
-        (List<Rating> ratings) => ratings
-            .where((Rating rating) => rating.parentId == parentId)
-            .toList());
+        return ratingRepo.getRatingsStream(babysitterId).map(
+          (List<Rating> ratings) => ratings
+              .where((Rating rating) =>
+                  rating.parentId == parentId && rating.bookingId == bookingId)
+              .toList(),
+        );
   }
 
   Stream<List<Rating>> getRatingsStream(String babysitterId) {

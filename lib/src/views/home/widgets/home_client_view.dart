@@ -115,271 +115,293 @@ class HomeClientView extends HookConsumerWidget with GlobalStyles {
       );
     }
 
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          const SizedBox(height: 30),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text(
-                  'Nearby babysitters',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
-                    color: GlobalStyles.primaryButtonColor,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    CustomRouter.navigateToWithTransition(
-                      const AllBabysittersView(),
-                      'rightToLeftWithFade',
-                    );
-                  },
-                  child: const Text(
-                    'See all',
+    Future<void> handleRefresh() async {
+      ref
+          .read(babysittersCacheProvider.notifier)
+          .updateBabysitters(<UserAccount>[]);
+
+      await Future<void>.delayed(const Duration(milliseconds: 500));
+    }
+
+    if (snapshot.connectionState == ConnectionState.waiting &&
+        cachedBabysitters.isEmpty) {
+      return const Center(
+        child: CircularProgressIndicator(
+          color: GlobalStyles.primaryButtonColor,
+        ),
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh: handleRefresh,
+      color: GlobalStyles.primaryButtonColor,
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: <Widget>[
+            const SizedBox(height: 30),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  const Text(
+                    'Nearby babysitters',
                     style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      color: GlobalStyles.primaryButtonColor,
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 5),
-          CarouselSlider.builder(
-            carouselController: carouselController,
-            itemCount: users.length,
-            options: CarouselOptions(
-              height: 100,
-              viewportFraction: 0.8,
-              initialPage: currentIndex.value,
-              enableInfiniteScroll: users.length > 1,
-              autoPlay: true,
-              autoPlayInterval: const Duration(seconds: 5),
-              autoPlayAnimationDuration: const Duration(milliseconds: 1000),
-              autoPlayCurve: Curves.easeInOutCubic,
-              enlargeCenterPage: true,
-              onPageChanged: (int index, CarouselPageChangedReason reason) {
-                if (reason != CarouselPageChangedReason.controller) {
-                  currentIndex.value = index;
-                }
-              },
-            ),
-            itemBuilder: (BuildContext context, int index, int realIndex) {
-              final UserAccount user = users[index];
-              return AnimatedOpacity(
-                duration: const Duration(milliseconds: 300),
-                opacity: currentIndex.value == index ? 1.0 : 0.7,
-                child: Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      leading: CachedAvatar(
-                        imageUrl: user.profileImg,
-                        radius: 25,
-                        showOnlineStatus: true,
-                        isOnline: user.onlineStatus,
-                        showVerificationStatus: true,
-                        isVerified: user.emailVerified != null &&
-                            user.validIdVerified != null,
+                  TextButton(
+                    onPressed: () {
+                      CustomRouter.navigateToWithTransition(
+                        const AllBabysittersView(),
+                        'rightToLeftWithFade',
+                      );
+                    },
+                    child: const Text(
+                      'See all',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
-                      title: Text(
-                        user.name ?? 'No Name',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 5),
+            CarouselSlider.builder(
+              carouselController: carouselController,
+              itemCount: users.length,
+              options: CarouselOptions(
+                height: 100,
+                viewportFraction: 0.8,
+                initialPage: currentIndex.value,
+                enableInfiniteScroll: users.length > 1,
+                autoPlay: true,
+                autoPlayInterval: const Duration(seconds: 5),
+                autoPlayAnimationDuration: const Duration(milliseconds: 1000),
+                autoPlayCurve: Curves.easeInOutCubic,
+                enlargeCenterPage: true,
+                onPageChanged: (int index, CarouselPageChangedReason reason) {
+                  if (reason != CarouselPageChangedReason.controller) {
+                    currentIndex.value = index;
+                  }
+                },
+              ),
+              itemBuilder: (BuildContext context, int index, int realIndex) {
+                final UserAccount user = users[index];
+                return AnimatedOpacity(
+                  duration: const Duration(milliseconds: 300),
+                  opacity: currentIndex.value == index ? 1.0 : 0.7,
+                  child: Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        leading: CachedAvatar(
+                          imageUrl: user.profileImg,
+                          radius: 25,
+                          showOnlineStatus: true,
+                          isOnline: user.onlineStatus,
+                          showVerificationStatus: true,
+                          isVerified: user.emailVerified != null &&
+                              user.validIdVerified != null,
                         ),
-                      ),
-                      subtitle: Text(
-                        user.address ?? 'No Address',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      trailing: IconButton(
-                        icon: const Icon(
-                          Icons.message_rounded,
-                          color: GlobalStyles.primaryButtonColor,
+                        title: Text(
+                          user.name ?? 'No Name',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
-                        onPressed: () {
-                          CustomRouter.navigateToWithTransition(
-                            MessageDetailScreen(
-                              name: user.name ?? 'No Name',
-                              number: user.phoneNumber ?? '',
-                              image: user.profileImg ?? '',
-                              recipientId: user.id ?? '',
-                            ),
-                            'rightToLeftWithFade',
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children:
-                users.asMap().entries.map((MapEntry<int, UserAccount> entry) {
-              return GestureDetector(
-                onTap: () => carouselController.animateToPage(
-                  entry.key,
-                  duration: const Duration(milliseconds: 800),
-                  curve: Curves.easeInOut,
-                ),
-                child: Container(
-                  width: 8.0,
-                  height: 8.0,
-                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: GlobalStyles.primaryButtonColor.withOpacity(
-                      currentIndex.value == entry.key ? 0.9 : 0.4,
-                    ),
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-          const SizedBox(height: 20),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40),
-            child: Divider(thickness: 1.0),
-          ),
-          const SizedBox(height: 20),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
-            child: Row(
-              children: <Widget>[
-                Icon(
-                  Icons.lightbulb,
-                  color: GlobalStyles.primaryButtonColor,
-                  size: 24,
-                ),
-                SizedBox(width: 8),
-                Text(
-                  'Babysitting Tips',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
-                    color: GlobalStyles.primaryButtonColor,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          CarouselSlider.builder(
-            carouselController: adviceController,
-            itemCount: babysittingAdvice.length,
-            options: CarouselOptions(
-              height: 180,
-              viewportFraction: 0.8,
-              initialPage: adviceIndex.value,
-              enableInfiniteScroll: true,
-              autoPlay: true,
-              autoPlayInterval: const Duration(seconds: 6),
-              autoPlayAnimationDuration: const Duration(milliseconds: 1000),
-              autoPlayCurve: Curves.easeInOutCubic,
-              enlargeCenterPage: true,
-              onPageChanged: (int index, CarouselPageChangedReason reason) {
-                if (reason != CarouselPageChangedReason.controller) {
-                  adviceIndex.value = index;
-                }
-              },
-            ),
-            itemBuilder: (BuildContext context, int index, int realIndex) {
-              final Map<String, dynamic> advice = babysittingAdvice[index];
-              return AnimatedOpacity(
-                duration: const Duration(milliseconds: 300),
-                opacity: adviceIndex.value == index ? 1.0 : 0.7,
-                child: Card(
-                  elevation: 4,
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            advice['icon'] as IconData,
+                        subtitle: Text(
+                          user.address ?? 'No Address',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        trailing: IconButton(
+                          icon: const Icon(
+                            Icons.message_rounded,
                             color: GlobalStyles.primaryButtonColor,
-                            size: 32,
                           ),
-                          const SizedBox(height: 12),
-                          Text(
-                            advice['title'] as String,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: GlobalStyles.primaryButtonColor,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            advice['description'] as String,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[800],
-                            ),
-                          ),
-                        ],
+                          onPressed: () {
+                            CustomRouter.navigateToWithTransition(
+                              MessageDetailScreen(
+                                name: user.name ?? 'No Name',
+                                number: user.phoneNumber ?? '',
+                                image: user.profileImg ?? '',
+                                recipientId: user.id ?? '',
+                              ),
+                              'rightToLeftWithFade',
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: babysittingAdvice
-                .asMap()
-                .entries
-                .map((MapEntry<int, Map<String, dynamic>> entry) {
-              return GestureDetector(
-                onTap: () => adviceController.animateToPage(
-                  entry.key,
-                  duration: const Duration(milliseconds: 800),
-                  curve: Curves.easeInOut,
-                ),
-                child: Container(
-                  width: 8.0,
-                  height: 8.0,
-                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: GlobalStyles.primaryButtonColor.withOpacity(
-                      adviceIndex.value == entry.key ? 0.9 : 0.4,
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:
+                  users.asMap().entries.map((MapEntry<int, UserAccount> entry) {
+                return GestureDetector(
+                  onTap: () => carouselController.animateToPage(
+                    entry.key,
+                    duration: const Duration(milliseconds: 800),
+                    curve: Curves.easeInOut,
+                  ),
+                  child: Container(
+                    width: 8.0,
+                    height: 8.0,
+                    margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: GlobalStyles.primaryButtonColor.withOpacity(
+                        currentIndex.value == entry.key ? 0.9 : 0.4,
+                      ),
                     ),
                   ),
-                ),
-              );
-            }).toList(),
-          ),
-          const SizedBox(height: 20),
-        ],
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 40),
+              child: Divider(thickness: 1.0),
+            ),
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.lightbulb,
+                    color: GlobalStyles.primaryButtonColor,
+                    size: 24,
+                  ),
+                  SizedBox(width: 8),
+                  Text(
+                    'Babysitting Tips',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      color: GlobalStyles.primaryButtonColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            CarouselSlider.builder(
+              carouselController: adviceController,
+              itemCount: babysittingAdvice.length,
+              options: CarouselOptions(
+                height: 180,
+                viewportFraction: 0.8,
+                initialPage: adviceIndex.value,
+                enableInfiniteScroll: true,
+                autoPlay: true,
+                autoPlayInterval: const Duration(seconds: 6),
+                autoPlayAnimationDuration: const Duration(milliseconds: 1000),
+                autoPlayCurve: Curves.easeInOutCubic,
+                enlargeCenterPage: true,
+                onPageChanged: (int index, CarouselPageChangedReason reason) {
+                  if (reason != CarouselPageChangedReason.controller) {
+                    adviceIndex.value = index;
+                  }
+                },
+              ),
+              itemBuilder: (BuildContext context, int index, int realIndex) {
+                final Map<String, dynamic> advice = babysittingAdvice[index];
+                return AnimatedOpacity(
+                  duration: const Duration(milliseconds: 300),
+                  opacity: adviceIndex.value == index ? 1.0 : 0.7,
+                  child: Card(
+                    elevation: 4,
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              advice['icon'] as IconData,
+                              color: GlobalStyles.primaryButtonColor,
+                              size: 32,
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              advice['title'] as String,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: GlobalStyles.primaryButtonColor,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              advice['description'] as String,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[800],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: babysittingAdvice
+                  .asMap()
+                  .entries
+                  .map((MapEntry<int, Map<String, dynamic>> entry) {
+                return GestureDetector(
+                  onTap: () => adviceController.animateToPage(
+                    entry.key,
+                    duration: const Duration(milliseconds: 800),
+                    curve: Curves.easeInOut,
+                  ),
+                  child: Container(
+                    width: 8.0,
+                    height: 8.0,
+                    margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: GlobalStyles.primaryButtonColor.withOpacity(
+                        adviceIndex.value == entry.key ? 0.9 : 0.4,
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }

@@ -115,4 +115,32 @@ class BookingController extends StateNotifier<BookingState> {
       ),
     );
   }
+
+  Future<void> getBooking(String bookingId) async {
+    if (state.isLoading) return;
+    state = state.copyWith(isLoading: true);
+
+    try {
+      final Either<BookingFailure, Booking> result =
+          await bookingRepo.getBooking(bookingId);
+
+      result.fold(
+        (BookingFailure failure) => state = state.copyWith(
+          isLoading: false,
+          error: failure.message,
+        ),
+        (Booking booking) => state = state.copyWith(
+          isLoading: false,
+          error: null,
+          booking: booking,
+        ),
+      );
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+      );
+      rethrow;
+    }
+  }
 }

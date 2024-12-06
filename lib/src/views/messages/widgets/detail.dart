@@ -148,12 +148,7 @@ class MessageDetailScreen extends HookConsumerWidget {
             receiverId: recipientId,
             content: messageController.text.trim(),
             createdAt: DateTime.now(),
-            // isRead: false,
           );
-
-          ref
-              .read(messageCacheProvider.notifier)
-              .addMessage(recipientId, newMessage);
 
           await ref.read(messageControllerService.notifier).sendMessage(
                 senderId: newMessage.senderId,
@@ -176,17 +171,12 @@ class MessageDetailScreen extends HookConsumerWidget {
       }
     }
 
-    // useEffect(() {
-    //   if (currentUser?.onlineStatus ?? false) {
-    //     WidgetsBinding.instance.addPostFrameCallback((_) {
-    //       ref.read(messageControllerService.notifier).markMessagesAsRead(
-    //             currentUserId: currentUser?.id ?? '',
-    //             senderId: recipientId,
-    //           );
-    //     });
-    //   }
-    //   return null;
-    // }, <Object?>[messages.value]);
+    Future<void> handleRefresh() async {
+      ref
+          .read(messageCacheProvider.notifier)
+          .updateMessages(recipientId, <Message>[]);
+      await Future<void>.delayed(const Duration(milliseconds: 500));
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -275,42 +265,67 @@ class MessageDetailScreen extends HookConsumerWidget {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: messages.when(
-              data: (List<Message> messagesList) {
-                final List<Message> displayMessages =
-                    messageCache[recipientId] ?? messagesList;
+            child: RefreshIndicator(
+              onRefresh: handleRefresh,
+              color: GlobalStyles.primaryButtonColor,
+              child: messages.when(
+                data: (List<Message> messagesList) {
+                  final List<Message> displayMessages =
+                      messageCache[recipientId] ?? messagesList;
 
-                if (displayMessages.isEmpty) {
-                  return const Center(child: Text('No messages yet'));
-                }
-
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  scrollToBottom();
-                });
-
-                return ListView.builder(
-                  controller: scrollController,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: GlobalStyles.defaultPadding,
-                    vertical: GlobalStyles.defaultPadding,
-                  ),
-                  itemCount: displayMessages.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final Message message = displayMessages[index];
-                    return MessageBubble(
-                      message: message,
-                      isSender: message.senderId == currentUser?.id,
+                  if (displayMessages.isEmpty) {
+                    return ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: const <Widget>[
+                        Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(20),
+                            child: Text('No messages yet'),
+                          ),
+                        ),
+                      ],
                     );
-                  },
-                );
-              },
-              loading: () => const Center(
-                child: CircularProgressIndicator(
-                  color: GlobalStyles.primaryButtonColor,
+                  }
+
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    scrollToBottom();
+                  });
+
+                  return ListView.builder(
+                    controller: scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: GlobalStyles.defaultPadding,
+                      vertical: GlobalStyles.defaultPadding,
+                    ),
+                    itemCount: displayMessages.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final Message message = displayMessages[index];
+                      return MessageBubble(
+                        message: message,
+                        isSender: message.senderId == currentUser?.id,
+                      );
+                    },
+                  );
+                },
+                loading: () => ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: const <Widget>[
+                    Center(
+                      child: CircularProgressIndicator(
+                        color: GlobalStyles.primaryButtonColor,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              error: (Object error, StackTrace stack) => Center(
-                child: Text('Error: $error'),
+                error: (Object error, StackTrace stack) => ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: <Widget>[
+                    Center(
+                      child: Text('Error: $error'),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

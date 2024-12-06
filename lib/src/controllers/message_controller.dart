@@ -12,10 +12,16 @@ class MessageController extends StateNotifier<MessageState> {
   final LoggerService logger;
   StreamSubscription<List<Message>>? _messagesSubscription;
 
+  String? _currentUserId;
+  String? _otherUserId;
+
   void initMessagesStream({
     required String currentUserId,
     required String otherUserId,
   }) {
+    _currentUserId = currentUserId;
+    _otherUserId = otherUserId;
+
     logger.debug('Initializing messages stream');
     _messagesSubscription?.cancel();
 
@@ -40,6 +46,20 @@ class MessageController extends StateNotifier<MessageState> {
           error: error.toString(),
         );
       },
+    );
+  }
+
+  void refreshMessages() {
+    if (_currentUserId == null) {
+      logger.warning('Cannot refresh - stream not initialized');
+      return;
+    }
+
+    logger.debug('Refreshing messages stream');
+
+    initMessagesStream(
+      currentUserId: _currentUserId!,
+      otherUserId: _otherUserId ?? '',
     );
   }
 

@@ -3,6 +3,7 @@ class Rating {
     this.id,
     this.parentId,
     this.babysitterId,
+    this.bookingId,
     this.rating,
     this.comment,
     this.createdAt,
@@ -25,6 +26,7 @@ class Rating {
       id: json['id'] as String?,
       parentId: json['parentId'] as String,
       babysitterId: json['babysitterId'] as String,
+      bookingId: json['bookingId'] as String?,
       rating: parsedRating,
       comment: json['comment'] as String?,
       createdAt: json['createdAt'] != null
@@ -39,6 +41,7 @@ class Rating {
   final String? id;
   final String? parentId;
   final String? babysitterId;
+  final String? bookingId;
   final double? rating;
   final String? comment;
   final DateTime? createdAt;
@@ -48,6 +51,7 @@ class Rating {
         'id': id,
         'parentId': parentId,
         'babysitterId': babysitterId,
+        'bookingId': bookingId,
         'rating': rating,
         'comment': comment,
         'createdAt': createdAt?.toIso8601String(),
@@ -58,6 +62,7 @@ class Rating {
     String? id,
     String? parentId,
     String? babysitterId,
+    String? bookingId,
     double? rating,
     String? comment,
     DateTime? createdAt,
@@ -67,6 +72,7 @@ class Rating {
       id: id ?? this.id,
       parentId: parentId ?? this.parentId,
       babysitterId: babysitterId ?? this.babysitterId,
+      bookingId: bookingId ?? this.bookingId,
       rating: rating ?? this.rating,
       comment: comment ?? this.comment,
       createdAt: createdAt ?? this.createdAt,

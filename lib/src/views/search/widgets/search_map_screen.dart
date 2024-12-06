@@ -17,7 +17,6 @@ final StreamProvider<List<UserAccount>> usersStreamProvider =
   return authController.getBabysittersStream();
 });
 
-// Update SearchMapScreen
 class SearchMapScreen extends HookConsumerWidget {
   const SearchMapScreen({super.key});
 

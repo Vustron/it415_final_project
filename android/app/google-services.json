@@ -12,7 +12,28 @@
           "package_name": "com.it415bsit4c.babysitterapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "488014187283-0h8mjr8u9prrr16h94om0o24e7g3qq8e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.it415bsit4c.babysitterapp",
+            "certificate_hash": "edf7d7078c996b634b2d4b24c3d20b1f7cdaf0e5"
+          }
+        },
+        {
+          "client_id": "488014187283-tgkm75rpukn59cqfipd6la5uagh5avve.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.it415bsit4c.babysitterapp",
+            "certificate_hash": "9c0272d6177cae20cd5c8d42d7c54177d157b213"
+          }
+        },
+        {
+          "client_id": "488014187283-l3d1kouk22gomm3blk3e1rjtvuun22iv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDA9sapCZXC3InxK0HH2JBR3uOjAIqYjEA"
@@ -20,7 +41,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488014187283-l3d1kouk22gomm3blk3e1rjtvuun22iv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "488014187283-vels51sqrrrf2ph19le0a217k113n0o9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.it415bsit4c.babysitterapp"
+              }
+            }
+          ]
         }
       }
     }

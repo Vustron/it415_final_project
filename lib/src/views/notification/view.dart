@@ -129,7 +129,9 @@ class NotificationView extends HookConsumerWidget {
                             .toString()
                             .toLowerCase()
                             .contains(searchQuery.value.toLowerCase()))
-                        .toList();
+                        .toList()
+                      ..sort((Booking a, Booking b) =>
+                          b.createdAt.compareTo(a.createdAt));
 
                     return ListView.builder(
                       itemCount: filteredBookings.length,

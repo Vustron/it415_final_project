@@ -34,11 +34,14 @@ class MessageListCacheNotifier
         .toList();
 
     if (newMessages.isNotEmpty) {
+      final List<Message> allMessages = <Message>[...existing, ...newMessages];
+
+      allMessages.sort((Message a, Message b) => (b.createdAt ?? DateTime.now())
+          .compareTo(a.createdAt ?? DateTime.now()));
+
       state = <String, List<Message>>{
         ...state,
-        chatId: <Message>[...existing, ...newMessages]..sort(
-            (Message a, Message b) => (b.createdAt ?? DateTime.now())
-                .compareTo(a.createdAt ?? DateTime.now())),
+        chatId: allMessages,
       };
     }
   }
@@ -73,14 +76,15 @@ class MessageView extends HookConsumerWidget with GlobalStyles {
       final List<Message> messages = messagesSnapshot.data!;
       final Map<String, Message> grouped = <String, Message>{};
 
+      messages.sort((Message a, Message b) => (b.createdAt ?? DateTime.now())
+          .compareTo(a.createdAt ?? DateTime.now()));
+
       for (final Message message in messages) {
         final String otherId = message.senderId == currentUser?.id
             ? message.receiverId
             : message.senderId;
 
         if (!grouped.containsKey(otherId) ||
-            (message.senderId != currentUser?.id &&
-                !grouped[otherId]!.isRead) ||
             message.createdAt!.isAfter(grouped[otherId]!.createdAt!)) {
           grouped[otherId] = message;
         }

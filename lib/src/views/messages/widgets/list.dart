@@ -78,32 +78,23 @@ class ConversationList extends HookWidget with GlobalStyles {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Expanded(
                           child: Text(
                             name,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
-                              fontWeight: isMessageRead
-                                  ? FontWeight.w600
-                                  : FontWeight.bold,
+                              fontWeight: FontWeight.w500,
                               color: Colors.black87,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         Text(
                           DateFormat('MMM d, hh:mm a').format(time),
                           style: TextStyle(
-                            color: isMessageRead
-                                ? Colors.grey[600]
-                                : GlobalStyles.primaryButtonColor,
                             fontSize: 12,
-                            fontWeight: isMessageRead
-                                ? FontWeight.normal
-                                : FontWeight.bold,
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
                       ],
@@ -116,15 +107,9 @@ class ConversationList extends HookWidget with GlobalStyles {
                             getMessagePreview(),
                             style: TextStyle(
                               fontSize: 14,
-                              color: isMessageRead
-                                  ? Colors.grey[600]
-                                  : Colors.black87,
-                              fontWeight: isMessageRead
-                                  ? FontWeight.normal
-                                  : FontWeight.w600,
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.normal,
                             ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         if (!isMessageRead)

